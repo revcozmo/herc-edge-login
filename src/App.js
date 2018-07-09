@@ -168,7 +168,8 @@ export default class App extends Component {
           <Provider  style={{width: 370}} store={store}>
             <MainNavigation />
           </Provider>
-          <Text style={{width: 360, backgroundColor: "blue"}}>WTF</Text>
+          {/* <View style={{ width: 400 }}></View> */}
+          <Text style={{width: width, backgroundColor: "blue"}}>WTF</Text>
         </View>
       );
 

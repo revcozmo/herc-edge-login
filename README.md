@@ -1,4 +1,24 @@
-# herc-edge-login
+# HERC Wallet Powered by EdgeSecure
+## A multicurrency mobile wallet for CryptoCurrencies, ERC-20 Tokens, and HERC Supply Chain tokens
+![HERC Wallet](https://i.imgur.com/h0nwznp.png =100x)
+
+Edge Wallet is:
+- simple
+- secure
+- private
+- decentralized
+- multi-currency
+- cross-platform
+- mobile first
+- open source
+
+HERC is:
+- Supply Chain Orientated
+- Functional to specific params
+- React Native based with web3 functionality for audit
+- Helping Eradicate Rackateering and Colussion
+------------
+
 
 This repo contains a basic app created by following the readme instructions at https://github.com/Airbitz/edge-login-ui/tree/develop/packages/edge-login-ui-rn
 
