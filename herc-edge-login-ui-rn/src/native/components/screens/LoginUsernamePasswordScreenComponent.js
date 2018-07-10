@@ -184,12 +184,14 @@ export default class LoginUsernamePasswordScreenComponent extends Component<
         keyboardShouldPersistTaps={Constants.ALWAYS}
         contentContainerStyle={this.style.mainScrollView}
       >
+        <View style={{backgroundColor: '#091141'}}>
         <BackgroundImage
-          src={Assets.LOGIN_BACKGROUND}
-          style={this.style.backgroundImage}
+          // src={Assets.LOGIN_BACKGROUND}
+          // style={this.style.backgroundImage}
           content={this.renderOverImage()}
           callback={this.noFocus}
         />
+      </View>
       </KeyboardAwareScrollView>
     )
   }

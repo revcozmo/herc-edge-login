@@ -21,8 +21,8 @@ class Welcome extends Component {
 
   _onPinPress(){
     const { navigate } = this.props.navigation;
-     navigate('MenuOptions');
-     console.log('Trying to go to MenuOptions')
+     // navigate('MenuOptions');
+     navigate('Identity');
   }
   render(){
     const { navigate } = this.props.navigation;

@@ -71,10 +71,11 @@ export default class PinLogInScreenComponent extends Component<Props, State> {
   render () {
     const { PinLoginScreenStyle } = this.props.styles
     return (
-      <View style={PinLoginScreenStyle.container}>
+      // <View style={PinLoginScreenStyle.container}>
+      <View style={{backgroundColor: '#091141'}}>
         <BackgroundImage
-          src={Assets.LOGIN_BACKGROUND}
-          style={PinLoginScreenStyle.backgroundImage}
+          // src={Assets.LOGIN_BACKGROUND}
+          // style={PinLoginScreenStyle.backgroundImage}
           content={this.renderOverImage()}
         />
       </View>

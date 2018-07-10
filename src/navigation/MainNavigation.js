@@ -12,6 +12,7 @@ import BackButton from '../components/BackButton';
 import { connect } from 'react-redux';
 
 import Welcome from "../screens/Welcome";
+import Identity from "../screens/Identity";
 import FileUp from "../screens/FileUp";
 import DocUp from "../screens/DocUp";
 import Confirm from "../screens/Confirm";
@@ -40,6 +41,7 @@ import TransAssetList from '../screens/TransAssetList';
 const MainNavigator = StackNavigator({
     Welcome: { screen: Welcome },
     MenuOptions: { screen: MenuOptions },
+    Identity: { screen: Identity },
     Create: { screen: Create },
     Tee: { screen: Tee },
     Digi: { screen: Digi },
@@ -81,7 +83,7 @@ const MainNavigator = StackNavigator({
             headerStyle: {
                 height: Platform.OS === 'android' ? 115 : 100,
                 backgroundColor: '#021227',
-                
+
             },
             headerTitleStyle: {
                 marginTop: Platform.OS === 'android' ? 20 : 0,
@@ -101,6 +103,6 @@ export default MainNavigator;
 // const mapDispatchToProps = (dispatch) => ({
 
 //     listAssets: () => dispatch(listAssets())
-  
+
 //   })
 //   export default connect(null, mapDispatchToProps)(MainNavigation);

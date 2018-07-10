@@ -32,7 +32,6 @@ import MainNavigation from "./navigation/MainNavigation";
 import { Provider } from "react-redux";
 import store from "./store";
 
-// import { LoginScreen } from "edge-login-ui-rn";
 import { LoginScreen } from "herc-edge-login-ui-rn";
 import { makeEdgeContext } from "edge-core-js";
 import { ethereumCurrencyPluginFactory } from 'edge-currency-ethereum';
@@ -105,10 +104,6 @@ export default class App extends Component {
     }
   }
 
-  handleClick() {
-    console.log("Click happened");
-  }
-
   renderLoginApp = () => {
     if (this.state.account) {
       console.log("the context: ", this.state.context)
@@ -168,8 +163,12 @@ export default class App extends Component {
           <Provider  style={{width: 370}} store={store}>
             <MainNavigation />
           </Provider>
+<<<<<<< HEAD
           {/* <View style={{ width: 400 }}></View> */}
           <Text style={{width: width, backgroundColor: "blue"}}>WTF</Text>
+=======
+          <View style={{ width: 400 }}></View>
+>>>>>>> master
         </View>
       );
 
@@ -179,15 +178,6 @@ export default class App extends Component {
           <Text>This is a space-holding textblock. The component above renders only in the width of this textblock.</Text>
         </View> */
       }
-      // return <Button
-      // onPress={this.handleClick}
-      //   onPress={() =>
-      //           navigate('Welcome')
-      //         }
-      //   title="Learn More"
-      //   color="#841584"
-      //   accessibilityLabel="Learn more about this purple button"
-      // />
     }
 
     if (this.state.context && !this.state.account) {
@@ -207,7 +197,6 @@ export default class App extends Component {
     }//end render
     // const obj = {prop1: 'prop1Value', prop2: 'prop2Value', child: {childProp1: 'childProp1Value'}}
     // console.log(obj)
-    // console.log("Julianaaaaa")
     // this.logger(obj)
     logger (t) {
       if (typeof t === 'object') {

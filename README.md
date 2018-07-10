@@ -1,6 +1,10 @@
 # HERC Wallet Powered by EdgeSecure
 ## A multicurrency mobile wallet for CryptoCurrencies, ERC-20 Tokens, and HERC Supply Chain tokens
+<<<<<<< HEAD
 ![HERC Wallet](https://i.imgur.com/h0nwznp.png =100x)
+=======
+![HERC Wallet](https://i.imgur.com/h0nwznp.png)
+>>>>>>> master
 
 Edge Wallet is:
 - simple
@@ -29,16 +33,47 @@ This repo contains a basic app created by following the readme instructions at h
 
 Disclaimer: These documents were written on April 21, 2018 from a MacOS running High Sierra. These instructions were not tested on other OS.
 
-Check your JDK version by running "java -version" in the terminal.
-Find all your JDK versions by running "/usr/libexec/java_home -V". If you have an incompatible one, you must delete the folder shown here.
-Check which node version by running "node -v"
-Check which yarn version by running "yarn -v"
+- Check your JDK version by running "java -version" in the terminal.
+- Find all your JDK versions by running "/usr/libexec/java_home -V". If you have an incompatible one, you must delete the folder shown here.
+- Check which node version by running "node -v"
+- Check which yarn version by running "yarn -v"
 
 
-## Running the Demo without Android Studio
+## Getting Started
+
+### Install nodejs (v 8.4+) and npm (v 5.3+)
+
+    https://nodejs.org/en/download/
+
+### Install React Native CLI
+```
+    npm install -g react-native-cli
+```
+### Checkout to master branch and install node_modules
+```
+    cd herc-edge-login
+    git checkout master
+    yarn
+```
+### Android NDK Setup
+
+(MacOS) If the NDK is already installed from Android Studio, it should be in `/Users/[user]/Library/Android/sdk/ndk-bundle`.
+If not, download and unzip the NDK from https://developer.android.com/ndk/index.html
+
+Set `ANDROID_NDK_HOME` environment variable to the path of the NDK. ie
+```
+    export ANDROID_NDK_HOME=/Users/bob/Library/Android/sdk/ndk-bundle
+ ```
+
+### Run the app in debug mode
+
+`react-native run-ios` or `react-native run-android`
+
+----
+### Running the Demo without Android Studio
 Alternatively, you may simply clone the repository and enter 'react-native run-android' at the root directory. Make sure a genymotion emulator is running in the background. And make sure the emulator fits minimum requirements.
 
-## Running the Demo with Android Studio
+### Running the Demo with Android Studio
 Tools you'll need: android studio SDK and genymotion.
 1. In terminal, run `adb`. If it works, then you've got androids SDK on the right path. Otherwise, you gotta follow expo docs to install genymotion.
 2. in the terminal, run 'exp'. If it works, then you've got expo. Other wise, you gotta `npm install -g exp.`
@@ -71,6 +106,24 @@ Tools you'll need: android studio SDK and genymotion.
 ## Debugging
 The debugger I have been using is the React Native Debugger. https://github.com/jhen0409/react-native-debugger
 This repo has excellent install instructions.
+### MacOS
+```
+`brew update && brew cask install react-native-debugger`
+```
+##### iOS Simulator
+```
+    ⌘ + d (command + d)
+    Select "Debug JS Remotely"
+```
+### Windows / Linux
+
+https://github.com/jhen0409/react-native-debugger/releases
+
+###### GenyMotion Android Emulator
+```
+    ⌘ + m (command + m)
+    Select "Debug JS Remotely"
+```
 
 ## Missing License Errors
 APK files require license agreements. If you get an error telling you to accept their agreements first, in your terminal run "$ANDROID_HOME/tools/bin/sdkmanager --licenses". You must accept all their agreements. You will now see your license files under ~/Library/Android/sdk/licenses.
