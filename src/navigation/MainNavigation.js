@@ -13,6 +13,7 @@ import { connect } from 'react-redux';
 
 import Welcome from "../screens/Welcome";
 import Identity from "../screens/Identity";
+import IdologyForm from "../components/IdologyForm";
 import FileUp from "../screens/FileUp";
 import DocUp from "../screens/DocUp";
 import Confirm from "../screens/Confirm";
@@ -41,7 +42,8 @@ import TransAssetList from '../screens/TransAssetList';
 const MainNavigator = StackNavigator({
     Welcome: { screen: Welcome },
     MenuOptions: { screen: MenuOptions },
-    Identity: { screen: Identity },
+    Identity: { screen: IdologyForm },
+    // Identity: { screen: Identity },
     Create: { screen: Create },
     Tee: { screen: Tee },
     Digi: { screen: Digi },

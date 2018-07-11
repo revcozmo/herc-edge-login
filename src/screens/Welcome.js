@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import { StyleSheet, Text, TextInput, View, Image, TouchableHighlight, Alert } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import { Button } from 'react-native-elements';
+import { YellowBox } from 'react-native';
+YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTImageLoader', 'Setting a timer for a long period of time']);
 
 class Welcome extends Component {
   constructor(props) {

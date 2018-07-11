@@ -42,6 +42,9 @@ import axios from 'axios';
 import { _postIdology } from "./components/api";
 import {USERNAME, PASSWORD } from "./components/settings"
 
+import { YellowBox } from 'react-native';
+YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTImageLoader', 'Setting a timer for a long period of time']);
+
 // function setupCore () {
 //   return makeEdgeContext({
 //     // Replace this with your own API key from https://developer.airbitz.co:

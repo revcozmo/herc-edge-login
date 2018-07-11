@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
-import t from 'tcomb-form-native';
+import { Button } from 'react-native-elements';
+import { YellowBox } from 'react-native';
+YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTImageLoader', 'Setting a timer for a long period of time']);import t from 'tcomb-form-native';
 /* Following these guidelines: https://medium.com/react-native-development/easily-build-forms-in-react-native-9006fcd2a73b */
 
 const Form = t.form.Form;
@@ -48,6 +50,8 @@ export default class IdologyForm extends Component {
   handleSubmit = () => {
     const value = this._form.getValue(); // use that ref to get the form value
     console.log('Idology Form value: ', value);
+    const { navigate } = this.props.navigation;
+    navigate('Create');
   }
 
   render() {
