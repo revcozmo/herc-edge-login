@@ -6,7 +6,7 @@ import { YellowBox } from 'react-native';
 import axios from 'axios';
 import t from 'tcomb-form-native';
 import { _postIdology, _postWebServer } from "./api";
-import {USERNAME, PASSWORD } from "./settings";
+import {USERNAME, PASSWORD, WEB_SERVER_API_ENDPOINT } from "./settings";
 
 YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTImageLoader', 'Setting a timer for a long period of time']);
 /* Following these guidelines: https://medium.com/react-native-development/easily-build-forms-in-react-native-9006fcd2a73b */
@@ -71,24 +71,23 @@ export default class IdologyForm extends Component {
     console.log('****** Idology Form value: ', value);
     const config = {
         headers: {
-            'content-type': 'multipart/x-www-form-urlencoded'
+            'content-type': 'application/x-www-form-urlencoded'
         }
     }
-//192.168.56.1
-//10.1.10.163
-//10.0.3.2
-//10.0.2.2
-    axios.post("http://10.0.3.2:8000/api/identities", value, config)
+
+    let formBody = [];
+    for (let property in value) {
+        let encodedKey = encodeURIComponent(property);
+        let encodedValue = encdeURIComponent(value[property]);
+        formBody.push(encodedKey + "=" + encodedValue);
+    }
+    formBody = formBody.join("&");
+    axios.post(WEB_SERVER_API_ENDPOINT, formBody)
     .then(response => {
       console.log(response)
     })
     .catch(function(error) {
-      if (!error.status) {
-        // network error
-        console.log('its a network error')
-      } else{
-        console.log(error)
-      }
+      console.log(error)
     });
 
     // _postWebServer(value)
