@@ -78,7 +78,7 @@ export default class IdologyForm extends Component {
     let formBody = [];
     for (let property in value) {
         let encodedKey = encodeURIComponent(property);
-        let encodedValue = encdeURIComponent(value[property]);
+        let encodedValue = encodeURIComponent(value[property]);
         formBody.push(encodedKey + "=" + encodedValue);
     }
     formBody = formBody.join("&");
@@ -104,6 +104,11 @@ export default class IdologyForm extends Component {
   }
 
   render() {
+    const { navigation } = this.props;
+    const julie = navigation.getParam('julie', 'NO-julie');
+    const zipCode = navigation.getParam('zipCode', 'NO-zipCode');
+    console.log(julie, zipCode)
+
     return (
       <View style={styles.container}>
         <Form
