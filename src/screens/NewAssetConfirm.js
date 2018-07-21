@@ -59,7 +59,7 @@ class NewAssetConfirm extends Component {
         this.props.incHercId(hercId);
         console.log(hercId);
         this.props.confirmAsset(newAsset);
-        // this.props.incHercId(); 
+        // this.props.incHercId();
         // console.log(this.props.hercId, 'hercid Increase?')
 
         navigate('MenuOptions');
@@ -153,5 +153,3 @@ const mapDispatchToProps = (dispatch) => ({
         dispatch(incHercId(hercid))
 })
 export default connect(mapStateToProps, mapDispatchToProps)(NewAssetConfirm);
-
-

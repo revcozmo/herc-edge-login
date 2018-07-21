@@ -10,6 +10,7 @@ import {
   ADD_DOC,
   ADD_PROPS,
   INC_HERC_ID,
+  GET_ACCOUNT,
   GET_HERC_ID,
   GOT_HERC_ID,
   CONFIRM_ASSET,
@@ -79,6 +80,14 @@ export function incHercId(hercid) {
   return {
     type: INC_HERC_ID,
     hercId
+  };
+}
+
+export function getAccount(account) {
+  console.log("Account in Action: ", account);
+  return {
+    type: GET_ACCOUNT,
+    account
   };
 }
 

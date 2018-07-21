@@ -13,14 +13,6 @@ class Welcome extends Component {
     }
   }
 
-  componentWillMount(){
-    console.log("Welcome Will Mounted!")
-  }
-
-  componentDidMount(){
-    console.log("Welcome Did Mounted!")
-  }
-
   _onPinPress(){
     const { navigate } = this.props.navigation;
      // navigate('MenuOptions');

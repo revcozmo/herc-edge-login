@@ -30,7 +30,9 @@ import { StackNavigator } from "react-navigation";
 import MainNavigation from "./navigation/MainNavigation";
 
 import { Provider } from "react-redux";
+import { getAccount } from "./actions/AssetActions"
 import store from "./store";
+import { connect } from "react-redux";
 
 import { LoginScreen } from "herc-edge-login-ui-rn";
 import { makeEdgeContext } from "edge-core-js";
@@ -52,7 +54,7 @@ YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTIm
 //   })
 // }
 
-export default class App extends Component {
+class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -80,8 +82,7 @@ export default class App extends Component {
   onLogin = (error = null, account) => {
     if (!this.state.account) {
       this.setState({account})
-      this.logger("State Account")
-      this.logger(this.state.account)
+      this.logger("State Account", this.state.account.username)
     }
     if (!this.state.walletId) {
       // Check if there is a wallet, if not create it
@@ -97,6 +98,7 @@ export default class App extends Component {
           this.setState({ wallet })
           this.setState({walletId: wallet.id})
           this.logger(`State WalletID: ${this.state.walletId}`)
+          this.props.getAccount(this.state.walletId);
           this.logger(this.state.wallet)
         })
       }
@@ -164,3 +166,14 @@ const styles = StyleSheet.create({
     margin: 10
   }
 });
+
+const mapStateToProps = (state) => ({
+    account: state.AssetReducers.account
+});
+
+const mapDispatchToProps = (dispatch) => ({
+    getAccount: (account) =>
+        dispatch(getAccount(account))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
