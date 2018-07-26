@@ -16,9 +16,10 @@ class Welcome extends Component {
   _onPinPress(){
     const { navigate } = this.props.navigation;
      // navigate('MenuOptions');
-     navigate('Identity', {
-       julie: 1234123,
-     });
+     navigate('Login');
+     // navigate('Identity', {
+     //   julie: 1234123,
+     // });
   }
   render(){
     const { navigate } = this.props.navigation;

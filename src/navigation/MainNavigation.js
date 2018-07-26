@@ -12,6 +12,7 @@ import BackButton from '../components/BackButton';
 import { connect } from 'react-redux';
 
 import Welcome from "../screens/Welcome";
+import Login from "../screens/Login";
 import Identity from "../screens/Identity";
 import IdologyForm from "../components/IdologyForm";
 import FileUp from "../screens/FileUp";
@@ -43,6 +44,7 @@ const MainNavigator = StackNavigator({
     Welcome: { screen: Welcome },
     MenuOptions: { screen: MenuOptions },
     Identity: { screen: IdologyForm },
+    Login: { screen: Login },
     // Identity: { screen: Identity },
     Create: { screen: Create },
     Tee: { screen: Tee },
@@ -66,40 +68,37 @@ const MainNavigator = StackNavigator({
     PreDigi: { screen: PreDigi },
     SpaceScreen: { screen: SpaceScreen}
 
-},
+},{
+    initialRouteName: 'Welcome',
+    navigationOptions: ({ navigation }) => ({
 
+        headerTitle: <Image style={{
+            height: 100,
+            width: 240,
+            alignSelf: 'center',
+            resizeMode: 'contain',
+            marginLeft: 0,
+        }}
+            source={logo} />,
 
-    {
-        initialRouteName: 'Welcome',
-        navigationOptions: ({ navigation }) => ({
+        headerStyle: {
+            height: Platform.OS === 'android' ? 115 : 100,
+            backgroundColor: '#021227',
 
-            headerTitle: <Image style={{
-                height: 100,
-                width: 240,
-                alignSelf: 'center',
-                resizeMode: 'contain',
-                marginLeft: 0,
-            }}
-                source={logo} />,
+        },
+        headerTitleStyle: {
+            marginTop: Platform.OS === 'android' ? 20 : 0,
+            textAlign: 'center',
+            textAlignVertical: 'center',
+            backgroundColor: '#021227',
+            alignSelf: 'center',
 
-            headerStyle: {
-                height: Platform.OS === 'android' ? 115 : 100,
-                backgroundColor: '#021227',
+        },
+        headerRight: <View></View>,
+        headerLeft: <BackButton navigation={navigation} />
 
-            },
-            headerTitleStyle: {
-                marginTop: Platform.OS === 'android' ? 20 : 0,
-                textAlign: 'center',
-                textAlignVertical: 'center',
-                backgroundColor: '#021227',
-                alignSelf: 'center',
-
-            },
-            headerRight: <View></View>,
-            headerLeft: <BackButton navigation={navigation} />
-
-        })
     })
+})
 
 export default MainNavigator;
 // const mapDispatchToProps = (dispatch) => ({
