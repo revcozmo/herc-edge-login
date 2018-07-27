@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { LoginScreen } from 'edge-login-ui-rn';
 import { makeEdgeContext } from 'edge-core-js';
 import { ethereumCurrencyPluginFactory } from 'edge-currency-ethereum';
+import { getAccount } from "../actions/AssetActions"
+import { connect } from "react-redux";
 import {
   Platform,
   StyleSheet,
@@ -13,7 +15,11 @@ import { YellowBox } from 'react-native';
 YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTImageLoader', 'Setting a timer for a long period of time']);
 
 
-export default class Login extends Component {
+class Login extends Component {
+  static navigationOptions = {
+    header: null,
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -37,6 +43,7 @@ export default class Login extends Component {
   onLogin = (error = null, account) => {
     if (!this.state.account) {
       this.setState({account})
+      this.props.getAccount(this.state.account);
     }
     if (!this.state.walletId) {
       // Check if there is a wallet, if not create it
@@ -55,21 +62,12 @@ export default class Login extends Component {
     }
   }
 
-  _onPinPress(){
-    const { navigate } = this.props.navigation;
-     // navigate('MenuOptions');
-     navigate('Identity', {
-       julie: 1234123,
-     });
-  }
-
   renderLoginApp = () => {
     if (this.state.account) {
-      return (
-        <View>
-          <Button onPress={() => this._onPinPress()} title="press"/>
-        </View>
-      );
+      const { navigate } = this.props.navigation;
+       navigate('Identity', {
+         julie: 1234123,
+       });
     }
 
     if (this.state.context && !this.state.account) {
@@ -104,3 +102,13 @@ const styles = StyleSheet.create({
     margin: 10
   }
 });
+
+const mapStateToProps = (state) => ({
+    account: state.AssetReducers.account
+});
+
+const mapDispatchToProps = (dispatch) => ({
+    getAccount: (account) =>
+        dispatch(getAccount(account))
+})
+export default connect(null, mapDispatchToProps)(Login);

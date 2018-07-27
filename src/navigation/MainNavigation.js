@@ -10,7 +10,6 @@ import backArrow from '../assets/icon_backarrow.png';
 import BackButton from '../components/BackButton';
 // import { listAssets } from '../actions/AssetActions';
 import { connect } from 'react-redux';
-
 import Welcome from "../screens/Welcome";
 import Login from "../screens/Login";
 import Identity from "../screens/Identity";
@@ -41,10 +40,10 @@ import TransAssetList from '../screens/TransAssetList';
 
 
 const MainNavigator = StackNavigator({
+    Login: { screen: Login },
     Welcome: { screen: Welcome },
     MenuOptions: { screen: MenuOptions },
     Identity: { screen: IdologyForm },
-    Login: { screen: Login },
     // Identity: { screen: Identity },
     Create: { screen: Create },
     Tee: { screen: Tee },

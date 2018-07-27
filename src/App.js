@@ -7,15 +7,10 @@ import { connect } from "react-redux";
 import { Platform, StyleSheet, Text, View, Button } from "react-native";
 
 export default class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-    }
-  }
 
   render() {
     return (
-      <Provider  style={{width: 370}} store={store}>
+      <Provider store={store}>
         <MainNavigation />
       </Provider>
       );
