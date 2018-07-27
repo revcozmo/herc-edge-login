@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { LoginScreen } from 'edge-login-ui-rn';
 import { makeEdgeContext } from 'edge-core-js';
 import { ethereumCurrencyPluginFactory } from 'edge-currency-ethereum';
-import { getAccount } from "../actions/AssetActions"
+import { getAccount } from "../actions/AssetActions";
 import { connect } from "react-redux";
 import {
   Platform,
@@ -43,7 +43,7 @@ class Login extends Component {
   onLogin = (error = null, account) => {
     if (!this.state.account) {
       this.setState({account})
-      this.props.getAccount(this.state.account);
+      this.props.getAccount(this.state.account.username);
     }
     if (!this.state.walletId) {
       // Check if there is a wallet, if not create it
@@ -104,11 +104,11 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => ({
-    account: state.AssetReducers.account
+    edge_account: state.AssetReducers.edge_account
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    getAccount: (account) =>
-        dispatch(getAccount(account))
+    getAccount: (edge_account) =>
+        dispatch(getAccount(edge_account))
 })
-export default connect(null, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

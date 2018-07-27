@@ -45,11 +45,7 @@ const rootRef = firebase.database().ref();
 
 
 
-const INITIAL_STATE = {
-
-
-
-};
+const INITIAL_STATE = {};
 
 
 const AssetReducers = (state = INITIAL_STATE, action) => {
@@ -153,11 +149,11 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
                 hercId: hercID
             })
         case GET_ACCOUNT:
-            let account = action.account;
-            console.log('Account captured in reducer', account);
+            let edge_account = action.edge_account;
+            // console.log('Account captured in reducer', edge_account);
             return Object.assign({}, state, {
               ...state,
-              account: account
+              edge_account: edge_account
             })
 
         case ADD_PHOTO:

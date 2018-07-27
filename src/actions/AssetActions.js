@@ -83,11 +83,11 @@ export function incHercId(hercid) {
   };
 }
 
-export function getAccount(account) {
-  console.log("Account in Action: ", account);
+export function getAccount(edge_account) {
+  // console.log("Account in Action: ", edge_account);
   return {
     type: GET_ACCOUNT,
-    account
+    edge_account
   };
 }
 

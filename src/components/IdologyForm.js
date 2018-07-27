@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Button } from 'react-native-elements';
 import { YellowBox } from 'react-native';
-
+import store from "../store";
 import axios from 'axios';
 import t from 'tcomb-form-native';
 import { _postIdology, _postWebServer } from "./api";
@@ -14,8 +14,7 @@ YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTIm
 const Form = t.form.Form;
 
 const User = t.struct({
-  // edgeAccount:t.String,
-  //t.maybe(t.String),
+  edgeAccount:t.maybe(t.String),
   firstName: t.maybe(t.String),
   lastName: t.maybe(t.String),
   address: t.maybe(t.String),
@@ -23,24 +22,25 @@ const User = t.struct({
 });
 
 const options = {
+  // auto: 'placeholders',
   fields: {
-    // edgeAccount: {
-    //   hidden: true
-    // },
+    edgeAccount: {
+      hidden: true,
+    },
     firstName: {
-      label: 'First Name',
+      // label: 'First Name',
       error: 'This is required.'
     },
     lastName: {
-      label: 'Last Name',
+      // label: 'Last Name',
       error: 'This is required.'
     },
     address: {
-      label: 'Street Address',
+      // label: 'Street Address',
       error: 'This is required.'
     },
     zipCode: {
-      label: 'Zip Code',
+      // label: 'Zip Code',
       error: 'This is required.'
     },
   },
@@ -104,16 +104,21 @@ export default class IdologyForm extends Component {
   }
 
   render() {
-    const { navigation } = this.props;
-    const julie = navigation.getParam('julie', 'NO-julie');
-    const zipCode = navigation.getParam('zipCode', 'NO-zipCode');
-    console.log(julie, zipCode)
+    if (!store.getState().AssetReducers.edge_account){
+      edgeAccount = "No Account Captured"
+    } else{
+      edgeAccount = store.getState().AssetReducers.edge_account
+    }
+    var defaultValues = {
+      edgeAccount: edgeAccount,
+    };
 
     return (
       <View style={styles.container}>
         <Form
           ref={c => this._form = c}
           type={User}
+          value={defaultValues}
           options={options}
         />
         <Button
@@ -127,9 +132,9 @@ export default class IdologyForm extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    justifyContent: 'center',
-    marginTop: 50,
-    padding: 20,
+    flex:1,
+    justifyContent: 'space-evenly',
+    padding: 30,
     backgroundColor: '#ffffff',
   },
 });
