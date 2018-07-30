@@ -68,7 +68,7 @@ const MainNavigator = StackNavigator({
     SpaceScreen: { screen: SpaceScreen}
 
 },{
-    initialRouteName: 'Identity',
+    initialRouteName: 'Login',
     navigationOptions: ({ navigation }) => ({
 
         headerTitle: <Image style={{
