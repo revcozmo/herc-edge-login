@@ -94,8 +94,10 @@ def enableSeparateBuildPerCPUArchitecture = false
 def enableProguardInReleaseBuilds = false
 
 android {
-    compileSdkVersion 27
-    buildToolsVersion '26.0.2'
+    //compileSdkVersion 27
+    // buildToolsVersion '26.0.2'
+    compileSdkVersion 26
+    buildToolsVersion "26.0.1"
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -149,7 +151,8 @@ android {
         }
     }
     dexOptions {
-    // Note: Added section because of this error "Process 'command '/Applications/Android Studio.app/Contents/jre/jdk/Contents/Home/bin/java'' finished with non-zero exit value 1"
+      incremental = true;
+      preDexLibraries = false
       javaMaxHeapSize "4g"
     }
 }

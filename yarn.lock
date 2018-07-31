@@ -3225,7 +3225,7 @@ hdkey@^0.7.0:
     react-native-keyboard-aware-scroll-view "^0.4.1"
     react-native-linear-gradient "^2.0.0"
     react-native-mail "^3.0.5"
-    react-native-material-textfield "git://github.com/Airbitz/react-native-material-textfield.git"
+    react-native-material-textfield "git://github.com/EdgeApp/react-native-material-textfield.git"
     react-native-modal "^4.1.0"
     react-native-qrcode "^0.2.6"
     react-native-vector-icons "^4.4.2"
@@ -5473,6 +5473,13 @@ react-native-mail@^3.0.5:
   dependencies:
     prop-types "^15.5.9"
 
+"react-native-material-textfield@git://github.com/EdgeApp/react-native-material-textfield.git":
+  version "0.10.2"
+  uid c30320fd26e5619c1fe57b3043b8fd9ae2a0c57a
+  resolved "git://github.com/EdgeApp/react-native-material-textfield.git#c30320fd26e5619c1fe57b3043b8fd9ae2a0c57a"
+  dependencies:
+    prop-types "^15.5.9"
+
 react-native-modal@^4.1.0:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/react-native-modal/-/react-native-modal-4.1.1.tgz#4c1055dc045106542a8e3bb3fd656a6d3bc319d9"
@@ -5488,9 +5495,9 @@ react-native-qrcode@^0.2.6:
     prop-types "^15.5.10"
     qr.js "0.0.0"
 
-"react-native-randombytes@git://github.com/Airbitz/react-native-randombytes.git":
+"react-native-randombytes@git://github.com/EdgeApp/react-native-randombytes.git":
   version "3.0.0"
-  resolved "git://github.com/Airbitz/react-native-randombytes.git#40d02a5f9227c4d12a7758fe7053287451dabd64"
+  resolved "git://github.com/EdgeApp/react-native-randombytes.git#40d02a5f9227c4d12a7758fe7053287451dabd64"
   dependencies:
     buffer "^4.9.1"
     sjcl "^1.0.3"
@@ -5507,9 +5514,9 @@ react-native-safe-area-view@^0.7.0:
   dependencies:
     prop-types "^15.6.0"
 
-"react-native-tcp@git://github.com/Airbitz/react-native-tcp.git":
+"react-native-tcp@git://github.com/EdgeApp/react-native-tcp.git":
   version "3.2.2"
-  resolved "git://github.com/Airbitz/react-native-tcp.git#bd0fd5623d0e27572279c3a1d78bfec937d4a218"
+  resolved "git://github.com/EdgeApp/react-native-tcp.git#c6af8f728fcbbae23d20c0211fd5b6c322f7a446"
   dependencies:
     base64-js "0.0.8"
     buffer "^5.0.0"

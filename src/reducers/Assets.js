@@ -7,10 +7,10 @@ const rootRef = firebase.database().ref();
 
 export default () => {
     let assetList = [];
-    
+
     rootRef.child('assets').on('value', (snapshot) => {
             snapshot.forEach((obj) => {
-                console.log(obj.toJSON().Name, 'object in listassets');
+                // console.log(obj.toJSON().Name, 'object in listassets');
                 assetList.push({
                     name: obj.toJSON().Name,
                     key: obj.key,

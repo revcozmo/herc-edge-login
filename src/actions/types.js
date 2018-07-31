@@ -8,6 +8,7 @@ export const ADD_PHOTO  = 'addPhoto';
 export const ADD_DOC    = 'addDoc';
 export const ADD_PROPS = 'addProps';
 export const INC_HERC_ID = 'incHercId';
+export const GET_ACCOUNT = 'getAccount';
 export const GET_HERC_ID = 'getHercId';
 export const GOT_HERC_ID = 'gotHercId';
 export const CONFIRM_ASSET = 'confirmAsset';

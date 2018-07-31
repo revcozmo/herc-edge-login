@@ -10,9 +10,10 @@ import backArrow from '../assets/icon_backarrow.png';
 import BackButton from '../components/BackButton';
 // import { listAssets } from '../actions/AssetActions';
 import { connect } from 'react-redux';
-
 import Welcome from "../screens/Welcome";
+import Login from "../screens/Login";
 import Identity from "../screens/Identity";
+import IdologyForm from "../components/IdologyForm";
 import FileUp from "../screens/FileUp";
 import DocUp from "../screens/DocUp";
 import Confirm from "../screens/Confirm";
@@ -39,9 +40,11 @@ import TransAssetList from '../screens/TransAssetList';
 
 
 const MainNavigator = StackNavigator({
+    Login: { screen: Login },
     Welcome: { screen: Welcome },
     MenuOptions: { screen: MenuOptions },
-    Identity: { screen: Identity },
+    Identity: { screen: IdologyForm },
+    // Identity: { screen: Identity },
     Create: { screen: Create },
     Tee: { screen: Tee },
     Digi: { screen: Digi },
@@ -64,40 +67,37 @@ const MainNavigator = StackNavigator({
     PreDigi: { screen: PreDigi },
     SpaceScreen: { screen: SpaceScreen}
 
-},
+},{
+    initialRouteName: 'Login',
+    navigationOptions: ({ navigation }) => ({
 
+        headerTitle: <Image style={{
+            height: 100,
+            width: 240,
+            alignSelf: 'center',
+            resizeMode: 'contain',
+            marginLeft: 0,
+        }}
+            source={logo} />,
 
-    {
-        initialRouteName: 'Welcome',
-        navigationOptions: ({ navigation }) => ({
+        headerStyle: {
+            height: Platform.OS === 'android' ? 115 : 100,
+            backgroundColor: '#021227',
 
-            headerTitle: <Image style={{
-                height: 100,
-                width: 240,
-                alignSelf: 'center',
-                resizeMode: 'contain',
-                marginLeft: 0,
-            }}
-                source={logo} />,
+        },
+        headerTitleStyle: {
+            marginTop: Platform.OS === 'android' ? 20 : 0,
+            textAlign: 'center',
+            textAlignVertical: 'center',
+            backgroundColor: '#021227',
+            alignSelf: 'center',
 
-            headerStyle: {
-                height: Platform.OS === 'android' ? 115 : 100,
-                backgroundColor: '#021227',
+        },
+        headerRight: <View></View>,
+        headerLeft: <BackButton navigation={navigation} />
 
-            },
-            headerTitleStyle: {
-                marginTop: Platform.OS === 'android' ? 20 : 0,
-                textAlign: 'center',
-                textAlignVertical: 'center',
-                backgroundColor: '#021227',
-                alignSelf: 'center',
-
-            },
-            headerRight: <View></View>,
-            headerLeft: <BackButton navigation={navigation} />
-
-        })
     })
+})
 
 export default MainNavigator;
 // const mapDispatchToProps = (dispatch) => ({

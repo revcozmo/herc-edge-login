@@ -168,7 +168,7 @@ class Tee extends Component {
           {Logo &&
             <Image source={{ uri: Logo }} style={{ width: 100, height: 100, margin: 10, alignSelf: 'center' }} />
           }
-          
+
             <Button
               // title="Upload Image"
               style={styles.picButton}
@@ -239,13 +239,13 @@ export default connect(mapStateToProps, mapDispatchToProps)(Tee);
 // //     legendInput: {
 // //       // alignSelf: "center",
 // //       padding: 5,
-// //       width: 330, 
+// //       width: 330,
 // //       height: 90,
 // //       // alignItems: 'center',
 // //       margin: 1,
 // //       marginBottom: 5,
 // //       backgroundColor: "#14283f",
-// //       justifyContent:"space-between", 
+// //       justifyContent:"space-between",
 
 // //       borderRadius: 4
 // //       },
@@ -254,14 +254,14 @@ export default connect(mapStateToProps, mapDispatchToProps)(Tee);
 // //       width: 200,
 // //       height:50,
 // //       textAlign: "center",
-// //       color: "white", 
+// //       color: "white",
 // //       alignSelf: "center",
 // //       fontSize: 20.2,
 // //       fontWeight: "600"
 // //     },
 // //     icon: {
 // //         height: 30,
-// //         width: 80, 
+// //         width: 80,
 // //         alignSelf:"center"
 // //     },
 // //     bigButton: {

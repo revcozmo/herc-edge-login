@@ -11,6 +11,7 @@ import {
     ADD_DOC,
     ADD_PROPS,
     INC_HERC_ID,
+    GET_ACCOUNT,
     GET_HERC_ID,
     GOT_HERC_ID,
     CONFIRM_ASSET,
@@ -26,7 +27,7 @@ import firebase from '../constants/Firebase';
 const rootRef = firebase.database().ref();
 // import Assets from './Assets';
 
-//synchronous 
+//synchronous
 // let assets = [];
 // rootRef.child('assets').on('value', (snapshot) => {
 //     snapshot.forEach((obj) => {
@@ -44,11 +45,7 @@ const rootRef = firebase.database().ref();
 
 
 
-const INITIAL_STATE = {
-
-
-
-};
+const INITIAL_STATE = {};
 
 
 const AssetReducers = (state = INITIAL_STATE, action) => {
@@ -151,6 +148,13 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
                 ...state,
                 hercId: hercID
             })
+        case GET_ACCOUNT:
+            let edge_account = action.edge_account;
+            // console.log('Account captured in reducer', edge_account);
+            return Object.assign({}, state, {
+              ...state,
+              edge_account: edge_account
+            })
 
         case ADD_PHOTO:
             let image = {
@@ -166,7 +170,7 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
                     data: {
                         ...state.trans.data,
                         images
-                           
+
 
                     }
                 }

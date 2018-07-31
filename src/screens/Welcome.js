@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import { StyleSheet, Text, TextInput, View, Image, TouchableHighlight, Alert } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import { Button } from 'react-native-elements';
+import { YellowBox } from 'react-native';
+YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTImageLoader', 'Setting a timer for a long period of time']);
 
 class Welcome extends Component {
   constructor(props) {
@@ -11,18 +13,9 @@ class Welcome extends Component {
     }
   }
 
-  componentWillMount(){
-    console.log("Welcome Will Mounted!")
-  }
-
-  componentDidMount(){
-    console.log("Welcome Did Mounted!")
-  }
-
   _onPinPress(){
     const { navigate } = this.props.navigation;
-     // navigate('MenuOptions');
-     navigate('Identity');
+     navigate('Login');
   }
   render(){
     const { navigate } = this.props.navigation;
