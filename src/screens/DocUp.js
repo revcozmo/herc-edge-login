@@ -1,7 +1,7 @@
-import React, { Component } from '../../../../../.cache/typescript/2.9/node_modules/@types/react';
+import React, { Component } from 'react';
 import { Platform, StyleSheet, Text, View, Image, ScrollView, TouchableHighlight, Alert, StatusBar, } from 'react-native';
 // import { DocumentPicker } from 'expo';
-import { connect } from '../../../../../.cache/typescript/2.9/node_modules/@types/react-redux';
+import { connect } from 'react-redux';
 import styles from '../assets/styles';
 import { addDoc } from '../actions/AssetActions';
 import newOriginator from "../components/buttons/originatorButton.png";

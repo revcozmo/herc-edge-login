@@ -1,8 +1,8 @@
-import React, { Component } from '../../../../../.cache/typescript/2.9/node_modules/@types/react';
+import React, { Component } from 'react';
 import { StyleSheet, Text, ScrollView, View, Image, TouchableHighlight, Alert } from 'react-native';
-import { StackNavigator } from '../../../../../.cache/typescript/2.9/node_modules/@types/react-navigation';
+import { StackNavigator } from 'react-navigation';
 import { STATUS_BAR_HEIGHT } from '../constants';
-import { connect } from '../../../../../.cache/typescript/2.9/node_modules/@types/react-redux';
+import { connect } from 'react-redux';
 import styles from '../assets/styles';
 
 

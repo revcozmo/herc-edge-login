@@ -1,10 +1,10 @@
-import React, { Component } from '../../../../../.cache/typescript/2.9/node_modules/@types/react';
+import React, { Component } from 'react';
 import { Platform, StyleSheet, Text, View, Image, ScrollView, TouchableHighlight, Alert } from 'react-native';
 
 import { STATUS_BAR_HEIGHT } from '../constants';
-import { StackNavigator } from '../../../../../.cache/typescript/2.9/node_modules/@types/react-navigation';
+import { StackNavigator } from 'react-navigation';
 import styles from '../assets/styles';
-import { connect } from '../../../../../.cache/typescript/2.9/node_modules/@types/react-redux';
+import { connect } from 'react-redux';
 import newOriginator from "../components/buttons/originatorButton.png";
 import newRecipient from "../components/buttons/recipientButton.png";
 import submit from "../components/buttons/submit.png";

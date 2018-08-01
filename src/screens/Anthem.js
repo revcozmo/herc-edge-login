@@ -1,7 +1,7 @@
-import React, { Component } from '../../../../../.cache/typescript/2.9/node_modules/@types/react';
+import React, { Component } from 'react';
 import {View, TouchableHighlight, Text, Platform, Image, WebView } from 'react-native';
 import { STATUS_BAR_HEIGHT } from '../constants';
-import { StackNavigator } from '../../../../../.cache/typescript/2.9/node_modules/@types/react-navigation';
+import { StackNavigator } from 'react-navigation';
 
 
 // TODO:

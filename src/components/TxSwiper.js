@@ -1,4 +1,4 @@
-import React, { Component } from '../../../../../.cache/typescript/2.9/node_modules/@types/react';
+import React, { Component } from 'react';
 import Swiper from 'react-native-deck-swiper';
 import { Image, StyleSheet, Text, View } from 'react-native';
 import Button from 'react-native-button';

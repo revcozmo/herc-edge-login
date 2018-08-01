@@ -1,4 +1,4 @@
-import React, { Component } from "../../../../../.cache/typescript/2.9/node_modules/@types/react";
+import React, { Component } from "react";
 import {
   View,
   Platform,
@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { STATUS_BAR_HEIGHT } from "../constants";
 import styles from "../assets/styles";
-import { connect } from "../../../../../.cache/typescript/2.9/node_modules/@types/react-redux";
+import { connect } from "react-redux";
 
 import JSONTree from "react-native-json-tree";
 // import Web3 from "../constants/web3";

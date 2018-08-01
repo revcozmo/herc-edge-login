@@ -1,4 +1,4 @@
-import React, { Component } from '../../../../../.cache/typescript/2.9/node_modules/@types/react';
+import React, { Component } from 'react';
 import { StyleSheet, Text, TextInput, View, Image, TouchableHighlight, Alert, ScrollView } from 'react-native';
 import styles from '../assets/styles';
 import originator from "./buttons/originatorButton.png";

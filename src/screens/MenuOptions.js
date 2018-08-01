@@ -1,4 +1,4 @@
-import React, { Component } from "../../../../../.cache/typescript/2.9/node_modules/@types/react";
+import React, { Component } from "react";
 import {
     StyleSheet,
     Text,
@@ -9,7 +9,7 @@ import {
     StatusBar,
     Alert
 } from "react-native";
-import { StackNavigator } from "../../../../../.cache/typescript/2.9/node_modules/@types/react-navigation";
+import { StackNavigator } from "react-navigation";
 import hiprBtn from "../components/buttons/validate.png";
 // import create from "../components/buttons/create.png";
 import supplyChain from "../components/buttons/supplyChainButton.png";
@@ -21,7 +21,7 @@ import registerAsset from "../components/buttons/registerAssetButton.png"
 import profileButton from "../components/buttons/profileButton.png"
 
 import styles from "../assets/styles";
-import { connect } from "../../../../../.cache/typescript/2.9/node_modules/@types/react-redux";
+import { connect } from "react-redux";
 import { getHercId, fetchAssets } from "../actions/AssetActions";
 import Wallet from "./Wallet";
 

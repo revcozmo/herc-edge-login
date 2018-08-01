@@ -1,7 +1,7 @@
-import React, { Component } from '../../../../../.cache/typescript/2.9/node_modules/@types/react';
+import React, { Component } from 'react';
 import { StyleSheet, Text, View, Image, ScrollView, TouchableHighlight, Alert, Platform } from 'react-native';
-import { StackNavigator } from '../../../../../.cache/typescript/2.9/node_modules/@types/react-navigation';
-import { connect } from '../../../../../.cache/typescript/2.9/node_modules/@types/react-redux';
+import { StackNavigator } from 'react-navigation';
+import { connect } from 'react-redux';
 import styles from '../assets/styles';
 // import leaderBrd from '../assets/leaderBrdBtn.png';
 import info from "../components/buttons/infoBtn.png";

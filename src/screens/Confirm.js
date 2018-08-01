@@ -1,11 +1,11 @@
-import React, { Component } from '../../../../../.cache/typescript/2.9/node_modules/@types/react';
+import React, { Component } from 'react';
 import { Platform, StyleSheet, Text, View, Image, ScrollView, TextInput, TouchableHighlight, Alert } from 'react-native';
 import { STATUS_BAR_HEIGHT } from '../constants';
 import submit from "../components/buttons/submit.png";
 import originator from "../components/buttons/originatorButton.png";
 import recipient from "../components/buttons/recipientButton.png";
-import { StackNavigator } from '../../../../../.cache/typescript/2.9/node_modules/@types/react-navigation';
-import { connect } from "../../../../../.cache/typescript/2.9/node_modules/@types/react-redux";
+import { StackNavigator } from 'react-navigation';
+import { connect } from "react-redux";
 import styles from "../assets/styles";
 import fee from "../assets/hercLogoPillar.png";
 {/* <Image style={styles.assetFee} source={fee} /> */ }

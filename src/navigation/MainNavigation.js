@@ -1,11 +1,12 @@
-import React, { Component } from "../../../../../.cache/typescript/2.9/node_modules/@types/react";
-import { createStackNavigator } from "../../../../../.cache/typescript/2.9/node_modules/@types/react-navigation";
+import React, { Component } from "react";
+import { StackNavigator } from "react-navigation";
 import {
-  View,
-  Image,
-  StatusBar,
-  TouchableHighlight,
-  
+    View,
+    Image,
+    Platform,
+    StatusBar,
+    TouchableHighlight,
+
 } from "react-native";
 import { STATUS_BAR_HEIGHT } from "../constants";
 import styles from "../assets/styles";
@@ -40,14 +41,14 @@ import Wallet from "../screens/Wallet";
 import Settings from "../screens/Settings";
 import Login from "../screens/Login";
 import Identity from "../screens/Identity";
-import IdologyForm from "../components/IdologyForm";
+// import IdologyForm from "../components/IdologyForm";
 
 
-const MainNavigator = createStackNavigator({ //this will be "createStackNavigator" after upgrading react-navigation
+const MainNavigator = StackNavigator({ //this will be "createStackNavigator" after upgrading react-navigation
     Login: { screen: Login },
     Welcome: { screen: Welcome },
     MenuOptions: { screen: MenuOptions },
-    Identity: { screen: IdologyForm },
+    Identity: { screen: Identity },
     // Identity: { screen: Identity },
     Create: { screen: Create },
     Tee: { screen: Tee },
@@ -67,42 +68,44 @@ const MainNavigator = createStackNavigator({ //this will be "createStackNavigato
     DocUp: { screen: DocUp },
     Confirm: { screen: Confirm },
     NewAssetConfirm: { screen: NewAssetConfirm },
-    EdiT: { screen : EdiT},
+    EdiT: { screen: EdiT },
     PreDigi: { screen: PreDigi },
-    SpaceScreen: { screen: SpaceScreen},
+    SpaceScreen: { screen: SpaceScreen },
     Wallet: { screen: Wallet },
     Settings: { screen: Settings },
 
-},{
-    initialRouteName: 'Welcome', // was "Login" changing for testing the style migration
-    navigationOptions: ({ navigation }) => ({
+}, {
+        initialRouteName: 'Welcome', // was "Login" changing for testing the style migration
+        navigationOptions: ({ navigation }) => ({
 
-        headerTitle: <Image style={{
-            height: 100,
-            width: 240,
-            alignSelf: 'center',
-            resizeMode: 'contain',
-            marginLeft: 0,
-        }}
-            source={menuOptions} />,
+            headerTitle: <Image style={{
+                height: 100,
+                width: 240,
+                alignSelf: 'center',
+                resizeMode: 'contain',
+                marginLeft: 0,
+            }}
+                source={menuOptions} />,
 
-        headerStyle: {
-            height: Platform.OS === 'android' ? 115 : 100,
-            backgroundColor: '#021227',
+            headerStyle: {
+                height: Platform.OS === 'android' ? 115 : 100,
+                backgroundColor: 'white',
 
-        },
-        headerTitleStyle: {
-            marginTop: Platform.OS === 'android' ? 20 : 0,
-            textAlign: 'center',
-            textAlignVertical: 'center',
-            backgroundColor: '#021227',
-            alignSelf: 'center',
+            },
+            headerTitleStyle: {
+                marginTop: Platform.OS === 'android' ? 20 : 0,
+                textAlign: 'center',
+                textAlignVertical: 'center',
+                backgroundColor: 'white',
+                alignSelf: 'center',
 
-        },
-        headerRight: <View></View>,
-        headerLeft: <BackButton navigation={navigation} />
+            },
+            headerRight: <View></View>,
+            headerLeft: <TouchableHighlight onPress={() => navigation.goBack()}>
+                            <Image source={backArrow} style={styles.backArrow} />
+                        </TouchableHighlight>
 
+        })
     })
-})
 
 export default MainNavigator;

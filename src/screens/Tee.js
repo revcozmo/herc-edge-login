@@ -1,4 +1,4 @@
-import React, { Component } from "../../../../../.cache/typescript/2.9/node_modules/@types/react";
+import React, { Component } from "react";
 import {
   ScrollView,
   StyleSheet,
@@ -11,7 +11,7 @@ import {
   Alert
 } from "react-native";
 // import params from "../assets/igvcParamsLabel.png";
-import { connect } from "../../../../../.cache/typescript/2.9/node_modules/@types/react-redux";
+import { connect } from "react-redux";
 import styles from "../assets/styles";
 import Button from "react-native-button";
 import logo from "../assets/round.png";

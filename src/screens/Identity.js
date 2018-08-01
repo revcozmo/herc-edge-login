@@ -1,7 +1,7 @@
-import React, {Component} from '../../../../../.cache/typescript/2.9/node_modules/@types/react';
+import React, {Component} from 'react';
 import { LayoutAnimation, StyleSheet, Text, TextInput, View, Image, TouchableHighlight, Alert } from 'react-native';
 import { FormLabel, FormInput, FormValidationMessage } from 'react-native-elements'
-import { StackNavigator } from '../../../../../.cache/typescript/2.9/node_modules/@types/react-navigation';
+import { StackNavigator } from 'react-navigation';
 import { Button } from 'react-native-elements';
 
 class Identity extends Component {

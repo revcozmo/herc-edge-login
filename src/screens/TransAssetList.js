@@ -1,9 +1,9 @@
-import React, { Component } from '../../../../../.cache/typescript/2.9/node_modules/@types/react';
+import React, { Component } from 'react';
 import { StyleSheet, Text, View, Image, ScrollView, TouchableHighlight, Alert, Platform } from 'react-native';
-import { StackNavigator } from '../../../../../.cache/typescript/2.9/node_modules/@types/react-navigation';
+import { StackNavigator } from 'react-navigation';
 import { STATUS_BAR_HEIGHT } from '../constants';
 // import track from '../components/buttons/blockScannerBtn.png';
-import { connect } from '../../../../../.cache/typescript/2.9/node_modules/@types/react-redux';
+import { connect } from 'react-redux';
 import styles from '../assets/styles';
 import { selectAsset } from '../actions/AssetActions';
 import logo from "../assets/round.png";
