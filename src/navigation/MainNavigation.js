@@ -48,7 +48,7 @@ const MainNavigator = StackNavigator({ //this will be "createStackNavigator" aft
     Login: { screen: Login },
     Welcome: { screen: Welcome },
     MenuOptions: { screen: MenuOptions },
-    Identity: { screen: Identity },
+    Identity: { screen: IdologyForm },
     // Identity: { screen: Identity },
     Create: { screen: Create },
     Tee: { screen: Tee },
