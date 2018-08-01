@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from "../../../../../.cache/typescript/2.9/node_modules/@types/react";
 import {
   StyleSheet,
   Platform,
@@ -12,9 +12,9 @@ import {
   StatusBar,
 } from "react-native";
 // import { STATUS_BAR_HEIGHT } from "../constants";
-import { createStackNavigator } from "react-navigation";
+import { createStackNavigator } from "../../../../../.cache/typescript/2.9/node_modules/@types/react-navigation";
 import styles from "../assets/styles";
-import { connect } from "react-redux";
+import { connect } from "../../../../../.cache/typescript/2.9/node_modules/@types/react-redux";
 import { startTrans } from "../actions/AssetActions";
 import newOriginator from "../components/buttons/originatorButton.png";
 import newRecipient from "../components/buttons/recipientButton.png";

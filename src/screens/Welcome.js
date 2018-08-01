@@ -1,6 +1,6 @@
-import React, {Component} from 'react';
+import React, {Component} from '../../../../../.cache/typescript/2.9/node_modules/@types/react';
 import { StyleSheet, Text, TextInput, View, Image, TouchableHighlight, Alert } from 'react-native';
-import { StackNavigator } from 'react-navigation';
+import { StackNavigator } from '../../../../../.cache/typescript/2.9/node_modules/@types/react-navigation';
 // import welcome from "../assets/welcome.png";
 import Button from 'react-native-button';
 

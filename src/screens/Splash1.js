@@ -1,5 +1,5 @@
 // const { navigate } = this.props.navigation;
-import React, { Component } from "react";
+import React, { Component } from "../../../../../.cache/typescript/2.9/node_modules/@types/react";
 import {
   StyleSheet,
   Text,
@@ -11,9 +11,9 @@ import {
   Platform,
   StatusBar,
 } from "react-native";
-import { createStackNavigator } from "react-navigation";
+import { createStackNavigator } from "../../../../../.cache/typescript/2.9/node_modules/@types/react-navigation";
 import { STATUS_BAR_HEIGHT } from "../constants";
-import { connect } from "react-redux";
+import { connect } from "../../../../../.cache/typescript/2.9/node_modules/@types/react-redux";
 import Button from "react-native-button";
 import styles from "../assets/styles";
 import create from "../assets/createNewAssetButton.png";

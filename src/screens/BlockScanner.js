@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from "../../../../../.cache/typescript/2.9/node_modules/@types/react";
 import {
   View,
   Platform,
@@ -9,10 +9,10 @@ import {
 } from "react-native";
 import { STATUS_BAR_HEIGHT } from "../constants";
 import styles from "../assets/styles";
-import { connect } from "react-redux";
+import { connect } from "../../../../../.cache/typescript/2.9/node_modules/@types/react-redux";
 
 import JSONTree from "react-native-json-tree";
-import Web3 from "../constants/web3";
+// import Web3 from "../constants/web3";
 
 export default class BlockScanner extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -52,19 +52,19 @@ export default class BlockScanner extends Component {
     };
   }
 
-  componentDidMount() {
-    console.log(Web3, "webs");
-    Web3.eth.getBlock("latest", (err, block) => {
-      this.setState({
-        block,
-        isFetching: false
-      });
+  // componentDidMount() {
+  //   console.log(Web3, "webs");
+  //   Web3.eth.getBlock("latest", (err, block) => {
+  //     this.setState({
+  //       block,
+  //       isFetching: false
+  //     });
 
       //   Web3.eth.defaultAccount = '0x1864a4327931f04B7FB489be97667FCE1B23223E';
       //   console.log(Web3.eth.defaultAccount);
       //   https://api-ropsten.etherscan.io/api?module=contract&action=getabi&address=0xBB9bc244D798123fDe783fCc1C72d3Bb8C189413&apikey=YourApiKeyToken
-    });
-  }
+  //   });
+  // }
   render() {
     let block = this.state.block;
     console.log(this.state.isFetching, "fetching");

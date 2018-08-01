@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from '../../../../../.cache/typescript/2.9/node_modules/@types/react';
 import { Platform, WebView, Image } from 'react-native';
 import { STATUS_BAR_HEIGHT } from '../constants';
 import hiprLogo from "../assets/hiprLogo.png";

@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React, { Component } from '../../../../../.cache/typescript/2.9/node_modules/@types/react';
 import { Platform, StyleSheet, Text, View, Image, ScrollView, TextInput, TouchableHighlight, Alert, Button } from 'react-native';
 import submit from "../components/buttons/submit.png";
 import logo from "../assets/round.png";
-import { connect } from "react-redux";
+import { connect } from "../../../../../.cache/typescript/2.9/node_modules/@types/react-redux";
 import styles from "../assets/styles";
 import hercPillar from "../assets/hercLogoPillar.png";
 import { incHercId, confirmAsset } from "../actions/AssetActions"

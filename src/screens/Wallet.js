@@ -1,5 +1,5 @@
 import { StyleSheet, Text, TextInput, View, Image, TouchableHighlight, Alert } from 'react-native';
-import React from "react";
+import React from "../../../../../.cache/typescript/2.9/node_modules/@types/react";
 import styles from "../assets/styles";
 import supplyChain from "../assets/supplyChain.png";
 import { Button } from "react-native-button";

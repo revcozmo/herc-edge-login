@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from "../../../../../.cache/typescript/2.9/node_modules/@types/react";
 import {
   ScrollView,
   StyleSheet,
@@ -11,17 +11,20 @@ import {
   Alert
 } from "react-native";
 // import params from "../assets/igvcParamsLabel.png";
-import { connect } from "react-redux";
+import { connect } from "../../../../../.cache/typescript/2.9/node_modules/@types/react-redux";
 import styles from "../assets/styles";
 import Button from "react-native-button";
 import logo from "../assets/round.png";
 import { addAsset, getHercId } from "../actions/AssetActions";
-import { FileSystem, Camera, Permissions, ImagePicker } from "expo";
+// import { FileSystem, Camera, Permissions, ImagePicker } from "expo";
 import next from "../components/buttons/nextButton.png";
 import takePhoto from "../components/buttons/takePhoto.png";
 import uploadPhoto from "../components/buttons/uploadImage.png";
 
 import { STATUS_BAR_HEIGHT } from "../constants";
+
+//// Need to replace the camera functionality
+
 
 class Tee extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -113,54 +116,54 @@ class Tee extends Component {
       // coreProps: {}
     };
   }
-  async componentWillMount() {
-    const { status } = await Permissions.askAsync(Permissions.CAMERA).then(await Permissions.askAsync(Permissions.CAMERA_ROLL));
-    console.log(status, "status");
-    this.setState({ permissionsGranted: 'granted' });
-  }
+  // async componentWillMount() {
+  //   const { status } = await Permissions.askAsync(Permissions.CAMERA).then(await Permissions.askAsync(Permissions.CAMERA_ROLL));
+  //   console.log(status, "status");
+  //   this.setState({ permissionsGranted: 'granted' });
+  // }
 
   componentDidMount() {
   }
 
-  _pickImage = async () => {
-    let logo = await ImagePicker.launchImageLibraryAsync({
-      allowsEditing: false,
-      aspect: [4, 4],
-      base64: true
-    });
-    alert(logo.uri);
+  // _pickImage = async () => {
+  //   let logo = await ImagePicker.launchImageLibraryAsync({
+  //     allowsEditing: false,
+  //     aspect: [4, 4],
+  //     base64: true
+  //   });
+  //   alert(logo.uri);
 
-    console.log(logo.uri, "logouri");
+  //   console.log(logo.uri, "logouri");
 
-    if (!logo.cancelled) {
-      this.setState({
-        Logo: "data:image/png;base64," + logo.base64
-      });
-      console.log("image in state");
-    }
-  };
+  //   if (!logo.cancelled) {
+  //     this.setState({
+  //       Logo: "data:image/png;base64," + logo.base64
+  //     });
+  //     console.log("image in state");
+  //   }
+  // };
 
-  _takePhoto = async () => {
-    console.log("taking Image");
-    let logo = await ImagePicker.launchCameraAsync({
-      base64: true,
-      allowsEditing: false,
-      aspect: [4, 4]
-    });
-    alert(logo.uri);
+  // _takePhoto = async () => {
+  //   console.log("taking Image");
+  //   let logo = await ImagePicker.launchCameraAsync({
+  //     base64: true,
+  //     allowsEditing: false,
+  //     aspect: [4, 4]
+  //   });
+  //   alert(logo.uri);
 
-    if (!logo.cancelled) {
-      let uri = logo.uri;
-      console.log(uri, "logo uri");
-      FileSystem.getInfoAsync(uri, { size: true }).then(info => {
-        this.setState({
-          // size: (info.size / 1024).toFixed(3),
-          // uri: uri,
-          Logo: "data:image/png;base64," + logo.base64
-        });
-      });
-    }
-  };
+  //   if (!logo.cancelled) {
+  //     let uri = logo.uri;
+  //     console.log(uri, "logo uri");
+  //     FileSystem.getInfoAsync(uri, { size: true }).then(info => {
+  //       this.setState({
+  //         // size: (info.size / 1024).toFixed(3),
+  //         // uri: uri,
+  //         Logo: "data:image/png;base64," + logo.base64
+  //       });
+  //     });
+  //   }
+  // };
 
   _onSubmit = () => {
     const { navigate } = this.props.navigation;

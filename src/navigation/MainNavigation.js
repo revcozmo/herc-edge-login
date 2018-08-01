@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { createStackNavigator } from "react-navigation";
+import React, { Component } from "../../../../../.cache/typescript/2.9/node_modules/@types/react";
+import { createStackNavigator } from "../../../../../.cache/typescript/2.9/node_modules/@types/react-navigation";
 import {
   View,
   Image,
@@ -40,9 +40,10 @@ import Wallet from "../screens/Wallet";
 import Settings from "../screens/Settings";
 import Login from "../screens/Login";
 import Identity from "../screens/Identity";
+import IdologyForm from "../components/IdologyForm";
 
 
-const MainNavigator = StackNavigator({ //this will be "createStackNavigator" after upgrading react-navigation
+const MainNavigator = createStackNavigator({ //this will be "createStackNavigator" after upgrading react-navigation
     Login: { screen: Login },
     Welcome: { screen: Welcome },
     MenuOptions: { screen: MenuOptions },

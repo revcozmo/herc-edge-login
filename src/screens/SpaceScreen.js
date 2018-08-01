@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React, { Component } from '../../../../../.cache/typescript/2.9/node_modules/@types/react';
 import { Button, Platform, StyleSheet, Text, View, TouchableHighlight, Image, Picker, ScrollView } from 'react-native';
-import { StackNavigator } from 'react-navigation';
+import { StackNavigator } from '../../../../../.cache/typescript/2.9/node_modules/@types/react-navigation';
 import { STATUS_BAR_HEIGHT } from '../constants';
 import styles from '../assets/styles';
-import { connect } from 'react-redux';
+import { connect } from '../../../../../.cache/typescript/2.9/node_modules/@types/react-redux';
 import MagicButton from 'react-native-button';
 
 class SpaceScreen extends Component {

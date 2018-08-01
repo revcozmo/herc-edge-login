@@ -1,16 +1,16 @@
-import React, { Component } from 'react';
+import React, { Component } from '../../../../../.cache/typescript/2.9/node_modules/@types/react';
 import { Platform, StyleSheet, Text, View, Image, ScrollView, TouchableHighlight, Alert } from 'react-native';
 
 import { STATUS_BAR_HEIGHT } from '../constants';
-import { StackNavigator } from 'react-navigation';
+import { StackNavigator } from '../../../../../.cache/typescript/2.9/node_modules/@types/react-navigation';
 import styles from '../assets/styles';
-import { connect } from 'react-redux';
+import { connect } from '../../../../../.cache/typescript/2.9/node_modules/@types/react-redux';
 import newOriginator from "../components/buttons/originatorButton.png";
 import newRecipient from "../components/buttons/recipientButton.png";
 import submit from "../components/buttons/submit.png";
 import uploadImage from "../components/buttons/uploadImage.png";
 import takePhoto from "../components/buttons/takePhoto.png";
-import { FileSystem, Permissions, ImagePicker, DocumentPicker } from 'expo';
+// import { FileSystem, Permissions, ImagePicker, DocumentPicker } from 'expo';
 import { addPhoto } from '../actions/AssetActions';
 
 class FileUp extends Component {
@@ -122,52 +122,52 @@ class FileUp extends Component {
   }
 
   async componentWillMount() {
-    const { status } = await Permissions.askAsync(Permissions.CAMERA).then(await Permissions.askAsync(Permissions.CAMERA_ROLL));
-    this.setState({ permissionsGranted: 'granted' });
+    // const { status } = await Permissions.askAsync(Permissions.CAMERA).then(await Permissions.askAsync(Permissions.CAMERA_ROLL));
+    // this.setState({ permissionsGranted: 'granted' });
   }
 
   
-  _pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      base64: true,
-      allowsEditing: false,
-      aspect: [4, 4],
-    });
+  // _pickImage = async () => {
+  //   let result = await ImagePicker.launchImageLibraryAsync({
+  //     base64: true,
+  //     allowsEditing: false,
+  //     aspect: [4, 4],
+  //   });
 
 
-    if (!result.cancelled) {
-      let uri = result.uri;
-      FileSystem.getInfoAsync(uri, { size: true }).then((info) => {
-        this.setState({
-          size: info.size, //keeping as bytes until TXreview 
-          uri: uri,
-          image: "data:image/png;base64," + result.base64,
+  //   if (!result.cancelled) {
+  //     let uri = result.uri;
+  //     FileSystem.getInfoAsync(uri, { size: true }).then((info) => {
+  //       this.setState({
+  //         size: info.size, //keeping as bytes until TXreview 
+  //         uri: uri,
+  //         image: "data:image/png;base64," + result.base64,
 
-        })
-      })
-    }
-  }
+  //       })
+  //     })
+  //   }
+  // }
 
-  _takeImage = async () => {
-    let result = await ImagePicker.launchCameraAsync({
-      base64: true,
-      allowsEditing: false,
-      aspect: [4, 4],
-    });
+  // _takeImage = async () => {
+  //   let result = await ImagePicker.launchCameraAsync({
+  //     base64: true,
+  //     allowsEditing: false,
+  //     aspect: [4, 4],
+  //   });
 
-    if (!result.cancelled) {
-      let uri = result.uri;
-      console.log(uri, 'result uri');
-      FileSystem.getInfoAsync(uri, { size: true }).then((info) => {
-        this.setState({
-          size: info.size, //keeping as bytes until TXreview 
-          uri: uri,
-          image: "data:image/png;base64," + result.base64,
+  //   if (!result.cancelled) {
+  //     let uri = result.uri;
+  //     console.log(uri, 'result uri');
+  //     FileSystem.getInfoAsync(uri, { size: true }).then((info) => {
+  //       this.setState({
+  //         size: info.size, //keeping as bytes until TXreview 
+  //         uri: uri,
+  //         image: "data:image/png;base64," + result.base64,
 
-        })
-      })
-    }
-  }
+  //       })
+  //     })
+  //   }
+  // }
   _onSubmit = () => {
     const { navigate } = this.props.navigation;
     let image = this.state;

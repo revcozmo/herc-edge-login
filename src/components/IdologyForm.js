@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from '../../../../../.cache/typescript/2.9/node_modules/@types/react';
 import { View, StyleSheet } from 'react-native';
 import { Button } from 'react-native-elements';
 import { YellowBox } from 'react-native';

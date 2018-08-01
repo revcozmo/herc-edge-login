@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React, { Component } from '../../../../../.cache/typescript/2.9/node_modules/@types/react';
 import { StyleSheet, Platform, TextInput, Text, View, Image, ScrollView, TouchableHighlight, Alert, TouchableNativeFeedback } from 'react-native';
 import { STATUS_BAR_HEIGHT } from '../constants';
-import { StackNavigator } from 'react-navigation';
+import { StackNavigator } from '../../../../../.cache/typescript/2.9/node_modules/@types/react-navigation';
 import Swiper from '../components/TxSwiper';
-import { connect } from "react-redux";
+import { connect } from "../../../../../.cache/typescript/2.9/node_modules/@types/react-redux";
 import styles from '../assets/styles';
 import SwipeCard from "../components/SwipeCard";
 

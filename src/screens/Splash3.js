@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from "../../../../../.cache/typescript/2.9/node_modules/@types/react";
 import {
   StyleSheet,
   Platform,
@@ -14,7 +14,7 @@ import {
 } from "react-native";
 import { STATUS_BAR_HEIGHT } from "../constants";
 
-import { StackNavigator } from "react-navigation";
+import { StackNavigator } from "../../../../../.cache/typescript/2.9/node_modules/@types/react-navigation";
 
 import originator from "../components/buttons/originatorButton.png";
 import recipient from "../components/buttons/recipientButton.png";
@@ -24,7 +24,7 @@ import camera from "../components/buttons/camera.png";
 import metrics from "../components/buttons/metrics.png";
 import EDIT from "../components/buttons/EDI-T.png";
 import styles from "../assets/styles";
-import { connect } from "react-redux";
+import { connect } from "../../../../../.cache/typescript/2.9/node_modules/@types/react-redux";
 import TransRev from "../components/TransactionReview";
 
 class Splash3 extends Component {

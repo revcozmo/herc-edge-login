@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React, { Component } from '../../../../../.cache/typescript/2.9/node_modules/@types/react';
 import { LoginScreen } from 'edge-login-ui-rn';
 import { makeEdgeContext } from 'edge-core-js';
 import { ethereumCurrencyPluginFactory } from 'edge-currency-ethereum';
 import { getAccount } from "../actions/AssetActions";
-import { connect } from "react-redux";
+import { connect } from "../../../../../.cache/typescript/2.9/node_modules/@types/react-redux";
 import {
   Platform,
   StyleSheet,

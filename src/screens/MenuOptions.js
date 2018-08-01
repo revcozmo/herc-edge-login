@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from "../../../../../.cache/typescript/2.9/node_modules/@types/react";
 import {
     StyleSheet,
     Text,
@@ -9,11 +9,11 @@ import {
     StatusBar,
     Alert
 } from "react-native";
-import { StackNavigator } from "react-navigation";
+import { StackNavigator } from "../../../../../.cache/typescript/2.9/node_modules/@types/react-navigation";
 import hiprBtn from "../components/buttons/validate.png";
 // import create from "../components/buttons/create.png";
 import supplyChain from "../components/buttons/supplyChainButton.png";
-import digiView from "../components/buttons/digitalViewerButton.png";
+import digiView from "../components/buttons/camera.png";
 import track from "../components/buttons/trackButton.png";
 import wallet from "../components/buttons/walletButton.png";
 import settings from "../components/buttons/settingsButton.png";
@@ -21,7 +21,7 @@ import registerAsset from "../components/buttons/registerAssetButton.png"
 import profileButton from "../components/buttons/profileButton.png"
 
 import styles from "../assets/styles";
-import { connect } from "react-redux";
+import { connect } from "../../../../../.cache/typescript/2.9/node_modules/@types/react-redux";
 import { getHercId, fetchAssets } from "../actions/AssetActions";
 import Wallet from "./Wallet";
 
