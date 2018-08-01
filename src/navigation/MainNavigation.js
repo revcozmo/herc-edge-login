@@ -88,7 +88,7 @@ const MainNavigator = StackNavigator({ //this will be "createStackNavigator" aft
                 source={menuOptions} />,
 
             headerStyle: {
-                height: Platform.OS === 'android' ? 115 : 100,
+                height: Platform.OS === 'android' ? 60 : 100,
                 backgroundColor: 'white',
 
             },
