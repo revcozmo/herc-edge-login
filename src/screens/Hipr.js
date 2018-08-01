@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Platform, WebView, Image } from 'react-native';
-import BackButton from '../components/BackButton';
 import { STATUS_BAR_HEIGHT } from '../constants';
 import hiprLogo from "../assets/hiprLogo.png";
 
@@ -20,7 +19,6 @@ export default class Hipr extends Component {
     }}
         source={hiprLogo} />,
     
-        headerLeft: < BackButton navigation = { navigation } />
 
 })
   render() {

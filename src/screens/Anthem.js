@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import {View, TouchableHighlight, Text, Platform, Image, WebView } from 'react-native';
 import { STATUS_BAR_HEIGHT } from '../constants';
 import { StackNavigator } from 'react-navigation';
-import BackButton from "../components/BackButton";
 
 
 // TODO:
@@ -42,7 +41,6 @@ export default class AnthemWeb extends Component {
       //   backgroundColor: '#021227',
 
       // },
-      headerLeft: <BackButton navigation={navigation} />,
       // headerRight: <View></View>
     }
   }
@@ -50,7 +48,7 @@ export default class AnthemWeb extends Component {
   render() {
     return (
       <WebView
-        source={{ uri: 'http://tulips.com/' }}
+        source={{ uri: 'https://www.anthemvault.com/' }}
         style={{ marginTop: 20, flex: 1 }}
       />
     );

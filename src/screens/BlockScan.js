@@ -1,7 +1,6 @@
 
 import React, { Component } from 'react';
 // import { WebView } from 'react-native';
-import BackButton from '../components/BackButton';
 // import TransAssetList from '../components/TransAssetList';
 import { StackNavigator } from 'react-navigation';
 import track from '../components/buttons/blockScannerBtn.png';
@@ -15,7 +14,6 @@ import { getTrans } from '../actions/AssetActions';
 class BlockScan extends Component {
   static navigationOptions = ({ navigation }) => ({
     headerTitle: <Image source={track} style={{ height: 50, width: 214, marginLeft: 35 }} />,
-    headerLeft: <BackButton navigation={navigation} />
   })
 
   _onPress = (asset) => {
