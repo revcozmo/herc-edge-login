@@ -75,7 +75,7 @@ const MainNavigator = StackNavigator({ //this will be "createStackNavigator" aft
     Settings: { screen: Settings },
 
 }, {
-        initialRouteName: 'Welcome', // was "Login" changing for testing the style migration
+        initialRouteName: 'Login', // was "Login" changing for testing the style migration
         navigationOptions: ({ navigation }) => ({
 
             headerTitle: <Image style={{
