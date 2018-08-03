@@ -5,7 +5,6 @@ import { StackNavigator } from 'react-navigation';
 import Swiper from '../components/TxSwiper';
 import { connect } from "react-redux";
 import styles from '../assets/styles';
-import SwipeCard from "../components/SwipeCard";
 
 
 

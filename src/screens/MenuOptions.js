@@ -13,7 +13,7 @@ import { StackNavigator } from "react-navigation";
 import hiprBtn from "../components/buttons/validate.png";
 // import create from "../components/buttons/create.png";
 import supplyChain from "../components/buttons/supplyChainButton.png";
-import digiView from "../components/buttons/camera.png";
+import digiView from "../components/buttons/digitalViewerButton.png";
 import track from "../components/buttons/trackButton.png";
 import wallet from "../components/buttons/walletButton.png";
 import settings from "../components/buttons/settingsButton.png";
@@ -50,9 +50,9 @@ class MenuOptions extends Component {
                         <Image style={localStyles.menuButton} source={supplyChain} />
                     </TouchableHighlight>
 
-                    <TouchableHighlight style={localStyles.touchableHighlight} onPress={() => navigate("PreDigi")}>
+                    {/* <TouchableHighlight style={localStyles.touchableHighlight} onPress={() => navigate("PreDigi")}>
                         <Image style={localStyles.menuButton} source={digiView} />
-                    </TouchableHighlight>
+                    </TouchableHighlight> */}
 
                     <TouchableHighlight style={localStyles.touchableHighlight}
                         onPress={() => navigate("TransAssetList", { web3: this.web3 })}>

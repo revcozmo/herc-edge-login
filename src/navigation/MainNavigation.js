@@ -41,7 +41,7 @@ import Wallet from "../screens/Wallet";
 import Settings from "../screens/Settings";
 import Login from "../screens/Login";
 import Identity from "../screens/Identity";
-// import IdologyForm from "../components/IdologyForm";
+import IdologyForm from "../components/IdologyForm";
 
 
 const MainNavigator = StackNavigator({ //this will be "createStackNavigator" after upgrading react-navigation
@@ -75,7 +75,7 @@ const MainNavigator = StackNavigator({ //this will be "createStackNavigator" aft
     Settings: { screen: Settings },
 
 }, {
-        initialRouteName: 'Login', // was "Login" changing for testing the style migration
+        initialRouteName: 'MenuOptions', // was "Login" changing for testing the style migration
         navigationOptions: ({ navigation }) => ({
 
             headerTitle: <Image style={{
