@@ -1,10 +1,9 @@
 import React, { Component } from "react";
-import { StackNavigator } from "react-navigation";
 import MainNavigation from "./navigation/MainNavigation";
 import { Provider } from "react-redux";
 import store from "./store";
-import { connect } from "react-redux";
 import { Platform, StyleSheet, Text, View, Button } from "react-native";
+// import '../global';
 
 export default class App extends Component {
 
