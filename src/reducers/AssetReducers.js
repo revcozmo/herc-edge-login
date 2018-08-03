@@ -69,7 +69,7 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
 
 
         case SELECT_ASSET:
-            console.log(action, 'action in select reducer');
+            // console.log(action, 'action in select reducer');
             let selectedAsset = action.selectedAsset;
             return Object.assign({}, state, {
                 ...state,

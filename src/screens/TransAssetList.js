@@ -106,7 +106,7 @@ class TransAssetList extends Component {
 
 
   render() {
-    console.log(this.props)
+    // console.log(this.props)
     let list = this.props.assets.map((asset, index) => {
       // console.log(asset);
       return (
