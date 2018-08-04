@@ -42,6 +42,7 @@ import Settings from "../screens/Settings";
 import Login from "../screens/Login";
 import Identity from "../screens/Identity";
 import IdologyForm from "../components/IdologyForm";
+import Camera from "../screens/Camera";
 
 
 const MainNavigator = StackNavigator({ //this will be "createStackNavigator" after upgrading react-navigation
@@ -73,9 +74,10 @@ const MainNavigator = StackNavigator({ //this will be "createStackNavigator" aft
     SpaceScreen: { screen: SpaceScreen },
     Wallet: { screen: Wallet },
     Settings: { screen: Settings },
+    Camera: { screen: Camera }
 
 }, {
-        initialRouteName: 'MenuOptions', // was "Login" changing for testing the style migration
+        initialRouteName: 'Camera', // was "Login" changing for testing the style migration
         navigationOptions: ({ navigation }) => ({
 
             headerTitle: <Image style={{

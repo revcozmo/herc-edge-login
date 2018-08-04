@@ -4,13 +4,14 @@ import {
   StyleSheet,
   Text,
   TextInput,
-  Platform,
+  Dimensions,
   View,
   Image,
   TouchableHighlight,
   Alert
 } from "react-native";
-import ImagePicker from 'react-native-image-picker';
+
+import { RNCamera } from 'react-native-camera';
 import { connect } from "react-redux";
 import styles from "../assets/styles";
 import Button from "react-native-button";
@@ -106,6 +107,7 @@ class Tee extends Component {
     }
   }
 
+
   constructor(props) {
     super(props);
     this.state = {
@@ -126,39 +128,6 @@ class Tee extends Component {
   }
 
   _pickImage = () => {
-    console.log(ImagePicker);
-    let options = {
-      title: 'Select Logo',
-
-      storageOptions: {
-        skipBackup: true,
-        path: 'images'
-      }
-    };
-
-    ImagePicker.showImagePicker(options, (response) => {
-      console.log('Response = ', response);
-
-      if (response.didCancel) {
-        console.log('User cancelled image picker');
-      }
-      else if (response.error) {
-        console.log('ImagePicker Error: ', response.error);
-      }
-      else if (response.customButton) {
-        console.log('User tapped custom button: ', response.customButton);
-      }
-      else {
-        let source = { uri: response.uri };
-        console.log(source,"source");
-        // You can also display the image using data:
-        // let source = { uri: 'data:image/jpeg;base64,' + response.data };
-
-        this.setState({
-          avatarSource: source
-        });
-      }
-    });
   }
   // _pickImage = async () => {
   //   let logo = await ImagePicker.launchImageLibraryAsync({
@@ -178,38 +147,14 @@ class Tee extends Component {
   //   }
   // };
 
-  _takePhoto = async () => {
+  _takePicture = async function () {
+    if (this.camera) {
+      const options = { quality: 0.5, base64: true };
+      const data = await this.camera.takePictureAsync(options)
+      console.log(data.uri);
+    }
+  };
 
-    let options = {
-      title: 'Select Logo',
-
-    
-    };
-
-    ImagePicker.launchCamera(options, (response) => {
-      console.log('Response = ', response);
-
-      if (response.didCancel) {
-        console.log('User cancelled image picker');
-      }
-      else if (response.error) {
-        console.log('ImagePicker Error: ', response.error);
-      }
-      else if (response.customButton) {
-        console.log('User tapped custom button: ', response.customButton);
-      }
-      else {
-        let source = { uri: response.uri };
-        console.log(source,"source");
-        // You can also display the image using data:
-        // let source = { uri: 'data:image/jpeg;base64,' + response.data };
-
-        this.setState({
-          avatarSource: source
-        });
-      }
-    });
-  }
 
   _onSubmit = () => {
     const { navigate } = this.props.navigation;
@@ -239,7 +184,7 @@ class Tee extends Component {
 
     }
 
-  };
+  }
 
   render() {
     let Logo = this.state.Logo || null;
@@ -387,7 +332,7 @@ class Tee extends Component {
               <TouchableHighlight onPress={() => this._takePhoto()}>
                 <Image style={styles.menuButton} source={takePhoto} />
               </TouchableHighlight>
-
+              
               <TouchableHighlight onPress={() => this._pickImage()}>
                 <Image style={styles.menuButton} source={uploadPhoto} />
               </TouchableHighlight>
@@ -481,6 +426,20 @@ const localStyles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "600",
     color: "yellow"
+  },
+  preview: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    alignItems: 'center'
+  },
+  capture: {
+    flex: 0,
+    backgroundColor: '#fff',
+    borderRadius: 5,
+    padding: 15,
+    paddingHorizontal: 20,
+    alignSelf: 'center',
+    margin: 20
   }
 
 
