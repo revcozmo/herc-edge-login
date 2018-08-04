@@ -10,7 +10,7 @@ import {
   TouchableHighlight,
   Alert
 } from "react-native";
-// import params from "../assets/igvcParamsLabel.png";
+import ImagePicker from 'react-native-image-picker';
 import { connect } from "react-redux";
 import styles from "../assets/styles";
 import Button from "react-native-button";
@@ -111,8 +111,8 @@ class Tee extends Component {
     this.state = {
       // Name: "The Nameless Asset",
       Logo: null,
-      hasCameraPermission: null,
-      type: Camera.Constants.Type.back
+      // hasCameraPermission: null,
+      // type: Camera.Constants.Type.back
       // coreProps: {}
     };
   }
@@ -125,6 +125,41 @@ class Tee extends Component {
   componentDidMount() {
   }
 
+  _pickImage = () => {
+    console.log(ImagePicker);
+    let options = {
+      title: 'Select Logo',
+
+      storageOptions: {
+        skipBackup: true,
+        path: 'images'
+      }
+    };
+
+    ImagePicker.showImagePicker(options, (response) => {
+      console.log('Response = ', response);
+
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      }
+      else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      }
+      else if (response.customButton) {
+        console.log('User tapped custom button: ', response.customButton);
+      }
+      else {
+        let source = { uri: response.uri };
+        console.log(source,"source");
+        // You can also display the image using data:
+        // let source = { uri: 'data:image/jpeg;base64,' + response.data };
+
+        this.setState({
+          avatarSource: source
+        });
+      }
+    });
+  }
   // _pickImage = async () => {
   //   let logo = await ImagePicker.launchImageLibraryAsync({
   //     allowsEditing: false,
@@ -143,27 +178,38 @@ class Tee extends Component {
   //   }
   // };
 
-  // _takePhoto = async () => {
-  //   console.log("taking Image");
-  //   let logo = await ImagePicker.launchCameraAsync({
-  //     base64: true,
-  //     allowsEditing: false,
-  //     aspect: [4, 4]
-  //   });
-  //   alert(logo.uri);
+  _takePhoto = async () => {
 
-  //   if (!logo.cancelled) {
-  //     let uri = logo.uri;
-  //     console.log(uri, "logo uri");
-  //     FileSystem.getInfoAsync(uri, { size: true }).then(info => {
-  //       this.setState({
-  //         // size: (info.size / 1024).toFixed(3),
-  //         // uri: uri,
-  //         Logo: "data:image/png;base64," + logo.base64
-  //       });
-  //     });
-  //   }
-  // };
+    let options = {
+      title: 'Select Logo',
+
+    
+    };
+
+    ImagePicker.launchCamera(options, (response) => {
+      console.log('Response = ', response);
+
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      }
+      else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      }
+      else if (response.customButton) {
+        console.log('User tapped custom button: ', response.customButton);
+      }
+      else {
+        let source = { uri: response.uri };
+        console.log(source,"source");
+        // You can also display the image using data:
+        // let source = { uri: 'data:image/jpeg;base64,' + response.data };
+
+        this.setState({
+          avatarSource: source
+        });
+      }
+    });
+  }
 
   _onSubmit = () => {
     const { navigate } = this.props.navigation;
