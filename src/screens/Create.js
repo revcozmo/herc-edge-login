@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, TextInput, View, Image, TouchableHighlight, Alert } from 'react-native';
+import { Platform, StyleSheet, Text, TextInput, View, Image, TouchableHighlight, Alert,YellowBox } from 'react-native';
 import logo from "../assets/round.png";
 import { STATUS_BAR_HEIGHT } from '../constants';
 import begin from "../components/buttons/beginBtn.png";
 import info from "../components/buttons/infoBtn.png"
 import styles from "../assets/styles";
+YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTImageLoader', 'Setting a timer for a long period of time']);
 
 //TODO: Header title nees centering
 export default class Create extends Component {

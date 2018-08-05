@@ -77,7 +77,7 @@ const MainNavigator = StackNavigator({ //this will be "createStackNavigator" aft
     Camera: { screen: Camera }
 
 }, {
-        initialRouteName: 'Camera', // was "Login" changing for testing the style migration
+        initialRouteName: 'MenuOptions', // was "Login" changing for testing the style migration
         navigationOptions: ({ navigation }) => ({
 
             headerTitle: <Image style={{

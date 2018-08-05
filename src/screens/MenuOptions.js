@@ -7,7 +7,8 @@ import {
     Image,
     TouchableHighlight,
     StatusBar,
-    Alert
+    Alert,
+    YellowBox
 } from "react-native";
 import { StackNavigator } from "react-navigation";
 import hiprBtn from "../components/buttons/validate.png";
@@ -24,6 +25,7 @@ import styles from "../assets/styles";
 import { connect } from "react-redux";
 import { getHercId, fetchAssets } from "../actions/AssetActions";
 import Wallet from "./Wallet";
+YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTImageLoader', 'Setting a timer for a long period of time']);
 
 class MenuOptions extends Component {
     constructor(props) {

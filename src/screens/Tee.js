@@ -110,23 +110,32 @@ class Tee extends Component {
 
   constructor(props) {
     super(props);
+    
+    this.setLogo = this.setLogo.bind(this); // method to set the log from the camera component 
+    
     this.state = {
-      // Name: "The Nameless Asset",
       Logo: null,
-      // hasCameraPermission: null,
-      // type: Camera.Constants.Type.back
-      // coreProps: {}
     };
   }
-  // async componentWillMount() {
-  //   const { status } = await Permissions.askAsync(Permissions.CAMERA).then(await Permissions.askAsync(Permissions.CAMERA_ROLL));
-  //   console.log(status, "status");
-  //   this.setState({ permissionsGranted: 'granted' });
-  // }
 
   componentDidMount() {
   }
 
+  setLogo = (string64) => {
+    console.log("trying to set the Logog", string64)
+    this.setState({
+      Logo: "data:image/jpg;base64," + string64
+    })
+
+  }
+
+  _takePic = () => {
+    const { navigate } = this.props.navigation;
+    const { params } = this.props.navigation.state;
+    console.log("takingpic")
+    navigate('Camera',{ setLogo: this.setLogo})
+
+  }
   _pickImage = () => {
   }
   // _pickImage = async () => {
@@ -147,13 +156,7 @@ class Tee extends Component {
   //   }
   // };
 
-  _takePicture = async function () {
-    if (this.camera) {
-      const options = { quality: 0.5, base64: true };
-      const data = await this.camera.takePictureAsync(options)
-      console.log(data.uri);
-    }
-  };
+  
 
 
   _onSubmit = () => {
@@ -188,6 +191,10 @@ class Tee extends Component {
 
   render() {
     let Logo = this.state.Logo || null;
+
+    if(this.state.Logo){
+      console.log("logog is here")
+    }
 
     return (
       <View style={styles.container}>
@@ -329,7 +336,7 @@ class Tee extends Component {
             )}
 
             <View style={localStyles.imageButtonContainer}>
-              <TouchableHighlight onPress={() => this._takePhoto()}>
+              <TouchableHighlight onPress={this._takePic}>
                 <Image style={styles.menuButton} source={takePhoto} />
               </TouchableHighlight>
               
