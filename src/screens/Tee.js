@@ -121,19 +121,18 @@ class Tee extends Component {
   componentDidMount() {
   }
 
-  setLogo = (string64) => {
-    console.log("trying to set the Logog", string64)
+  setLogo = (imgObj) => {
+    console.log("trying to set the Logog", imgObj)
     this.setState({
-      Logo: "data:image/jpg;base64," + string64
+      Logo: imgObj.string
     })
 
   }
 
   _takePic = () => {
     const { navigate } = this.props.navigation;
-    const { params } = this.props.navigation.state;
     console.log("takingpic")
-    navigate('Camera',{ setLogo: this.setLogo})
+    navigate('Camera',{ setPic: this.setLogo})
 
   }
   _pickImage = () => {

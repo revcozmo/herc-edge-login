@@ -20,25 +20,39 @@ export default class Camera extends Component {
 
   constructor(props) {
     super(props);
+    const initial = null;
     this.state = {
-      path: null,
+      image: null,
     };
   }
+  _getSize = (data) => {
+    console.log('getting size');
+    let string = data;
+    let size = atob(string);
+    console.log("size =" + size.length);
+    return(size.length);
 
-  // _getPic = (data) => {
-  //   console.log(data.uri);
-  //   this.setState({path: data.uri})
-  //   navigate
-  // }
+  }
+  
   takePicture = async () => {
+    console.log("taking");
     const { params } = this.props.navigation.state;
     if (this.camera) {
-      const options = { base64: true }
+      const options = { base64: true}
       try {
         const data = await this.camera.takePictureAsync(options);
-        this.setState({ path: data.uri });
-        params.setLogo(data.base64);
-        console.log("afterBase");
+        // this._getSize(data.base64);
+        let image = Object.assign({},{
+          path: data.uri,
+          size: this._getSize(data.base64),
+          string:"data:image/jpg;base64," + data.base64
+        })
+        this.setState({ 
+          image
+        })
+
+        params.setPic(this.state.image);
+        console.log("afterBase", data.uri, this._getSize(data.base64));
 
         // this.props.updateImage(data.uri);
         // console.log('Path to image: ' + data.uri);
@@ -75,12 +89,12 @@ export default class Camera extends Component {
     return (
       <View>
         <Image
-          source={{ uri: this.state.path }}
+          source={{ uri: this.state.image.path }}
           style={styles.preview}
         />
         <Text
           style={styles.cancel}
-          onPress={() => this.setState({ path: null })}
+          onPress={() => this.setState({image: null})}
         >Cancel
           </Text>
       </View>
@@ -88,10 +102,10 @@ export default class Camera extends Component {
   }
 
   render() {
-    console.log(this.state, "thisStatein Render")
+    console.log(Object.keys(this.state), "thisStatein Render")
     return (
       <View style={styles.container}>
-        {this.state.path ? this.renderImage() : this.renderCamera()}
+        {this.state.image ? this.renderImage() : this.renderCamera()}
       </View>
     );
   }
@@ -152,8 +166,11 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-end',
     alignItems: 'center',
-    height: Dimensions.get('window').height - 50,
-    width: Dimensions.get('window').width
+    height: 400,
+    width: 400,
+    // resizeMode: "contain"
+    // height: Dimensions.get('window').height,
+    // width: Dimensions.get('window').width
   },
   capture: {
     width: 70,

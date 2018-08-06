@@ -10,7 +10,7 @@ import newRecipient from "../components/buttons/recipientButton.png";
 import submit from "../components/buttons/submit.png";
 import uploadImage from "../components/buttons/uploadImage.png";
 import takePhoto from "../components/buttons/takePhoto.png";
-// import { FileSystem, Permissions, ImagePicker, DocumentPicker } from 'expo';
+
 import { addPhoto } from '../actions/AssetActions';
 
 class FileUp extends Component {
@@ -117,8 +117,13 @@ class FileUp extends Component {
       headerRight: <View></View>,
     }
   }
-  state = {
-    image: null,
+  constructor(props){
+    super(props)
+    this.setImage = this.setImage.bind(this);
+    this.state = {
+      image: null,
+    }
+
   }
 
   async componentWillMount() {
@@ -126,7 +131,16 @@ class FileUp extends Component {
     // this.setState({ permissionsGranted: 'granted' });
   }
 
-  
+  setImage = (imgObj) => {
+    if(imgObj) console.log("trying to set the Image");
+
+    this.setState({
+      image: imgObj.string,
+      size: imgObj.size,
+      uri: imgObj.path
+    })
+
+  }
   // _pickImage = async () => {
   //   let result = await ImagePicker.launchImageLibraryAsync({
   //     base64: true,
@@ -148,12 +162,12 @@ class FileUp extends Component {
   //   }
   // }
 
-  // _takeImage = async () => {
-  //   let result = await ImagePicker.launchCameraAsync({
-  //     base64: true,
-  //     allowsEditing: false,
-  //     aspect: [4, 4],
-  //   });
+  _takePic = () => {
+    const { navigate } = this.props.navigation;
+    console.log("takingpic")
+    navigate('Camera',{ setPic: this.setImage})
+
+  }
 
   //   if (!result.cancelled) {
   //     let uri = result.uri;
@@ -176,7 +190,8 @@ class FileUp extends Component {
   };
 
   render() {
-    let { image } = this.state;
+    let image = this.state;
+    console.log(Object.keys(image, 'should be this state'));
     let transInfo = this.props.transInfo;
     let locationImage = this.props.transInfo.location === 'recipient' ? newRecipient : newOriginator;
     let logo = this.props.logo;
@@ -189,14 +204,14 @@ class FileUp extends Component {
 
           {
             image &&
-            <Image source={{ uri: image }} style={{ width: 200, height: 200, margin: 10 }} />
+            <Image source={{ uri: image.uri }} style={{ width: 200, height: 200, margin: 10 }} />
           }
          
           <TouchableHighlight onPress={() => this._pickImage()}>
             <Image style={styles.menuButton} source={uploadImage} />
           </TouchableHighlight>
 
-          <TouchableHighlight onPress={() => this._takeImage()}>
+          <TouchableHighlight onPress={() => this._takePic()}>
             <Image style={styles.menuButton} source={takePhoto} />
           </TouchableHighlight>
 
