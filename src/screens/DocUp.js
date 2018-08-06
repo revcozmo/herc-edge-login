@@ -8,6 +8,7 @@ import newOriginator from "../components/buttons/originatorButton.png";
 import newRecipient from "../components/buttons/recipientButton.png";
 import submit from "../components/buttons/submit.png";
 
+import { DocumentPicker, DocumentPickerUtil } from 'react-native-document-picker';
 class DocUp extends Component {
 
   static navigationOptions = ({ navigation }) => {
@@ -115,29 +116,31 @@ class DocUp extends Component {
   };
 
 
-  // _pickDocument = async () => {
+  _pickDocument = () => {
+    console.log("picking Doc")
+    DocumentPicker.show({
+      filetype: [DocumentPickerUtil.allFiles()],
+    }, (error, res) => {
+      if (error) Alert.alert("Something Went Wrong! Error: " + error);
+      console.log(res);
+      // Android
+      this.setState({
+        uri: res.uri,
+        name: res.fileName,
+        size: res.fileSize
+      });
+    });
+  }
+  // iPad
+  // const {pageX, pageY} = event.nativeEvent;
 
-  //   let docResult = await DocumentPicker.getDocumentAsync({
-  //     //MIME type 
-  //   });
-  //   alert(docResult.uri);
-  //   console.log(docResult.size, "docPickResult");
-
-
-  //   console.log(docResult.name, "docResultName");
-
-  //   if (!docResult.cancelled) {
-  //     this.setState({
-
-  //       name: docResult.name,
-  //       uri: docResult.uri,
-  //       size: docResult.size
-
-  //     });
-
-  //   };
-  // };
-
+  // DocumentPicker.show({
+  //   top: pageY,
+  //   left: pageX,
+  //   filetype: ['public.image'],
+  // }, (error, url) => {
+  //   alert(url);
+  // });
   render() {
     const { navigate } = this.props.navigation;
 
