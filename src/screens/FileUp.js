@@ -10,8 +10,9 @@ import newRecipient from "../components/buttons/recipientButton.png";
 import submit from "../components/buttons/submit.png";
 import uploadImage from "../components/buttons/uploadImage.png";
 import takePhoto from "../components/buttons/takePhoto.png";
-
 import { addPhoto } from '../actions/AssetActions';
+
+var ImagePicker = require('react-native-image-picker');
 
 class FileUp extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -74,17 +75,7 @@ class FileUp extends Component {
     return {
 
       headerTitle:
-        // <View style={{ flex: 1, alignSelf: 'center', justifyContent: 'center', alignItems: 'center' }}>
-        //   <Image style={{
-        //     height: 50,
-        //     width: 50,
-        //     alignSelf: 'center',
-        //     borderRadius: 40,
-        //     resizeMode: 'contain'
-        //   }}
-        //     source={{ uri: params.logo }} />
-        //   <Text>{params.name}</Text>
-        // </View>,
+       
         <View style={headerStyles.header__container}>
           <View style={headerStyles.header__container__centeredBox}>
             <View style={headerStyles.header__image__box}>
@@ -141,27 +132,31 @@ class FileUp extends Component {
     })
 
   }
-  // _pickImage = async () => {
-  //   let result = await ImagePicker.launchImageLibraryAsync({
-  //     base64: true,
-  //     allowsEditing: false,
-  //     aspect: [4, 4],
-  //   });
-
-
-  //   if (!result.cancelled) {
-  //     let uri = result.uri;
-  //     FileSystem.getInfoAsync(uri, { size: true }).then((info) => {
-  //       this.setState({
-  //         size: info.size, //keeping as bytes until TXreview 
-  //         uri: uri,
-  //         image: "data:image/png;base64," + result.base64,
-
-  //       })
-  //     })
-  //   }
-  // }
-
+  _pickImage = () => {
+    console.log("picking image")
+   
+    ImagePicker.launchImageLibrary({}, (response) => {
+     
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      }
+      else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      }
+      else if (response.customButton) {
+        console.log('User tapped custom button: ', response.customButton);
+      }
+      else {
+        let source = { uri: response.uri };
+     
+        this.setState({
+          image: "data:image/jpg;base64," + response.data,
+          size: response.fileSize,
+          uri: response.path
+        });
+      }
+    });
+  }
   _takePic = () => {
     const { navigate } = this.props.navigation;
     console.log("takingpic")
@@ -169,19 +164,6 @@ class FileUp extends Component {
 
   }
 
-  //   if (!result.cancelled) {
-  //     let uri = result.uri;
-  //     console.log(uri, 'result uri');
-  //     FileSystem.getInfoAsync(uri, { size: true }).then((info) => {
-  //       this.setState({
-  //         size: info.size, //keeping as bytes until TXreview 
-  //         uri: uri,
-  //         image: "data:image/png;base64," + result.base64,
-
-  //       })
-  //     })
-  //   }
-  // }
   _onSubmit = () => {
     const { navigate } = this.props.navigation;
     let image = this.state;
@@ -191,7 +173,7 @@ class FileUp extends Component {
 
   render() {
     let image = this.state;
-    console.log(Object.keys(image, 'should be this state'));
+    console.log(Object.keys(image), 'should be this state');
     let transInfo = this.props.transInfo;
     let locationImage = this.props.transInfo.location === 'recipient' ? newRecipient : newOriginator;
     let logo = this.props.logo;
@@ -204,7 +186,7 @@ class FileUp extends Component {
 
           {
             image &&
-            <Image source={{ uri: image.uri }} style={{ width: 200, height: 200, margin: 10 }} />
+            <Image source={{ uri: image.image }} style={{ width: 200, height: 200, margin: 10 }} />
           }
          
           <TouchableHighlight onPress={() => this._pickImage()}>

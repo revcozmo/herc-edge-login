@@ -11,7 +11,6 @@ import {
   Alert
 } from "react-native";
 
-import { RNCamera } from 'react-native-camera';
 import { connect } from "react-redux";
 import styles from "../assets/styles";
 import Button from "react-native-button";
@@ -24,12 +23,13 @@ import uploadPhoto from "../components/buttons/uploadImage.png";
 
 import { STATUS_BAR_HEIGHT } from "../constants";
 
+var ImagePicker = require('react-native-image-picker');
 //// Need to replace the camera functionality
 
 
 class Tee extends Component {
   static navigationOptions = ({ navigation }) => {
-
+    
     let headerStyles = StyleSheet.create({
       header__container: {
         // borderColor: "green",
@@ -43,7 +43,7 @@ class Tee extends Component {
         alignItems: "center",
         marginTop: 40,
         paddingBottom: 20
-
+        
       },
       header__container__centeredBox: {
         // borderColor: "purple",
@@ -58,7 +58,7 @@ class Tee extends Component {
         height: "100%",
         marginBottom: 5,
         marginLeft: 12,
-
+        
       },
       header__image__box: {
         // borderColor: "yellow",
@@ -86,7 +86,7 @@ class Tee extends Component {
     })
     return {
       headerTitle: (
-
+        
         <View style={headerStyles.header__container}>
           <View style={headerStyles.header__container__centeredBox}>
             <View style={headerStyles.header__image__box}>
@@ -103,11 +103,11 @@ class Tee extends Component {
           </View>
         </View>
 
-      )
+)
     }
   }
-
-
+  
+  
   constructor(props) {
     super(props);
     
@@ -117,7 +117,7 @@ class Tee extends Component {
       Logo: null,
     };
   }
-
+  
   componentDidMount() {
   }
 
@@ -136,6 +136,31 @@ class Tee extends Component {
 
   }
   _pickImage = () => {
+    console.log("picking image")
+   
+    ImagePicker.launchImageLibrary({}, (response) => {
+      console.log('Response = ', response);
+     
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      }
+      else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      }
+      else if (response.customButton) {
+        console.log('User tapped custom button: ', response.customButton);
+      }
+      else {
+        let source = { uri: response.uri };
+     
+        // You can also display the image using data:
+        // let source = { uri: 'data:image/jpeg;base64,' + response.data };
+     
+        this.setState({
+          Logo: "data:image/jpg;base64," + response.data
+        });
+      }
+    });
   }
   // _pickImage = async () => {
   //   let logo = await ImagePicker.launchImageLibraryAsync({
@@ -339,7 +364,7 @@ class Tee extends Component {
                 <Image style={styles.menuButton} source={takePhoto} />
               </TouchableHighlight>
               
-              <TouchableHighlight onPress={() => this._pickImage()}>
+              <TouchableHighlight onPress={this._pickImage}>
                 <Image style={styles.menuButton} source={uploadPhoto} />
               </TouchableHighlight>
             </View>
