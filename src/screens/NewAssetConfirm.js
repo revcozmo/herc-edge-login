@@ -1,134 +1,117 @@
 import React, { Component } from 'react';
 import { Platform, StyleSheet, Text, View, Image, ScrollView, TextInput, TouchableHighlight, Alert, Button } from 'react-native';
-import Title from "../components/MenuInputTitle";
-import Submit from "../components/SubmitBtn";
-import logo from "../assets/teeLabel.png";
-import params from "../assets/igvcParamsLabel.png";
-import { StackNavigator } from 'react-navigation';
-import { STATUS_BAR_HEIGHT } from '../constants';
-import BackButton from "../components/BackButton";
-
+import submit from "../components/buttons/submit.png";
+import logo from "../assets/round.png";
 import { connect } from "react-redux";
 import styles from "../assets/styles";
-import fee from "../assets/hercLogoPillar.png";
+import hercPillar from "../assets/hercLogoPillar.png";
 import { incHercId, confirmAsset } from "../actions/AssetActions"
 
 class NewAssetConfirm extends Component {
-    static navigationOptions = ({navigation}) => ({
-        headerStyle: {
-            height: Platform.OS === 'android' ? 80 + STATUS_BAR_HEIGHT : 80,
-            backgroundColor: '#021227',
-
-        },
-        headerTitle: <Image style={{
-            height: 80,
-            width: 200,
-            marginLeft: 30,
-            resizeMode: 'contain'
-        }}
-            source={logo} />,
-        headerLeft: <BackButton navigation={navigation} />
-    })
-
+    static navigationOptions = ({ navigation }) => {
+        return {
+            headerTitleStyle:
+            {
+                justifyContent: "space-around"
+            },
+            headerTitle: (
+                <View style={localStyles.headerField}>
+                    <Image
+                        style={localStyles.hercLogoHeader}
+                        source={logo}
+                    />
+                    <Text style={localStyles.registerHeaderText}>Register</Text>
+                </View>
+            )
+        }
+    }
     constructor(props) {
         super(props);
     }
     state = {};
 
     componentDidMount() {
-        console.log(this.props.hercId, 'hercid')
-
 
     }
 
 
-    _onPressSubmit(CoreProps) {
-        const { navigate } = this.props.navigation;
-        // let asset = Object.values(this.props.newAsset.coreProps);
-        let Name = this.props.Name;
-        let Url = this.props.url;
+    _onPressSubmit() {
         let hercId = this.props.hercId;
-        let newAsset = {
-            Name,
-            Url,
-            hercId,
-            Logo: this.props.Logo,
-            CoreProps
-        }
-        console.log(newAsset, 'newasset on its way to confirm');
-        this.props.incHercId(hercId);
-        console.log(hercId);
-        this.props.confirmAsset(newAsset);
-        // this.props.incHercId();
-        // console.log(this.props.hercId, 'hercid Increase?')
-
-        navigate('MenuOptions');
-        // console.log(this.state.AssetReducers.assets, 'assets after')
-    }
-
-
-    render() {
-
-        // console.log(price, 'pricey?')
-        let price = this.state.fctPrice;
-
         const { navigate } = this.props.navigation;
-        console.log(this.props.coreProps, "confirmselasset")
-        console.log(this.props.Name);
-        console.log(this.props.url)
-        let Logo = this.props.Logo;
-        let Name = this.props.Name;
-        let Url = this.props.url;
-        let hercId = this.props.hercId;
-        let newProperties = Object.values(this.props.coreProps);
-
-        console.log(newProperties, 'newprops');
-        const CoreProps = {};
-
-        for (const key of newProperties) {
-            CoreProps[key] = "";
-        }
-
-        console.log(CoreProps, 'corprops');
-        let list = newProperties.map((x, i) => {
-            return (
-
-                <View key={i} style={styles.field}>
-                    <Text style={styles.label}>{x}</Text>
-                    <Text style={styles.input}>""</Text>
-                </View>
-            )
+        let newAsset = Object.assign({}, this.props.newAsset, {
+            ...this.props.newAsset,
+            hercId
         })
 
+        this.props.incHercId(hercId);
+        this.props.confirmAsset(newAsset);
+
+        navigate('MenuOptions');
+    }
+
+    render() {
+        const { navigate } = this.props.navigation;
+        let price = this.state.fctPrice;
+        let hercId = this.props.hercId;
+        let newAsset = this.props.newAsset;
+        let Logo, Url, list;
+        let Name = newAsset.Name;
+
+        // let Name = this.props.newAsset.Name;
+        if (newAsset.Logo) {
+            Logo = (<Image style={styles.assetHeaderImage} source={{ uri: newAsset.Logo }} />);
+        } else {
+            Logo = (<Text style={styles.label}>No Image</Text>)
+        }
+
+
+        if (newAsset.hasOwnProperty('Url')) {
+            Url = (<Text style={styles.label}>{newAsset.Url}</Text>);
+        } else {
+
+            Url = (<Text style={styles.label}>No Url</Text>)
+        }
+
+        if (newAsset.hasOwnProperty('CoreProps')) {
+            list = Object.getOwnPropertyNames(newAsset.CoreProps).map((x, i) => {
+                let num = (i + 1);
+                return (
+                    <View key={i} style={localStyles.assetMetricInputField}>
+                        <Text style={localStyles.text}>Metric: {num}</Text>
+                        <Text style={localStyles.input}>{x}</Text>
+                    </View>
+                )
+            })
+        } else {
+            list = (<Text style={styles.label}>No Properties</Text>)
+        }
+
+
+
         return (
+            <View style={styles.container}>
+                <View style={styles.containerCenter}>
+                    <Text style={styles.assetHeaderLabel}>{Name}</Text>
+                    {Logo}
+                    <Text style={styles.assetHeaderLabel}>{Url}</Text>
+                    <Text style={styles.assetHeaderLabel}>HercID: {hercId}</Text>
+                    <ScrollView style={{ paddingRight: 5, alignSelf: "center", width: "100%" }}>
+                     
+                        {list}
 
-            <View style={styles.containerCenter}>
-                <ScrollView contentContainerStyle={styles.scrollView}>
-                    <View style={styles.assetFieldHeader}>
+                    </ScrollView>
 
-                        <Image style={styles.assetHeaderImage} source={{ uri: Logo }} />
-                        <Text style={styles.assetHeaderLabel}>{Name}</Text>
-                        <Text style={styles.assetHeaderLabel}>{Url}</Text>
-                        <Text style={styles.assetHeaderLabel}>HercID: {hercId}</Text>
+                    <TouchableHighlight onPress={() => this._onPressSubmit()}>
+                        <Image source={submit} style={localStyles.imageButtons} />
+                    </TouchableHighlight>
+
+                    <View style={localStyles.newAssetFeeContainer}>
+                        <Image style={localStyles.assetFeePillarLogo} source={hercPillar} />
+                        <Text style={localStyles.assetFeePrice}>10,000</Text>
                     </View>
 
-
-
-                    {list}
-
-
-                </ScrollView>
-
-                <Submit onPress={() => this._onPressSubmit(CoreProps)} />
-
-                <View style={styles.assetFee}>
-                    <Image style={styles.assetFeeLabel} source={fee} />
-                    <Text style={styles.teePrice}>10,000</Text>
                 </View>
             </View>
-
-
-
 
         )
     }
@@ -136,20 +119,125 @@ class NewAssetConfirm extends Component {
 
 
 const mapStateToProps = (state) => ({
-    Name: state.AssetReducers.newAsset.Name,
-    Logo: state.AssetReducers.newAsset.Logo,
-    url: state.AssetReducers.newAsset.Url,
-    coreProps: state.AssetReducers.newAsset.coreProps,
+    newAsset: state.AssetReducers.newAsset,
     hercId: state.AssetReducers.hercId
-    // selectedAsset: state.AssetReducers.selectedAsset
-    // newProperties: state.AssetReducers.selectedAsset.newProperties
-
-
 });
+
 const mapDispatchToProps = (dispatch) => ({
     confirmAsset: (asset) =>
         dispatch(confirmAsset(asset)),
+
     incHercId: (hercid) =>
         dispatch(incHercId(hercid))
 })
 export default connect(mapStateToProps, mapDispatchToProps)(NewAssetConfirm);
+
+
+const localStyles = StyleSheet.create({
+
+    headerField: {
+        flexDirection: "row",
+        width: 200,
+        justifyContent: "space-around",
+        alignItems: "center"
+    },
+    hercLogoHeader: {
+        height: 45,
+        width: 45,
+        borderRadius: 45 / 2,
+        resizeMode: "contain",
+        alignSelf: "center",
+        marginBottom: 3,
+    },
+    registerHeaderText: {
+        fontFamily: "dinPro",
+        height: 50,
+        fontSize: 30,
+        alignSelf: "center",
+        fontWeight: "bold",
+        color: "black",
+        textAlign: "center"
+    },
+      
+    assetMetricInputField: {
+        height: 40,
+        flexDirection: "row",
+        width: "100%",
+        borderColor: "blue",
+        justifyContent: "space-between",
+        margin: 5,
+        marginTop: 10,
+        marginBottom: 10
+
+    },
+  
+    text: {
+        color: "white",
+        alignSelf: "center",
+        fontSize: 16,
+        fontWeight: "normal",
+        margin: 5,
+        fontFamily: "dinPro"
+    },
+    input: {
+        width: "53%",
+        height: 24,
+        textAlign: "center",
+        backgroundColor: "#ffffff",
+        fontSize: 16,
+        fontWeight: "200",
+        borderColor: "blue",
+        color: "black",
+        borderWidth: 1,
+        alignSelf: "center",
+        borderRadius: 3
+    },
+    imageButtons: {
+        height: 40,
+        width: 175,
+        resizeMode: "contain",
+        alignSelf: "center",
+        margin: 7
+
+    },
+        
+    newAssetFeeContainer: {
+        height: 50,
+        width: 125,
+        flexDirection: "row",
+        justifyContent: "space-around",
+        alignItems: "center",
+        // backgroundColor: "blue"
+    },
+    assetFeePillarLogo: {
+        height: 40,
+        width: 30,
+        backgroundColor: "#091141",
+        resizeMode: "contain",
+        // marginRight: 5
+    },
+    assetFeePrice: {
+        backgroundColor: "#091141",
+        textAlign: "center",
+        fontSize: 20.2,
+        fontWeight: "400",
+        color: "white",
+        height: 30
+    },
+
+    wordsText: {
+        height: 23,
+        fontSize: 20,
+        fontWeight: "600",
+        color: "white"
+      },
+      yellowText: {
+        height: 23,
+        fontSize: 20,
+        fontWeight: "600",
+        color: "yellow"
+      }
+    
+
+
+})

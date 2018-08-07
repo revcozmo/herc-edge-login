@@ -1,56 +1,95 @@
 import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, View, Image, ScrollView, TouchableHighlight, Alert } from 'react-native';
-import Button from 'react-native-button';
-import { StackNavigator } from 'react-navigation';
-import document from '../assets/docs.png';
-import originator from "../assets/origin.png";
-import recipient from "../assets/recipient.png";
-import Submit from '../components/SubmitBtn';
+import { Platform, StyleSheet, Text, View, Image, ScrollView, TouchableHighlight, Alert, StatusBar, } from 'react-native';
+// import { DocumentPicker } from 'expo';
 import { connect } from 'react-redux';
 import styles from '../assets/styles';
 import { addDoc } from '../actions/AssetActions';
-import BackButton from "../components/BackButton";
+import newOriginator from "../components/buttons/originatorButton.png";
+import newRecipient from "../components/buttons/recipientButton.png";
+import submit from "../components/buttons/submit.png";
 
-
-// TODO: implement https://www.npmjs.com/package/react-native-document-picker
-
-
-
+import { DocumentPicker, DocumentPickerUtil } from 'react-native-document-picker';
 class DocUp extends Component {
 
   static navigationOptions = ({ navigation }) => {
     const { params } = navigation.state;
-    console.log(params, "params where's the header?");
+    let headerStyles = StyleSheet.create({
+      header__container: {
+        // borderColor: "green",
+        // borderWidth: 3,
+        display: "flex",
+        // resizeMode: "contain",
+        height: 80,
+        alignSelf: "center",
+        flex: 1,
+        alignContent: "center",
+        alignItems: "center",
+        marginTop: 40,
+        paddingBottom: 20
+
+      },
+      header__container__centeredBox: {
+        // borderColor: "purple",
+        // borderWidth: 3,
+        height: "100%",
+        alignItems: "center",
+        flexDirection: 'row'
+      },
+      header__text__box: {
+        // borderColor: "blue",
+        // borderWidth: 3,
+        height: "100%",
+        marginBottom: 5,
+        marginLeft: 12,
+
+      },
+      header__image__box: {
+        // borderColor: "yellow",
+        // borderWidth: 3,
+        height: "100%",
+        borderRadius: 100
+        // width: 50
+      },
+      assetHeaderLogo: {
+        height: 35,
+        width: 35,
+        borderRadius: 50,
+        // resizeMode: "contain",
+      },
+      headerText: {
+        fontFamily: "dinPro",
+        fontSize: 26,
+        alignSelf: "center",
+        fontWeight: "bold",
+        color: "black",
+        textAlign: "center",
+        marginTop: 2,
+        // paddingTop: 5
+      },
+    })
+
 
     return {
-      headerTitle: (
-        <View
-          style={{
-            flex: 1,
-            alignSelf: "center",
-            justifyContent: "center",
-            alignItems: "center"
-          }}
-        >
-          <TouchableHighlight
-            onPress={() => navigation.navigate("MenuOptions")}
-          >
-            <Image
-              style={{
-                height: 80,
-                width: 80,
-                alignSelf: "center",
-                borderRadius: 40,
-                resizeMode: "contain"
-              }}
-              source={{ uri: params.logo }}
-            />
-          </TouchableHighlight>
-          <Text style={styles.assetHeaderLabel}>{params.name}</Text>
+
+      headerTitle:
+        <View style={headerStyles.header__container}>
+          <View style={headerStyles.header__container__centeredBox}>
+            <View style={headerStyles.header__image__box}>
+              {/* <TouchableHighlight style={{justifyContent: "center"}} onPress={() => navigation.navigate("MenuOptions")}>
+           </TouchableHighlight> */}
+              <Image
+                style={headerStyles.assetHeaderLogo}
+                source={{ uri: params.logo }}
+              />
+            </View>
+            <View style={headerStyles.header__text__box}>
+              <Text style={headerStyles.headerText}>{params.name}</Text>
+            </View>
+          </View>
         </View>
-      )
-    };
-  };
+
+    }
+  }
   state = {
 
     name: null,
@@ -77,64 +116,67 @@ class DocUp extends Component {
   };
 
 
-  _pickDocument = async () => {
-
-    let docResult = await DocumentPicker.getDocumentAsync({
-      //MIME type 
-    });
-    alert(docResult.uri);
-    console.log(docResult, "docPickResult");
-
-
-    console.log(docResult.name, "docResultName");
-
-    if (!docResult.cancelled) {
+  _pickDocument = () => {
+    console.log("picking Doc")
+    DocumentPicker.show({
+      filetype: [DocumentPickerUtil.allFiles()],
+    }, (error, res) => {
+      if (error) Alert.alert("Something Went Wrong! Error: " + error);
+      console.log(res);
+      // Android
       this.setState({
-
-        name: docResult.name,
-        uri: docResult.uri,
-        size: docResult.size
-
+        uri: res.uri,
+        name: res.fileName,
+        size: res.fileSize
       });
+    });
+  }
+  // iPad
+  // const {pageX, pageY} = event.nativeEvent;
 
-    };
-  };
-
+  // DocumentPicker.show({
+  //   top: pageY,
+  //   left: pageX,
+  //   filetype: ['public.image'],
+  // }, (error, url) => {
+  //   alert(url);
+  // });
   render() {
-    console.log('docup')
     const { navigate } = this.props.navigation;
-    // let image = this.props.asset.Images ? this.props.asset.Images[0] : null;
-    let locationImage = this.props.locationImage === 'recipient' ? recipient : originator;
-    // let logo = this.props.transInfo.logo;
-    // let asset = this.props.transInfo;
-    // let hercId = this.props.hercId;
+
+    let locationImage = this.props.transInfo.location === 'recipient' ? newRecipient : newOriginator;
 
     return (
       <View style={styles.container}>
+        <View style={styles.containerCenter}>
+          <View style={{ margin: 25 }}></View>
+          <Image source={locationImage} style={[localStyles.assetLocationLabel, { marginTop: 5, marginBottom: 50 }]} />
 
-        <Image style={[styles.assetLocation,{marginTop: 5, marginBottom: 50}]} source={locationImage} />
+          <TouchableHighlight onPress={() => this._pickDocument()}>
+            <View style={localStyles.menuItemField}>
+              <View style={localStyles.menuItemField__textBox}>
+                <Text style={localStyles.assetLabel}>Upload Document</Text>
+              </View>
+            </View>
+          </TouchableHighlight>
 
-        <Button
+          {this.state && <View style={localStyles.docContainer}>
+            <Text style={localStyles.transRevTime}>Documents</Text>
+            <Text style={localStyles.text}>{this.state.name}</Text>
+            <Text style={localStyles.text}>{(this.state.size / 1024).toFixed(3)} kb</Text>
+          </View>
+          }
 
-          style={styles.picButton}
-
-          onPress={() => this._pickDocument()}>
-          Upload Document
-      </Button>
-        <Text style={styles.label}>
-          {this.state.name}
-        </Text>
-
-
-        <Submit onPress={this._onSubmit} />
-
+          <TouchableHighlight onPress={() => this._onSubmit()}>
+            <Image source={submit} style={localStyles.submitButton} />
+          </TouchableHighlight>
+        </View>
       </View>
     )
   }
 }
 const mapStateToProps = (state) => ({
   transInfo: state.AssetReducers.trans.header,
-  locationImage: state.AssetReducers.trans.data.tXLocation,
   logo: state.AssetReducers.selectedAsset.Logo,
   name: state.AssetReducers.selectedAsset.Name
 
@@ -145,4 +187,72 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(addDoc(doc)),
 
 })
+
+const localStyles = StyleSheet.create({
+  submitButton: {
+    height: 40,
+    width: 175,
+    resizeMode: "contain",
+    marginTop: 80,
+    alignSelf: "center"
+  },
+  assetLocationLabel: {
+    // borderColor: "yellow",
+    // borderWidth: 3,
+    height: 30,
+    width: 150,
+    resizeMode: "contain",
+    alignSelf: "center",
+    marginTop: 80
+  },
+  menuItemField: {
+    display: "flex",
+    flexDirection: "row",
+    width: 200,
+    height: 40,
+    backgroundColor: 'white',
+    borderRadius: 2,
+    alignItems: "center",
+    alignContent: "center",
+    justifyContent: "center",
+    margin: 10,
+    paddingLeft: 3
+  },
+  assetLabel: {
+    color: "black",
+    alignSelf: "center",
+    textAlign: "center",
+    fontSize: 18,
+    fontWeight: "normal",
+    margin: 2,
+    fontFamily: "dinPro"
+  },
+  menuItemField__textBox: {
+    // borderColor: "orange",
+    // borderWidth: 3,
+    flex: 1
+  },
+  docContainer: {
+    // backgroundColor: "blue",
+    width: "100%",
+    height: 75,
+  },
+  text: {
+    color: "white",
+    alignSelf: "center",
+    fontSize: 16,
+    fontWeight: "normal",
+    margin: 2,
+    fontFamily: "dinPro"
+  },
+  transRevTime: {
+    color: "#f3c736",
+    fontFamily: "dinPro",
+    textAlign: "center",
+    fontSize: 20,
+    fontWeight: "bold"
+  },
+
+
+});
 export default connect(mapStateToProps, mapDispatchToProps)(DocUp);

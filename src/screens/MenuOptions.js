@@ -1,108 +1,119 @@
-import React, { Component } from 'react';
-import { StyleSheet, Text, TextInput, View, Image, TouchableHighlight, Alert } from 'react-native';
-// import WelcomeHeader from "../components/WelcomeHeader";
-import menuOpts from "../components/buttons/menuOptions.png";
-import { StackNavigator } from 'react-navigation';
-// import Title from "../components/MenuInputTitle";
-import logo from "../assets/hercLogoBreak.png";
-import home from "../components/buttons/homeBtn.png";
-import hiprBtn from "../components/buttons/hiprBtn.png";
-import igvc from "../components/buttons/igvc.png";
-import verifyBtn from "../components/buttons/verifyBtn.png";
-import digiView from "../components/buttons/digitalViewBtn.png";
-import blockScan from "../components/buttons/blockScannerBtn.png";
-import settings from "../components/buttons/settingsBtn.png";
-import wallet from "../components/buttons/walletBtn.png";
-import styles from "../assets/styles";
-import { connect } from 'react-redux';
-import { listAssets, getHercId, fetchAssets } from '../actions/AssetActions';
-import BackButton from '../components/BackButton';
+import React, { Component } from "react";
+import {
+    StyleSheet,
+    Text,
+    TextInput,
+    View,
+    Image,
+    TouchableHighlight,
+    StatusBar,
+    Alert,
+    YellowBox
+} from "react-native";
+import { StackNavigator } from "react-navigation";
+import hiprBtn from "../components/buttons/validate.png";
+// import create from "../components/buttons/create.png";
+import supplyChain from "../components/buttons/supplyChainButton.png";
+import digiView from "../components/buttons/digitalViewerButton.png";
+import track from "../components/buttons/trackButton.png";
+import wallet from "../components/buttons/walletButton.png";
+import settings from "../components/buttons/settingsButton.png";
+import registerAsset from "../components/buttons/registerAssetButton.png"
+import profileButton from "../components/buttons/profileButton.png"
 
+import styles from "../assets/styles";
+import { connect } from "react-redux";
+import { getHercId, fetchAssets } from "../actions/AssetActions";
+import Wallet from "./Wallet";
+YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTImageLoader', 'Setting a timer for a long period of time']);
 
 class MenuOptions extends Component {
+    constructor(props) {
+        super(props);
+    }
 
-  constructor(props) {
-    super(props);
+    componentDidMount() {
+        this.props.getHercId();
+    }
 
-  }
+    render() {
+        const { navigate } = this.props.navigation;
 
-  componentDidMount() {
-    this.props.getHercId();
+        return (
+            <View style={styles.container}>
+                <View style={[styles.containerCenter, { paddingTop: 25 }]}>
 
-    console.log('working it');
+                    <View style={localStyles.touchableHighlight}>
+                        <TouchableHighlight onPress={() => navigate("Create")}>
+                            <Image style={localStyles.menuButton}  source={registerAsset} />
+                        </TouchableHighlight>
+                    </View>
+                    <TouchableHighlight style={localStyles.touchableHighlight} onPress={() => navigate("Splash1")}>
+                        <Image style={localStyles.menuButton} source={supplyChain} />
+                    </TouchableHighlight>
 
-  }
+                    {/* <TouchableHighlight style={localStyles.touchableHighlight} onPress={() => navigate("PreDigi")}>
+                        <Image style={localStyles.menuButton} source={digiView} />
+                    </TouchableHighlight> */}
 
-  render() {
+                    <TouchableHighlight style={localStyles.touchableHighlight}
+                        onPress={() => navigate("TransAssetList", { web3: this.web3 })}>
+                        <Image style={localStyles.menuButton} source={track} />
+                    </TouchableHighlight>
 
-    const { navigate } = this.props.navigation;
-
-    return (
-      <View style={styles.container}>
-
-        {/* <Image source={logo} style={styles.menuLogo}/> */}
-        <Image source={menuOpts} style={styles.menuInputTitle} />
-
-        <View style={styles.menu}>
-          <TouchableHighlight onPress={() => navigate('PreHipr')}>
-            <Image
-              style={styles.button}
-              source={hiprBtn}
-            />
-          </TouchableHighlight>
-
-          <TouchableHighlight onPress={() => navigate('Create')}>
-            <Image
-              style={styles.button}
-              source={igvc}
-            />
-          </TouchableHighlight>
-
-          <TouchableHighlight onPress={() => navigate('Splash1')}>
-            <Image
-              style={styles.button}
-              source={verifyBtn}
-            />
-          </TouchableHighlight>
-
-          <TouchableHighlight onPress={() => navigate('PreDigi')}>
-            <Image
-              style={styles.button}
-              source={digiView}
-            />
-          </TouchableHighlight>
-
-          <TouchableHighlight onPress={() => navigate('TransAssetList', { web3: this.web3 })}>
-            <Image
-              style={styles.button}
-              source={blockScan}
-            />
-          </TouchableHighlight>
-
-          {/* <TouchableHighlight>
-            <Image
-              style={styles.button}
-              source={settings}
-            />
-          </TouchableHighlight>  */}
-
-        </View>
-        <Text style={{ color: '#f3c736', alignSelf: 'baseline', fontSize: 8 }}>
-          V.0.2.5
-</Text>
-      </View>
+                    <TouchableHighlight style={localStyles.touchableHighlight} onPress={() => navigate("PreHipr")}>
+                        <Image style={localStyles.menuButton} source={hiprBtn} />
+                    </TouchableHighlight>
 
 
-    )
-  };
+                    {/* <TouchableHighlight style={localStyles.touchableHighlight} onPress={() => navigate("Wallet")}>
+                        <Image style={localStyles.menuButton} source={wallet} />
+                    </TouchableHighlight>
+
+                    <TouchableHighlight style={localStyles.touchableHighlight} onPress={() => navigate("Profile")}>
+                        <Image style={localStyles.menuButton} source={profileButton} />
+                    </TouchableHighlight> */}
+
+                    {/* <TouchableHighlight style={localStyles.touchableHighlight} onPress={() => navigate("Settings")}>
+                        <Image style={localStyles.menuButton} source={settings} />
+                    </TouchableHighlight> */}
+
+                    <Text style={{ color: "#f3c736", alignSelf: "flex-end", fontSize: 8 }}>
+                        V.0.2.9
+                    </Text>
+                </View>
+            </View>
+        );
+    }
 }
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
+    fetchAssets: () => dispatch(fetchAssets()),
+    getHercId: () => dispatch(getHercId())
+    //  fetchData: () => dispatch(fetchData())
+});
+export default connect(
+    null,
+    mapDispatchToProps
+)(MenuOptions);
 
-  fetchAssets: () => dispatch(fetchAssets()),
-  getHercId: () => dispatch(getHercId()),
-  //  fetchData: () => dispatch(fetchData())
+const localStyles = StyleSheet.create({
+    touchableHighlight: {
+        width: 200,
+        height: 60,
+        marginTop: 5,
+        marginBottom: 5,
+        // borderColor: "red",
+        // borderWidth: 3,
+        justifyContent: "center",
+        alignItems: "center"
+    },
+    menuButton: {
 
+       height: 60,
+       width: 200,
+        resizeMode: "contain",
+        borderRadius: 2,
+    },
 
 })
-export default connect(null, mapDispatchToProps)(MenuOptions);

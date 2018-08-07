@@ -1,289 +1,477 @@
-import React, { Component } from 'react';
-import { ScrollView, StyleSheet, Text, TextInput, Platform, View, Image, TouchableHighlight, Alert} from 'react-native';
-import logo from "../assets/teeLabel.png";
-import params from "../assets/igvcParamsLabel.png";
+import React, { Component } from "react";
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  Dimensions,
+  View,
+  Image,
+  TouchableHighlight,
+  Alert
+} from "react-native";
+
 import { connect } from "react-redux";
 import styles from "../assets/styles";
-import Button from 'react-native-button';
-import BackButton from "../components/BackButton";
+import Button from "react-native-button";
+import logo from "../assets/round.png";
 import { addAsset, getHercId } from "../actions/AssetActions";
-// import { ImagePicker } from 'expo';
-import next from "../assets/nextLabel.png";
-import { STATUS_BAR_HEIGHT } from '../constants';
+// import { FileSystem, Camera, Permissions, ImagePicker } from "expo";
+import next from "../components/buttons/nextButton.png";
+import takePhoto from "../components/buttons/takePhoto.png";
+import uploadPhoto from "../components/buttons/uploadImage.png";
+
+import { STATUS_BAR_HEIGHT } from "../constants";
+
+var ImagePicker = require('react-native-image-picker');
+//// Need to replace the camera functionality
 
 
 class Tee extends Component {
-  static navigationOptions = ({navigation}) => ({
-    // headerStyle: {
-    //   height: Platform.OS === 'android' ? 80 + STATUS_BAR_HEIGHT : 80,
-    //   backgroundColor: '#021227',
-
-    // },
-    headerTitle: <Image style={{
-      height: 80,
-      width: 200,
-      marginLeft: 20,
-      resizeMode: 'contain'
-    }}
-      source={logo} />
-
+  static navigationOptions = ({ navigation }) => {
+    
+    let headerStyles = StyleSheet.create({
+      header__container: {
+        // borderColor: "green",
+        // borderWidth: 3,
+        display: "flex",
+        // resizeMode: "contain",
+        height: 80,
+        alignSelf: "center",
+        flex: 1,
+        alignContent: "center",
+        alignItems: "center",
+        marginTop: 40,
+        paddingBottom: 20
+        
+      },
+      header__container__centeredBox: {
+        // borderColor: "purple",
+        // borderWidth: 3,
+        height: "100%",
+        alignItems: "center",
+        flexDirection: 'row'
+      },
+      header__text__box: {
+        // borderColor: "blue",
+        // borderWidth: 3,
+        height: "100%",
+        marginBottom: 5,
+        marginLeft: 12,
+        
+      },
+      header__image__box: {
+        // borderColor: "yellow",
+        // borderWidth: 3,
+        height: "100%",
+        borderRadius: 100
+        // width: 50
+      },
+      assetHeaderLogo: {
+        height: 35,
+        width: 35,
+        borderRadius: 50,
+        // resizeMode: "contain",
+      },
+      headerText: {
+        fontFamily: "dinPro",
+        fontSize: 26,
+        alignSelf: "center",
+        fontWeight: "bold",
+        color: "black",
+        textAlign: "center",
+        marginTop: 2,
+        // paddingTop: 5
+      },
     })
+    return {
+      headerTitle: (
+        
+        <View style={headerStyles.header__container}>
+          <View style={headerStyles.header__container__centeredBox}>
+            <View style={headerStyles.header__image__box}>
+              <TouchableHighlight style={{ justifyContent: "center" }} onPress={() => navigation.navigate("MenuOptions")}>
+                <Image
+                  style={headerStyles.assetHeaderLogo}
+                  source={logo}
+                />
+              </TouchableHighlight>
+            </View>
+            <View style={headerStyles.header__text__box}>
+              <Text style={headerStyles.headerText}>Register</Text>
+            </View>
+          </View>
+        </View>
 
+)
+    }
+  }
+  
+  
   constructor(props) {
     super(props);
+    
+    this.setLogo = this.setLogo.bind(this); // method to set the log from the camera component 
+    
     this.state = {
-      Name: "",
       Logo: null,
-      coreProps:{}
-
     };
   }
-
-  componentDidMount(){
-    // this.props.getHercId();
-    // console.log('gettingid hopefully');
+  
+  componentDidMount() {
   }
-  _pickImage = async () => {
 
-    let logo = await ImagePicker.launchImageLibraryAsync({ allowsEditing: false, quality: .8, base64: true });
-    alert(logo.uri);
-    console.log(logo, "docPickResult");
+  setLogo = (imgObj) => {
+    console.log("trying to set the Logog", imgObj)
+    this.setState({
+      Logo: imgObj.string
+    })
 
+  }
 
-    console.log(logo.name, "logoName");
+  _takePic = () => {
+    const { navigate } = this.props.navigation;
+    console.log("takingpic")
+    navigate('Camera',{ setPic: this.setLogo})
 
-    if (!logo.cancelled) {
-      this.setState({
-        Logo: "data:image/png;base64," + logo.base64
+  }
+  _pickImage = () => {
+    console.log("picking image")
+   
+    ImagePicker.launchImageLibrary({}, (response) => {
+      console.log('Response = ', response);
+     
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      }
+      else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      }
+      else if (response.customButton) {
+        console.log('User tapped custom button: ', response.customButton);
+      }
+      else {
+        let source = { uri: response.uri };
+     
+        // You can also display the image using data:
+        // let source = { uri: 'data:image/jpeg;base64,' + response.data };
+     
+        this.setState({
+          Logo: "data:image/jpg;base64," + response.data
+        });
+      }
+    });
+  }
+  // _pickImage = async () => {
+  //   let logo = await ImagePicker.launchImageLibraryAsync({
+  //     allowsEditing: false,
+  //     aspect: [4, 4],
+  //     base64: true
+  //   });
+  //   alert(logo.uri);
 
+  //   console.log(logo.uri, "logouri");
 
-      });
-      console.log('image in state');
-    }
-  };
+  //   if (!logo.cancelled) {
+  //     this.setState({
+  //       Logo: "data:image/png;base64," + logo.base64
+  //     });
+  //     console.log("image in state");
+  //   }
+  // };
+
+  
 
 
   _onSubmit = () => {
     const { navigate } = this.props.navigation;
-    console.log(this.state, "thisstate confimrmtee");
-    let newAsset =  Object.assign({},this.state,{
-      ...this.state,
-      // hercId: this.props.getHercId
-    })
-    console.log(newAsset, "newasset");
 
-    this.props.addAsset(newAsset);
-    navigate('NewAssetConfirm');
+
+    if (!this.state.Name) {
+      Alert.alert("Please Add A Name");
+    }
+
+    if (this.state.CoreProps) {
+      let CoreProps = {};
+      Object.values(this.state.CoreProps).map(x => {
+        CoreProps[x] = "";
+      });
+
+      let newAsset = Object.assign({}, {
+        ...this.state,
+        CoreProps
+      });
+
+      if (this.state.Name && this.state.CoreProps) {
+        this.props.addAsset(newAsset);
+        navigate("NewAssetConfirm");
+      }
+    } else {
+      Alert.alert("No Properties");
+
+    }
+
   }
-  render() {
-    let { Logo } = this.state;
 
+  render() {
+    let Logo = this.state.Logo || null;
+
+    if(this.state.Logo){
+      console.log("logog is here")
+    }
 
     return (
-
       <View style={styles.container}>
-        <Image style={styles.teeLabel} source={params} />
-        <ScrollView contentContainerStyle={{ alignSelf: 'center' }}>
-          <View style={styles.field}>
-            <Text style={styles.label}>Asset Name</Text>
-            <TextInput
-              style={styles.input}
-              onChangeText={Name => this.setState({ Name })}
-              placeholder="Name"
-            />
+        <View style={styles.containerCenter}>
+          <View style={{ flexDirection: 'row', marginBottom: 10, width: '90%', justifyContent: 'center' }}>
+            <Text style={localStyles.wordsText}>Enter New </Text>
+            <Text style={localStyles.yellowText}>IGVC</Text>
+            <Text style={localStyles.wordsText}> Params!</Text>
           </View>
-          <View style={styles.field}>
-            <Text style={styles.label}>Asset URL</Text>
-            <TextInput
-              style={styles.input}
-              onChangeText={Url => this.setState({ Url })}
-              placeholder="URL"
-            />
-          </View>
-          <View style={styles.field}>
-            <Text style={styles.label}>Metric 1</Text>
-            <TextInput
-              style={styles.input}
-              onChangeText={metric1 => this.setState({ coreProps: { metric1 } })}
-              placeholder="metric1"
-            />
-          </View>
-          <View style={styles.field}>
-            <Text style={styles.label}>Metric 2</Text>
-            <TextInput
-              style={styles.input}
-              onChangeText={metric2 => this.setState({ coreProps: { ...this.state.coreProps, metric2 } })}
-              placeholder="metric2"
-            />
-          </View>
-          <View style={styles.field}>
-            <Text style={styles.label}>Metric 3</Text>
-            <TextInput
-              style={styles.input}
-              onChangeText={metric3 => this.setState({ coreProps: { ...this.state.coreProps, metric3 } })}
-              placeholder="metric3"
-            />
-          </View>
-          <View style={styles.field}>
-            <Text style={styles.label}>Metric 4</Text>
-            <TextInput
-              style={styles.input}
-              onChangeText={metric4 => this.setState({ coreProps: { ...this.state.coreProps, metric4 } })}
-              placeholder="metric4"
-            />
-          </View>
-          <View style={styles.field}>
-            <Text style={styles.label}>Metric 5</Text>
-            <TextInput
-              style={styles.input}
-              onChangeText={metric5 => this.setState({ coreProps: { ...this.state.coreProps, metric5 } })}
-              placeholder="metric5"
-            />
-          </View>
-          <View style={styles.field}>
-            <Text style={styles.label}>Metric 6</Text>
-            <TextInput
-              style={styles.input}
-              onChangeText={metric6 => this.setState({ coreProps: { ...this.state.coreProps, metric6 } })}
-              placeholder="metric5"
-            />
-          </View>
-          <View style={styles.field}>
-            <Text style={styles.label}>Metric 7</Text>
-            <TextInput
-              style={styles.input}
-              onChangeText={metric7 => this.setState({ coreProps: { ...this.state.coreProps, metric7 } })}
-              placeholder="metric7"
-            />
-          </View>
-          <View style={styles.field}>
-            <Text style={styles.label}>Metric 8</Text>
-            <TextInput
-              style={styles.input}
-              onChangeText={metric8 => this.setState({ coreProps: { ...this.state.coreProps, metric8 } })}
-              placeholder="metric8"
-            />
-          </View>
+          <ScrollView style={{ alignSelf: "center", width: "100%", paddingRight: 7 }}>
+            <View style={localStyles.assetMetricInputField}>
+              <Text style={localStyles.text}>Asset Name</Text>
+              <TextInput
+                autoCorrect={false}
+                spellCheck={false}
+                underlineColorAndroid='transparent'
+                style={localStyles.input}
+                onChangeText={Name => this.setState({ Name })}
+                // underlineColorAndroid="transparent"
+                placeholder="Asset Name"
+              />
+            </View>
+            <View style={localStyles.assetMetricInputField}>
+              <Text style={localStyles.text}>Asset URL</Text>
+              <TextInput
+                style={localStyles.input}
+                onChangeText={Url => this.setState({ Url })}
+                placeholder="URL"
+              />
+            </View>
+            <View style={localStyles.assetMetricInputField}>
+              <Text style={localStyles.text}>Metric 1</Text>
+              <TextInput
+                style={localStyles.input}
+                onChangeText={metric1 =>
+                  this.setState({
+                    CoreProps: { ...this.state.CoreProps, metric1 }
+                  })
+                }
+                placeholder="metric1"
+              />
+            </View>
+            <View style={localStyles.assetMetricInputField}>
+              <Text style={localStyles.text}>Metric 2</Text>
+              <TextInput
+                style={localStyles.input}
+                onChangeText={metric2 =>
+                  this.setState({
+                    CoreProps: { ...this.state.CoreProps, metric2 }
+                  })
+                }
+                placeholder="metric2"
+              />
+            </View>
+            <View style={localStyles.assetMetricInputField}>
+              <Text style={localStyles.text}>Metric 3</Text>
+              <TextInput
+                style={localStyles.input}
+                onChangeText={metric3 =>
+                  this.setState({
+                    CoreProps: { ...this.state.CoreProps, metric3 }
+                  })
+                }
+                placeholder="metric3"
+              />
+            </View>
+            <View style={localStyles.assetMetricInputField}>
+              <Text style={localStyles.text}>Metric 4</Text>
+              <TextInput
+                style={localStyles.input}
+                onChangeText={metric4 =>
+                  this.setState({
+                    CoreProps: { ...this.state.CoreProps, metric4 }
+                  })
+                }
+                placeholder="metric4"
+              />
+            </View>
+            <View style={localStyles.assetMetricInputField}>
+              <Text style={localStyles.text}>Metric 5</Text>
+              <TextInput
+                style={localStyles.input}
+                onChangeText={metric5 =>
+                  this.setState({
+                    CoreProps: { ...this.state.CoreProps, metric5 }
+                  })
+                }
+                placeholder="metric5"
+              />
+            </View>
+            <View style={localStyles.assetMetricInputField}>
+              <Text style={localStyles.text}>Metric 6</Text>
+              <TextInput
+                style={localStyles.input}
+                onChangeText={metric6 =>
+                  this.setState({
+                    CoreProps: { ...this.state.CoreProps, metric6 }
+                  })
+                }
+                placeholder="metric6"
+              />
+            </View>
+            <View style={localStyles.assetMetricInputField}>
+              <Text style={localStyles.text}>Metric 7</Text>
+              <TextInput
+                style={localStyles.input}
+                onChangeText={metric7 =>
+                  this.setState({
+                    CoreProps: { ...this.state.CoreProps, metric7 }
+                  })
+                }
+                placeholder="metric7"
+              />
+            </View>
+            <View style={localStyles.assetMetricInputField}>
+              <Text style={localStyles.text}>Metric 8</Text>
+              <TextInput
+                style={localStyles.input}
+                onChangeText={metric8 =>
+                  this.setState({
+                    CoreProps: { ...this.state.CoreProps, metric8 }
+                  })
+                }
+                placeholder="metric8"
+              />
+            </View>
 
-          {Logo &&
-            <Image source={{ uri: Logo }} style={{ width: 100, height: 100, margin: 10, alignSelf: 'center' }} />
-          }
 
-            <Button
-              // title="Upload Image"
-              style={styles.picButton}
+            {Logo && (
+              <Image
+                source={{ uri: Logo }}
+                style={{
+                  width: 100,
+                  height: 100,
+                  margin: 10,
+                  alignSelf: "center"
+                }}
+              />
+            )}
 
-              onPress={() => this._pickImage()}>
-              Upload Image
-        </Button>
-        </ScrollView>
+            <View style={localStyles.imageButtonContainer}>
+              <TouchableHighlight onPress={this._takePic}>
+                <Image style={styles.menuButton} source={takePhoto} />
+              </TouchableHighlight>
+              
+              <TouchableHighlight onPress={this._pickImage}>
+                <Image style={styles.menuButton} source={uploadPhoto} />
+              </TouchableHighlight>
+            </View>
+          </ScrollView>
 
-        <TouchableHighlight onPress={this._onSubmit}>
-          <Image style={styles.button} source={next} />
-        </TouchableHighlight>
+          <TouchableHighlight onPress={() => this._onSubmit()}>
+            <Image style={localStyles.nextButtonContainer} source={next} />
+          </TouchableHighlight>
+        </View>
       </View>
-
-
-    )
-  };
+    );
+  }
 }
 
-const mapStateToProps = (state) => ({
-  newAsset: state.AssetReducers.newAsset,
+const mapStateToProps = state => ({
+  // newAsset: state.AssetReducers.newAsset,
   hercId: state.AssetReducers.hercId
   // newProperties: state.AssetReducers.selectedAsset.newProperties
-
-
 });
-const mapDispatchToProps = (dispatch) => ({
-  addAsset: (newAsset) => dispatch(addAsset(newAsset)),
-    getHercId: () => dispatch(getHercId())
+const mapDispatchToProps = dispatch => ({
+  addAsset: newAsset => dispatch(addAsset(newAsset)),
+  getHercId: () => dispatch(getHercId())
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Tee);
+
+const localStyles = StyleSheet.create({
+
+
+  assetMetricInputField: {
+    height: 40,
+    flexDirection: "row",
+    width: "100%",
+    borderColor: "blue",
+    justifyContent: "space-between",
+    margin: 5,
+    marginTop: 10,
+    marginBottom: 10
+
+  },
+  text: {
+    color: "white",
+    alignSelf: "center",
+    fontSize: 16,
+    fontWeight: "normal",
+    margin: 5,
+    fontFamily: "dinPro"
+  },
+  input: {
+    width: "53%",
+    height: 36,
+    textAlign: "center",
+    backgroundColor: "#ffffff",
+
+    // margin: .5,
+    fontSize: 15,
+    fontWeight: "200",
+    borderColor: "blue",
+    color: "black",
+    borderWidth: 1,
+    alignSelf: "center",
+    borderRadius: 3
+  },
+
+  nextButtonContainer: {
+    height: 40,
+    width: 150,
+    margin: 10,
+    resizeMode: "contain"
+
+  },
+  imageButtonContainer: {
+    justifyContent: "center",
+    marginTop: 10,
+    marginBottom: 15,
+    // backgroundColor: 'blue',
+    alignItems: "center"
+  },
+  wordsText: {
+    height: 23,
+    fontSize: 20,
+    fontWeight: "600",
+    color: "white"
+  },
+  yellowText: {
+    height: 23,
+    fontSize: 20,
+    fontWeight: "600",
+    color: "yellow"
+  },
+  preview: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    alignItems: 'center'
+  },
+  capture: {
+    flex: 0,
+    backgroundColor: '#fff',
+    borderRadius: 5,
+    padding: 15,
+    paddingHorizontal: 20,
+    alignSelf: 'center',
+    margin: 20
+  }
+
 
 })
-
-export default connect(mapStateToProps, mapDispatchToProps)(Tee);
-
-// // const styles = StyleSheet.create({
-// //     container: {
-// //       flex: 1,
-// //       paddingTop: 30,
-// //       // width: "100%",
-// //       backgroundColor: '#02182d',
-// //       // backgroundColor: '#fff',
-// //       alignItems: 'center',
-// //       justifyContent: 'space-between',
-// //     },
-// //     header: {
-// //       height: "27%",
-// //       width: 360,
-// //       backgroundColor: '#02182d',
-// //       alignSelf: 'center',
-// //       alignItems: 'center',
-// //       // margin: 5
-
-
-// //     },
-// //     menuLogo: {
-// //         justifyContent: "center",
-// //         alignItems: "center",
-// //         height: 120,
-// //         width: 200,
-// //         resizeMode: "contain",
-// //         backgroundColor: '#02182d',
-// //       },
-// //       label: {
-// //         height: 50,
-// //         width: '80%',
-// //         resizeMode: 'contain'
-// //       },
-// //     legendInput: {
-// //       // alignSelf: "center",
-// //       padding: 5,
-// //       width: 330,
-// //       height: 90,
-// //       // alignItems: 'center',
-// //       margin: 1,
-// //       marginBottom: 5,
-// //       backgroundColor: "#14283f",
-// //       justifyContent:"space-between",
-
-// //       borderRadius: 4
-// //       },
-// //     input:{
-// //       backgroundColor: '#14283f',
-// //       width: 200,
-// //       height:50,
-// //       textAlign: "center",
-// //       color: "white",
-// //       alignSelf: "center",
-// //       fontSize: 20.2,
-// //       fontWeight: "600"
-// //     },
-// //     icon: {
-// //         height: 30,
-// //         width: 80,
-// //         alignSelf:"center"
-// //     },
-// //     bigButton: {
-
-// //       backgroundColor: "#14283f",
-// //       height: 80,
-// //       width: 350,
-// //       justifyContent:"center",
-// //       alignItems: "center",
-// //       marginBottom: 10
-// //     },
-// //     inputLabel: {
-// //       textAlign: 'right',
-// //       alignSelf: 'flex-end',
-// //       justifyContent: 'flex-end',
-// //       alignItems: 'flex-end',
-// //       color:'white',
-// //       height: 20,
-// //       width: 120
-// //     },
-// //     button: {
-// //       height: 70,
-// //       width: 120
-// //     }
-// //     })

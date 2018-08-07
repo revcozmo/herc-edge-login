@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import Swiper from 'react-native-deck-swiper';
 import { Image, StyleSheet, Text, View } from 'react-native';
 import Button from 'react-native-button';
-import originator from "../assets/origin.png";
-import recipient from "../assets/recipient.png";
+import originator from "./buttons/originatorButton.png";
+import recipient from "./buttons/recipientButton.png";
 
 // import styles from '../assets/styles';
 export default class TxSwiper extends Component {
@@ -21,12 +21,18 @@ export default class TxSwiper extends Component {
   renderCard = card => {
 
     let data = card.data;
-    let locationImage;
-    let dTime;
-    let ediT;
-    let docNum, docName, docs;
-    let imgNum, imgName, images;
-    let list;
+    let locationImage,
+      dTime,
+      price,
+      ediT,
+      docName,
+      docs,
+      imgNum,
+      imgName,
+      images,
+      list;
+      
+
     data.hasOwnProperty('tXLocation') ?
       locationImage = data.tXLocation === 'recipient' ? recipient : originator : "";
 
@@ -35,7 +41,7 @@ export default class TxSwiper extends Component {
     if (data.hasOwnProperty('ediT')) {
 
 
-      ediT = (
+     ediT = (
 
         <View style={{ height: 30, width: '70%' }}>
           <Text style={styles.text}>{data.ediT.name}:</Text>
@@ -52,7 +58,7 @@ export default class TxSwiper extends Component {
         return (
           <View key={i} style={styles.transDocField}>
             <Text style={styles.text}>{x.name}</Text>
-            <Text style={styles.text}>{x.size/1024}kb</Text>
+            <Text style={styles.text}>{(x.size / 1024).toFixed(4)} kb</Text>
 
           </View>
         )
@@ -63,9 +69,9 @@ export default class TxSwiper extends Component {
       imgNum = data.images.length
       images = data.images.map((x, i) => {
         return (
-          <View key={i} style={styles.imgView}>
-            <Image style={{ height: 65, width: 65, resizeMode: 'contain' }} source={{ uri: x }} />
-
+          <View key={i} style={styles.imgContainer}>
+            <Image style={styles.image} source={{ uri: x.image }} />
+            <Text style={styles.text}>{(x.size / 1024).toFixed(4)} kb</Text>
           </View>
         )
       })
@@ -85,21 +91,28 @@ export default class TxSwiper extends Component {
       })
     }
 
+    if (data.hasOwnProperty('price')) {
+      price = <View style={styles.transPropField}>
+        <Text style={styles.transRevName}>Price:</Text>
+        <Text style={styles.revPropVal}>{data.price.toFixed(8)}</Text>
+      </View>
 
+    }
 
 
     return (
       <View key={card.key} style={styles.card}>
-        <Image style={{ height: 40, width: 250, resizeMode: 'contain' }} source={locationImage} />
+        <Image style={styles.assetLocationLabel} source={locationImage} />
         {dTime}
         <View style={styles.transPropField}>
           <Text style={styles.transRevName}>Herc ID:</Text>
           <Text style={styles.revPropVal}>{this.props.hercId}</Text>
         </View>
-
+        {ediT}
         {docs}
         {images}
         {list}
+        {price}
       </View>
     )
   };
@@ -253,6 +266,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     backgroundColor: '#091141',
     alignSelf: 'center',
+    alignContent: "center",
     // left: 0,
     top: -2,
     alignItems: 'center',
@@ -267,10 +281,25 @@ const styles = StyleSheet.create({
     // width: 50
   },
   image: {
-    resizeMode: 'contain',
-    height: 50,
-    width: 50,
-    borderRadius: 25,
+    resizeMode: 'cover',
+    height: 100,
+    width: 100,
+    // borderRadius: 50 / 2,
+  },
+  imgcontainer: {
+    flex: 1,
+    backgroundColor: "blue",
+
+    justifyContent: "center",
+    margin: 5
+  },
+  assetLocationLabel: {
+    height: 30,
+    width: 150,
+    resizeMode: "contain",
+    marginTop: 10,
+    alignSelf: "center"
+    // marginRight: 10
   },
   done: {
     textAlign: 'center',
@@ -286,12 +315,12 @@ const styles = StyleSheet.create({
     fontFamily: 'dinPro',
   },
   transDocField: {
-    
-      height: 45,
+
+    height: 45,
     width: '100%',
     // flexDirection: "row",
     justifyContent: "space-around",
-    
+
     padding: 2,
     margin: 2,
     // textAlign:'center',
@@ -325,18 +354,17 @@ const styles = StyleSheet.create({
     // textAlign: 'right'
   },
   transPropField: {
-    height: 30,
-    width: '70%',
+    height: 20,
+    width: 225,
     flexDirection: "row",
     justifyContent: "space-between",
-    // textAlign: "left",
+    alignItems: "center",
     padding: 2,
     margin: 2,
     // textAlign:'center',
     // textAlignVertical: 'center',
-    // backgroundColor: '#021227',
-    alignSelf: 'center',
-    borderColor: '#F3c736',
+    backgroundColor: "#021227",
+    alignSelf: "center"
   },
   textView: {
     flexDirection: 'row',

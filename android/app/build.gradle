@@ -97,7 +97,7 @@ android {
     //compileSdkVersion 27
     // buildToolsVersion '26.0.2'
     compileSdkVersion 26
-    buildToolsVersion "26.0.1"
+    buildToolsVersion '26.0.2'
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -158,6 +158,10 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-document-picker')
+    compile project(':react-native-image-picker')
+    compile project(':react-native-camera')
+
     compile project(':react-native-vector-icons')
     compile project(':edge-login-ui-rn')
     compile project(':herc-edge-login-ui-rn')

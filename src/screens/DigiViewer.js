@@ -1,62 +1,107 @@
 import React, { Component } from 'react';
 import { Platform, StyleSheet, Text, TextInput, View, Image, TouchableHighlight, Alert } from 'react-native';
 import { STATUS_BAR_HEIGHT } from '../constants';
-import logo from "../assets/hercLogoBreak.png";
-import label from "../assets/digiViewerLabel.png";
-import persWal from "../assets/personalWalletLabel.png";
-import stakeTxt from "../assets/stakeText.png";
-import Submit from "../components/SubmitBtn";
-import hLogo from "../assets/hercLogoPillar.png";
-import BackButton from "../components/BackButton";
-// import feeLabel from "../assets/hercFeeLabel.png";
-import viewBtn from "../assets/veiwBtn.png";
-// import TouchableHeader from "../components/TouchableHeader";
 
-// - make the "personal wallet" filled with 10,000 Hercs
-// - make the menu drop down to another "My Hercs" wallet
-//  - remove the hydra input field completely 
-// -  change Stake to Fee
-// -  put a "1" in the HERC field
-// - View should open a native browser in app for the site http://anthembunker.com/(edited)
+import hLogo from "../assets/hercLogoPillar.png";
 
 export default class DigiViewer extends Component {
   static navigationOptions = ({ navigation }) => {
     const { params } = navigation.state;
 
+    let headerStyles = StyleSheet.create({
+      header__container: {
+        // borderColor: "green",
+        // borderWidth: 3,
+        display: "flex",
+        // resizeMode: "contain",
+        height: 80,
+        alignSelf: "center",
+        flex: 1,
+        alignContent: "center",
+        alignItems: "center",
+        marginTop: 40,
+        paddingBottom: 20
+
+      },
+      header__container__centeredBox: {
+        // borderColor: "purple",
+        // borderWidth: 3,
+        height: "100%",
+        alignItems: "center",
+        flexDirection: 'row'
+      },
+      header__text__box: {
+        // borderColor: "blue",
+        // borderWidth: 3,
+        height: "100%",
+        marginBottom: 5,
+        marginLeft: 12,
+
+      },
+      header__image__box: {
+        // borderColor: "yellow",
+        // borderWidth: 3,
+        height: "100%",
+        borderRadius: 100
+        // width: 50
+      },
+      assetHeaderLogo: {
+        height: 35,
+        width: 35,
+        borderRadius: 50,
+        // resizeMode: "contain",
+      },
+      headerText: {
+        fontFamily: "dinPro",
+        fontSize: 26,
+        alignSelf: "center",
+        fontWeight: "bold",
+        color: "black",
+        textAlign: "center",
+        marginTop: 2,
+        // paddingTop: 5
+      },
+    })
+
     return {
+      headerTitle: (
+        // <View style={styles.assetHeaderTitle}>
+        //   <TouchableHighlight style={{justifyContent: "center"}} onPress={() => navigation.navigate("MenuOptions")}>
+        //     <Image
+        //       style={styles.assetHeaderLogo}
+        //       source={{ uri: params.logo }}
+        //     />
+        //   </TouchableHighlight>
+        //   <Text style={styles.headerText}>{params.name}</Text>
+        // </View>
 
-      headerTitle:
-        <View style={{ flex: 1, alignSelf: 'center', justifyContent: 'center', alignItems: 'center' }}>
-          <TouchableHighlight onPress={() => navigation.navigate('MenuOptions')}>
-            <Image style={{
-              height: 80,
-              width: 80,
-              // alignSelf: 'center',
-              borderRadius: 120,
-              resizeMode: 'contain'
-            }}
-              source={{ uri: params.logo }} />
-          </TouchableHighlight>
-          <Text style={styles.assetHeaderLabel}>{params.name}</Text>
-        </View>,
+        <View style={headerStyles.header__container}>
+          <View style={headerStyles.header__container__centeredBox}>
+            <View style={headerStyles.header__image__box}>
+              {/* <TouchableHighlight style={{justifyContent: "center"}} onPress={() => navigation.navigate("MenuOptions")}>
+             </TouchableHighlight> */}
+              <Image
+                style={headerStyles.assetHeaderLogo}
+                source={{ uri: params.logo }}
+              />
+            </View>
+            <View style={headerStyles.header__text__box}>
+              <Text style={headerStyles.headerText}>{params.name}</Text>
+            </View>
+          </View>
+        </View>
 
-      headerStyle: {
-        height: Platform.OS === 'android' ? 100 + STATUS_BAR_HEIGHT : 100,
-        backgroundColor: '#021227',
-
-      },
+      ),
       headerTitleStyle: {
-        marginTop: Platform.OS === 'android' ? STATUS_BAR_HEIGHT : 0,
-        textAlign: 'center',
-        alignSelf: 'center',
-        // textAlignVertical: 'center',
-        backgroundColor: '#021227',
-
-      },
-      headerLeft: < BackButton navigation={navigation} />,
-      headerRight: <View></View>
-    }
-  }
+        height: 50,
+        width: 200,
+        alignSelf: "center",
+        justifyContent: "center",
+        flexDirection: "row",
+        marginLeft: 20
+      }
+    };
+  };
 
   render() {
     const { navigate } = this.props.navigation;
@@ -65,16 +110,12 @@ export default class DigiViewer extends Component {
 
       <View style={styles.container}>
 
-        <Image source={persWal} style={styles.walletLabel} />
+        <Image source={hLogo} style={styles.walletLabel} />
+        <Text style={styles.text}>Need a label for this</Text>
 
         <View style={styles.walletBalance}>
           <Image source={hLogo} style={styles.icon} />
           <Text style={styles.text}>10,000</Text>
-        </View>
-
-        <View style={styles.wallet}>
-
-
           <View style={styles.feeBalance}>
             <Text style={styles.text}>Fee:</Text>
             <View style={{ alignSelf: 'flex-end', flexDirection: 'row' }}>
@@ -82,8 +123,9 @@ export default class DigiViewer extends Component {
               <Image source={hLogo} style={styles.feeLabel} />
             </View>
           </View>
+          {/* <Text style={styles.text}>Need a Label</Text> */}
           <TouchableHighlight style={{ marginTop: 5 }} onPress={() => navigate('Anthem')}>
-            <Image source={viewBtn} style={styles.button} />
+            <Image source={hLogo} style={styles.button} />
           </TouchableHighlight>
         </View>
       </View>
@@ -110,12 +152,7 @@ const styles = StyleSheet.create({
     height: 60,
     resizeMode: 'contain',
   },
-  walletBalance: {
-    width: '40%',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    height: 60
-  },
+
   wallet: {
     padding: 3,
     backgroundColor: '#021227',
@@ -142,24 +179,8 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
     margin: 5
   },
-  label: {
-    height: 50,
-    width: '80%',
-    resizeMode: 'contain'
-  },
-  legendInput: {
-    // alignSelf: "center",
-    padding: 5,
-    width: 330,
-    height: 90,
-    // alignItems: 'center',
-    margin: 1,
-    marginBottom: 5,
-    backgroundColor: "#14283f",
-    justifyContent: "space-between",
 
-    borderRadius: 4
-  },
+
   text: {
 
     height: 30,
@@ -179,28 +200,6 @@ const styles = StyleSheet.create({
 
   },
 
-
-
-
-  walletFee: {
-    width: '80%',
-    height: 200,
-    // justifyContent: 'center',
-    backgroundColor: '#06112e',
-    padding: 3,
-    alignItems: 'center',
-    margin: 7
-  },
-
-  hercLabel: {
-    textAlign: 'left',
-    alignSelf: 'flex-start',
-
-    alignItems: 'flex-end',
-    color: 'white',
-    height: 20,
-    width: 120
-  },
   button: {
     width: 250,
     height: 50,

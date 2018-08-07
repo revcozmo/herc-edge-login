@@ -3,6 +3,9 @@ package com.demo;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.reactnativedocumentpicker.ReactNativeDocumentPicker;
+import com.imagepicker.ImagePickerPackage;
+import org.reactnative.camera.RNCameraPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import co.airbitz.AbcCoreJsUi.AbcCoreJsUiPackage;
 import com.peel.react.TcpSocketsModule;
@@ -29,6 +32,9 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new ReactNativeDocumentPicker(),
+            new ImagePickerPackage(),
+            new RNCameraPackage(),
             new VectorIconsPackage(),
             new AbcCoreJsUiPackage(),
             new TcpSocketsModule(),
