@@ -6,6 +6,8 @@ import {
     Platform,
     StatusBar,
     TouchableHighlight,
+    StyleSheet,
+    Text
 
 } from "react-native";
 import { STATUS_BAR_HEIGHT } from "../constants";
@@ -43,6 +45,63 @@ import Login from "../screens/Login";
 import Identity from "../screens/Identity";
 import IdologyForm from "../components/IdologyForm";
 import Camera from "../screens/Camera";
+import roundImage from "../assets/round.png"
+
+
+let headerStyles = StyleSheet.create({
+    header__container: {
+        // borderColor: "green",
+        // borderWidth: 3,
+        display: "flex",
+        // resizeMode: "contain",
+        height: 80,
+        alignSelf: "center",
+        flex: 1,
+        alignContent: "center",
+        alignItems: "center",
+        marginTop: 40,
+        paddingBottom: 20
+
+    },
+    header__container__centeredBox: {
+        // borderColor: "purple",
+        // borderWidth: 3,
+        height: "100%",
+        alignItems: "center",
+        flexDirection: 'row'
+    },
+    header__text__box: {
+        // borderColor: "blue",
+        // borderWidth: 3,
+        height: "100%",
+        marginBottom: 5,
+        marginLeft: 12,
+
+    },
+    header__image__box: {
+        // borderColor: "yellow",
+        // borderWidth: 3,
+        height: "100%",
+        borderRadius: 100
+        // width: 50
+    },
+    assetHeaderLogo: {
+        height: 35,
+        width: 35,
+        borderRadius: 50,
+        // resizeMode: "contain",
+    },
+    headerText: {
+        fontFamily: "dinPro",
+        fontSize: 26,
+        alignSelf: "center",
+        fontWeight: "bold",
+        color: "black",
+        textAlign: "center",
+        marginTop: 2,
+        // paddingTop: 5
+    },
+})
 
 
 const MainNavigator = StackNavigator({ //this will be "createStackNavigator" after upgrading react-navigation
@@ -80,14 +139,22 @@ const MainNavigator = StackNavigator({ //this will be "createStackNavigator" aft
         initialRouteName: 'MenuOptions', // was "Login" changing for testing the style migration
         navigationOptions: ({ navigation }) => ({
 
-            headerTitle: <Image style={{
-                height: 100,
-                width: 240,
-                alignSelf: 'center',
-                resizeMode: 'contain',
-                marginLeft: 0,
-            }}
-                source={menuOptions} />,
+            headerTitle:
+                <View style={headerStyles.header__container}>
+                    <View style={headerStyles.header__container__centeredBox}>
+                        <View style={headerStyles.header__image__box}>
+                            {/* <TouchableHighlight style={{justifyContent: "center"}} onPress={() => navigation.navigate("MenuOptions")}>
+                            </TouchableHighlight> */}
+                            <Image
+                                style={headerStyles.assetHeaderLogo}
+                                source={roundImage}
+                            />
+                        </View>
+                        <View style={headerStyles.header__text__box}>
+                            <Text style={headerStyles.headerText}>Main Options</Text>
+                        </View>
+                    </View>
+                </View>,
 
             headerStyle: {
                 height: Platform.OS === 'android' ? 60 : 100,
@@ -104,8 +171,8 @@ const MainNavigator = StackNavigator({ //this will be "createStackNavigator" aft
             },
             headerRight: <View></View>,
             headerLeft: <TouchableHighlight onPress={() => navigation.goBack()}>
-                            <Image source={backArrow} style={styles.backArrow} />
-                        </TouchableHighlight>
+                <Image source={backArrow} style={styles.backArrow} />
+            </TouchableHighlight>
 
         })
     })
