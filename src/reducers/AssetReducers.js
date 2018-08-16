@@ -16,7 +16,8 @@ import {
     GOT_HERC_ID,
     CONFIRM_ASSET,
     SET_SET,
-    DELETE_ASSET
+    DELETE_ASSET,
+    AUTH_TOKEN
 
 } from '../actions/types';
 
@@ -148,9 +149,19 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
                 ...state,
                 hercId: hercID
             })
+
+
+        case AUTH_TOKEN:
+            let token = action.token;
+            // console.log('Token captured in reducer', token);
+            return Object.assign({}, state, {
+              ...state,
+              auth_token: token
+            })
+
+
         case GET_ACCOUNT:
             let edge_account = action.edge_account;
-            // console.log('Account captured in reducer', edge_account);
             return Object.assign({}, state, {
               ...state,
               edge_account: edge_account

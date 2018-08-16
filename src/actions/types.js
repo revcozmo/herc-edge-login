@@ -16,6 +16,7 @@ export const SET_SET = 'setSet';
 export const DELETE_ASSET = 'deleteAsset'
 export const GET_TRANS = 'getTrans';
 export const GOT_ASSET_TRANS = 'gotAssetTrans';
+export const AUTH_TOKEN = 'authToken';
 
 //  Eth Actions
 
