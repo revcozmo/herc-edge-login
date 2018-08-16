@@ -43,7 +43,7 @@ import Wallet from "../screens/Wallet";
 import Settings from "../screens/Settings";
 import Login from "../screens/Login";
 import Identity from "../screens/Identity";
-import IdologyForm from "../components/IdologyForm";
+import IdologyForm from "../screens/IdologyForm";
 import Camera from "../screens/Camera";
 import roundImage from "../assets/round.png"
 
