@@ -44,6 +44,7 @@ import Settings from "../screens/Settings";
 import Login from "../screens/Login";
 import Identity from "../screens/Identity";
 import IdologyForm from "../screens/IdologyForm";
+import IdologyQuestions from "../screens/IdologyQuestions";
 import Camera from "../screens/Camera";
 import roundImage from "../assets/round.png"
 
