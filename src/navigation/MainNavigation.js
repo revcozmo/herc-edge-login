@@ -110,6 +110,7 @@ const MainNavigator = StackNavigator({ //this will be "createStackNavigator" aft
     Welcome: { screen: Welcome },
     MenuOptions: { screen: MenuOptions },
     Identity: { screen: IdologyForm },
+    IdologyQuestions: { screen: IdologyQuestions },
     // Identity: { screen: Identity },
     Create: { screen: Create },
     Tee: { screen: Tee },
@@ -157,17 +158,16 @@ const MainNavigator = StackNavigator({ //this will be "createStackNavigator" aft
                     </View>
                 </View>,
 
-            headerStyle: {
-                height: Platform.OS === 'android' ? 60 : 100,
-                backgroundColor: 'white',
-
-            },
-            headerTitleStyle: {
-                marginTop: Platform.OS === 'android' ? 20 : 0,
-                textAlign: 'center',
-                textAlignVertical: 'center',
-                backgroundColor: 'white',
-                alignSelf: 'center',
+        headerStyle: {
+            backgroundColor: '#091141',
+            height: Platform.OS === 'android' ? 115 : 100,
+        },
+        headerTitleStyle: {
+            marginTop: Platform.OS === 'android' ? 20 : 0,
+            textAlign: 'center',
+            textAlignVertical: 'center',
+            backgroundColor: '#021227',
+            alignSelf: 'center',
 
             },
             headerRight: <View></View>,
