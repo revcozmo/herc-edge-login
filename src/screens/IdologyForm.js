@@ -8,6 +8,16 @@ import t from 'tcomb-form-native';
 import { _postIdology, _postWebServer } from "../components/api";
 import {USERNAME, PASSWORD, WEB_SERVER_API_IDENTITIES } from "../components/settings";
 
+const _ = require('lodash');
+const stylesheet = _.cloneDeep(t.form.Form.stylesheet);
+
+// overriding the text color
+stylesheet.textbox.normal.color = 'black';
+// overriding the text box background color
+stylesheet.textbox.normal.backgroundColor = 'white';
+// overriding the text box label color
+stylesheet.controlLabel.normal.color = 'silver';
+
 YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTImageLoader', 'Setting a timer for a long period of time']);
 /* Following these guidelines: https://medium.com/react-native-development/easily-build-forms-in-react-native-9006fcd2a73b */
 
@@ -24,25 +34,30 @@ const User = t.struct({
 
 const options = {
   // auto: 'placeholders',
+  label:<Text style={{fontSize: 30, color: 'white'}}>KYC/AML</Text>,
   fields: {
     edgeAccount: {
       hidden: true,
     },
     firstName: {
-      // label: 'First Name',
-      error: 'This is required.'
+      label: 'First Name',
+      error: 'This is required.',
+      stylesheet: stylesheet
     },
     lastName: {
-      // label: 'Last Name',
-      error: 'This is required.'
+      label: 'Last Name',
+      error: 'This is required.',
+      stylesheet: stylesheet
     },
     address: {
-      // label: 'Street Address',
-      error: 'This is required.'
+      label: 'Address',
+      error: 'This is required.',
+      stylesheet: stylesheet
     },
     zipCode: {
-      // label: 'Zip Code',
-      error: 'This is required.'
+      label: 'Zip Code',
+      error: 'This is required.',
+      stylesheet: stylesheet
     },
   },
 };
@@ -117,27 +132,44 @@ export default class IdologyForm extends Component {
     };
 
     return (
-      <View style={styles.container}>
+      <View style={localStyles.container}>
         <Form
           ref={c => this._form = c}
           type={User}
           value={defaultValues}
           options={options}
         />
-        <Button
-          title="Submit"
-          onPress={this.handleSubmit}
-        />
+        <TouchableOpacity onPress={this.handleSubmit} style={localStyles.buttonContainer}>
+          <Text style={localStyles.buttonText}>Submit</Text>
+        </TouchableOpacity>
       </View>
     );
   }
 }
 
-const styles = StyleSheet.create({
+const localStyles = StyleSheet.create({
   container: {
-    flex:1,
-    justifyContent: 'space-evenly',
-    padding: 30,
-    backgroundColor: '#ffffff',
+    flex: 1,
+    backgroundColor: "#091141",
+    padding: 40,
   },
+  hercLogo: {
+    height: 100,
+    width: "100%",
+    resizeMode: "contain",
+    marginBottom: "10%",
+  },
+  buttonContainer: {
+    backgroundColor: "white",
+    paddingVertical: 5,
+    marginTop: 60,
+    borderRadius: 2,
+    borderColor: "gold",
+    borderWidth: 1,
+  },
+  buttonText: {
+    textAlign: "center",
+    fontWeight: "bold",
+    fontSize: 20
+  }
 });
