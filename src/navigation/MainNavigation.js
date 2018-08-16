@@ -158,16 +158,17 @@ const MainNavigator = StackNavigator({ //this will be "createStackNavigator" aft
                     </View>
                 </View>,
 
-        headerStyle: {
-            backgroundColor: '#091141',
-            height: Platform.OS === 'android' ? 115 : 100,
-        },
-        headerTitleStyle: {
-            marginTop: Platform.OS === 'android' ? 20 : 0,
-            textAlign: 'center',
-            textAlignVertical: 'center',
-            backgroundColor: '#021227',
-            alignSelf: 'center',
+            headerStyle: {
+                height: Platform.OS === 'android' ? 60 : 100,
+                backgroundColor: 'white',
+
+            },
+            headerTitleStyle: {
+                marginTop: Platform.OS === 'android' ? 20 : 0,
+                textAlign: 'center',
+                textAlignVertical: 'center',
+                backgroundColor: 'white',
+                alignSelf: 'center',
 
             },
             headerRight: <View></View>,
