@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import { LoginScreen } from 'edge-login-ui-rn';
 import { makeEdgeContext } from 'edge-core-js';
 import { ethereumCurrencyPluginFactory } from 'edge-currency-ethereum';
-import { getAccount } from "../actions/AssetActions";
+import axios from 'axios';
+import { getAccount, authToken } from "../actions/AssetActions";
 import { connect } from "react-redux";
+import { WEB_SERVER_API_TOKEN } from "../components/settings";
 import {
   Platform,
   StyleSheet,
@@ -26,7 +28,8 @@ class Login extends Component {
       context: null,
       account: null,
       walletId: null,
-      wallet: null
+      wallet: null,
+      token: null
     }
   makeEdgeContext({
     // Replace this with your own API key from https://developer.airbitz.co:
@@ -44,6 +47,16 @@ class Login extends Component {
     if (!this.state.account) {
       this.setState({account})
       this.props.getAccount(this.state.account.username);
+      axios.get(WEB_SERVER_API_TOKEN + this.state.account.username)
+        .then( response => {
+          this.setState({
+            token: response.data
+          })
+          this.props.authToken(this.state.token)
+        })
+        .catch ( err => {
+          console.err(err)
+        })
     }
     if (!this.state.walletId) {
       // Check if there is a wallet, if not create it
@@ -65,9 +78,7 @@ class Login extends Component {
   renderLoginApp = () => {
     if (this.state.account) {
       const { navigate } = this.props.navigation;
-       navigate('Identity', {
-         julie: 1234123,
-       });
+       navigate('Identity');
     }
 
     if (this.state.context && !this.state.account) {
@@ -104,11 +115,14 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => ({
-    edge_account: state.AssetReducers.edge_account
+    edge_account: state.AssetReducers.edge_account,
+    auth_token: state.AssetReducers.auth_token
 });
 
 const mapDispatchToProps = (dispatch) => ({
     getAccount: (edge_account) =>
-        dispatch(getAccount(edge_account))
+        dispatch(getAccount(edge_account)),
+    authToken: (auth_token) =>
+      dispatch(authToken(auth_token))
 })
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

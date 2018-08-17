@@ -138,7 +138,7 @@ const MainNavigator = StackNavigator({ //this will be "createStackNavigator" aft
     Camera: { screen: Camera }
 
 }, {
-        initialRouteName: 'Identity', // was "Login" changing for testing the style migration
+        initialRouteName: 'Login', // was "Login" changing for testing the style migration
         navigationOptions: ({ navigation }) => ({
 
             headerTitle:
