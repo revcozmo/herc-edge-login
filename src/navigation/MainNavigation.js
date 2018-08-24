@@ -1,52 +1,50 @@
-import React, { Component } from "react";
-import { StackNavigator } from "react-navigation";
 import {
-    View,
     Image,
     Platform,
     StatusBar,
-    TouchableHighlight,
     StyleSheet,
-    Text
-
+    Text,
+    TouchableHighlight,
+    View
 } from "react-native";
-import { STATUS_BAR_HEIGHT } from "../constants";
-import styles from "../assets/styles";
-import menuOptions from "../assets/menuOptions.png";
-import backArrow from "../assets/icon_backarrow.png";
+import React, { Component } from "react";
 
-////////////////////////////////////////// Screens
-import Welcome from "../screens/Welcome";
-import FileUp from "../screens/FileUp";
-import DocUp from "../screens/DocUp";
+import Anthem from "../screens/Anthem";
+import BlockScanner from "../screens/BlockScanner";
+import Camera from "../screens/Camera";
 import Confirm from "../screens/Confirm";
 import Create from "../screens/Create";
-import MenuOptions from "../screens/MenuOptions";
-import InputMan from "../screens/InputMan";
-import Tee from "../screens/Tee";
 import Digi from "../screens/DigiViewer";
-import Anthem from "../screens/Anthem";
-import PreHipr from "../screens/PreHIPR";
-import HiprAssets from "../screens/HiprAssets";
+import DocUp from "../screens/DocUp";
+import EdiT from "../screens/Edi-T";
+import FileUp from "../screens/FileUp";
 import Hipr from "../screens/Hipr";
-import BlockScanner from "../screens/BlockScanner";
-import TransSwiper from "../screens/TransSwiper";
+import HiprAssets from "../screens/HiprAssets";
+import Identity from "../screens/Identity";
+import IdologyForm from "../components/IdologyForm";
+import InputMan from "../screens/InputMan";
+import Login from "../screens/Login";
+import MenuOptions from "../screens/MenuOptions";
+import NewAssetConfirm from "../screens/NewAssetConfirm";
+import PreDigi from "../screens/PreDigiView";
+import PreHipr from "../screens/PreHIPR";
+import { STATUS_BAR_HEIGHT } from "../constants";
+import Settings from "../screens/Settings";
+import SpaceScreen from "../screens/SpaceScreen";
 import Splash1 from "../screens/Splash1";
 import Splash2 from "../screens/Splash2";
 import Splash3 from "../screens/Splash3";
-import NewAssetConfirm from "../screens/NewAssetConfirm";
-import EdiT from "../screens/Edi-T";
-import PreDigi from "../screens/PreDigiView";
-import SpaceScreen from "../screens/SpaceScreen";
+import { StackNavigator } from "react-navigation";
+import Tee from "../screens/Tee";
 import TransAssetList from "../screens/TransAssetList";
+import TransSwiper from "../screens/TransSwiper";
 import Wallet from "../screens/Wallet";
-import Settings from "../screens/Settings";
-import Login from "../screens/Login";
-import Identity from "../screens/Identity";
-import IdologyForm from "../components/IdologyForm";
-import Camera from "../screens/Camera";
+////////////////////////////////////////// Screens
+import Welcome from "../screens/Welcome";
+import backArrow from "../assets/icon_backarrow.png";
+import menuOptions from "../assets/menuOptions.png";
 import roundImage from "../assets/round.png"
-
+import styles from "../assets/styles";
 
 let headerStyles = StyleSheet.create({
     header__container: {
@@ -136,7 +134,7 @@ const MainNavigator = StackNavigator({ //this will be "createStackNavigator" aft
     Camera: { screen: Camera }
 
 }, {
-        initialRouteName: 'MenuOptions', // was "Login" changing for testing the style migration
+        initialRouteName: 'Login', // was "Login" changing for testing the style migration
         navigationOptions: ({ navigation }) => ({
 
             headerTitle:
