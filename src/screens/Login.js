@@ -1,17 +1,19 @@
-import React, { Component } from 'react';
-import { LoginScreen } from 'edge-login-ui-rn';
-import { makeEdgeContext } from 'edge-core-js';
-import { ethereumCurrencyPluginFactory } from 'edge-currency-ethereum';
-import { getAccount } from "../actions/AssetActions";
-import { connect } from "react-redux";
 import {
+  Button,
   Platform,
   StyleSheet,
   Text,
-  View,
-  Button
+  View
 } from 'react-native';
+import React, { Component } from 'react';
+
+import { LoginScreen } from 'edge-login-ui-rn';
 import { YellowBox } from 'react-native';
+import { connect } from "react-redux";
+import { ethereumCurrencyPluginFactory } from 'edge-currency-ethereum';
+import { getAccount } from "../actions/AssetActions";
+import { makeEdgeContext } from 'edge-core-js';
+
 YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTImageLoader', 'Setting a timer for a long period of time']);
 
 
@@ -41,6 +43,8 @@ class Login extends Component {
 }
 
   onLogin = (error = null, account) => {
+    console.log('ar: OnLogin error', error)
+    console.log('ar: OnLogin account', account)
     if (!this.state.account) {
       this.setState({account})
       this.props.getAccount(this.state.account.username);
@@ -74,7 +78,7 @@ class Login extends Component {
       return (
         <LoginScreen
           context={this.state.context}
-          onLogin={this.onLogin.bind(this)}
+          onLogin={this.onLogin}
           accountOptions={{}}
         />
       );
