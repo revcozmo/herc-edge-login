@@ -47,7 +47,7 @@ class Login extends Component {
     console.log('ar: OnLogin account', account)
     if (!this.state.account) {
       this.setState({account})
-      this.props.getAccount(this.state.account.username);
+      this.props.getAccount(account.username);
     }
     if (!this.state.walletId) {
       // Check if there is a wallet, if not create it

@@ -8,6 +8,7 @@ import {
     View
 } from "react-native";
 import React, { Component } from "react";
+import { StackNavigator } from "react-navigation";
 
 import Anthem from "../screens/Anthem";
 import BlockScanner from "../screens/BlockScanner";
@@ -34,7 +35,6 @@ import SpaceScreen from "../screens/SpaceScreen";
 import Splash1 from "../screens/Splash1";
 import Splash2 from "../screens/Splash2";
 import Splash3 from "../screens/Splash3";
-import { StackNavigator } from "react-navigation";
 import Tee from "../screens/Tee";
 import TransAssetList from "../screens/TransAssetList";
 import TransSwiper from "../screens/TransSwiper";
@@ -134,7 +134,7 @@ const MainNavigator = StackNavigator({ //this will be "createStackNavigator" aft
     Camera: { screen: Camera }
 
 }, {
-        initialRouteName: 'Login', // was "Login" changing for testing the style migration
+        initialRouteName: 'Login',
         navigationOptions: ({ navigation }) => ({
 
             headerTitle:
