@@ -10,6 +10,7 @@ import React, { Component } from 'react';
 import { LoginScreen } from 'edge-login-ui-rn';
 import { YellowBox } from 'react-native';
 import { connect } from "react-redux";
+import axios from 'axios';
 import { ethereumCurrencyPluginFactory } from 'edge-currency-ethereum';
 import { getAccount, authToken } from "../actions/AssetActions";
 import { WEB_SERVER_API_TOKEN } from "../components/settings";
