@@ -3,6 +3,8 @@ package com.demo;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.learnium.RNDeviceInfo.RNDeviceInfo;
+import com.BV.LinearGradient.LinearGradientPackage;
 import com.reactnativedocumentpicker.ReactNativeDocumentPicker;
 import com.imagepicker.ImagePickerPackage;
 import org.reactnative.camera.RNCameraPackage;
@@ -32,6 +34,8 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNDeviceInfo(),
+            new LinearGradientPackage(),
             new ReactNativeDocumentPicker(),
             new ImagePickerPackage(),
             new RNCameraPackage(),

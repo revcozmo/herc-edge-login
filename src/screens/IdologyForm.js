@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Image, Text, TouchableOpacity } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { Button } from 'react-native-elements';
 import { YellowBox } from 'react-native';
 import store from "../store";
 import axios from 'axios';
 import t from 'tcomb-form-native';
-import { _postIdology, _postWebServer } from "../components/api";
-import {USERNAME, PASSWORD, WEB_SERVER_API_IDENTITIES } from "../components/settings";
+import {USERNAME, PASSWORD, WEB_SERVER_API_TOKEN, WEB_SERVER_API_IDENTITIES } from "./settings";
+
+YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTImageLoader', 'Setting a timer for a long period of time']);
+/* Following these guidelines: https://medium.com/react-native-development/easily-build-forms-in-react-native-9006fcd2a73b */
 
 const _ = require('lodash');
 const stylesheet = _.cloneDeep(t.form.Form.stylesheet);
@@ -18,9 +20,6 @@ stylesheet.textbox.normal.backgroundColor = 'white';
 // overriding the text box label color
 stylesheet.controlLabel.normal.color = 'silver';
 
-YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTImageLoader', 'Setting a timer for a long period of time']);
-/* Following these guidelines: https://medium.com/react-native-development/easily-build-forms-in-react-native-9006fcd2a73b */
-
 const Form = t.form.Form;
 
 const User = t.struct({
@@ -29,7 +28,7 @@ const User = t.struct({
   firstName: t.maybe(t.String),
   lastName: t.maybe(t.String),
   address: t.maybe(t.String),
-  zipCode: t.maybe(t.Number),
+  zipCode: t.Number,
 });
 
 const options = {
@@ -86,15 +85,14 @@ export default class IdologyForm extends Component {
     const value = this._form.getValue();
     console.log('****** Idology Form value: ', value);
     var AUTH_TOKEN = store.getState().AssetReducers.auth_token
-
     const config = {
-      headers: {
-          'Authorization': AUTH_TOKEN,
-          'Access-Control-Allow-Headers': 'x-access-token',
-          'x-access-token': AUTH_TOKEN,
-          'Content-Type': 'application/x-www-form-urlencoded'
-      }
-    }
+     headers: {
+         'Authorization': AUTH_TOKEN,
+         'Access-Control-Allow-Headers': 'x-access-token',
+         'x-access-token': AUTH_TOKEN,
+         'Content-Type': 'application/x-www-form-urlencoded'
+     }
+   }
 
     let formBody = [];
     for (let property in value) {
@@ -103,22 +101,18 @@ export default class IdologyForm extends Component {
         formBody.push(encodedKey + "=" + encodedValue);
     }
     formBody = formBody.join("&");
-    axios.post(WEB_SERVER_API_IDENTITIES, formBody, config)
-      .then(response => {
-        const { navigate } = this.props.navigation;
-         navigate('IdologyQuestions', {questions: response.data});
-      })
-      .catch(function(error) {
-        console.log(error)
-      });
+    axios.post(WEB_SERVER_API_IDENTITIES, formBody)
+    .then(response => {
+       const { navigate } = this.props.navigation;
+        navigate('IdologyQuestions', {questions: response.data});
+     })
 
-    // _postWebServer(value)
-    //   .then( response => {
-    //     console.log("*** RESPONSE: ", response)
-    //   })
-    //   .catch(err => {
-    //     console.log("*** ERROR: ", err)
-    //   })
+    .catch(function(error) {
+      console.log(error)
+    });
+
+    // const { navigate } = this.props.navigation;
+    // navigate('Create');
   }
 
   render() {

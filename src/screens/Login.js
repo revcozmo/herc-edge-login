@@ -1,19 +1,20 @@
-import React, { Component } from 'react';
-import { LoginScreen } from 'edge-login-ui-rn';
-import { makeEdgeContext } from 'edge-core-js';
-import { ethereumCurrencyPluginFactory } from 'edge-currency-ethereum';
-import axios from 'axios';
-import { getAccount, authToken } from "../actions/AssetActions";
-import { connect } from "react-redux";
-import { WEB_SERVER_API_TOKEN } from "../components/settings";
 import {
+  Button,
   Platform,
   StyleSheet,
   Text,
-  View,
-  Button
+  View
 } from 'react-native';
+import React, { Component } from 'react';
+import { LoginScreen } from 'edge-login-ui-rn';
 import { YellowBox } from 'react-native';
+import { connect } from "react-redux";
+import axios from 'axios';
+import { ethereumCurrencyPluginFactory } from 'edge-currency-ethereum';
+import { getAccount, authToken } from "../actions/AssetActions";
+import { WEB_SERVER_API_TOKEN } from "../components/settings";
+import { makeEdgeContext } from 'edge-core-js';
+
 YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTImageLoader', 'Setting a timer for a long period of time']);
 
 
@@ -44,10 +45,12 @@ class Login extends Component {
 }
 
   onLogin = (error = null, account) => {
+    console.log('ar: OnLogin error', error)
+    console.log('ar: OnLogin account', account)
     if (!this.state.account) {
       this.setState({account})
-      this.props.getAccount(this.state.account.username);
-      axios.get(WEB_SERVER_API_TOKEN + this.state.account.username)
+      this.props.getAccount(account.username);
+      axios.get(WEB_SERVER_API_TOKEN + account.username)
         .then( response => {
           this.setState({
             token: response.data
@@ -85,7 +88,7 @@ class Login extends Component {
       return (
         <LoginScreen
           context={this.state.context}
-          onLogin={this.onLogin.bind(this)}
+          onLogin={this.onLogin}
           accountOptions={{}}
         />
       );
@@ -123,6 +126,6 @@ const mapDispatchToProps = (dispatch) => ({
     getAccount: (edge_account) =>
         dispatch(getAccount(edge_account)),
     authToken: (auth_token) =>
-      dispatch(authToken(auth_token))
+          dispatch(authToken(auth_token))
 })
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
