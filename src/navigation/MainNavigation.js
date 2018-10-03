@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import React, { Component } from "react";
 import { StackNavigator } from "react-navigation";
+import backArrow from "../assets/icon_backarrow.png";
 
 import Anthem from "../screens/Anthem";
 import BlockScanner from "../screens/BlockScanner";
@@ -30,7 +31,6 @@ import NewAssetConfirm from "../screens/NewAssetConfirm";
 import PreDigi from "../screens/PreDigiView";
 import PreHipr from "../screens/PreHIPR";
 import { STATUS_BAR_HEIGHT } from "../constants";
-import Settings from "../screens/Settings";
 import SpaceScreen from "../screens/SpaceScreen";
 import Splash1 from "../screens/Splash1";
 import Splash2 from "../screens/Splash2";
@@ -40,11 +40,6 @@ import TransAssetList from "../screens/TransAssetList";
 import TransSwiper from "../screens/TransSwiper";
 import Wallet from "../screens/Wallet";
 import Settings from "../screens/Settings";
-import Login from "../screens/Login";
-import Identity from "../screens/Identity";
-import IdologyForm from "../screens/IdologyForm";
-import IdologyQuestions from "../screens/IdologyQuestions";
-import Camera from "../screens/Camera";
 import roundImage from "../assets/round.png"
 import styles from "../assets/styles";
 
@@ -106,7 +101,6 @@ let headerStyles = StyleSheet.create({
 
 const MainNavigator = StackNavigator({ //this will be "createStackNavigator" after upgrading react-navigation
     Login: { screen: Login },
-    Welcome: { screen: Welcome },
     MenuOptions: { screen: MenuOptions },
     Identity: { screen: IdologyForm },
     IdologyQuestions: { screen: IdologyQuestions },

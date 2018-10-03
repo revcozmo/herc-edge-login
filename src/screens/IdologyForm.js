@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { Button } from 'react-native-elements';
 import { YellowBox } from 'react-native';
 import store from "../store";
 import axios from 'axios';
 import t from 'tcomb-form-native';
-import {USERNAME, PASSWORD, WEB_SERVER_API_TOKEN, WEB_SERVER_API_IDENTITIES } from "./settings";
+import {USERNAME, PASSWORD, WEB_SERVER_API_TOKEN, WEB_SERVER_API_IDENTITIES } from "../components/settings";
 
 YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTImageLoader', 'Setting a timer for a long period of time']);
 /* Following these guidelines: https://medium.com/react-native-development/easily-build-forms-in-react-native-9006fcd2a73b */
@@ -101,7 +101,11 @@ export default class IdologyForm extends Component {
         formBody.push(encodedKey + "=" + encodedValue);
     }
     formBody = formBody.join("&");
-    axios.post(WEB_SERVER_API_IDENTITIES, formBody)
+
+    console.log("Config: ", config.headers)
+    console.log("formBody: ", formBody)
+
+    axios.post(WEB_SERVER_API_IDENTITIES, formBody, {headers: config.headers})
     .then(response => {
        const { navigate } = this.props.navigation;
         navigate('IdologyQuestions', {questions: response.data});
