@@ -5,7 +5,6 @@ import { YellowBox } from 'react-native';
 import store from "../store";
 import axios from 'axios';
 import t from 'tcomb-form-native';
-import { _postIdology, _postWebServer } from "./api";
 import {USERNAME, PASSWORD, WEB_SERVER_API_TOKEN, WEB_SERVER_API_IDENTITIES } from "./settings";
 
 YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTImageLoader', 'Setting a timer for a long period of time']);
@@ -111,15 +110,6 @@ export default class IdologyForm extends Component {
     .catch(function(error) {
       console.log(error)
     });
-
-    // _postWebServer(value)
-    //   .then( response => {
-    //     console.log("*** RESPONSE: ", response)
-    //   })
-    //   .catch(err => {
-    //     console.log("*** ERROR: ", err)
-    //   })
-
 
     // const { navigate } = this.props.navigation;
     // navigate('Create');
