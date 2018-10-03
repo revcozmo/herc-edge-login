@@ -22,6 +22,7 @@ import FileUp from "../screens/FileUp";
 import Hipr from "../screens/Hipr";
 import HiprAssets from "../screens/HiprAssets";
 import IdologyForm from "../screens/IdologyForm";
+import IdologyQuestions from "../screens/IdologyQuestions";
 import InputMan from "../screens/InputMan";
 import Login from "../screens/Login";
 import MenuOptions from "../screens/MenuOptions";
@@ -106,6 +107,7 @@ const MainNavigator = StackNavigator({ //this will be "createStackNavigator" aft
     Welcome: { screen: Welcome },
     MenuOptions: { screen: MenuOptions },
     Identity: { screen: IdologyForm },
+    IdologyQuestions: { screen: IdologyQuestions },
     Create: { screen: Create },
     Tee: { screen: Tee },
     Digi: { screen: Digi },
