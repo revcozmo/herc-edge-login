@@ -21,7 +21,6 @@ import EdiT from "../screens/Edi-T";
 import FileUp from "../screens/FileUp";
 import Hipr from "../screens/Hipr";
 import HiprAssets from "../screens/HiprAssets";
-import Identity from "../screens/Identity";
 import IdologyForm from "../components/IdologyForm";
 import InputMan from "../screens/InputMan";
 import Login from "../screens/Login";
@@ -107,7 +106,6 @@ const MainNavigator = StackNavigator({ //this will be "createStackNavigator" aft
     Welcome: { screen: Welcome },
     MenuOptions: { screen: MenuOptions },
     Identity: { screen: IdologyForm },
-    // Identity: { screen: Identity },
     Create: { screen: Create },
     Tee: { screen: Tee },
     Digi: { screen: Digi },
