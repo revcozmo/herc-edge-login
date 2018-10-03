@@ -6,7 +6,7 @@ import store from "../store";
 import axios from 'axios';
 import t from 'tcomb-form-native';
 import { _postIdology, _postWebServer } from "./api";
-import {USERNAME, PASSWORD, WEB_SERVER_API_ENDPOINT } from "./settings";
+import {USERNAME, PASSWORD, WEB_SERVER_API_TOKEN, WEB_SERVER_API_IDENTITIES } from "./settings";
 
 YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTImageLoader', 'Setting a timer for a long period of time']);
 /* Following these guidelines: https://medium.com/react-native-development/easily-build-forms-in-react-native-9006fcd2a73b */
@@ -82,7 +82,7 @@ export default class IdologyForm extends Component {
         formBody.push(encodedKey + "=" + encodedValue);
     }
     formBody = formBody.join("&");
-    axios.post(WEB_SERVER_API_ENDPOINT, formBody)
+    axios.post(WEB_SERVER_API_IDENTITIES, formBody)
     .then(response => {
       console.log(response)
     })
