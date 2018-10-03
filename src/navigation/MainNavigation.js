@@ -21,7 +21,7 @@ import EdiT from "../screens/Edi-T";
 import FileUp from "../screens/FileUp";
 import Hipr from "../screens/Hipr";
 import HiprAssets from "../screens/HiprAssets";
-import IdologyForm from "../components/IdologyForm";
+import IdologyForm from "../screens/IdologyForm";
 import InputMan from "../screens/InputMan";
 import Login from "../screens/Login";
 import MenuOptions from "../screens/MenuOptions";
