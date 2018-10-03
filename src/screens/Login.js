@@ -10,9 +10,10 @@ import { LoginScreen } from 'edge-login-ui-rn';
 import { YellowBox } from 'react-native';
 import { connect } from "react-redux";
 import axios from 'axios';
+import store from "../store";
 import { ethereumCurrencyPluginFactory } from 'edge-currency-ethereum';
 import { getAccount, authToken } from "../actions/AssetActions";
-import { WEB_SERVER_API_TOKEN } from "../components/settings";
+import { WEB_SERVER_API_TOKEN, WEB_SERVER_API_IDOLOGY_CHECK } from "../components/settings";
 import { makeEdgeContext } from 'edge-core-js';
 
 YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTImageLoader', 'Setting a timer for a long period of time']);
@@ -58,7 +59,7 @@ class Login extends Component {
           this.props.authToken(this.state.token)
         })
         .catch ( err => {
-          console.err(err)
+          console.log(err)
         })
     }
     if (!this.state.walletId) {
@@ -80,8 +81,30 @@ class Login extends Component {
 
   renderLoginApp = () => {
     if (this.state.account) {
-      const { navigate } = this.props.navigation;
-       navigate('Identity');
+      // TODO: RUN IDOLOGY CHECK. IF TRUE (user has log within last 3 months), navigate to MENUOPTIONS. ELSE, navigate to IDENTITY.
+      const AUTH_TOKEN = store.getState().AssetReducers.auth_token
+      const config = {
+        headers: {
+            'Authorization': AUTH_TOKEN,
+            'Access-Control-Allow-Headers': 'x-access-token',
+            'x-access-token': AUTH_TOKEN,
+            'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      }
+      axios.get(WEB_SERVER_API_IDOLOGY_CHECK, {headers: config.headers})
+        .then(response => {
+          console.log("IDOLOGY CHECK RESPONSE: ", response)
+          if (response.data.status == "true"){
+            const { navigate } = this.props.navigation;
+            navigate('MenuOptions');
+          } else {
+            const { navigate } = this.props.navigation;
+            navigate('Identity');
+          }
+        })
+        .catch(err => {
+          console.log(err)
+        })
     }
 
     if (this.state.context && !this.state.account) {
