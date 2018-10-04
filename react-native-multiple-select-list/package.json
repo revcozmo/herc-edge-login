@@ -1,0 +1,92 @@
+{
+  "name": "react-native-multiple-select-list",
+  "version": "1.0.4",
+  "description": "react-native-multiple-select-list",
+  "main": "multipleSelect.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ataomega/react-native-multiple-select-list.git"
+  },
+  "dependencies": {
+    "react-native-vector-icons": "^3.0.0",
+    "prop-types": "^15.6.2"
+  },
+  "keywords": [
+    "react",
+    "react-native",
+    "react",
+    "native",
+    "multiple",
+    "select",
+    "multiple",
+    "select",
+    "list",
+    "multiple",
+    "select",
+    "with",
+    "search",
+    "radio",
+    "button"
+  ],
+  "author": "Mirata Seddigh Mohammadi ataomega@gmail.com (www.atasmohammadi.net)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ataomega/react-native-multiple-select-list/issues"
+  },
+  "homepage": "https://github.com/ataomega/react-native-multiple-select-list#readme",
+  "react-native": {
+    "zlib": "browserify-zlib",
+    "console": "console-browserify",
+    "constants": "constants-browserify",
+    "crypto": "react-native-crypto",
+    "dns": "dns.js",
+    "net": "react-native-tcp",
+    "domain": "domain-browser",
+    "http": "@tradle/react-native-http",
+    "https": "https-browserify",
+    "os": "react-native-os",
+    "path": "path-browserify",
+    "querystring": "querystring-es3",
+    "fs": "react-native-level-fs",
+    "_stream_transform": "readable-stream/transform",
+    "_stream_readable": "readable-stream/readable",
+    "_stream_writable": "readable-stream/writable",
+    "_stream_duplex": "readable-stream/duplex",
+    "_stream_passthrough": "readable-stream/passthrough",
+    "dgram": "react-native-udp",
+    "stream": "stream-browserify",
+    "timers": "timers-browserify",
+    "tty": "tty-browserify",
+    "vm": "vm-browserify",
+    "tls": false
+  },
+  "browser": {
+    "zlib": "browserify-zlib",
+    "console": "console-browserify",
+    "constants": "constants-browserify",
+    "crypto": "react-native-crypto",
+    "dns": "dns.js",
+    "net": "react-native-tcp",
+    "domain": "domain-browser",
+    "http": "@tradle/react-native-http",
+    "https": "https-browserify",
+    "os": "react-native-os",
+    "path": "path-browserify",
+    "querystring": "querystring-es3",
+    "fs": "react-native-level-fs",
+    "_stream_transform": "readable-stream/transform",
+    "_stream_readable": "readable-stream/readable",
+    "_stream_writable": "readable-stream/writable",
+    "_stream_duplex": "readable-stream/duplex",
+    "_stream_passthrough": "readable-stream/passthrough",
+    "dgram": "react-native-udp",
+    "stream": "stream-browserify",
+    "timers": "timers-browserify",
+    "tty": "tty-browserify",
+    "vm": "vm-browserify",
+    "tls": false
+  }
+}

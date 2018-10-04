@@ -16,7 +16,8 @@ import {
   CONFIRM_ASSET,
   SET_SET,
   DELETE_ASSET,
-  GOT_ASSET_TRANS
+  GOT_ASSET_TRANS,
+  AUTH_TOKEN
   // FETCHING_DATA,
   // FETCHING_DATA_SUCCESS,
   // FETCHING_DATA_FAILURE
@@ -82,6 +83,15 @@ export function incHercId(hercid) {
     hercId
   };
 }
+
+
+export function authToken(token){
+  return{
+    type: AUTH_TOKEN,
+    token
+  };
+}
+
 
 export function getAccount(edge_account) {
   // console.log("Account in Action: ", edge_account);

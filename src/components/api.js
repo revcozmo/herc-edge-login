@@ -13,7 +13,7 @@ export function _postIdology(payload) {
   // })
   const config = {
       headers: {
-          'content-type': 'multipart/form-data'
+          'content-type': 'multipart/form-data',
       }
   }
   return axios.post(IDOLOGY_API_ENDPOINT, payload, config)
