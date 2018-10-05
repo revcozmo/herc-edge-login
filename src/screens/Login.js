@@ -81,7 +81,6 @@ class Login extends Component {
 
   renderLoginApp = () => {
     if (this.state.account) {
-      // TODO: RUN IDOLOGY CHECK. IF TRUE (user has log within last 3 months), navigate to MENUOPTIONS. ELSE, navigate to IDENTITY.
       const AUTH_TOKEN = store.getState().AssetReducers.auth_token
       const config = {
         headers: {
