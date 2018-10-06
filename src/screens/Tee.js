@@ -10,32 +10,31 @@ import {
   TouchableHighlight,
   Alert
 } from "react-native";
-
 import { connect } from "react-redux";
 import styles from "../assets/styles";
 import Button from "react-native-button";
 import logo from "../assets/round.png";
 import { addAsset, getHercId } from "../actions/AssetActions";
-// import { FileSystem, Camera, Permissions, ImagePicker } from "expo";
 import next from "../components/buttons/nextButton.png";
 import takePhoto from "../components/buttons/takePhoto.png";
 import uploadPhoto from "../components/buttons/uploadImage.png";
-
 import { STATUS_BAR_HEIGHT } from "../constants";
-
 var ImagePicker = require('react-native-image-picker');
-//// Need to replace the camera functionality
 
 
 class Tee extends Component {
+  constructor(props) {
+    super(props);
+    this.setLogo = this.setLogo.bind(this); // method to set the log from the camera component
+    this.state = {
+      Logo: null,
+    }
+  }
+
   static navigationOptions = ({ navigation }) => {
-    
     let headerStyles = StyleSheet.create({
       header__container: {
-        // borderColor: "green",
-        // borderWidth: 3,
         display: "flex",
-        // resizeMode: "contain",
         height: 80,
         alignSelf: "center",
         flex: 1,
@@ -43,35 +42,26 @@ class Tee extends Component {
         alignItems: "center",
         marginTop: 40,
         paddingBottom: 20
-        
       },
       header__container__centeredBox: {
-        // borderColor: "purple",
-        // borderWidth: 3,
         height: "100%",
         alignItems: "center",
         flexDirection: 'row'
       },
       header__text__box: {
-        // borderColor: "blue",
-        // borderWidth: 3,
         height: "100%",
         marginBottom: 5,
         marginLeft: 12,
-        
+
       },
       header__image__box: {
-        // borderColor: "yellow",
-        // borderWidth: 3,
         height: "100%",
         borderRadius: 100
-        // width: 50
       },
       assetHeaderLogo: {
         height: 35,
         width: 35,
         borderRadius: 50,
-        // resizeMode: "contain",
       },
       headerText: {
         fontFamily: "dinPro",
@@ -81,12 +71,11 @@ class Tee extends Component {
         color: "black",
         textAlign: "center",
         marginTop: 2,
-        // paddingTop: 5
       },
     })
     return {
       headerTitle: (
-        
+
         <View style={headerStyles.header__container}>
           <View style={headerStyles.header__container__centeredBox}>
             <View style={headerStyles.header__image__box}>
@@ -103,26 +92,12 @@ class Tee extends Component {
           </View>
         </View>
 
-)
+      )
     }
-  }
-  
-  
-  constructor(props) {
-    super(props);
-    
-    this.setLogo = this.setLogo.bind(this); // method to set the log from the camera component 
-    
-    this.state = {
-      Logo: null,
-    };
-  }
-  
-  componentDidMount() {
   }
 
   setLogo = (imgObj) => {
-    console.log("trying to set the Logog", imgObj)
+    console.log("trying to set the Logo: ", imgObj)
     this.setState({
       Logo: imgObj.string
     })
@@ -137,10 +112,10 @@ class Tee extends Component {
   }
   _pickImage = () => {
     console.log("picking image")
-   
+
     ImagePicker.launchImageLibrary({}, (response) => {
       console.log('Response = ', response);
-     
+
       if (response.didCancel) {
         console.log('User cancelled image picker');
       }
@@ -152,65 +127,38 @@ class Tee extends Component {
       }
       else {
         let source = { uri: response.uri };
-     
+
         // You can also display the image using data:
         // let source = { uri: 'data:image/jpeg;base64,' + response.data };
-     
+
         this.setState({
           Logo: "data:image/jpg;base64," + response.data
         });
       }
     });
   }
-  // _pickImage = async () => {
-  //   let logo = await ImagePicker.launchImageLibraryAsync({
-  //     allowsEditing: false,
-  //     aspect: [4, 4],
-  //     base64: true
-  //   });
-  //   alert(logo.uri);
-
-  //   console.log(logo.uri, "logouri");
-
-  //   if (!logo.cancelled) {
-  //     this.setState({
-  //       Logo: "data:image/png;base64," + logo.base64
-  //     });
-  //     console.log("image in state");
-  //   }
-  // };
-
-  
-
 
   _onSubmit = () => {
     const { navigate } = this.props.navigation;
-
-
     if (!this.state.Name) {
       Alert.alert("Please Add A Name");
     }
-
     if (this.state.CoreProps) {
       let CoreProps = {};
       Object.values(this.state.CoreProps).map(x => {
         CoreProps[x] = "";
       });
-
       let newAsset = Object.assign({}, {
         ...this.state,
         CoreProps
       });
-
       if (this.state.Name && this.state.CoreProps) {
         this.props.addAsset(newAsset);
         navigate("NewAssetConfirm");
       }
     } else {
       Alert.alert("No Properties");
-
     }
-
   }
 
   render() {
@@ -363,7 +311,7 @@ class Tee extends Component {
               <TouchableHighlight onPress={this._takePic}>
                 <Image style={styles.menuButton} source={takePhoto} />
               </TouchableHighlight>
-              
+
               <TouchableHighlight onPress={this._pickImage}>
                 <Image style={styles.menuButton} source={uploadPhoto} />
               </TouchableHighlight>
@@ -379,24 +327,7 @@ class Tee extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  // newAsset: state.AssetReducers.newAsset,
-  hercId: state.AssetReducers.hercId
-  // newProperties: state.AssetReducers.selectedAsset.newProperties
-});
-const mapDispatchToProps = dispatch => ({
-  addAsset: newAsset => dispatch(addAsset(newAsset)),
-  getHercId: () => dispatch(getHercId())
-});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Tee);
-
 const localStyles = StyleSheet.create({
-
-
   assetMetricInputField: {
     height: 40,
     flexDirection: "row",
@@ -406,7 +337,6 @@ const localStyles = StyleSheet.create({
     margin: 5,
     marginTop: 10,
     marginBottom: 10
-
   },
   text: {
     color: "white",
@@ -422,7 +352,6 @@ const localStyles = StyleSheet.create({
     textAlign: "center",
     backgroundColor: "#ffffff",
 
-    // margin: .5,
     fontSize: 15,
     fontWeight: "200",
     borderColor: "blue",
@@ -431,13 +360,11 @@ const localStyles = StyleSheet.create({
     alignSelf: "center",
     borderRadius: 3
   },
-
   nextButtonContainer: {
     height: 40,
     width: 150,
     margin: 10,
     resizeMode: "contain"
-
   },
   imageButtonContainer: {
     justifyContent: "center",
@@ -472,6 +399,19 @@ const localStyles = StyleSheet.create({
     alignSelf: 'center',
     margin: 20
   }
-
-
 })
+
+const mapStateToProps = state => ({
+  // newAsset: state.AssetReducers.newAsset,
+  hercId: state.AssetReducers.hercId
+  // newProperties: state.AssetReducers.selectedAsset.newProperties
+});
+const mapDispatchToProps = dispatch => ({
+  addAsset: newAsset => dispatch(addAsset(newAsset)),
+  getHercId: () => dispatch(getHercId())
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Tee);

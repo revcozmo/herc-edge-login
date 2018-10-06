@@ -17,9 +17,7 @@ export default () => {
                     logo: obj.toJSON().Logo,
                     // url: obj.toJSON().url
                 });
-
             })
-
         })
     return assetList
     }

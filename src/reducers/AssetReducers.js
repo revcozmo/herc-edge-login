@@ -20,13 +20,8 @@ import {
     AUTH_TOKEN
 
 } from '../actions/types';
-
-// import assets from "./Assets";
 import firebase from '../constants/Firebase';
-
-
 const rootRef = firebase.database().ref();
-// import Assets from './Assets';
 
 //synchronous
 // let assets = [];
@@ -74,9 +69,7 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
             let selectedAsset = action.selectedAsset;
             return Object.assign({}, state, {
                 ...state,
-
-                selectedAsset,
-
+                selectedAsset
             })
 
         case GOT_ASSET_TRANS:
@@ -94,28 +87,22 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
             return Object.assign({}, state, {
                 ...state,
                 trans
-            }
-
-
-            )
+            })
 
         case SEND_TRANS:
             let dTime = new Date().toDateString();
             let header = state.trans.header;
             let data = state.trans.data;
-
             //  console.log(rootRef.ref(state.AssetReducers.transInfo.name.val()));
+            // rootRef.ref()
             console.log(state.trans.header, "trans in send_trans reducer");
             rootRef.child('assets/' + header.key).child('transactions').push({
                 data
             })
             rootRef.child('transactions/' + header.key).push({ header, data });
-            // rootRef.ref()
             console.log(dTime, "timecheck")
             return Object.assign({}, state, {
-
                 ...state,
-
                 trans: {
                     ...state.trans,
                     header,
@@ -123,12 +110,8 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
                         ...state.trans.data,
                         dTime
                     }
-
                 }
-
-            }
-
-            )
+            })
 
         case GOT_HERC_ID:
             let hercId = action.hercId;
@@ -142,9 +125,7 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
         case INC_HERC_ID:
             let hercID = action.hercId;
             console.log(hercID, 'in increase reducer');
-
             rootRef.child('hercID').set(hercID);
-
             return Object.assign({}, state, {
                 ...state,
                 hercId: hercID
@@ -181,13 +162,10 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
                     data: {
                         ...state.trans.data,
                         images
+                          }
+                      }
+                  })
 
-
-                    }
-                }
-            }
-
-            )
         case ADD_DOC:
             let doc = action.document;
             console.log('adding doc', doc);
@@ -199,27 +177,23 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
                     data: {
                         ...state.trans.data,
                         documents
+                        }
                     }
-                }
-            }
-            )
+                  })
 
         case ADD_PROPS:
             const properties = action.data;
             console.log(properties, "updating attributes in reducers");
             return Object.assign({}, state, {
-
                 ...state,
                 trans: {
                     ...state.trans,
                     data: {
                         ...state.trans.data,
                         properties
+                      }
                     }
-                }
-
-
-            })
+                  })
 
 
         case ADD_ASSET:
@@ -227,11 +201,8 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
             console.log('adding asset', newAsset.name)
             return Object.assign({}, state, {
                 ...state,
-
                 newAsset
-
-            }
-            )
+              })
 
         case CONFIRM_ASSET:
             const asset = action.newAsset;
@@ -241,15 +212,11 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
 
             return Object.assign({}, state, {
                 state: INITIAL_STATE,
-
-
-            }
-            )
+              })
 
         case SET_SET:
             const ediT = action.item
             console.log(ediT, 'setset');
-
             return Object.assign({}, state, {
                 ...state,
                 trans: {
@@ -258,13 +225,11 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
                         ...state.trans.data,
                         ediT
                     }
-
-                }
-            })
+                  }
+                })
 
         case DELETE_ASSET:
             const key = action.delKey;
-
             rootRef.child('assets').child(key).remove();
             return state;
 
