@@ -24,12 +24,11 @@ import uploadPhoto from "../components/buttons/uploadImage.png";
 import { STATUS_BAR_HEIGHT } from "../constants";
 
 var ImagePicker = require('react-native-image-picker');
-//// Need to replace the camera functionality
 
 
 class Tee extends Component {
   static navigationOptions = ({ navigation }) => {
-    
+
     let headerStyles = StyleSheet.create({
       header__container: {
         // borderColor: "green",
@@ -43,7 +42,7 @@ class Tee extends Component {
         alignItems: "center",
         marginTop: 40,
         paddingBottom: 20
-        
+
       },
       header__container__centeredBox: {
         // borderColor: "purple",
@@ -58,7 +57,7 @@ class Tee extends Component {
         height: "100%",
         marginBottom: 5,
         marginLeft: 12,
-        
+
       },
       header__image__box: {
         // borderColor: "yellow",
@@ -86,7 +85,7 @@ class Tee extends Component {
     })
     return {
       headerTitle: (
-        
+
         <View style={headerStyles.header__container}>
           <View style={headerStyles.header__container__centeredBox}>
             <View style={headerStyles.header__image__box}>
@@ -103,24 +102,42 @@ class Tee extends Component {
           </View>
         </View>
 
-)
+      )
     }
   }
-  
-  
+
+
   constructor(props) {
     super(props);
-    
+
     this.setLogo = this.setLogo.bind(this); // method to set the log from the camera component 
-    
+
     this.state = {
       Logo: null,
     };
   }
-  
+
   componentDidMount() {
   }
+  //////// QR functionality ///////////////
+  // componentDidUpdate(prevProps) {
+  //   const data = this.props.getQRData;
 
+  //   // Typical usage of componentDidUpdate (don't forget to compare props to prevent loop):
+
+  //   if (data !== prevProps.getQRData) {
+  //     this.setState({ CoreProps: data.CoreProps });
+  //     if (data.assetName) {
+  //       this.setState({ Name: data.assetName });
+  //     }
+  //     if (data.assetURL) {
+  //       this.setState({ URL: data.assetURL });
+  //     }
+  //     if (data.iconURL) {
+  //       this.setState({ Logo: data.iconURL });
+  //     }
+  //   }
+  // }
   setLogo = (imgObj) => {
     console.log("trying to set the Logog", imgObj)
     this.setState({
@@ -132,15 +149,15 @@ class Tee extends Component {
   _takePic = () => {
     const { navigate } = this.props.navigation;
     console.log("takingpic")
-    navigate('Camera',{ setPic: this.setLogo})
+    navigate('Camera', { setPic: this.setLogo })
 
   }
   _pickImage = () => {
     console.log("picking image")
-   
+
     ImagePicker.launchImageLibrary({}, (response) => {
       console.log('Response = ', response);
-     
+
       if (response.didCancel) {
         console.log('User cancelled image picker');
       }
@@ -152,10 +169,10 @@ class Tee extends Component {
       }
       else {
         let source = { uri: response.uri };
-     
+
         // You can also display the image using data:
         // let source = { uri: 'data:image/jpeg;base64,' + response.data };
-     
+
         this.setState({
           Logo: "data:image/jpg;base64," + response.data
         });
@@ -180,7 +197,7 @@ class Tee extends Component {
   //   }
   // };
 
-  
+
 
 
   _onSubmit = () => {
@@ -213,10 +230,15 @@ class Tee extends Component {
 
   }
 
+  // qrSnapshot = () => {
+  //   const { navigate } = this.props.navigation;
+  //   navigate("QRCapture");
+  // };
+
   render() {
     let Logo = this.state.Logo || null;
 
-    if(this.state.Logo){
+    if (this.state.Logo) {
       console.log("logog is here")
     }
 
@@ -360,10 +382,18 @@ class Tee extends Component {
             )}
 
             <View style={localStyles.imageButtonContainer}>
+
+               {/* <TouchableHighlight
+                onPress={() => this.qrSnapshot()}
+                style={localStyles.menuItemField__textBox}
+              >
+                <Image style={localStyles.qrScan} source={qrScan} />
+              </TouchableHighlight> */}
+
               <TouchableHighlight onPress={this._takePic}>
                 <Image style={styles.menuButton} source={takePhoto} />
               </TouchableHighlight>
-              
+
               <TouchableHighlight onPress={this._pickImage}>
                 <Image style={styles.menuButton} source={uploadPhoto} />
               </TouchableHighlight>

@@ -1,8 +1,6 @@
 import {
   ADD_ASSET,
-  LIST_ASSETS,
   GET_TRANS,
-  GOT_LIST_ASSETS,
   SELECT_ASSET,
   START_TRANS,
   SEND_TRANS,
@@ -17,76 +15,57 @@ import {
   SET_SET,
   DELETE_ASSET,
   GOT_ASSET_TRANS,
-  AUTH_TOKEN
-  // FETCHING_DATA,
-  // FETCHING_DATA_SUCCESS,
-  // FETCHING_DATA_FAILURE
+  AUTH_TOKEN,
+  GET_QR_DATA,
+  GET_ORIGIN_TRANS,
+
+
 } from "./types";
 
 import firebase from "../constants/Firebase";
 const rootRef = firebase.database().ref();
 import getAssets from "../reducers/Assets";
 
-// export function getData() {
-//     return {
-//       type: FETCHING_DATA
-//     }
-//   }
-
-//   export function getDataSuccess(data) {
-//     return {
-//       type: FETCHING_DATA_SUCCESS,
-//       data,
-//     }
-//   }
-
-//   export function getDataFailure() {
-//     return {
-//       type: FETCHING_DATA_FAILURE
-//     }
-//   }
 
 export function getHercId() {
-    return dispatch => {
-        dispatch({
-            type: GET_HERC_ID
-        });
-        let hercId;
-        rootRef
-        .child("hercID")
-        .once("value")
-        .then(snapshot => {
-            console.log(snapshot.val(), "snaps");
-            hercId = snapshot.toJSON();
-        })
-        .then(() => dispatch(gotHercId(hercId)));
-    };
+  return dispatch => {
+    dispatch({
+      type: GET_HERC_ID
+    });
+    let hercId;
+    rootRef
+      .child("hercID")
+      .once("value")
+      .then(snapshot => {
+        console.log(snapshot.val(), "snaps");
+        hercId = snapshot.toJSON();
+      })
+      .then(() => dispatch(gotHercId(hercId)));
+  };
 }
 
 export function gotHercId(hercId) {
-    let id = hercId;
-    console.log(id, "gotHercId");
-    return {
-        type: GOT_HERC_ID,
-        hercId: id
-    };
+  let id = hercId;
+  console.log(id, "gotHercId");
+  return {
+    type: GOT_HERC_ID,
+    hercId: id
+  };
 }
 
 export function incHercId(hercid) {
   console.log(hercid, "hercid");
-  let hercIdStr = (Number(hercid) + 1).toString();
-  console.log(hercIdStr, "transformed to string");
-  let hercId = "00" + hercIdStr; //adding leading 0's for fun
-  console.log(hercId, "after refact");
+  let hercIdplus1 = parseInt(hercid) + 1;
+  console.log(hercIdplus1, 'transformed hopefully plus one')
   return {
     type: INC_HERC_ID,
-    hercId
+    hercIdplus1
   };
 }
 
 
-export function authToken(token){
-  return{
+export function authToken(token) {
+  return {
     type: AUTH_TOKEN,
     token
   };
@@ -98,49 +77,6 @@ export function getAccount(edge_account) {
   return {
     type: GET_ACCOUNT,
     edge_account
-  };
-}
-
-export function fetchAssets() {
-  return async dispatch => {
-    try {
-      const assets = await getAssets();
-      dispatch(gotListAssets(assets));
-    } catch (err) {
-      console.log("err:", err);
-    }
-  };
-}
-
-// export function listAssets() {
-//     return (dispatch) => {
-//         dispatch({
-//             type: "LIST_ASSETS"
-//         });
-// let assets = [];
-// rootRef.child('assets').once('value').
-//     then((snapshot) => {
-//         snapshot.forEach((obj) => {
-//             console.log('objects in listassets');
-//             assets.push({
-//                 name: obj.toJSON().Name,
-//                 key: obj.key,
-//                 logo: obj.toJSON().Logo,
-//                 // url: obj.toJSON().url
-//             });
-
-//         })
-
-//     }).then(() => dispatch(gotListAssets(assets)))
-
-//     }
-// }
-export function gotListAssets(assetList) {
-  let assets = assetList;
-  console.log("got the list");
-  return {
-    type: GOT_LIST_ASSETS,
-    assets
   };
 }
 
@@ -236,7 +172,7 @@ export function setSet(item) {
 export function getTrans(assetKey) {
   return dispatch => {
     dispatch({
-      type: "GET_TRANS"
+      type: GET_TRANS
     });
 
     console.log("getTrans action");
@@ -264,3 +200,23 @@ export function gotAssetTrans(assetTrans) {
     transactions
   };
 }
+
+export function getOriginTrans(trans) {
+  console.log(trans, "INSIDE get Origin");
+  return (
+      {
+          type: GET_ORIGIN_TRANS,
+          trans
+      }
+  )
+}
+
+export function getQRData(data) {
+  console.log(data, "this is actions getQRData");
+  return {
+    type: GET_QR_DATA,
+    data
+  }
+}
+
+
