@@ -43,7 +43,6 @@ class Tee extends Component {
         alignItems: "center",
         marginTop: 40,
         paddingBottom: 20
-
       },
       header__container__centeredBox: {
         height: "100%",
@@ -54,7 +53,6 @@ class Tee extends Component {
         height: "100%",
         marginBottom: 5,
         marginLeft: 12,
-
       },
       header__image__box: {
         height: "100%",
@@ -98,38 +96,6 @@ class Tee extends Component {
     }
   }
 
-
-  constructor(props) {
-    super(props);
-
-    this.setLogo = this.setLogo.bind(this); // method to set the log from the camera component
-
-    this.state = {
-      Logo: null,
-    };
-  }
-
-  componentDidMount() {
-  }
-  //////// QR functionality ///////////////
-  // componentDidUpdate(prevProps) {
-  //   const data = this.props.getQRData;
-
-  //   // Typical usage of componentDidUpdate (don't forget to compare props to prevent loop):
-
-  //   if (data !== prevProps.getQRData) {
-  //     this.setState({ CoreProps: data.CoreProps });
-  //     if (data.assetName) {
-  //       this.setState({ Name: data.assetName });
-  //     }
-  //     if (data.assetURL) {
-  //       this.setState({ URL: data.assetURL });
-  //     }
-  //     if (data.iconURL) {
-  //       this.setState({ Logo: data.iconURL });
-  //     }
-  //   }
-  // }
   setLogo = (imgObj) => {
     console.log("trying to set the Logo: ", imgObj)
     this.setState({
@@ -142,8 +108,8 @@ class Tee extends Component {
     const { navigate } = this.props.navigation;
     console.log("takingpic")
     navigate('Camera', { setPic: this.setLogo })
-
   }
+
   _pickImage = () => {
     console.log("picking image")
 

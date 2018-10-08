@@ -37,7 +37,7 @@ export function getHercId() {
       .child("hercID")
       .once("value")
       .then(snapshot => {
-        console.log(snapshot.val(), "snaps");
+        console.log(snapshot.val(), " in getHercId action");
         hercId = snapshot.toJSON();
       })
       .then(() => dispatch(gotHercId(hercId)));
@@ -218,5 +218,3 @@ export function getQRData(data) {
     data
   }
 }
-
-
