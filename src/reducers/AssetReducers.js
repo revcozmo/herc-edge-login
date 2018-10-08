@@ -123,29 +123,30 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
             })
 
         case INC_HERC_ID:
-            let hercID = action.hercId;
-            console.log(hercID, 'in increase reducer');
-            rootRef.child('hercID').set(hercID);
+            let hercID = action.hercIdplus1;
+            console.log(hercID, "in increase reducer");
+
+            rootRef.child("hercID").set(hercID);
+
             return Object.assign({}, state, {
                 ...state,
-                hercId: hercID
-            })
-
+                hercId
+            });
 
         case AUTH_TOKEN:
             let token = action.token;
             // console.log('Token captured in reducer', token);
             return Object.assign({}, state, {
-              ...state,
-              auth_token: token
+                ...state,
+                auth_token: token
             })
 
 
         case GET_ACCOUNT:
             let edge_account = action.edge_account;
             return Object.assign({}, state, {
-              ...state,
-              edge_account: edge_account
+                ...state,
+                edge_account: edge_account
             })
 
         case ADD_PHOTO:

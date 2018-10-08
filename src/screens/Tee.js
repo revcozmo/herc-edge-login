@@ -32,6 +32,7 @@ class Tee extends Component {
   }
 
   static navigationOptions = ({ navigation }) => {
+
     let headerStyles = StyleSheet.create({
       header__container: {
         display: "flex",
@@ -42,6 +43,7 @@ class Tee extends Component {
         alignItems: "center",
         marginTop: 40,
         paddingBottom: 20
+
       },
       header__container__centeredBox: {
         height: "100%",
@@ -96,6 +98,38 @@ class Tee extends Component {
     }
   }
 
+
+  constructor(props) {
+    super(props);
+
+    this.setLogo = this.setLogo.bind(this); // method to set the log from the camera component
+
+    this.state = {
+      Logo: null,
+    };
+  }
+
+  componentDidMount() {
+  }
+  //////// QR functionality ///////////////
+  // componentDidUpdate(prevProps) {
+  //   const data = this.props.getQRData;
+
+  //   // Typical usage of componentDidUpdate (don't forget to compare props to prevent loop):
+
+  //   if (data !== prevProps.getQRData) {
+  //     this.setState({ CoreProps: data.CoreProps });
+  //     if (data.assetName) {
+  //       this.setState({ Name: data.assetName });
+  //     }
+  //     if (data.assetURL) {
+  //       this.setState({ URL: data.assetURL });
+  //     }
+  //     if (data.iconURL) {
+  //       this.setState({ Logo: data.iconURL });
+  //     }
+  //   }
+  // }
   setLogo = (imgObj) => {
     console.log("trying to set the Logo: ", imgObj)
     this.setState({
@@ -107,7 +141,7 @@ class Tee extends Component {
   _takePic = () => {
     const { navigate } = this.props.navigation;
     console.log("takingpic")
-    navigate('Camera',{ setPic: this.setLogo})
+    navigate('Camera', { setPic: this.setLogo })
 
   }
   _pickImage = () => {
@@ -137,6 +171,26 @@ class Tee extends Component {
       }
     });
   }
+  // _pickImage = async () => {
+  //   let logo = await ImagePicker.launchImageLibraryAsync({
+  //     allowsEditing: false,
+  //     aspect: [4, 4],
+  //     base64: true
+  //   });
+  //   alert(logo.uri);
+
+  //   console.log(logo.uri, "logouri");
+
+  //   if (!logo.cancelled) {
+  //     this.setState({
+  //       Logo: "data:image/png;base64," + logo.base64
+  //     });
+  //     console.log("image in state");
+  //   }
+  // };
+
+
+
 
   _onSubmit = () => {
     const { navigate } = this.props.navigation;
@@ -161,10 +215,15 @@ class Tee extends Component {
     }
   }
 
+  // qrSnapshot = () => {
+  //   const { navigate } = this.props.navigation;
+  //   navigate("QRCapture");
+  // };
+
   render() {
     let Logo = this.state.Logo || null;
 
-    if(this.state.Logo){
+    if (this.state.Logo) {
       console.log("logog is here")
     }
 
@@ -308,6 +367,14 @@ class Tee extends Component {
             )}
 
             <View style={localStyles.imageButtonContainer}>
+
+               {/* <TouchableHighlight
+                onPress={() => this.qrSnapshot()}
+                style={localStyles.menuItemField__textBox}
+              >
+                <Image style={localStyles.qrScan} source={qrScan} />
+              </TouchableHighlight> */}
+
               <TouchableHighlight onPress={this._takePic}>
                 <Image style={styles.menuButton} source={takePhoto} />
               </TouchableHighlight>
