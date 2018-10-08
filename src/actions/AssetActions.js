@@ -74,14 +74,19 @@ export function gotHercId(hercId) {
 
 export function incHercId(hercid) {
   console.log(hercid, "hercid");
-  let hercIdStr = (Number(hercid) + 1).toString();
-  console.log(hercIdStr, "transformed to string");
-  let hercId = "00" + hercIdStr; //adding leading 0's for fun
-  console.log(hercId, "after refact");
-  return {
-    type: INC_HERC_ID,
-    hercId
-  };
+  if (hercid){
+    let hercIdStr = (Number(hercid) + 1).toString();
+    console.log(hercIdStr, "transformed to string");
+    let hercId = "00" + hercIdStr; //adding leading 0's for fun
+    console.log(hercId, "after refact");
+    return {
+      type: INC_HERC_ID,
+      hercId
+    };
+  } else {
+    console.log("Error hercid is not valid, hercid: ", hercid )
+    console.log("it's a NaNNaNNaN batman")
+  }
 }
 
 

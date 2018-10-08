@@ -207,6 +207,8 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
         case CONFIRM_ASSET:
             const asset = action.newAsset;
             console.log(asset.Name, 'asset in reducerconfirm', state, 'state')
+            console.log("Asset to be moved into IPFS", asset)
+            // TODO: create new factom chain
             // let assetRef = rootRef.child(state.edge_account).child('assets').push();
             rootRef.child(state.edge_account).child('assets').set(asset);
 
