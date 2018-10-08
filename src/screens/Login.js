@@ -6,7 +6,7 @@ import {
   View
 } from 'react-native';
 import React, { Component } from 'react';
-import { LoginScreen } from 'edge-login-ui-rn';
+import { LoginScreen } from 'herc-edge-login-ui-rn';
 import { YellowBox } from 'react-native';
 import { connect } from "react-redux";
 import axios from 'axios';

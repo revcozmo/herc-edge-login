@@ -1,17 +1,15 @@
 // @flow
-
 const strings = {
   login_button: 'Login',
   username: 'Username',
   password: 'Password',
   pin: 'PIN',
   back_caps: 'BACK',
+  back: 'Back',
   forgot_password: 'Forgot Password',
-  create_an_account: 'Create an account',
+  create_an_account: 'Create an Account', // 'Forgot Password' is capitalized, making consistent
   initiate_password_recovery:
-    'Please find the email and click on the link from this device to initiate recovery. ',
-  if_recovery_modal:
-    'If recovery was set up, you should have emailed yourself a recovery token with a link.',
+    'To recover your password, you must have setup password recovery prior. Please find the recovery email you sent yourself and click on the link from this device.',
   choose_recovery_question: 'Choose recovery question',
   submit: 'Submit',
   save: 'Save',
@@ -26,6 +24,7 @@ const strings = {
   ok: 'OK',
   or: 'OR',
   exit: 'Exit',
+  exit_pin: 'Exit PIN', // nothing should be all-caps
   next_label: 'Next',
   next_label_caps: 'NEXT',
   delete: 'Delete',
@@ -35,7 +34,7 @@ const strings = {
   cancel: 'Cancel',
   cancel_caps: 'CANCEL',
   change_password: 'Change Password',
-  change_pin: 'Change Pin',
+  change_pin: 'Change PIN',
   pin_changed: 'PIN Changed',
   delete_account: 'Delete Account?',
   pin_successfully_changed: 'PIN Successfully Changed',
@@ -65,17 +64,17 @@ const strings = {
     'I understand that if I lose this device or uninstall the app, my digital assets can only be recovered with my username and password',
   terms_three:
     'I understand that if I lose my username and password, Edge will not be able to recover my account, unless I setup password recovery',
-  step_one: 'step 1/3',
-  step_two: 'step 2/3',
-  step_three: 'step 3/3',
-  choose_title_username: 'Choose a username',
-  choose_title_password: 'Set a password',
+  step_one: 'Step 1/3', // title of scene
+  step_two: 'Step 2/3', // title of scene
+  step_three: 'Step 3/3', // title of scene
+  choose_title_username: 'Choose a Username', // title of scene
+  choose_title_password: 'Set a Password', // title of scene
   set_four_digit_pin: 'Set a 4-digit PIN ',
-  create_your_account: 'Creating your account',
-  write_it_down: 'Write it down',
+  create_your_account: 'Creating Your Account', // title of scene
+  write_it_down: 'Write It Down', // Is this smaller green title even necessary?
   quick_review: 'Quick Review',
   recovery: 'Recovery',
-  account_confirmation: 'ACCOUNT CONFIRMATION',
+  account_confirmation: 'Account Confirmation', // title should be regular capitalization, not all uppercase
   otp_header: 'Two Factor Authentication',
   recovery_questions_header: 'Recovery Questions',
   account_info_warning:
@@ -123,7 +122,7 @@ const strings = {
   welcome_one:
     "Let's get started by creating your account login. You’ll choose a username and password, which we’ll use to encrypt your account. Not even Edge has access to your information, so you have full and complete control over your digital assets.",
   start_username: 'Let’s get started with choosing a username',
-  get_started: 'Get started',
+  get_started: 'Get Started', // button title, not a complete sentence so capitalize first letters
   encrypting: 'Doing the encryption',
   username_desc:
     'Your username will be required to sign in to your Edge account on this and other devices.',
@@ -133,7 +132,20 @@ const strings = {
   good_job: 'Good job!',
   hang_tight: 'Hang tight while we create',
   secure_account: 'and secure your account',
-  encrypting_wallet: 'Encrypting wallet...'
+  encrypting_wallet: 'Encrypting wallet...',
+  unexpected_end_of_data: 'Not enough characters in field',
+  confirm_recovery_questions: 'Confirm Recovery',
+  login_with_password: 'Login with password',
+  landing_tagline:
+    'The secure and easy to use wallet for your blockchain assets and tokens',
+  landing_create_account_button: 'Create account',
+  landing_already_have_account: 'Already have an account? Sign in',
+  pin_not_enabled: 'PIN is not enabled for this account',
+  invalid_pin: 'Invalid PIN',
+  account_locked_for: 'Account locked for \n%1$s more seconds',
+  otp_modal_reset_headline: '2FA Reset Requested',
+  otp_modal_reset_body:
+    'URGENT: 2FA reset has been requested by another device for the following accounts:\n %1$s\n\nIf you did not request a 2FA reset, please go to Settings -> 2 Factor and click Keep 2FA. Then change your password.'
 }
 
-export default strings
+module.exports = strings

@@ -8,11 +8,15 @@ import hercPillar from "../assets/hercLogoPillar.png";
 import { incHercId, confirmAsset } from "../actions/AssetActions"
 
 class NewAssetConfirm extends Component {
+    constructor(props) {
+        super(props);
+    }
+    state = {};
     static navigationOptions = ({ navigation }) => {
         return {
             headerTitleStyle:
             {
-                justifyContent: "space-around"
+              justifyContent: "space-around"
             },
             headerTitle: (
                 <View style={localStyles.headerField}>
@@ -25,15 +29,6 @@ class NewAssetConfirm extends Component {
             )
         }
     }
-    constructor(props) {
-        super(props);
-    }
-    state = {};
-
-    componentDidMount() {
-
-    }
-
 
     _onPressSubmit() {
         let hercId = this.props.hercId;
@@ -57,20 +52,18 @@ class NewAssetConfirm extends Component {
         let Logo, Url, list;
         let Name = newAsset.Name;
 
-        // let Name = this.props.newAsset.Name;
         if (newAsset.Logo) {
             Logo = (<Image style={styles.assetHeaderImage} source={{ uri: newAsset.Logo }} />);
-        } else {
-            Logo = (<Text style={styles.label}>No Image</Text>)
-        }
+          } else {
+              Logo = (<Text style={styles.label}>No Image</Text>)
+          }
 
 
         if (newAsset.hasOwnProperty('Url')) {
             Url = (<Text style={styles.label}>{newAsset.Url}</Text>);
-        } else {
-
+          } else {
             Url = (<Text style={styles.label}>No Url</Text>)
-        }
+          }
 
         if (newAsset.hasOwnProperty('CoreProps')) {
             list = Object.getOwnPropertyNames(newAsset.CoreProps).map((x, i) => {
@@ -96,7 +89,7 @@ class NewAssetConfirm extends Component {
                     <Text style={styles.assetHeaderLabel}>{Url}</Text>
                     <Text style={styles.assetHeaderLabel}>HercID: {hercId}</Text>
                     <ScrollView style={{ paddingRight: 5, alignSelf: "center", width: "100%" }}>
-                     
+
                         {list}
 
                     </ScrollView>
@@ -134,7 +127,6 @@ export default connect(mapStateToProps, mapDispatchToProps)(NewAssetConfirm);
 
 
 const localStyles = StyleSheet.create({
-
     headerField: {
         flexDirection: "row",
         width: 200,
@@ -158,7 +150,6 @@ const localStyles = StyleSheet.create({
         color: "black",
         textAlign: "center"
     },
-      
     assetMetricInputField: {
         height: 40,
         flexDirection: "row",
@@ -168,9 +159,7 @@ const localStyles = StyleSheet.create({
         margin: 5,
         marginTop: 10,
         marginBottom: 10
-
     },
-  
     text: {
         color: "white",
         alignSelf: "center",
@@ -198,23 +187,20 @@ const localStyles = StyleSheet.create({
         resizeMode: "contain",
         alignSelf: "center",
         margin: 7
-
     },
-        
+
     newAssetFeeContainer: {
         height: 50,
         width: 125,
         flexDirection: "row",
         justifyContent: "space-around",
         alignItems: "center",
-        // backgroundColor: "blue"
     },
     assetFeePillarLogo: {
         height: 40,
         width: 30,
         backgroundColor: "#091141",
         resizeMode: "contain",
-        // marginRight: 5
     },
     assetFeePrice: {
         backgroundColor: "#091141",
@@ -224,7 +210,6 @@ const localStyles = StyleSheet.create({
         color: "white",
         height: 30
     },
-
     wordsText: {
         height: 23,
         fontSize: 20,
@@ -237,7 +222,4 @@ const localStyles = StyleSheet.create({
         fontWeight: "600",
         color: "yellow"
       }
-    
-
-
 })

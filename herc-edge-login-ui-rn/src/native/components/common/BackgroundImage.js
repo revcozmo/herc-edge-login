@@ -2,7 +2,6 @@
 
 import React from 'react'
 import {
-  View,
   ImageBackground,
   Keyboard,
   TouchableWithoutFeedback
@@ -16,8 +15,8 @@ type Props = {
   callback?: Function | null
 }
 const BackgroundImage = ({
-  // style,
-  // src,
+  style,
+  src,
   content,
   enableTouch = true,
   callback
@@ -35,16 +34,16 @@ const BackgroundImage = ({
   if (enableTouch) {
     return (
       <TouchableWithoutFeedback onPress={onPress}>
-        <View>
-        {content}
-      </View>
+        <ImageBackground source={src} style={style}>
+          {content}
+        </ImageBackground>
       </TouchableWithoutFeedback>
     )
   }
   return (
-    <View>
-    {content}
-  </View>
+    <ImageBackground source={src} style={style}>
+      {content}
+    </ImageBackground>
   )
 }
 

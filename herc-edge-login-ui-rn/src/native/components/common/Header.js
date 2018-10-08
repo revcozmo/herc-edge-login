@@ -1,11 +1,12 @@
 // @flow
 
 import React, { Component } from 'react'
-import { Text, View } from 'react-native'
+import { View } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'
 
 import * as Colors from '../../../common/constants/Colors'
 import s from '../../../common/locales/strings'
+import T from '../../../native/components/common/FormattedText.js'
 import { Button, HeaderBackButton } from '../common'
 
 type Props = {
@@ -13,8 +14,11 @@ type Props = {
   subTitle: string,
   title: string,
   showBackButton: boolean,
+  customLabel?: string,
   skipScreen(): void,
-  goBack(): void
+  goBack(): void,
+  useCancel(): void,
+  skipButton(): void
 }
 // Make a component
 class Header extends Component<Props> {
@@ -37,9 +41,12 @@ class Header extends Component<Props> {
     if (!this.props.showBackButton) {
       return
     }
-    let label = s.strings.back_caps
+    let label = s.strings.back
     if (this.props.useCancel) {
       label = s.strings.cancel_caps
+    }
+    if (this.props.customLabel) {
+      label = this.props.customLabel
     }
     return (
       <HeaderBackButton
@@ -52,8 +59,8 @@ class Header extends Component<Props> {
   renderText (style: Object) {
     return (
       <View style={style.center}>
-        <Text style={style.subHeadText}>{this.props.subTitle}</Text>
-        <Text style={style.headlineText}>{this.props.title}</Text>
+        <T style={style.subHeadText}>{this.props.subTitle}</T>
+        <T style={style.headlineText}>{this.props.title}</T>
       </View>
     )
   }

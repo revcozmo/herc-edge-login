@@ -14,11 +14,10 @@ export default class LoadingScreenComponent extends Component<Props> {
   render () {
     const { LandingScreenStyle } = this.props.styles
     return (
-      // <View style={LandingScreenStyle.container}>
-      <View style={{backgroundColor: '#091141'}}>
+      <View style={LandingScreenStyle.container}>
         <BackgroundImage
-          // src={Assets.LOGIN_BACKGROUND}
-          // style={LandingScreenStyle.backgroundImage}
+          src={Assets.LOGIN_BACKGROUND}
+          style={LandingScreenStyle.backgroundImage}
           content={this.renderSpinner()}
         />
       </View>

@@ -207,8 +207,8 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
         case CONFIRM_ASSET:
             const asset = action.newAsset;
             console.log(asset.Name, 'asset in reducerconfirm', state, 'state')
-            let assetRef = rootRef.child('assets').push();
-            rootRef.child('assets').push(asset);
+            // let assetRef = rootRef.child(state.edge_account).child('assets').push();
+            rootRef.child(state.edge_account).child('assets').set(asset);
 
             return Object.assign({}, state, {
                 state: INITIAL_STATE,

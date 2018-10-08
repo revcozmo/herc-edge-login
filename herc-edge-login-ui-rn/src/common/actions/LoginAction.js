@@ -9,6 +9,8 @@ import {
 } from '../../native/keychain.js'
 import type { Dispatch, GetState, Imports } from '../../types/ReduxTypes'
 import * as Constants from '../constants'
+import s from '../locales/strings.js'
+import { translateError } from '../util'
 import {
   dispatchAction,
   dispatchActionWitString,
@@ -23,7 +25,7 @@ export function loginWithRecovery (answers: Array<string>, username: string) {
     const state = getState()
     const backupKey = state.passwordRecovery.recoveryKey
     const username = state.login.username
-    const context = imports.context
+    const { context, folder } = imports
     const myAccountOptions = {
       ...imports.accountOptions,
       callbacks: {
@@ -40,16 +42,16 @@ export function loginWithRecovery (answers: Array<string>, username: string) {
         answers,
         myAccountOptions
       )
-      const touchDisabled = await isTouchDisabled(context, account.username)
+      const touchDisabled = await isTouchDisabled(folder, account.username)
       if (!touchDisabled) {
-        await enableTouchId(context, account)
+        await enableTouchId(folder, account)
       }
-      await context.io.folder
+      await folder
         .file('lastuser.json')
         .setText(JSON.stringify({ username: account.username }))
         .catch(e => null)
       const isTouchSupported = await supportsTouchId()
-      const touchEnabled = await isTouchEnabled(context, account.username)
+      const touchEnabled = await isTouchEnabled(folder, account.username)
       const touchIdInformation = {
         isTouchSupported,
         isTouchEnabled: touchEnabled
@@ -89,6 +91,7 @@ export function resetOtpReset () {
 }
 export function retryWithOtp () {
   return (dispatch: Dispatch, getState: GetState, imports: Imports) => {
+    dispatch(dispatchAction(Constants.START_RECOVERY_LOGIN))
     const state = getState()
     const userBackUpKey = state.login.otpUserBackupKey
     const previousAttemptType = state.login.previousAttemptType
@@ -106,8 +109,7 @@ export function retryWithOtp () {
 }
 export function userLoginWithTouchId (data: Object) {
   return (dispatch: Dispatch, getState: GetState, imports: Imports) => {
-    const context = imports.context
-    const callback = imports.callback
+    const { callback, context, folder } = imports
     const myAccountOptions = {
       ...imports.accountOptions,
       callbacks: {
@@ -122,15 +124,16 @@ export function userLoginWithTouchId (data: Object) {
     }
     loginWithTouchId(
       context,
+      folder,
       data.username,
       'Touch to login user: `' + data.username + '`',
-      null,
+      s.strings.login_with_password,
       myAccountOptions,
       startFunction
     )
       .then(async response => {
         if (response) {
-          context.io.folder
+          folder
             .file('lastuser.json')
             .setText(JSON.stringify({ username: data.username }))
             .catch(e => null)
@@ -149,8 +152,7 @@ export function userLoginWithTouchId (data: Object) {
 }
 export function userLoginWithPin (data: Object, backupKey?: string) {
   return (dispatch: Dispatch, getState: GetState, imports: Imports) => {
-    const context = imports.context
-    const callback = imports.callback
+    const { callback, context, folder } = imports
     const myAccountOptions = {
       ...imports.accountOptions,
       callbacks: {
@@ -174,21 +176,18 @@ export function userLoginWithPin (data: Object, backupKey?: string) {
             myAccountOptions
           )
           const touchDisabled = await isTouchDisabled(
-            context,
+            folder,
             abcAccount.username
           )
           if (!touchDisabled) {
-            await enableTouchId(context, abcAccount)
+            await enableTouchId(folder, abcAccount)
           }
-          await context.io.folder
+          await folder
             .file('lastuser.json')
             .setText(JSON.stringify({ username: abcAccount.username }))
             .catch(e => null)
           const isTouchSupported = await supportsTouchId()
-          const touchEnabled = await isTouchEnabled(
-            context,
-            abcAccount.username
-          )
+          const touchEnabled = await isTouchEnabled(folder, abcAccount.username)
           const touchIdInformation = {
             isTouchSupported,
             isTouchEnabled: touchEnabled
@@ -196,23 +195,29 @@ export function userLoginWithPin (data: Object, backupKey?: string) {
           dispatch(dispatchAction(Constants.LOGIN_SUCCEESS))
           callback(null, abcAccount, touchIdInformation)
         } catch (e) {
-          console.log('LOG IN WITH PIN ERROR ')
-          console.log(e.message)
+          console.log('LOG IN WITH PIN ERROR ', e)
           if (e.name === 'OtpError') {
             e.loginAttempt = 'PIN'
             dispatch(dispatchActionWithData(Constants.OTP_ERROR, e))
             return
           }
+          const message =
+            e.name === 'PasswordError'
+              ? s.strings.invalid_pin
+              : e.name === 'UsernameError'
+                ? s.strings.pin_not_enabled
+                : e.message
           dispatch(
-            dispatchActionWitString(
-              Constants.LOGIN_USERNAME_PASSWORD_FAIL,
-              e.name === 'PasswordError'
-                ? 'Invalid PIN'
-                : e.name === 'UsernameError'
-                  ? 'PIN is not enabled for this account'
-                  : e.message
-            )
+            dispatchActionWithData(Constants.LOGIN_PIN_FAIL, {
+              message,
+              wait: e.wait
+            })
           )
+          if (e.wait) {
+            setTimeout(() => {
+              dispatch(processWait(message))
+            }, 1000)
+          }
           callback(e.message, null)
         }
       }, 300)
@@ -221,11 +226,29 @@ export function userLoginWithPin (data: Object, backupKey?: string) {
     // the timeout is a hack until we put in interaction manager.
   }
 }
+export function processWait (message: string) {
+  return (dispatch: Dispatch, getState: GetState, imports: Imports) => {
+    const state = getState()
+    const wait = state.login.wait
+    console.log('RL: wait ', wait)
+    if (wait > 0) {
+      // console.log('RL: got more than 1', wait)
+      dispatch(
+        dispatchActionWithData(Constants.LOGIN_PIN_FAIL, {
+          message,
+          wait: wait - 1
+        })
+      )
+      setTimeout(() => {
+        dispatch(processWait(message))
+      }, 1000)
+    }
+  }
+}
 
 export function userLogin (data: Object, backupKey?: string) {
   return (dispatch: Dispatch, getState: GetState, imports: Imports) => {
-    const context = imports.context
-    const callback = imports.callback
+    const { callback, context, folder } = imports
     const myAccountOptions = {
       ...imports.accountOptions,
       callbacks: {
@@ -245,18 +268,15 @@ export function userLogin (data: Object, backupKey?: string) {
           data.password,
           myAccountOptions
         )
-        const touchDisabled = await isTouchDisabled(
-          context,
-          abcAccount.username
-        )
+        const touchDisabled = await isTouchDisabled(folder, abcAccount.username)
         if (!touchDisabled) {
-          await enableTouchId(context, abcAccount)
+          await enableTouchId(folder, abcAccount)
         }
-        await context.io.folder
+        await folder
           .file('lastuser.json')
           .setText(JSON.stringify({ username: abcAccount.username }))
           .catch(e => null)
-        const touchEnabled = await isTouchEnabled(context, abcAccount.username)
+        const touchEnabled = await isTouchEnabled(folder, abcAccount.username)
         const isTouchSupported = await supportsTouchId()
         const touchIdInformation = {
           isTouchSupported,
@@ -265,18 +285,28 @@ export function userLogin (data: Object, backupKey?: string) {
         dispatch(dispatchAction(Constants.LOGIN_SUCCEESS))
         callback(null, abcAccount, touchIdInformation)
       } catch (e) {
-        if (e.name === 'OtpError') {
+        if (e.name === 'OtpError' && !myAccountOptions.otp) {
           e.loginAttempt = 'PASSWORD'
           dispatch(dispatchActionWithData(Constants.OTP_ERROR, e))
           return
         }
-        if (myAccountOptions.otp) {
+        if (e.name === 'OtpError' && myAccountOptions.otp) {
           dispatch(
             dispatchActionWitString(
               Constants.OTP_LOGIN_BACKUPKEY_FAIL,
               'Backup Key was incorrect'
             )
           )
+          return
+        }
+        if (myAccountOptions.otp) {
+          dispatch(
+            dispatchActionWitString(
+              Constants.OTP_LOGIN_BACKUPKEY_FAIL,
+              translateError(e.message)
+            )
+          )
+          console.log('stop')
           return
         }
         dispatch(
