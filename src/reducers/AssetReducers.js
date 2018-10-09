@@ -235,29 +235,20 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
                   var dataObject = JSON.stringify({ipfsHash: ipfsHash, organizationName: organization_name})
                   console.log("2 dataObject with ipfshash and orgName:", dataObject)
 
-                  //TODO: make axios post request with Organization Name and ipfsHash
                   axios.post(WEB_SERVER_API_FACTOM_CHAIN_ADD, dataObject)
                     .then(response => {
-                      console.log("2 web server factom response: ", response)
+                      console.log("2 web server factom response: ", response.data)
+                      var chainId = response.data.chainId
+                      // var dataObject = Object.assign({}, asset, )
+                      return chainId
+                    })
+                    .then(chainId => {
+                      var dataObject = Object.assign({}, asset, {chainId: chainId})
+                      console.log("3 going into firebase: ", dataObject)
+                      rootRef.child('assets').child(state.edge_account).set(dataObject);
                     })
                     .catch(console.log(error))
-
-
-
-
-
-                  //TODO: add Header
-                  //TODO: merge data object with factom chainID
-                  return ipfsHash
                 })
-                .then(ipfsHash => {
-                  //TODO: merge data object with ipfsHash
-                  //TODO: store data object in firebase
-                  var data = Object.assign({}, asset, {ipfsHash: ipfsHash})
-                  console.log("going into firebase: ", data)
-                  rootRef.child('assets').child(store.getState().AssetReducers.edge_account).set(data);
-                })
-
                 .catch(err => {
                   console.log("Error confirming assets in IPFS: ",err)
                 })
