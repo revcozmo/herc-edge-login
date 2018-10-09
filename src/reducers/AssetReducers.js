@@ -12,6 +12,7 @@ import {
     ADD_PROPS,
     INC_HERC_ID,
     GET_ACCOUNT,
+    GET_ORGANIZATION,
     GET_HERC_ID,
     GOT_HERC_ID,
     CONFIRM_ASSET,
@@ -23,6 +24,7 @@ import {
 import firebase from '../constants/Firebase';
 const rootRef = firebase.database().ref();
 import axios from 'axios';
+import store from "../store";
 import { WEB_SERVER_API_IPFS_ADD, WEB_SERVER_API_FACTOM_CHAIN_ADD } from "../components/settings"
 
 //synchronous
@@ -151,6 +153,13 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
                 edge_account: edge_account
             })
 
+        case GET_ORGANIZATION:
+            let organizationName = action.organizationName;
+            return Object.assign({}, state, {
+              ...state,
+              organizationName: organizationName
+            })
+
         case ADD_PHOTO:
             let image = {
                 image: action.data,
@@ -210,28 +219,52 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
         case CONFIRM_ASSET:
             const asset = action.newAsset;
             console.log(asset.Name, 'asset in reducerconfirm', state, 'state')
-            console.log("Asset to be moved into IPFS", asset, "it is type: ", typeOf(asset))
+
+            rootRef.child('idology').child(state.edge_account).once('value', function(snapshot) {
+              var organization_name = snapshot.val().organizationName
+              var dataObject = JSON.stringify(asset)
+              axios.post(WEB_SERVER_API_IPFS_ADD, dataObject)
+                .then(response => {
+                  var ipfsHash = response.data["0"].hash
+                  console.log("1 ipfsHash: ", ipfsHash)
+                  return ipfsHash
+                })
+                .then(ipfsHash => {
+                  /* This part creates a new factom chain */
+
+                  var dataObject = JSON.stringify({ipfsHash: ipfsHash, organizationName: organization_name})
+                  console.log("2 dataObject with ipfshash and orgName:", dataObject)
+
+                  //TODO: make axios post request with Organization Name and ipfsHash
+                  axios.post(WEB_SERVER_API_FACTOM_CHAIN_ADD, dataObject)
+                    .then(response => {
+                      console.log("2 web server factom response: ", response)
+                    })
+                    .catch(console.log(error))
+
+
+
+
+
+                  //TODO: add Header
+                  //TODO: merge data object with factom chainID
+                  return ipfsHash
+                })
+                .then(ipfsHash => {
+                  //TODO: merge data object with ipfsHash
+                  //TODO: store data object in firebase
+                  var data = Object.assign({}, asset, {ipfsHash: ipfsHash})
+                  console.log("going into firebase: ", data)
+                  rootRef.child('assets').child(store.getState().AssetReducers.edge_account).set(data);
+                })
+
+                .catch(err => {
+                  console.log("Error confirming assets in IPFS: ",err)
+                })
+
+            })
+
             // let assetRef = rootRef.child(state.edge_account).child('assets').push();
-            axios.post(WEB_SERVER_API_IPFS_ADD, asset)
-              .then(response => {
-
-
-
-
-                console.log("IPFS response: ", response.data["0"].hash)
-                //TODO: store response (which is the file hash) in firebase and redux
-                var data = Object.assign({}, asset, response.data["0"].hash)
-                rootRef.child(state.edge_account).child('assets').set(data);
-
-
-
-
-                // TODO: create new factom chain
-                console.log(WEB_SERVER_API_FACTOM_CHAIN_ADD)
-              })
-              .catch(err => {
-                console.log("Error confirming assets in IPFS ",err)
-              })
 
             return Object.assign({}, state, {
                 state: INITIAL_STATE,

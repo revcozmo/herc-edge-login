@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { getOrganization } from "../actions/AssetActions";
 import { Button } from 'react-native-elements';
 import { YellowBox } from 'react-native';
+import { connect } from "react-redux";
 import store from "../store";
 import axios from 'axios';
 import t from 'tcomb-form-native';
@@ -86,11 +88,12 @@ const formStyles = {
   }
 }
 
-export default class IdologyForm extends Component {
+class IdologyForm extends Component {
 
   handleSubmit = () => {
     const value = this._form.getValue();
     console.log('****** Idology Form value: ', value);
+    this.props.getOrganization(value.organizationName);
 
     let formBody = [];
     for (let property in value) {
@@ -123,7 +126,7 @@ export default class IdologyForm extends Component {
   render() {
     if (!store.getState().AssetReducers.edge_account){
       edgeAccount = "No Account Captured"
-    } else{
+    } else {
       edgeAccount = store.getState().AssetReducers.edge_account
     }
     var defaultValues = {
@@ -172,3 +175,13 @@ const localStyles = StyleSheet.create({
     fontSize: 20
   }
 });
+
+const mapStateToProps = (state) => ({
+    organizationName: state.AssetReducers.organizationName
+});
+
+const mapDispatchToProps = (dispatch) => ({
+    getOrganization: (organizationName) =>
+        dispatch(getOrganization(organizationName))
+})
+export default connect(mapStateToProps, mapDispatchToProps)(IdologyForm);

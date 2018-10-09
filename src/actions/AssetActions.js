@@ -9,6 +9,7 @@ import {
   ADD_PROPS,
   INC_HERC_ID,
   GET_ACCOUNT,
+  GET_ORGANIZATION,
   GET_HERC_ID,
   GOT_HERC_ID,
   CONFIRM_ASSET,
@@ -91,6 +92,14 @@ export function getAccount(edge_account) {
     type: GET_ACCOUNT,
     edge_account
   };
+}
+
+export function getOrganization(organizationName) {
+  console.log("Organization Name in Actions: ", organizationName)
+  return {
+    type: GET_ORGANIZATION,
+    organizationName
+  }
 }
 
 export function selectAsset(asset) {
