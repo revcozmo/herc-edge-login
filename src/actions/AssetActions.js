@@ -11,7 +11,6 @@ import {
   ADD_PROPS,
   INC_HERC_ID,
   GET_ACCOUNT,
-  GET_HERC_ID,
   GOT_HERC_ID,
   CONFIRM_ASSET,
   SET_SET,
@@ -47,20 +46,18 @@ import getAssets from "../reducers/Assets";
 //   }
 
 export function getHercId() {
-    return dispatch => {
-        dispatch({
-            type: GET_HERC_ID
-        });
-        let hercId;
-        rootRef
-        .child("hercID")
-        .once("value")
-        .then(snapshot => {
-            console.log(snapshot.val(), "snaps");
-            hercId = snapshot.toJSON();
-        })
-        .then(() => dispatch(gotHercId(hercId)));
-    };
+    // return dispatch => {
+    //
+    // };
+    let hercId;
+    rootRef
+    .child("hercID")
+    .once("value")
+    .then(snapshot => {
+        console.log(snapshot.val(), "snaps");
+        hercId = snapshot.toJSON();
+    })
+    .then(() => dispatch(gotHercId(hercId)));
 }
 
 export function gotHercId(hercId) {
@@ -74,20 +71,30 @@ export function gotHercId(hercId) {
 
 export function incHercId(hercid) {
   console.log(hercid, "hercid");
-  if (hercid){
-    let hercIdStr = (Number(hercid) + 1).toString();
-    console.log(hercIdStr, "transformed to string");
-    let hercId = "00" + hercIdStr; //adding leading 0's for fun
-    console.log(hercId, "after refact");
-    return {
-      type: INC_HERC_ID,
-      hercId
-    };
-  } else {
-    console.log("Error hercid is not valid, hercid: ", hercid )
-    console.log("it's a NaNNaNNaN batman")
-  }
+  let hercIdplus1 = parseInt(hercid) + 1;
+  console.log(hercIdplus1, 'transformed hopefully plus one')
+  return {
+    type: INC_HERC_ID,
+    hercIdplus1
+  };
 }
+
+// export function incHercId(hercid) {
+//   if (hercid){
+//     console.log(hercid, "hercid");
+//     let hercIdStr = (Number(hercid) + 1).toString();
+//     console.log(hercIdStr, "transformed to string");
+//     let hercId = "00" + hercIdStr; //adding leading 0's for fun
+//     console.log(hercId, "after refact");
+//     return {
+//       type: INC_HERC_ID,
+//       hercId
+//     };
+//   } else {
+//     console.log("Error hercid is not valid, hercid: ", hercid )
+//     console.log("it's a NaNNaNNaN batman")
+//   }
+// }
 
 
 export function authToken(token){

@@ -12,7 +12,6 @@ import {
     ADD_PROPS,
     INC_HERC_ID,
     GET_ACCOUNT,
-    GET_HERC_ID,
     GOT_HERC_ID,
     CONFIRM_ASSET,
     SET_SET,
