@@ -30,7 +30,6 @@ import MenuOptions from "../screens/MenuOptions";
 import NewAssetConfirm from "../screens/NewAssetConfirm";
 import PreDigi from "../screens/PreDigiView";
 import PreHipr from "../screens/PreHIPR";
-import { STATUS_BAR_HEIGHT } from "../constants";
 import SpaceScreen from "../screens/SpaceScreen";
 import Splash1 from "../screens/Splash1";
 import Splash2 from "../screens/Splash2";
@@ -41,6 +40,8 @@ import TransSwiper from "../screens/TransSwiper";
 import Wallet from "../screens/Wallet";
 import Settings from "../screens/Settings";
 import roundImage from "../assets/round.png"
+import QRCapture from "../screens/QRCapture";
+import QRCapture2 from "../screens/QRCapture2";
 import styles from "../assets/styles";
 
 let headerStyles = StyleSheet.create({
@@ -125,6 +126,8 @@ const MainNavigator = StackNavigator({ //this will be "createStackNavigator" aft
     EdiT: { screen: EdiT },
     PreDigi: { screen: PreDigi },
     SpaceScreen: { screen: SpaceScreen },
+    QRCapture: { screen: QRCapture },
+    QRCapture2: { screen: QRCapture2 },
     Wallet: { screen: Wallet },
     Settings: { screen: Settings },
     Camera: { screen: Camera }
