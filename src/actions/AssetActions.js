@@ -26,12 +26,8 @@ import firebase from "../constants/Firebase";
 const rootRef = firebase.database().ref();
 import getAssets from "../reducers/Assets";
 
-
 export function getHercId() {
   return dispatch => {
-    dispatch({
-      type: GET_HERC_ID
-    });
     let hercId;
     rootRef
       .child("hercID")
@@ -62,6 +58,23 @@ export function incHercId(hercid) {
     hercIdplus1
   };
 }
+
+// export function incHercId(hercid) {
+//   if (hercid){
+//     console.log(hercid, "hercid");
+//     let hercIdStr = (Number(hercid) + 1).toString();
+//     console.log(hercIdStr, "transformed to string");
+//     let hercId = "00" + hercIdStr; //adding leading 0's for fun
+//     console.log(hercId, "after refact");
+//     return {
+//       type: INC_HERC_ID,
+//       hercId
+//     };
+//   } else {
+//     console.log("Error hercid is not valid, hercid: ", hercid )
+//     console.log("it's a NaNNaNNaN batman")
+//   }
+// }
 
 
 export function authToken(token) {
@@ -106,7 +119,7 @@ export function addAsset(newAsset) {
 
 export function confirmAsset(confirmedAsset) {
   let newAsset = confirmedAsset;
-  console.log("confirming asset");
+  console.log("confirming asset", newAsset);
   return {
     type: CONFIRM_ASSET,
     newAsset

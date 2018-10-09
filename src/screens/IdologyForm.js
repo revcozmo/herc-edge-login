@@ -26,6 +26,7 @@ const Form = t.form.Form;
 const User = t.struct({
   /* TODO: remove all t.maybe */
   edgeAccount:t.maybe(t.String),
+  organizationName: t.maybe(t.String),
   firstName: t.maybe(t.String),
   lastName: t.maybe(t.String),
   address: t.maybe(t.String),
@@ -38,6 +39,11 @@ const options = {
   fields: {
     edgeAccount: {
       hidden: true,
+    },
+    organizationName: {
+      label: 'Organization Name',
+      error: 'This is required',
+      stylesheet: stylesheet
     },
     firstName: {
       label: 'First Name',

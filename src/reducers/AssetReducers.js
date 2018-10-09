@@ -22,6 +22,8 @@ import {
 } from '../actions/types';
 import firebase from '../constants/Firebase';
 const rootRef = firebase.database().ref();
+import axios from 'axios';
+import { WEB_SERVER_API_IPFS_ADD, WEB_SERVER_API_FACTOM_CHAIN_ADD } from "../components/settings"
 
 //synchronous
 // let assets = [];
@@ -208,8 +210,28 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
         case CONFIRM_ASSET:
             const asset = action.newAsset;
             console.log(asset.Name, 'asset in reducerconfirm', state, 'state')
+            console.log("Asset to be moved into IPFS", asset, "it is type: ", typeOf(asset))
             // let assetRef = rootRef.child(state.edge_account).child('assets').push();
-            rootRef.child(state.edge_account).child('assets').set(asset);
+            axios.post(WEB_SERVER_API_IPFS_ADD, asset)
+              .then(response => {
+
+
+
+
+                console.log("IPFS response: ", response.data["0"].hash)
+                //TODO: store response (which is the file hash) in firebase and redux
+                var data = Object.assign({}, asset, response.data["0"].hash)
+                rootRef.child(state.edge_account).child('assets').set(data);
+
+
+
+
+                // TODO: create new factom chain
+                console.log(WEB_SERVER_API_FACTOM_CHAIN_ADD)
+              })
+              .catch(err => {
+                console.log("Error confirming assets in IPFS ",err)
+              })
 
             return Object.assign({}, state, {
                 state: INITIAL_STATE,
