@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Platform, WebView, Image } from 'react-native';
+import { Platform, WebView, Image, StyleSheet, View, TouchableHighlight } from 'react-native';
 // import { STATUS_BAR_HEIGHT } from '../constants';
 import hiprLogo from "../assets/hiprLogo.png";
 import backArrow from "../assets/icons/blueBackArrow.png";
@@ -39,3 +39,23 @@ export default class Hipr extends Component {
     );
   }
 }
+
+const localStyles = StyleSheet.create({
+  hiprBackContainer: {
+    width: 75,
+    alignItems: "center",
+    justifyContent: "space-around",
+    paddingLeft: 5,
+    flexDirection: 'row'
+  },
+
+  backArrow: {
+    width: 25,
+    height: 20
+  },
+  pillar: {
+    height: 20,
+    width: 20,
+    resizeMode: 'contain'
+  }
+})
