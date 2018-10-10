@@ -8,6 +8,7 @@ const rootRef = firebase.database().ref();
 export default () => {
     let assetList = [];
     var edge_account = store.getState().AssetReducers.edge_account
+    
     rootRef.child(edge_account).child('assets').on('value', (snapshot) => {
             snapshot.forEach((obj) => {
                 // console.log(obj.toJSON().Name, 'object in listassets');
