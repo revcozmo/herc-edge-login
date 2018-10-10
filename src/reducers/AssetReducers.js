@@ -1,6 +1,7 @@
 import {
-    LIST_ASSETS,
     GOT_LIST_ASSETS,
+    LIST_ASSETS,
+    GOT_ASSETS,
     ADD_ASSET,
     SELECT_ASSET,
     START_TRANS,
@@ -58,7 +59,7 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
             }
 
         case GOT_LIST_ASSETS:
-            console.log(action.assets.length, 'listAssetsreducer');
+            console.log(action, 'listAssetsreducer');
             let assets = action.assets
 
             return Object.assign({}, state, {

@@ -1,6 +1,7 @@
 import {
   ADD_ASSET,
-  GET_ASSETS,
+  // GET_ASSET_HASHES,
+  GOT_LIST_ASSETS,
   GET_TRANS,
   SELECT_ASSET,
   START_TRANS,
@@ -24,8 +25,12 @@ import {
 
 } from "./types";
 
+import { WEB_SERVER_API_IPFS_GET, WEB_SERVER_API_IPFS_ADD, WEB_SERVER_API_FACTOM_CHAIN_ADD } from "../components/settings"
+import axios from 'axios';
+
 import firebase from "../constants/Firebase";
 const rootRef = firebase.database().ref();
+const assetRef = firebase.database().ref("assets");
 export function getHercId() {
   return dispatch => {
     let hercId;
@@ -59,23 +64,6 @@ export function incHercId(hercid) {
   };
 }
 
-// export function incHercId(hercid) {
-//   if (hercid){
-//     console.log(hercid, "hercid");
-//     let hercIdStr = (Number(hercid) + 1).toString();
-//     console.log(hercIdStr, "transformed to string");
-//     let hercId = "00" + hercIdStr; //adding leading 0's for fun
-//     console.log(hercId, "after refact");
-//     return {
-//       type: INC_HERC_ID,
-//       hercId
-//     };
-//   } else {
-//     console.log("Error hercid is not valid, hercid: ", hercid )
-//     console.log("it's a NaNNaNNaN batman")
-//   }
-// }
-
 
 export function authToken(token) {
   return {
@@ -101,31 +89,56 @@ export function getOrganization(organizationName) {
   }
 }
 
-// export function getAssetHashes(user) {
-//   let assetHashes = [];
-//   rootRef
-//     .child("/assets/" + user + "/ipfs")
-//     .once("value")
-//     .then(snapshot => {
-//       snapshot.forEach(asset => {
-//         console.log(" assetobject in get hash!");
-//        assets.push({
-//           data: trans.toJSON().data
-//         });
-//       });
-//     })
+///// This is getting the hashes from firebase to send to The server to talk to IPFS
 
-//   return dispatch => {
-//     dispatch({
-//       type: GET_ASSETS
-//     });
 
-//     console.log("getTrans action");
-//     let assetTrans = [];
-    
-//       .then(() => dispatch(gotAssetTrans(assetTrans)));
-//   };
-// }
+export function getAssets(name) {
+  return dispatch => {
+    let assets = [];
+    let assetHashes = [];
+    // let hash = JSON.stringify(assetHashes[0])
+    console.log(name, 'username in action')
+
+    assetRef.child(name)
+      .once("value")
+      .then(snapshot => {
+        console.log(snapshot.val(), " what's in the database?")
+        snapshot.forEach(asset => {
+          console.log(asset.toJSON().ipfsHash, "assetDef Hash in getAssetsAction!");
+          assetHashes.push(
+            asset.toJSON().ipfsHash
+          );
+        })
+
+      }).then(() => dispatch(gotHashes(assetHashes)))
+  }
+}
+
+export function gotHashes(hashes) {
+
+  console.log(hashes, "lets hope we get this far.")
+  let hash = hashes[0];
+  let assetList;
+
+  axios.post(WEB_SERVER_API_IPFS_GET, hash)
+    .then(response => {
+      console.log(response.toJSON(), 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
+      // assetList.push(response.body.toJSON)
+
+      // var ipfsHash = response.data["0"].hash
+      // console.log("1 ipfsHash: ", ipfsHash)
+      // return ipfsHash
+    })
+    // .then
+
+  //  dispatch => {
+  //   dispatch({
+  //     type: GOT_LIST_ASSETS,
+  //     assets: assetList
+  //   });
+
+  };
+}
 
 // export function gotAssetTrans(assetTrans) {
 //   let transactions = assetTrans;
