@@ -18,8 +18,10 @@ type Props = {
   username: string,
   autoLogIn: boolean,
   error: string,
+  wait: number,
   isLogginginWithPin: boolean,
-  onChangeText(Object): void
+  onChangeText(Object): void,
+  updateWaitTime(number): void
 }
 
 type State = {
@@ -93,25 +95,35 @@ class FourDigitInputComponent extends Component<Props, State> {
         <View style={Style.container}>
           <View style={Style.interactiveContainer}>
             {this.renderDotContainer(Style)}
-            <TextInput
-              ref={this.loadedInput}
-              style={Style.input}
-              onChangeText={this.updatePin}
-              maxLength={4}
-              keyboardType="numeric"
-              value={this.props.pin}
-              onFocus={this.onFocus}
-              onBlur={this.onBlur}
-              autoFocus={this.state.autoFocus}
-              keyboardShouldPersistTaps
-            />
+            {this.renderTextInput(Style)}
           </View>
           <View style={Style.errorContainer}>
-            <Text style={Style.errorText}>{this.props.error}</Text>
+            <Text style={Style.errorText} numberOfLines={2}>
+              {this.props.error}
+            </Text>
           </View>
         </View>
       </TouchableWithoutFeedback>
     )
+  }
+  renderTextInput = (style: Object) => {
+    if (this.props.wait < 1) {
+      return (
+        <TextInput
+          ref={this.loadedInput}
+          style={style.input}
+          onChangeText={this.updatePin}
+          maxLength={4}
+          keyboardType="numeric"
+          value={this.props.pin}
+          onFocus={this.onFocus}
+          onBlur={this.onBlur}
+          autoFocus={this.state.autoFocus}
+          keyboardShouldPersistTaps
+        />
+      )
+    }
+    return null
   }
   onFocus = () => {
     this.inputRef.focus()
@@ -142,6 +154,9 @@ class FourDigitInputComponent extends Component<Props, State> {
   }
   renderDotContainer (style: Object) {
     const pinLength = this.props.pin ? this.props.pin.length : 0
+    if (this.props.wait > 0) {
+      return <Spinner />
+    }
     if ((pinLength === 4 || this.state.touchId) && this.props.autoLogIn) {
       return <Spinner />
     }

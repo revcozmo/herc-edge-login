@@ -2843,7 +2843,7 @@ create-hmac@^1.1.0, create-hmac@^1.1.2, create-hmac@^1.1.4:
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
 
-create-react-class@^15.5.1, create-react-class@^15.5.2, create-react-class@^15.6.0, create-react-class@^15.6.3:
+create-react-class@^15.5.2, create-react-class@^15.6.0, create-react-class@^15.6.3:
   version "15.6.3"
   resolved "https://registry.yarnpkg.com/create-react-class/-/create-react-class-15.6.3.tgz#2d73237fb3f970ae6ebe011a9e66f46dbca80036"
   integrity sha512-M+/3Q6E6DLO6Yx3OwrWjwHBnvfXXYA7W+dFjt/ZDBemHO1DDZhsalX/NUtnTYclN6GfnBDRh4qRHjcDHmlJBJg==
@@ -3252,7 +3252,7 @@ edge-currency-ethereum@^0.11.0:
     sprintf-js "^1.1.1"
     uri-js "^3.0.2"
 
-edge-login-ui-rn@^0.4.7:
+edge-login-ui-rn@^0.4.6:
   version "0.4.8"
   resolved "https://registry.yarnpkg.com/edge-login-ui-rn/-/edge-login-ui-rn-0.4.8.tgz#a88b47fe6b8e053990c2765d4f71224cb23abee2"
   integrity sha512-yZNaVhzF/DBnj0idTR+Vi2T5Wwn4R/4FEcaUdwUTr+72URaX3ZDdMQonrvsMi6zphy0JJDUmFfCOLqzaA+2lIg==
@@ -4406,19 +4406,21 @@ hdkey@^0.7.0:
     secp256k1 "^3.0.1"
 
 "herc-edge-login-ui-rn@file:herc-edge-login-ui-rn":
-  version "0.2.10"
+  version "0.4.8"
   dependencies:
     material-ui "^0.20.0"
     moment "^2.19.3"
-    native-base "^2.3.9"
+    native-base "^2.7.2"
+    react-native-device-info "^0.11.0"
     react-native-keyboard-aware-scroll-view "^0.4.1"
     react-native-linear-gradient "^2.0.0"
     react-native-mail "^3.0.5"
     react-native-material-textfield "git://github.com/EdgeApp/react-native-material-textfield.git"
-    react-native-modal "^4.1.0"
+    react-native-modal "^6.5.0"
     react-native-qrcode "^0.2.6"
+    react-native-size-matters "git://github.com/EdgeApp/react-native-size-matters.git"
     react-native-vector-icons "^4.4.2"
-    react-redux "~4.4.5"
+    react-redux "^5.0.7"
     redux "~3.5.2"
     redux-thunk "~2.1.0"
     sprintf-js "^1.0.3"
@@ -5683,11 +5685,6 @@ lodash.times@^4.3.2:
   resolved "https://registry.yarnpkg.com/lodash.times/-/lodash.times-4.3.2.tgz#3e1f2565c431754d54ab57f2ed1741939285ca1d"
   integrity sha1-Ph8lZcQxdU1Uq1fy7RdBk5KFyh0=
 
-lodash@4.17.0:
-  version "4.17.0"
-  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.0.tgz#93f4466e5ab73e5a1f1216c34eea11535f0a8df5"
-  integrity sha1-k/RGblq3PlofEhbDTuoRU18KjfU=
-
 lodash@4.17.10, lodash@^4.0.0, lodash@^4.10.1, lodash@^4.11.1, lodash@^4.13.1, lodash@^4.15.0, lodash@^4.17.10, lodash@^4.17.4, lodash@^4.17.5, lodash@^4.2.0, lodash@^4.2.1, lodash@^4.3.0, lodash@^4.6.1:
   version "4.17.10"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.10.tgz#1b7793cf7259ea38fb3661d4d38b3260af8ae4e7"
@@ -6214,26 +6211,6 @@ native-base-shoutem-theme@0.2.2:
     hoist-non-react-statics "^1.0.5"
     lodash "^4.10.1"
     prop-types "^15.5.10"
-
-native-base@^2.3.9:
-  version "2.7.2"
-  resolved "https://registry.yarnpkg.com/native-base/-/native-base-2.7.2.tgz#682bc2bc9f9e4d3b27a8c58ad4b5994222ad0ebd"
-  integrity sha512-iDvXe9OfVsOILV1CDS0wBz+OzXyZRn+MwI6AEZxP2Ak2FmSttj6WGX7kNX0WQaSqvcpNM8SgXYm5CXwaHMUDhw==
-  dependencies:
-    blueimp-md5 "^2.5.0"
-    clamp "^1.0.1"
-    color "~1.0.3"
-    fs-extra "^2.0.0"
-    jest-react-native "^18.0.0"
-    lodash "4.17.0"
-    native-base-shoutem-theme "0.2.2"
-    print-message "^2.1.0"
-    prop-types "^15.5.10"
-    react-native-easy-grid "0.2.0"
-    react-native-keyboard-aware-scroll-view "0.5.0"
-    react-native-vector-icons "4.6.0"
-    react-tween-state "^0.1.5"
-    tween-functions "^1.0.1"
 
 native-base@^2.7.2:
   version "2.8.0"
@@ -7007,7 +6984,7 @@ prop-types@15.5.10:
     fbjs "^0.8.9"
     loose-envify "^1.3.1"
 
-prop-types@^15.5.10, prop-types@^15.5.4, prop-types@^15.5.6, prop-types@^15.5.7, prop-types@^15.5.8, prop-types@^15.5.9, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.6.2:
+prop-types@^15.5.10, prop-types@^15.5.6, prop-types@^15.5.7, prop-types@^15.5.8, prop-types@^15.5.9, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.6.2:
   version "15.6.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.6.2.tgz#05d5ca77b4453e985d60fc7ff8c859094a497102"
   integrity sha512-3pboPvLiWD7dkI3qf3KbUe6hKFKa52w+AE0VCqECtf+QHAKgOL37tTaNCnuX1nAAQ4ZhyP+kYVKf8rLmJ/feDQ==
@@ -7226,7 +7203,7 @@ react-lifecycles-compat@^3.0.2:
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
 
-react-native-animatable@^1.2.3, react-native-animatable@^1.2.4:
+react-native-animatable@^1.2.4:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/react-native-animatable/-/react-native-animatable-1.3.0.tgz#b5c3940fc758cfd9b2fe54613a457c4b6962b46e"
   integrity sha512-GGYEYvderfzPZcPnw7xov4nlRmi9d6oqcIzx0fGkUUsMshOQEtq5IEzFp3np0uTB9n8/gZIZcdbUPggVlVydMg==
@@ -7381,14 +7358,6 @@ react-native-mail@^3.0.5:
   resolved "git://github.com/EdgeApp/react-native-material-textfield.git#c30320fd26e5619c1fe57b3043b8fd9ae2a0c57a"
   dependencies:
     prop-types "^15.5.9"
-
-react-native-modal@^4.1.0:
-  version "4.1.1"
-  resolved "https://registry.yarnpkg.com/react-native-modal/-/react-native-modal-4.1.1.tgz#4c1055dc045106542a8e3bb3fd656a6d3bc319d9"
-  integrity sha512-AMxCwY+/bbATVATLLCupNBNyEDojTOIn+QR4HHRYnKd43Kj1Sppo9f8bX2OQ0sB9N3HrceqRCt6L7OxbAZj01w==
-  dependencies:
-    prop-types "15.5.10"
-    react-native-animatable "^1.2.3"
 
 react-native-modal@^6.5.0:
   version "6.5.0"
@@ -7565,18 +7534,6 @@ react-redux@^5.0.7:
     lodash-es "^4.17.5"
     loose-envify "^1.1.0"
     prop-types "^15.6.0"
-
-react-redux@~4.4.5:
-  version "4.4.9"
-  resolved "https://registry.yarnpkg.com/react-redux/-/react-redux-4.4.9.tgz#8ca6d4670925a454ce67086c2305e9630670909a"
-  integrity sha512-3XS7mjTOcvaP2H5OE/LxEgDHRuEyTZxBRlwvXHzNqYkZdYd7Ra98AimWoDSHP9OcLoydjA1ocgiZxxcqeXj0Sw==
-  dependencies:
-    create-react-class "^15.5.1"
-    hoist-non-react-statics "^2.5.0"
-    invariant "^2.0.0"
-    lodash "^4.2.0"
-    loose-envify "^1.1.0"
-    prop-types "^15.5.4"
 
 react-test-renderer@16.3.1:
   version "16.3.1"

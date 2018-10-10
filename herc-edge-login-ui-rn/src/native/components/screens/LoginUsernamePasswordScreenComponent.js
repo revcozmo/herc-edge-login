@@ -17,6 +17,9 @@ import {
 } from '../../components/common'
 import * as Offsets from '../../constants'
 import { LogoImageHeader, UserListItem } from '../abSpecific'
+import hercLogo from '../../../../../../src/assets/hercLogoBreak.png';
+import { Image, TouchableOpacity, StyleSheet, TextInput } from 'react-native';
+import edgeLogo from "../../assets/edgeLogo/Edge_logo_L.png";
 
 type Props = {
   styles: Object,
@@ -49,10 +52,10 @@ type State = {
 export default class LoginUsernamePasswordScreenComponent extends Component<
   Props,
   State
-> {
+  > {
   keyboardDidHideListener: ?Function
   style: Object
-  componentWillMount () {
+  componentWillMount() {
     const { LoginPasswordScreenStyle } = this.props.styles
     this.style = LoginPasswordScreenStyle
     this.keyboardDidHideListener = null
@@ -64,8 +67,7 @@ export default class LoginUsernamePasswordScreenComponent extends Component<
       focusFirst: true,
       focusSecond: false,
       offset: Offsets.USERNAME_OFFSET_LOGIN_SCREEN,
-      showRecoveryModalOne: false,
-      showRecoveryModalTwo: false
+      showRecoveryModalOne: false
     })
   }
   renderModal = (style: Object) => {
@@ -79,31 +81,18 @@ export default class LoginUsernamePasswordScreenComponent extends Component<
     }
     if (this.state.showRecoveryModalOne) {
       const body = (
-        <Text style={style.staticModalText}>{s.strings.if_recovery_modal}</Text>
-      )
-      return (
-        <StaticModal
-          cancel={this.closeForgotPasswordModal.bind(this)}
-          body={body}
-          modalDismissTimerSeconds={8}
-        />
-      )
-    }
-    if (this.state.showRecoveryModalTwo) {
-      const body = (
         <Text style={style.staticModalText}>
           {s.strings.initiate_password_recovery}
         </Text>
       )
       return (
         <StaticModal
-          cancel={this.closeForgotPasswordModalTwo.bind(this)}
+          cancel={this.closeForgotPasswordModal}
           body={body}
           modalDismissTimerSeconds={8}
         />
       )
     }
-
     return null
   }
   recoverPasswordLogin = () => {
@@ -134,15 +123,15 @@ export default class LoginUsernamePasswordScreenComponent extends Component<
     })
     this.props.launchDeleteModal()
   }
-  setListener (callback: Function) {
+  setListener(callback: Function) {
     /* this.keyboardDidHideListener = Keyboard.addListener(
       'keyboardDidHide',
       callback) */
   }
-  componentWillUnmount () {
+  componentWillUnmount() {
     // this.keyboardDidHideListener.remove()
   }
-  componentDidMount () {
+  componentDidMount() {
     this.setState({
       username: '',
       password: '',
@@ -157,7 +146,7 @@ export default class LoginUsernamePasswordScreenComponent extends Component<
       })
     }
   }
-  componentWillReceiveProps (nextProps: Props) {
+  componentWillReceiveProps(nextProps: Props) {
     if (
       (nextProps.error && this.state.loggingIn) ||
       (this.state.loggingIn && nextProps.loginSuccess)
@@ -167,7 +156,7 @@ export default class LoginUsernamePasswordScreenComponent extends Component<
       })
     }
   }
-  shouldComponentUpdate (nextProps: Props) {
+  shouldComponentUpdate(nextProps: Props) {
     if (
       nextProps.username !== this.props.username &&
       this.state.showRecoveryModalOne
@@ -177,25 +166,23 @@ export default class LoginUsernamePasswordScreenComponent extends Component<
     // return a boolean value
     return true
   }
-  render () {
+  render() {
     return (
       <KeyboardAwareScrollView
         style={this.style.container}
         keyboardShouldPersistTaps={Constants.ALWAYS}
         contentContainerStyle={this.style.mainScrollView}
       >
-        <View style={{backgroundColor: '#091141'}}>
         <BackgroundImage
-          // src={Assets.LOGIN_BACKGROUND}
-          // style={this.style.backgroundImage}
+          src={Assets.LOGIN_BACKGROUND}
+          style={this.style.backgroundImage}
           content={this.renderOverImage()}
           callback={this.noFocus}
         />
-      </View>
       </KeyboardAwareScrollView>
     )
   }
-  renderOverImage () {
+  renderOverImage() {
     if (this.props.loginSuccess) {
       /* return (
         <View style={style.featureBox}>
@@ -207,64 +194,116 @@ export default class LoginUsernamePasswordScreenComponent extends Component<
     return (
       <TouchableWithoutFeedback onPress={this.noFocus}>
         <View style={this.style.featureBox}>
-          <LogoImageHeader style={this.style.logoHeader} />
+          <Image source={hercLogo} style={{ height: 100, width: 250, alignSelf: "center"}} />
           {this.renderUsername(this.style)}
           <View style={this.style.shimTiny} />
-          <FormField
+          {/* <Text style={{color: "white"}}>Password</Text> */}
+          <TextInput
+            style={{ height: 40, width: "70%", color: "white" }}
+            onChangeText={this.updatePassword.bind(this)}
+            value={this.props.password}
+            autoCorrect={false}
+            placeholder="Password"
+            placeholderTextColor="white"
+            underlineColorAndroid="gray"
+            selectionColor="gold"
+            secureTextEntry
+            onFocus={this.onfocusTwo.bind(this)}
+            onSubmitEditing={this.onStartLogin.bind(this)}
+          />
+          {/* <FormField
             testID={'passwordFormField'}
             style={this.style.input2}
             onChangeText={this.updatePassword.bind(this)}
             value={this.props.password}
             label={s.strings.password}
             error={this.props.error}
+            autoCorrect={false}
             secureTextEntry
             returnKeyType={'go'}
             forceFocus={this.state.focusSecond}
             onFocus={this.onfocusTwo.bind(this)}
             onSubmitEditing={this.onStartLogin.bind(this)}
-          />
+          /> */}
           {this.renderButtons(this.style)}
           {this.renderModal(this.style)}
         </View>
       </TouchableWithoutFeedback>
     )
   }
-  renderUsername (styles: Object) {
-    if (this.props.previousUsers.length > 1) {
+  renderUsername(styles: Object) {
+    if (this.props.previousUsers.length > 0) {
       return (
-        <FormFieldWithDropComponent
-          testID={'usernameFormField'}
-          style={styles.inputWithDrop}
+
+        <TextInput
+          style={{ height: 40, width: "70%", color: "white" }}
           onChangeText={this.updateUsername.bind(this)}
           value={this.props.username}
-          label={s.strings.username}
-          returnKeyType={'next'}
-          autoFocus={this.state.focusFirst}
-          forceFocus={this.state.focusFirst}
-          onFocus={this.onfocusOne.bind(this)}
+          autoCorrect={false}
+          placeholder="Username"
+          placeholderTextColor="white"
+          underlineColorAndroid="gray"
+          selectionColor="gold"
           isFocused={this.state.focusFirst}
+          onFocus={this.onfocusTwo.bind(this)}
           onSubmitEditing={this.onSetNextFocus.bind(this)}
-          renderRow={this.renderRow.bind(this)}
           data={this.props.filteredUsernameList}
+          returnKeyType={'next'}
         />
+
+        // <FormFieldWithDropComponent
+        //   testID={'usernameFormField'}
+        //   style={styles.inputWithDrop}
+        //   onChangeText={this.updateUsername.bind(this)}
+        //   value={this.props.username}
+        //   label={s.strings.username}
+        //   returnKeyType={'next'}
+        //   autoFocus={this.state.focusFirst}
+        //   forceFocus={this.state.focusFirst}
+        //   onFocus={this.onfocusOne.bind(this)}
+        //   autoCorrect={false}
+        //   isFocused={this.state.focusFirst}
+        //   onSubmitEditing={this.onSetNextFocus.bind(this)}
+        //   renderRow={this.renderRow.bind(this)}
+        //   data={this.props.filteredUsernameList}
+        // />
       )
     }
     return (
-      <FormField
-        testID={'usernameFormField'}
-        style={styles.input2}
+      <TextInput
+        style={{ height: 40, width: "70%", color: "white", marginTop: 20, }}
         onChangeText={this.updateUsername.bind(this)}
         value={this.props.username}
-        label={s.strings.username}
+        autoCorrect={false}
+        placeholder="Username"
+        placeholderTextColor="white"
+        underlineColorAndroid="gray"
+        selectionColor="gold"
+        // secureTextEntry="true"
+        isFocused={this.state.focusFirst}
+        onFocus={this.onfocusOne.bind(this)}
+        onSubmitEditing={this.onSetNextFocus.bind(this)}
+        data={this.props.filteredUsernameList}
         returnKeyType={'next'}
         autoFocus={this.state.focusFirst}
         forceFocus={this.state.focusFirst}
-        onFocus={this.onfocusOne.bind(this)}
-        onSubmitEditing={this.onSetNextFocus.bind(this)}
       />
+      // <FormField
+      //   testID={'usernameFormField'}
+      //   style={styles.input2}
+      //   onChangeText={this.updateUsername.bind(this)}
+      //   value={this.props.username}
+      //   label={s.strings.username}
+      //   returnKeyType={'next'}
+      //   autoCorrect={false}
+      //   autoFocus={this.state.focusFirst}
+      //   forceFocus={this.state.focusFirst}
+      //   onFocus={this.onfocusOne.bind(this)}
+      //   onSubmitEditing={this.onSetNextFocus.bind(this)}
+      // />
     )
   }
-  renderRow (data: Object) {
+  renderRow(data: Object) {
     return (
       <UserListItem
         data={data.item}
@@ -275,7 +314,7 @@ export default class LoginUsernamePasswordScreenComponent extends Component<
     )
   }
 
-  renderButtons (style: Object) {
+  renderButtons(style: Object) {
     return (
       <View style={style.buttonsBox}>
         <View style={style.shimTiny} />
@@ -288,7 +327,15 @@ export default class LoginUsernamePasswordScreenComponent extends Component<
           upTextStyle={style.forgotButton.upTextStyle}
         />
         <View style={style.shimTiny} />
-        <Button
+
+        <TouchableOpacity
+          onPress={this.onStartLogin.bind(this)}
+          style={localStyles.signInButton}
+        >
+          <Text style={{ color: "white", fontWeight: "bold" }}> SIGN IN </Text>
+        </TouchableOpacity>
+
+        {/* <Button
           testID={'loginButton'}
           onPress={this.onStartLogin.bind(this)}
           label={s.strings.login_button}
@@ -298,7 +345,7 @@ export default class LoginUsernamePasswordScreenComponent extends Component<
           upTextStyle={style.loginButton.upTextStyle}
           isThinking={this.state.loggingIn}
           doesThink
-        />
+        /> */}
         <View style={style.shimTiny} />
         <Button
           testID={'createAccountButton'}
@@ -309,10 +356,15 @@ export default class LoginUsernamePasswordScreenComponent extends Component<
           upStyle={style.signupButton.upStyle}
           upTextStyle={style.signupButton.upTextStyle}
         />
+        <View style={{height: 100, marginTop: "20%"}}>
+        <Text style={{color: "white"}}>Secured By </Text>
+        <Image style={{resizeMode: "contain", margin: 10}} source={edgeLogo}/>
+        </View>
+        
       </View>
     )
   }
-  onfocusOne () {
+  onfocusOne() {
     this.setState({
       focusFirst: true,
       focusSecond: false,
@@ -321,7 +373,7 @@ export default class LoginUsernamePasswordScreenComponent extends Component<
         : Offsets.LOGIN_SCREEN_NO_OFFSET
     })
   }
-  onfocusTwo () {
+  onfocusTwo() {
     this.setState({
       focusFirst: false,
       focusSecond: true,
@@ -329,14 +381,14 @@ export default class LoginUsernamePasswordScreenComponent extends Component<
     })
   }
 
-  onSetNextFocus () {
+  onSetNextFocus() {
     this.setState({
       focusFirst: false,
       focusSecond: true,
       offset: Offsets.PASSWORD_OFFSET_LOGIN_SCREEN
     })
   }
-  selectUser (user: string) {
+  selectUser(user: string) {
     this.updateUsername(user)
     if (this.checkPinEnabled(user)) {
       this.props.gotoPinLoginPage()
@@ -346,7 +398,7 @@ export default class LoginUsernamePasswordScreenComponent extends Component<
     this.onSetNextFocus()
   }
 
-  checkPinEnabled (user: string) {
+  checkPinEnabled(user: string) {
     for (let i = 0; i < this.props.previousUsers.length; i++) {
       const obj = this.props.previousUsers[i]
       if (user === obj.username && obj.pinEnabled) {
@@ -355,32 +407,25 @@ export default class LoginUsernamePasswordScreenComponent extends Component<
     }
     return false
   }
-  updateUsername (data: string) {
+  updateUsername(data: string) {
     this.props.updateUsername(data)
   }
-  updatePassword (data: string) {
+  updatePassword(data: string) {
     this.props.updatePassword(data)
   }
-  onForgotPassword () {
+  onForgotPassword() {
     // this.props.onForgotPassword()
     this.setState({
       showRecoveryModalOne: true
     })
   }
-  closeForgotPasswordModal () {
+  closeForgotPasswordModal = () => {
     // this.props.onForgotPassword()
     this.setState({
-      showRecoveryModalOne: false,
-      showRecoveryModalTwo: true
+      showRecoveryModalOne: false
     })
   }
-  closeForgotPasswordModalTwo () {
-    // this.props.onForgotPassword()
-    this.setState({
-      showRecoveryModalTwo: false
-    })
-  }
-  onStartLogin () {
+  onStartLogin() {
     this.noFocus()
     Keyboard.dismiss()
     this.setState({
@@ -391,7 +436,24 @@ export default class LoginUsernamePasswordScreenComponent extends Component<
       password: this.props.password
     })
   }
-  onCreateAccount () {
+  onCreateAccount() {
     this.props.gotoCreatePage()
   }
 }
+
+
+const localStyles = StyleSheet.create({
+  createAccountButton: {
+    alignItems: 'center',
+    backgroundColor: 'gold',
+    padding: 10,
+    marginTop: "40%"
+  },
+  signInButton: {
+    alignItems: 'center',
+    backgroundColor: 'green',
+    padding: 10,
+    marginTop: "10%",
+    width: 150,
+  },
+})

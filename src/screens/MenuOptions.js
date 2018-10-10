@@ -12,7 +12,6 @@ import {
 } from "react-native";
 import { StackNavigator } from "react-navigation";
 import hiprBtn from "../components/buttons/validate.png";
-// import create from "../components/buttons/create.png";
 import supplyChain from "../components/buttons/supplyChainButton.png";
 import digiView from "../components/buttons/digitalViewerButton.png";
 import track from "../components/buttons/trackButton.png";
@@ -23,7 +22,7 @@ import profileButton from "../components/buttons/profileButton.png"
 
 import styles from "../assets/styles";
 import { connect } from "react-redux";
-import { getHercId, fetchAssets } from "../actions/AssetActions";
+import { getHercId } from "../actions/AssetActions";
 import Wallet from "./Wallet";
 YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTImageLoader', 'Setting a timer for a long period of time']);
 
@@ -88,9 +87,7 @@ class MenuOptions extends Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-    fetchAssets: () => dispatch(fetchAssets()),
     getHercId: () => dispatch(getHercId())
-    //  fetchData: () => dispatch(fetchData())
 });
 export default connect(
     null,

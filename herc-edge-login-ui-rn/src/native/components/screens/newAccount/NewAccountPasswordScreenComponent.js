@@ -87,20 +87,19 @@ export default class NewAccountPasswordScreenComponent extends Component<
           autoFocus={this.state.focusFirst}
           onFinish={this.onSetNextFocus}
         />
-        <View style={styles.inputShim} />
         <PasswordConfirmConnector
           style={styles.inputBox}
           autoFocus={this.state.focusSecond}
           onFinish={this.onNextPress}
         />
-        <View style={styles.inputShim} />
+        <View style={styles.passwordShim} />
         <Button
           onPress={this.onNextPress}
           downStyle={styles.nextButton.downStyle}
           downTextStyle={styles.nextButton.downTextStyle}
           upStyle={styles.nextButton.upStyle}
           upTextStyle={styles.nextButton.upTextStyle}
-          label={s.strings.next_label_caps}
+          label={s.strings.next_label}
           isThinking={this.state.isProcessing}
           doesThink
         />
@@ -134,6 +133,8 @@ export default class NewAccountPasswordScreenComponent extends Component<
       this.setState({
         isProcessing: false
       })
+      global.firebase &&
+        global.firebase.analytics().logEvent(`Signup_Password_Invalid`)
       return
     }
     if (
@@ -144,8 +145,12 @@ export default class NewAccountPasswordScreenComponent extends Component<
         isProcessing: false
       })
       this.props.checkTheConfirmPassword()
+      global.firebase &&
+        global.firebase.analytics().logEvent(`Signup_Password_Invalid`)
       return
     }
+    global.firebase &&
+      global.firebase.analytics().logEvent(`Signup_Password_Valid`)
     this.props.nextScreen()
   }
 }

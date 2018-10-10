@@ -6,7 +6,7 @@ import {
   View
 } from 'react-native';
 import React, { Component } from 'react';
-import { LoginScreen } from 'edge-login-ui-rn';
+import { LoginScreen } from 'herc-edge-login-ui-rn';
 import { YellowBox } from 'react-native';
 import { connect } from "react-redux";
 import axios from 'axios';
@@ -81,7 +81,6 @@ class Login extends Component {
 
   renderLoginApp = () => {
     if (this.state.account) {
-      // TODO: RUN IDOLOGY CHECK. IF TRUE (user has log within last 3 months), navigate to MENUOPTIONS. ELSE, navigate to IDENTITY.
       const AUTH_TOKEN = store.getState().AssetReducers.auth_token
       const config = {
         headers: {
@@ -93,7 +92,6 @@ class Login extends Component {
       }
       axios.get(WEB_SERVER_API_IDOLOGY_CHECK, {headers: config.headers})
         .then(response => {
-          console.log("IDOLOGY CHECK RESPONSE: ", response)
           if (response.data.status == "true"){
             const { navigate } = this.props.navigation;
             navigate('MenuOptions');

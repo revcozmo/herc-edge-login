@@ -12,6 +12,7 @@ import {
     ADD_PROPS,
     INC_HERC_ID,
     GET_ACCOUNT,
+    GET_ORGANIZATION,
     GET_HERC_ID,
     GOT_HERC_ID,
     CONFIRM_ASSET,
@@ -20,13 +21,11 @@ import {
     AUTH_TOKEN
 
 } from '../actions/types';
-
-// import assets from "./Assets";
 import firebase from '../constants/Firebase';
-
-
 const rootRef = firebase.database().ref();
-// import Assets from './Assets';
+import axios from 'axios';
+import store from "../store";
+import { WEB_SERVER_API_IPFS_ADD, WEB_SERVER_API_FACTOM_CHAIN_ADD } from "../components/settings"
 
 //synchronous
 // let assets = [];
@@ -74,9 +73,7 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
             let selectedAsset = action.selectedAsset;
             return Object.assign({}, state, {
                 ...state,
-
-                selectedAsset,
-
+                selectedAsset
             })
 
         case GOT_ASSET_TRANS:
@@ -94,28 +91,22 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
             return Object.assign({}, state, {
                 ...state,
                 trans
-            }
-
-
-            )
+            })
 
         case SEND_TRANS:
             let dTime = new Date().toDateString();
             let header = state.trans.header;
             let data = state.trans.data;
-
             //  console.log(rootRef.ref(state.AssetReducers.transInfo.name.val()));
+            // rootRef.ref()
             console.log(state.trans.header, "trans in send_trans reducer");
             rootRef.child('assets/' + header.key).child('transactions').push({
                 data
             })
             rootRef.child('transactions/' + header.key).push({ header, data });
-            // rootRef.ref()
             console.log(dTime, "timecheck")
             return Object.assign({}, state, {
-
                 ...state,
-
                 trans: {
                     ...state.trans,
                     header,
@@ -123,12 +114,8 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
                         ...state.trans.data,
                         dTime
                     }
-
                 }
-
-            }
-
-            )
+            })
 
         case GOT_HERC_ID:
             let hercId = action.hercId;
@@ -166,6 +153,13 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
                 edge_account: edge_account
             })
 
+        case GET_ORGANIZATION:
+            let organizationName = action.organizationName;
+            return Object.assign({}, state, {
+              ...state,
+              organizationName: organizationName
+            })
+
         case ADD_PHOTO:
             let image = {
                 image: action.data,
@@ -180,13 +174,10 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
                     data: {
                         ...state.trans.data,
                         images
+                          }
+                      }
+                  })
 
-
-                    }
-                }
-            }
-
-            )
         case ADD_DOC:
             let doc = action.document;
             console.log('adding doc', doc);
@@ -198,27 +189,23 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
                     data: {
                         ...state.trans.data,
                         documents
+                        }
                     }
-                }
-            }
-            )
+                  })
 
         case ADD_PROPS:
             const properties = action.data;
             console.log(properties, "updating attributes in reducers");
             return Object.assign({}, state, {
-
                 ...state,
                 trans: {
                     ...state.trans,
                     data: {
                         ...state.trans.data,
                         properties
+                      }
                     }
-                }
-
-
-            })
+                  })
 
 
         case ADD_ASSET:
@@ -226,29 +213,57 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
             console.log('adding asset', newAsset.name)
             return Object.assign({}, state, {
                 ...state,
-
                 newAsset
-
-            }
-            )
+              })
 
         case CONFIRM_ASSET:
             const asset = action.newAsset;
             console.log(asset.Name, 'asset in reducerconfirm', state, 'state')
-            let assetRef = rootRef.child('assets').push();
-            rootRef.child('assets').push(asset);
+
+            rootRef.child('idology').child(state.edge_account).once('value', function(snapshot) {
+              var organization_name = snapshot.val().organizationName
+              var dataObject = JSON.stringify(asset)
+              axios.post(WEB_SERVER_API_IPFS_ADD, dataObject)
+                .then(response => {
+                  var ipfsHash = response.data["0"].hash
+                  console.log("1 ipfsHash: ", ipfsHash)
+                  return ipfsHash
+                })
+                .then(ipfsHash => {
+                  /* This part creates a new factom chain */
+
+                  var dataObject = JSON.stringify({ipfsHash: ipfsHash, organizationName: organization_name})
+                  console.log("2 dataObject with ipfshash and orgName:", dataObject)
+
+                  axios.post(WEB_SERVER_API_FACTOM_CHAIN_ADD, dataObject)
+                    .then(response => {
+                      console.log("2 web server factom response: ", response.data)
+                      var chainId = response.data.chainId
+                      // var dataObject = Object.assign({}, asset, )
+                      return chainId
+                    })
+                    .then(chainId => {
+                      var dataObject = Object.assign({}, asset, {chainId: chainId})
+                      console.log("3 going into firebase: ", dataObject)
+                      rootRef.child('assets').child(state.edge_account).set(dataObject);
+                    })
+                    .catch(console.log(error))
+                })
+                .catch(err => {
+                  console.log("Error confirming assets in IPFS: ",err)
+                })
+
+            })
+
+            // let assetRef = rootRef.child(state.edge_account).child('assets').push();
 
             return Object.assign({}, state, {
                 state: INITIAL_STATE,
-
-
-            }
-            )
+              })
 
         case SET_SET:
             const ediT = action.item
             console.log(ediT, 'setset');
-
             return Object.assign({}, state, {
                 ...state,
                 trans: {
@@ -257,13 +272,11 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
                         ...state.trans.data,
                         ediT
                     }
-
-                }
-            })
+                  }
+                })
 
         case DELETE_ASSET:
             const key = action.delKey;
-
             rootRef.child('assets').child(key).remove();
             return state;
 

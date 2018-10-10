@@ -7,7 +7,9 @@ const LandingScreenStyle = {
   container: Styles.ScreenStyle,
   backgroundImage: {
     ...Styles.BackgroundScreenImageStyle,
-    alignItems: 'center'
+    alignItems: 'center',
+    borderWidth: 3,
+    borderColor: "red"
   },
   inner: {
     position: 'relative',

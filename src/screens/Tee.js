@@ -10,31 +10,32 @@ import {
   TouchableHighlight,
   Alert
 } from "react-native";
-
 import { connect } from "react-redux";
 import styles from "../assets/styles";
 import Button from "react-native-button";
 import logo from "../assets/round.png";
 import { addAsset, getHercId } from "../actions/AssetActions";
-// import { FileSystem, Camera, Permissions, ImagePicker } from "expo";
 import next from "../components/buttons/nextButton.png";
 import takePhoto from "../components/buttons/takePhoto.png";
 import uploadPhoto from "../components/buttons/uploadImage.png";
-
 import { STATUS_BAR_HEIGHT } from "../constants";
-
 var ImagePicker = require('react-native-image-picker');
 
 
 class Tee extends Component {
+  constructor(props) {
+    super(props);
+    this.setLogo = this.setLogo.bind(this); // method to set the log from the camera component
+    this.state = {
+      Logo: null,
+    }
+  }
+
   static navigationOptions = ({ navigation }) => {
 
     let headerStyles = StyleSheet.create({
       header__container: {
-        // borderColor: "green",
-        // borderWidth: 3,
         display: "flex",
-        // resizeMode: "contain",
         height: 80,
         alignSelf: "center",
         flex: 1,
@@ -42,35 +43,25 @@ class Tee extends Component {
         alignItems: "center",
         marginTop: 40,
         paddingBottom: 20
-
       },
       header__container__centeredBox: {
-        // borderColor: "purple",
-        // borderWidth: 3,
         height: "100%",
         alignItems: "center",
         flexDirection: 'row'
       },
       header__text__box: {
-        // borderColor: "blue",
-        // borderWidth: 3,
         height: "100%",
         marginBottom: 5,
         marginLeft: 12,
-
       },
       header__image__box: {
-        // borderColor: "yellow",
-        // borderWidth: 3,
         height: "100%",
         borderRadius: 100
-        // width: 50
       },
       assetHeaderLogo: {
         height: 35,
         width: 35,
         borderRadius: 50,
-        // resizeMode: "contain",
       },
       headerText: {
         fontFamily: "dinPro",
@@ -80,7 +71,6 @@ class Tee extends Component {
         color: "black",
         textAlign: "center",
         marginTop: 2,
-        // paddingTop: 5
       },
     })
     return {
@@ -106,40 +96,8 @@ class Tee extends Component {
     }
   }
 
-
-  constructor(props) {
-    super(props);
-
-    this.setLogo = this.setLogo.bind(this); // method to set the log from the camera component 
-
-    this.state = {
-      Logo: null,
-    };
-  }
-
-  componentDidMount() {
-  }
-  //////// QR functionality ///////////////
-  // componentDidUpdate(prevProps) {
-  //   const data = this.props.getQRData;
-
-  //   // Typical usage of componentDidUpdate (don't forget to compare props to prevent loop):
-
-  //   if (data !== prevProps.getQRData) {
-  //     this.setState({ CoreProps: data.CoreProps });
-  //     if (data.assetName) {
-  //       this.setState({ Name: data.assetName });
-  //     }
-  //     if (data.assetURL) {
-  //       this.setState({ URL: data.assetURL });
-  //     }
-  //     if (data.iconURL) {
-  //       this.setState({ Logo: data.iconURL });
-  //     }
-  //   }
-  // }
   setLogo = (imgObj) => {
-    console.log("trying to set the Logog", imgObj)
+    console.log("trying to set the Logo: ", imgObj)
     this.setState({
       Logo: imgObj.string
     })
@@ -150,8 +108,8 @@ class Tee extends Component {
     const { navigate } = this.props.navigation;
     console.log("takingpic")
     navigate('Camera', { setPic: this.setLogo })
-
   }
+
   _pickImage = () => {
     console.log("picking image")
 
@@ -202,32 +160,25 @@ class Tee extends Component {
 
   _onSubmit = () => {
     const { navigate } = this.props.navigation;
-
-
     if (!this.state.Name) {
       Alert.alert("Please Add A Name");
     }
-
     if (this.state.CoreProps) {
       let CoreProps = {};
       Object.values(this.state.CoreProps).map(x => {
         CoreProps[x] = "";
       });
-
       let newAsset = Object.assign({}, {
         ...this.state,
         CoreProps
       });
-
       if (this.state.Name && this.state.CoreProps) {
         this.props.addAsset(newAsset);
         navigate("NewAssetConfirm");
       }
     } else {
       Alert.alert("No Properties");
-
     }
-
   }
 
   // qrSnapshot = () => {
@@ -409,24 +360,7 @@ class Tee extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  // newAsset: state.AssetReducers.newAsset,
-  hercId: state.AssetReducers.hercId
-  // newProperties: state.AssetReducers.selectedAsset.newProperties
-});
-const mapDispatchToProps = dispatch => ({
-  addAsset: newAsset => dispatch(addAsset(newAsset)),
-  getHercId: () => dispatch(getHercId())
-});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Tee);
-
 const localStyles = StyleSheet.create({
-
-
   assetMetricInputField: {
     height: 40,
     flexDirection: "row",
@@ -436,7 +370,6 @@ const localStyles = StyleSheet.create({
     margin: 5,
     marginTop: 10,
     marginBottom: 10
-
   },
   text: {
     color: "white",
@@ -452,7 +385,6 @@ const localStyles = StyleSheet.create({
     textAlign: "center",
     backgroundColor: "#ffffff",
 
-    // margin: .5,
     fontSize: 15,
     fontWeight: "200",
     borderColor: "blue",
@@ -461,13 +393,11 @@ const localStyles = StyleSheet.create({
     alignSelf: "center",
     borderRadius: 3
   },
-
   nextButtonContainer: {
     height: 40,
     width: 150,
     margin: 10,
     resizeMode: "contain"
-
   },
   imageButtonContainer: {
     justifyContent: "center",
@@ -502,6 +432,19 @@ const localStyles = StyleSheet.create({
     alignSelf: 'center',
     margin: 20
   }
-
-
 })
+
+const mapStateToProps = state => ({
+  // newAsset: state.AssetReducers.newAsset,
+  hercId: state.AssetReducers.hercId
+  // newProperties: state.AssetReducers.selectedAsset.newProperties
+});
+const mapDispatchToProps = dispatch => ({
+  addAsset: newAsset => dispatch(addAsset(newAsset)),
+  getHercId: () => dispatch(getHercId())
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Tee);
