@@ -12,6 +12,7 @@ import {
     ADD_PROPS,
     INC_HERC_ID,
     GET_ACCOUNT,
+    GET_ORGANIZATION,
     GET_HERC_ID,
     GOT_HERC_ID,
     CONFIRM_ASSET,
@@ -22,6 +23,9 @@ import {
 } from '../actions/types';
 import firebase from '../constants/Firebase';
 const rootRef = firebase.database().ref();
+import axios from 'axios';
+import store from "../store";
+import { WEB_SERVER_API_IPFS_ADD, WEB_SERVER_API_FACTOM_CHAIN_ADD } from "../components/settings"
 
 //synchronous
 // let assets = [];
@@ -149,6 +153,13 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
                 edge_account: edge_account
             })
 
+        case GET_ORGANIZATION:
+            let organizationName = action.organizationName;
+            return Object.assign({}, state, {
+              ...state,
+              organizationName: organizationName
+            })
+
         case ADD_PHOTO:
             let image = {
                 image: action.data,
@@ -208,8 +219,43 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
         case CONFIRM_ASSET:
             const asset = action.newAsset;
             console.log(asset.Name, 'asset in reducerconfirm', state, 'state')
+
+            rootRef.child('idology').child(state.edge_account).once('value', function(snapshot) {
+              var organization_name = snapshot.val().organizationName
+              var dataObject = JSON.stringify(asset)
+              axios.post(WEB_SERVER_API_IPFS_ADD, dataObject)
+                .then(response => {
+                  var ipfsHash = response.data["0"].hash
+                  console.log("1 ipfsHash: ", ipfsHash)
+                  return ipfsHash
+                })
+                .then(ipfsHash => {
+                  /* This part creates a new factom chain */
+
+                  var dataObject = JSON.stringify({ipfsHash: ipfsHash, organizationName: organization_name})
+                  console.log("2 dataObject with ipfshash and orgName:", dataObject)
+
+                  axios.post(WEB_SERVER_API_FACTOM_CHAIN_ADD, dataObject)
+                    .then(response => {
+                      console.log("2 web server factom response: ", response.data)
+                      var chainId = response.data.chainId
+                      // var dataObject = Object.assign({}, asset, )
+                      return chainId
+                    })
+                    .then(chainId => {
+                      var dataObject = Object.assign({}, asset, {chainId: chainId})
+                      console.log("3 going into firebase: ", dataObject)
+                      rootRef.child('assets').child(state.edge_account).set(dataObject);
+                    })
+                    .catch(console.log(error))
+                })
+                .catch(err => {
+                  console.log("Error confirming assets in IPFS: ",err)
+                })
+
+            })
+
             // let assetRef = rootRef.child(state.edge_account).child('assets').push();
-            rootRef.child(state.edge_account).child('assets').set(asset);
 
             return Object.assign({}, state, {
                 state: INITIAL_STATE,
