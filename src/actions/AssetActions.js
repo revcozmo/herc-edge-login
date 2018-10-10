@@ -101,40 +101,40 @@ export function getOrganization(organizationName) {
   }
 }
 
-export function getAssetHashes(user) {
-  let assets = [];
-  rootRef
-    .child("/assets/" + user + "/ipfs")
-    .once("value")
-    .then(snapshot => {
-      snapshot.forEach(asset => {
-        console.log(" assetobject in get hash!");
-       assets.push({
-          data: trans.toJSON().data
-        });
-      });
-    })
+// export function getAssetHashes(user) {
+//   let assets = [];
+//   rootRef
+//     .child("/assets/" + user + "/ipfs")
+//     .once("value")
+//     .then(snapshot => {
+//       snapshot.forEach(asset => {
+//         console.log(" assetobject in get hash!");
+//        assets.push({
+//           data: trans.toJSON().data
+//         });
+//       });
+//     })
 
-  return dispatch => {
-    dispatch({
-      type: GET_ASSETS
-    });
+//   return dispatch => {
+//     dispatch({
+//       type: GET_ASSETS
+//     });
 
-    console.log("getTrans action");
-    let assetTrans = [];
+//     console.log("getTrans action");
+//     let assetTrans = [];
     
-      .then(() => dispatch(gotAssetTrans(assetTrans)));
-  };
-}
+//       .then(() => dispatch(gotAssetTrans(assetTrans)));
+//   };
+// }
 
-export function gotAssetTrans(assetTrans) {
-  let transactions = assetTrans;
-  console.log("got the transactions list");
-  return {
-    type: GOT_ASSET_TRANS,
-    transactions
-  };
-}
+// export function gotAssetTrans(assetTrans) {
+//   let transactions = assetTrans;
+//   console.log("got the transactions list");
+//   return {
+//     type: GOT_ASSET_TRANS,
+//     transactions
+//   };
+// }
 
 export function selectAsset(asset) {
   let assetRef = rootRef.child("assets/" + asset.key);
