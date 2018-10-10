@@ -91,10 +91,9 @@ export function getOrganization(organizationName) {
 
 ///// This is getting the hashes from firebase to send to The server to talk to IPFS
 
-
-export function getAssets(name) {
+export function getHashes(name) {
   return dispatch => {
-    let assets = [];
+
     let assetHashes = [];
     // let hash = JSON.stringify(assetHashes[0])
     console.log(name, 'username in action')
@@ -110,35 +109,40 @@ export function getAssets(name) {
           );
         })
 
-      }).then(() => dispatch(gotHashes(assetHashes)))
+      }).then(() => dispatch(getAssets(assetHashes)))
   }
+
 }
 
-export function gotHashes(hashes) {
 
+
+export function getAssets(hashes) {
   console.log(hashes, "lets hope we get this far.")
-  let hash = hashes[0];
-  let assetList;
+  return dispatch => {
+    let hash = hashes[0];
+    console.log(hash, "a single hash");
 
-  axios.post(WEB_SERVER_API_IPFS_GET, hash)
-    .then(response => {
-      console.log(response.toJSON(), 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
-      // assetList.push(response.body.toJSON)
+    let assetList = [];
 
-      // var ipfsHash = response.data["0"].hash
-      // console.log("1 ipfsHash: ", ipfsHash)
-      // return ipfsHash
-    })
-    // .then
+      await axios.get(WEB_SERVER_API_IPFS_GET, hash)
+        .then(response => {
+          console.log(response.toJSON(), 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
+          assetList.push(response.body.toJSON)
 
-  //  dispatch => {
-  //   dispatch({
-  //     type: GOT_LIST_ASSETS,
-  //     assets: assetList
-  //   });
+          // var ipfsHash = response.data["0"].hash
+          // console.log("1 ipfsHash: ", ipfsHash)
+          // return ipfsHash
+        }).then(() => 
+    
+      dispatch({
+        type: GOT_LIST_ASSETS,
+        assets: assetList
+      }))
+    }
 
   };
-}
+
+
 
 // export function gotAssetTrans(assetTrans) {
 //   let transactions = assetTrans;
