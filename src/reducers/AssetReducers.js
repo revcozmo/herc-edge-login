@@ -25,7 +25,7 @@ import firebase from '../constants/Firebase';
 const rootRef = firebase.database().ref();
 import axios from 'axios';
 import store from "../store";
-import { WEB_SERVER_API_IPFS_ADD, WEB_SERVER_API_FACTOM_CHAIN_ADD } from "../components/settings"
+import { WEB_SERVER_API_IPFS_GET, WEB_SERVER_API_IPFS_ADD, WEB_SERVER_API_FACTOM_CHAIN_ADD } from "../components/settings"
 
 //synchronous
 // let assets = [];
