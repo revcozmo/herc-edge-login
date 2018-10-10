@@ -232,22 +232,22 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
                 .then(ipfsHash => {
                   /* This part creates a new factom chain */
 
-                  var dataObject = JSON.stringify({ipfsHash: ipfsHash, organizationName: organization_name})
-                  console.log("2 dataObject with ipfshash and orgName:", dataObject)
+                //   var dataObject = JSON.stringify({ipfsHash: ipfsHash, organizationName: organization_name})
+                //   console.log("2 dataObject with ipfshash and orgName:", dataObject)
 
-                  axios.post(WEB_SERVER_API_FACTOM_CHAIN_ADD, dataObject)
-                    .then(response => {
-                      console.log("2 web server factom response: ", response.data)
-                      var chainId = response.data.chainId
-                      // var dataObject = Object.assign({}, asset, )
-                      return chainId
-                    })
-                    .then(chainId => {
-                      var dataObject = Object.assign({}, asset, {chainId: chainId})
-                      console.log("3 going into firebase: ", dataObject)
-                      rootRef.child('assets').child(state.edge_account).set(dataObject);
-                    })
-                    .catch(console.log(error))
+                //   axios.post(WEB_SERVER_API_FACTOM_CHAIN_ADD, dataObject)
+                //     .then(response => {
+                //       console.log("2 web server factom response: ", response.data)
+                //       var chainId = response.data.chainId
+                //       // var dataObject = Object.assign({}, asset, )
+                //       return chainId
+                //     })
+                //     .then(chainId => {
+                //       var dataObject = Object.assign({}, asset, {chainId: chainId})
+                //       console.log("3 going into firebase: ", dataObject)
+                //       rootRef.child('assets').child(state.edge_account).set(dataObject);
+                //     })
+                //     .catch(console.log(error))
                 })
                 .catch(err => {
                   console.log("Error confirming assets in IPFS: ",err)

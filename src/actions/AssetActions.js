@@ -1,5 +1,6 @@
 import {
   ADD_ASSET,
+  GET_ASSETS,
   GET_TRANS,
   SELECT_ASSET,
   START_TRANS,
@@ -25,8 +26,6 @@ import {
 
 import firebase from "../constants/Firebase";
 const rootRef = firebase.database().ref();
-import getAssets from "../reducers/Assets";
-
 export function getHercId() {
   return dispatch => {
     let hercId;
@@ -100,6 +99,41 @@ export function getOrganization(organizationName) {
     type: GET_ORGANIZATION,
     organizationName
   }
+}
+
+export function getAssetHashes(user) {
+  let assets = [];
+  rootRef
+    .child("/assets/" + user + "/ipfs")
+    .once("value")
+    .then(snapshot => {
+      snapshot.forEach(asset => {
+        console.log(" assetobject in get hash!");
+       assets.push({
+          data: trans.toJSON().data
+        });
+      });
+    })
+
+  return dispatch => {
+    dispatch({
+      type: GET_ASSETS
+    });
+
+    console.log("getTrans action");
+    let assetTrans = [];
+    
+      .then(() => dispatch(gotAssetTrans(assetTrans)));
+  };
+}
+
+export function gotAssetTrans(assetTrans) {
+  let transactions = assetTrans;
+  console.log("got the transactions list");
+  return {
+    type: GOT_ASSET_TRANS,
+    transactions
+  };
 }
 
 export function selectAsset(asset) {
@@ -226,10 +260,10 @@ export function gotAssetTrans(assetTrans) {
 export function getOriginTrans(trans) {
   console.log(trans, "INSIDE get Origin");
   return (
-      {
-          type: GET_ORIGIN_TRANS,
-          trans
-      }
+    {
+      type: GET_ORIGIN_TRANS,
+      trans
+    }
   )
 }
 
