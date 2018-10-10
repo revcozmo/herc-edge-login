@@ -102,7 +102,7 @@ export function getOrganization(organizationName) {
 }
 
 // export function getAssetHashes(user) {
-//   let assets = [];
+//   let assetHashes = [];
 //   rootRef
 //     .child("/assets/" + user + "/ipfs")
 //     .once("value")
