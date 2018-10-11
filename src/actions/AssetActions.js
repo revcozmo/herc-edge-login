@@ -29,6 +29,7 @@ import { WEB_SERVER_API_IPFS_GET, WEB_SERVER_API_IPFS_ADD, WEB_SERVER_API_FACTOM
 import axios from 'axios';
 
 import firebase from "../constants/Firebase";
+import { assert } from "tcomb";
 const rootRef = firebase.database().ref();
 const assetRef = firebase.database().ref("assets");
 export function getHercId() {
@@ -126,13 +127,15 @@ export function getAssets(hashes) {
 
        axios.get(WEB_SERVER_API_IPFS_GET, { params:hash})
         .then(response => {
-          console.log(response.toJSON(), 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
-          assetList.push(response.body.toJSON)
+          console.log(response.data, 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
+        assetList.push(JSON.parse(response.data[0]));
+          // assetArray.forEach(asset => assetList.push(asset));
 
           // var ipfsHash = response.data["0"].hash
-          // console.log("1 ipfsHash: ", ipfsHash)
+          console.log(assetList, "asset List")
           // return ipfsHash
-        }).then(() => 
+        })
+        .then(() => 
     
       dispatch({
         type: GOT_LIST_ASSETS,
