@@ -157,16 +157,17 @@ export function getAssets(hashes) {
 // }
 
 export function selectAsset(asset) {
-  let assetRef = rootRef.child("assets/" + asset.key);
-  let selectedAsset = {};
-  assetRef.on("value", snapshot => {
-    selectedAsset = snapshot.val();
-  });
-  selectedAsset = Object.assign({}, selectedAsset, {
-    ...selectedAsset,
-    key: asset.key
-  });
-  console.log("asset selection in action");
+  console.log(asset, 'asset in Select')
+  // let assetRef = rootRef.child("assets/" + asset.key);
+  let selectedAsset = asset;
+  // assetRef.on("value", snapshot => {
+  //   selectedAsset = snapshot.val();
+  // });
+  // selectedAsset = Object.assign({}, selectedAsset, {
+  //   ...selectedAsset,
+  //   key: asset.key
+  // });
+  // console.log("asset selection in action");
   return {
     type: SELECT_ASSET,
     selectedAsset

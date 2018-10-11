@@ -118,7 +118,7 @@ class Splash1 extends Component {
   _onPress = asset => {
     const { navigate } = this.props.navigation;
     this.props.selectAsset(asset);
-    navigate("Splash2", { logo: asset.logo, name: asset.name });
+    navigate("Splash2", { logo: asset.Logo, name: asset.Name });
 
   }
 
