@@ -118,13 +118,13 @@ export function getHashes(name) {
 
 export function getAssets(hashes) {
   console.log(hashes, "lets hope we get this far.")
+    let hash = hashes[0];
+    console.log(hash, "a single hash")
   return dispatch => {
-    let hash = new Buffer.from(hashes[0]);
-    console.log(hash, "a single hash");
 
     let assetList = [];
 
-       axios.get(WEB_SERVER_API_IPFS_GET, hash)
+       axios.get(WEB_SERVER_API_IPFS_GET, { params:hash})
         .then(response => {
           console.log(response.toJSON(), 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
           assetList.push(response.body.toJSON)
