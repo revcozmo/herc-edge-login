@@ -105,6 +105,7 @@ class Splash1 extends Component {
   componentDidMount() {
     StatusBar.setBackgroundColor("white");
     StatusBar.setBarStyle("dark-content", true);
+    console.log(this.props.assets, "brand new assets from IPFS!")
 
   }
 
@@ -117,20 +118,21 @@ class Splash1 extends Component {
   _onPress = asset => {
     const { navigate } = this.props.navigation;
     this.props.selectAsset(asset);
-    navigate("Splash2", { logo: asset.logo, name: asset.name });
+    navigate("Splash2", { logo: asset.Logo, name: asset.Name });
 
   }
 
   render() {
     const { navigate } = this.props.navigation;
     let list = this.props.assets.map((asset, index) => {
+      console.log(asset, "asset mapping in splash1", asset.Name, asset.CoreProps)
       return (
         <TouchableHighlight style={{ borderRadius: 2 }} key={index} onPress={() => this._onPress(asset)}>
           <View style={localStyles.menuItemField}>
             {/* <Button onPress={() => this._onDelete(asset.key)} style={styles.assetDeleteButton}>Delete</Button> */}
             <Image style={localStyles.assetLogo} source={{ uri: asset.logo }} />
             <View style={localStyles.menuItemField__textBox}>
-              <Text style={localStyles.assetLabel}>{asset.name}</Text>
+              <Text style={localStyles.assetLabel}>{asset.Name}</Text>
             </View>
           </View>
         </TouchableHighlight>
@@ -230,10 +232,11 @@ const localStyles = StyleSheet.create({
 });
 
 const mapStateToProps = state => ({
-  assets: state.Assets
+  assets: state.AssetReducers.assets
 });
 
 const mapDispatchToProps = dispatch => ({
+  
   selectAsset: asset => dispatch(selectAsset(asset)),
   deleteAsset: key => dispatch(deleteAsset(key))
 });

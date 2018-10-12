@@ -10,6 +10,7 @@ import {
   Image
 } from 'react-native';
 import { RNCamera } from 'react-native-camera';
+import { relative } from 'path';
 
 export default class Camera extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -30,29 +31,29 @@ export default class Camera extends Component {
     let string = data;
     let size = atob(string);
     console.log("size =" + size.length);
-    return(size.length);
+    return (size.length);
 
   }
-  
+
   takePicture = async () => {
     console.log("taking");
     const { params } = this.props.navigation.state;
     if (this.camera) {
-      const options = { base64: true}
+      const options = { base64: true }
       try {
         const data = await this.camera.takePictureAsync(options);
         // this._getSize(data.base64);
-        let image = Object.assign({},{
-          path: data.uri,
+        let image = Object.assign({}, {
+          uri: data.uri,
           size: this._getSize(data.base64),
-          string:"data:image/jpg;base64," + data.base64
+          string: "data:image/jpg;base64," + data.base64
         })
-        this.setState({ 
+        this.setState({
           image
         })
 
         params.setPic(this.state.image);
-        console.log("afterBase", data.uri, this._getSize(data.base64));
+        console.log("afterBase", data.uri, "size: ", this._getSize(data.base64));
 
         // this.props.updateImage(data.uri);
         // console.log('Path to image: ' + data.uri);
@@ -89,13 +90,18 @@ export default class Camera extends Component {
     return (
       <View>
         <Image
-          source={{ uri: this.state.image.path }}
+          source={{ uri: this.state.image.uri }}
           style={styles.preview}
         />
         <Text
           style={styles.cancel}
-          onPress={() => this.setState({image: null})}
+          onPress={() => this.setState({ image: null })}
         >Cancel
+          </Text>
+        <Text
+          style={styles.accept}
+          onPress={() => this.props.navigation.goBack()}
+        >Accept
           </Text>
       </View>
     );
@@ -183,10 +189,23 @@ const styles = StyleSheet.create({
   cancel: {
     position: 'absolute',
     right: 20,
-    top: 20,
+    top: -5,
     backgroundColor: 'transparent',
     color: '#FFF',
     fontWeight: '600',
     fontSize: 17,
+  },
+
+  accept: {
+    // position: 'relative',
+    margin: 10,
+    // right: 30,
+    top: -5,
+    backgroundColor: 'transparent',
+    color: '#FFF',
+    fontWeight: '600',
+    fontSize: 17,
+    alignSelf: 'center'
+
   }
 });

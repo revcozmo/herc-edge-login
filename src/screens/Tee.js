@@ -25,9 +25,13 @@ var ImagePicker = require('react-native-image-picker');
 class Tee extends Component {
   constructor(props) {
     super(props);
-    this.setLogo = this.setLogo.bind(this); // method to set the log from the camera component
+    this.setImage = this.setImage.bind(this); // method to set the log from the camera component
     this.state = {
-      Logo: null,
+      Logo: {
+        uri: "",
+        imageString: "",
+        size: ""
+      }
     }
   }
 
@@ -96,10 +100,14 @@ class Tee extends Component {
     }
   }
 
-  setLogo = (imgObj) => {
+  setImage = (imgObj) => {
     console.log("trying to set the Logo: ", imgObj)
     this.setState({
-      Logo: imgObj.string
+      Logo: {
+        imageString: imgObj.string,
+        uri: imgObj.uri,
+        fileSize: imgObj.size
+      }
     })
 
   }
@@ -107,7 +115,7 @@ class Tee extends Component {
   _takePic = () => {
     const { navigate } = this.props.navigation;
     console.log("takingpic")
-    navigate('Camera', { setPic: this.setLogo })
+    navigate('Camera', { setPic: this.setImage })
   }
 
   _pickImage = () => {
@@ -126,13 +134,17 @@ class Tee extends Component {
         console.log('User tapped custom button: ', response.customButton);
       }
       else {
-        let source = { uri: response.uri };
+        let source = response.uri;
 
         // You can also display the image using data:
         // let source = { uri: 'data:image/jpeg;base64,' + response.data };
 
         this.setState({
-          Logo: "data:image/jpg;base64," + response.data
+          Logo: {
+            imageString: "data:image/jpg;base64," + response.data,
+            uri: source,
+            fileSize: response.fileSize
+          }
         });
       }
     });
@@ -187,7 +199,7 @@ class Tee extends Component {
   // };
 
   render() {
-    let Logo = this.state.Logo || null;
+    let Logo = this.state.Logo.uri || null;
 
     if (this.state.Logo) {
       console.log("logog is here")
@@ -334,7 +346,7 @@ class Tee extends Component {
 
             <View style={localStyles.imageButtonContainer}>
 
-               {/* <TouchableHighlight
+              {/* <TouchableHighlight
                 onPress={() => this.qrSnapshot()}
                 style={localStyles.menuItemField__textBox}
               >
