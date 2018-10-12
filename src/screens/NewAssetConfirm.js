@@ -52,8 +52,9 @@ class NewAssetConfirm extends Component {
         let Logo, Url, list;
         let Name = newAsset.Name;
 
+            console.log(newAsset, "newAsset, look at Logo")
         if (newAsset.Logo) {
-            Logo = (<Image style={styles.assetHeaderImage} source={{ uri: newAsset.Logo }} />);
+            Logo = (<Image style={styles.assetHeaderImage} source={{ uri: newAsset.Logo.uri }} />);
           } else {
               Logo = (<Text style={styles.label}>No Image</Text>)
           }

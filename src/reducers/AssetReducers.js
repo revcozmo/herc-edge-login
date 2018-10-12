@@ -179,6 +179,20 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
                 }
             })
 
+            // case GOT_LOGO:
+            // let logoURl = action.Logo;
+            // return{
+            //     ...state,
+            //     AssetReducers:{
+            //         ...state.AssetReducers,
+            //         newAsset: {
+            //             ...state.AssetReducers.newAsset,
+            //             Logo: logoURl
+            //         },
+
+            //     }
+            // }
+
         case ADD_DOC:
             let doc = action.document;
             console.log('adding doc', doc);
