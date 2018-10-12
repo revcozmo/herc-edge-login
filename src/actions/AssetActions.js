@@ -119,31 +119,31 @@ export function getHashes(name) {
 
 export function getAssets(hashes) {
   console.log(hashes, "lets hope we get this far.")
-    let hash = hashes[0];
-    console.log(hash, "a single hash")
+  let hash = hashes[0];
+  console.log(hash, "a single hash")
   return dispatch => {
 
     let assetList = [];
 
-       axios.get(WEB_SERVER_API_IPFS_GET, { params:hash})
-        .then(response => {
-          console.log(response.data, 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
+    axios.get(WEB_SERVER_API_IPFS_GET, { params: hash })
+      .then(response => {
+        console.log(response.data, 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
         assetList.push(JSON.parse(response.data[0]));
-          // assetArray.forEach(asset => assetList.push(asset));
+        // assetArray.forEach(asset => assetList.push(asset));
 
-          // var ipfsHash = response.data["0"].hash
-          console.log(assetList, "asset List")
-          // return ipfsHash
-        })
-        .then(() => 
-    
-      dispatch({
-        type: GOT_LIST_ASSETS,
-        assets: assetList
-      }))
-    }
+        // var ipfsHash = response.data["0"].hash
+        console.log(assetList, "asset List")
+        // return ipfsHash
+      })
+      .then(() =>
 
-  };
+        dispatch({
+          type: GOT_LIST_ASSETS,
+          assets: assetList
+        }))
+  }
+
+};
 
 
 
@@ -181,14 +181,21 @@ export function addAsset(newAsset) {
   };
 }
 
-export function confirmAsset(confirmedAsset) {
-  let newAsset = confirmedAsset;
+export function confirmAsset(confirmedAssetWithLogoUrl) {
+  let newAsset = confirmedAssetWithLogoUrl;
+  // let Logo = confirmedAsset.Logo
+
   console.log("confirming asset", newAsset);
-  return {
-    type: CONFIRM_ASSET,
-    newAsset
-  };
-}
+  // let assetWithLogo = await uploadAssetLogo(Logo.uri)
+ 
+    return {
+      type: CONFIRM_ASSET,
+      newAsset 
+    };
+  }
+
+
+
 
 export function deleteAsset(key) {
   let delKey = key;

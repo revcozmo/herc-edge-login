@@ -1,20 +1,17 @@
 
-// import {
 
+// //  function handleImagePicked(pickerResult) {
+// //     console.log("new place for the LogoUP")
 
-// }
-// export function handleImagePicked(pickerResult) {
-//     console.log("new place for the LogoUP")
+// //     if (!pickerResult.cancelled) {
+// //         return dispatch =>
+// //         dispatch(uploadImageAsync(pickerResult.uri));
+// //         // this.setState({ image: uploadUrl });
+// //     }
+// //     alert("Upload failed, sorry :(");
+// // }
 
-//     if (!pickerResult.cancelled) {
-//         return dispatch =>
-//         dispatch(uploadImageAsync(pickerResult.uri));
-//         // this.setState({ image: uploadUrl });
-//     }
-//     alert("Upload failed, sorry :(");
-// }
-
-// async function uploadImageAsync(uri) {
+// async function uploadAssetLogo(uri) {
 //     // setImageinState = url => {
 //     //   this.setState({ Logo: url });
 //     // };
@@ -65,8 +62,7 @@
 //                 });
 //             }
 //         );
-//     } else {
-//         Alert.alert("Please Enter A Name");
+  
 //     }
 // }
 
