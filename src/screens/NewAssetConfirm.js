@@ -34,64 +34,72 @@ class NewAssetConfirm extends Component {
 
 
     async uploadImageAsync(uri) {
-        // setImageinState = url => {
-        //     this.setState({ Logo: url });
-        // };
-
+      
         const response = await fetch(uri);
         const blob = await response.blob();
         const storageRef = firebase.storage().ref();
-        let logoLocation = storageRef.child(this.props.edge_account + "/Logo");
+        let logoLocation = storageRef.child(this.props.edge_account + this.props.newAsset.Name + "/Logo");
 
         // const snapshot = await logoLocation.put(blob);
         // console.log(snapshot, 'snapshot')
         // return snapshot.downloadURL ? snapshot.downloadURL : "notingmon";
 
-        var uploadTask = logoLocation.put(blob);
+       const snapshot = await logoLocation.put(blob);
+
+        let newAsset = Object.assign({}, this.props.newAsset, {
+            Name: this.props.newAsset.Name,
+            CoreProps: this.props.newAsset.CoreProps,
+            Logo: snapshot.downloadURL,
+            hercId: this.props.newAsset.hercId
+        })
+        console.log(newAsset, 'after fuckery')
+        this.props.confirmAsset(newAsset)
+
+    }
 
         // Register three observers:
         // 1. 'state_changed' observer, called any time the state changes
         // 2. Error observer, called on failure
         // 3. Completion observer, called on successful completion
-        uploadTask.on(
-            "state_changed",
-            function (snapshot) {
-                // Observe state change events such as progress, pause, and resume
-                // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-                var progress =
-                    (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                console.log("Upload is " + progress + "% done");
-                switch (snapshot.state) {
-                    case firebase.storage.TaskState.PAUSED: // or 'paused'
-                        console.log("Upload is paused");
-                        break;
-                    case firebase.storage.TaskState.RUNNING: // or 'running'
-                        console.log("Upload is running");
-                        break;
-                }
-            },
-            function (error) {
-                Alert.alert("Something Went Wrong");
-                // Handle unsuccessful uploads
-            },
-            function () {
-                // Handle successful uploads on complete
-                // For instance, get the download URL: https://firebasestorage.googleapis.com/...
-                uploadTask.snapshot.ref.getDownloadURL().then(function (downloadURL) {
-                    console.log("File available at", downloadURL);
+        // uploadTask.on(
+        //     "state_changed",
+        //     function (snapshot) {
+        //         // Observe state change events such as progress, pause, and resume
+        //         // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+        //         var progress =
+        //             (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        //         console.log("Upload is " + progress + "% done");
+        //         switch (snapshot.state) {
+        //             case firebase.storage.TaskState.PAUSED: // or 'paused'
+        //                 console.log("Upload is paused");
+        //                 break;
+        //             case firebase.storage.TaskState.RUNNING: // or 'running'
+        //                 console.log("Upload is running");
+        //                 break;
+        //         }
+        //     },
+        //     function (error) {
+        //         Alert.alert("Something Went Wrong");
+        //         // Handle unsuccessful uploads
+        //     },
+        //     function () {
+        //         // Handle successful uploads on complete
+        //         // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+        //         uploadTask.snapshot.ref.getDownloadURL().then(function (downloadURL) {
+        //             console.log("File available at", downloadURL);
                       
-                    let newAsset = Object.assign({}, this.props.newAsset, {
-                            Name: this.props.newAsset.Name,
-                            CoreProps: this.props.newAsset.CoreProps,
-                            Logo: downloadURL,
-                            hercId
-                        })
-                        console.log(newAsset, 'after fuckery')
-                        this.props.confirmAsset(newAsset)
-                    })
-                    // setImageinState(downloadURL);
-                });
-        }
+        //             let newAsset = Object.assign({}, this.props.newAsset, {
+        //                     Name: this.props.newAsset.Name,
+        //                     CoreProps: this.props.newAsset.CoreProps,
+        //                     Logo: downloadURL,
+        //                     hercId
+        //                 })
+        //                 console.log(newAsset, 'after fuckery')
+        //                 this.props.confirmAsset(newAsset)
+        //             })
+        //             // setImageinState(downloadURL);
+        //         });
+        // }
           
 
 
