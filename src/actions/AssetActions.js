@@ -234,7 +234,8 @@ export function addPhoto(imgObj) {
   return {
     type: ADD_PHOTO,
     data: imgObj.image,
-    size: imgObj.size
+    size: imgObj.size,
+    uri: imgObj.uri
   };
 }
 

@@ -164,7 +164,8 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
         case ADD_PHOTO:
             let image = {
                 image: action.data,
-                size: action.size
+                size: action.size,
+                uri: action.uri
             };
             console.log('adding photo');
             let images = [...state.trans.data.images, image];
