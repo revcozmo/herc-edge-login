@@ -152,7 +152,7 @@ class FileUp extends Component {
         this.setState({
           image: "data:image/jpg;base64," + response.data,
           size: response.fileSize,
-          uri: response.path
+          uri: source
         });
       }
     });
