@@ -149,9 +149,10 @@ function getAssets(hashes) {
 
     Promise.all(promiseArray)
       .then(
-         () =>
-        dispatch(gotListAssets(assetList))
-        ).catch(console.log);
+         (result) =>{
+        console.log(result, "results from multiPromise call")
+          dispatch(gotListAssets(assetList))
+         }).catch(console.log);
   }
 
 
