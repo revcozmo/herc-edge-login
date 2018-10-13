@@ -97,8 +97,21 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
         case SEND_TRANS:
             let dTime = Date.now()
             console.log("===========state.trans", state.trans)
-            let header = state.trans.header;
-            let data = state.trans.data;
+            let header = state.trans.header; //tXlocation, hercId, price, name
+            let data = state.trans.data; //documents, images, properties, dTime
+            var manyKeys = Object.keys(data) //[ 'dTime', 'documents', 'images', 'properties' ]
+
+            // manyKeys.forEach(key =>{
+            //   if(Object.keys(data.key).length === 0 && data.key.constructor === Object)
+            //   {console.log("mississipi true")}
+            // })
+
+            if (data.properties) {
+              axios.post(WEB_SERVER_API_IPFS_ADD, data.properties)
+                .then(res => console.log(res))
+                .catch(err => console.log(err))
+            }
+
             rootRef.child('assets/' + state.edge_account + '/' + header.name).child('transactions').child(dTime).set({ header, data })
             return Object.assign({}, state, {
                 ...state,

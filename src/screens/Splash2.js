@@ -132,8 +132,8 @@ class Splash2 extends Component {
       },
       data: {
         dTime: new Date().toDateString(),
-        images: [],
-        documents: []
+        images: {},
+        documents: {}
       }
     };
     console.log(trans, "trans base");
