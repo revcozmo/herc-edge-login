@@ -1,4 +1,5 @@
 import {
+  FETCH_ASSETS,
   ADD_ASSET,
   // GET_ASSET_HASHES,
   GOT_LIST_ASSETS,
@@ -92,14 +93,23 @@ export function getOrganization(organizationName) {
 
 ///// This is getting the hashes from firebase to send to The server to talk to IPFS
 
-export function getHashes(name) {
+// export function fetchAssets(name) {
+//   console.log(name, 'username in action')
+//   let assetHashes = await getHashes(name);
+//   return dispatch => {
+
+//     dispatch(getAssets(assetHashes))
+
+//   }
+// }
+
+export function getHashes(userName) {
+  let assetHashes = [];
+  console.log(userName, 'username in action')
+
   return dispatch => {
 
-    let assetHashes = [];
-    // let hash = JSON.stringify(assetHashes[0])
-    console.log(name, 'username in action')
-
-    assetRef.child(name)
+    assetRef.child(userName)
       .once("value")
       .then(snapshot => {
         console.log(snapshot.val(), " what's in the database?")
@@ -110,40 +120,57 @@ export function getHashes(name) {
           );
         })
 
-      }).then(() => dispatch(getAssets(assetHashes)))
+      }).then(() =>
+
+        dispatch(getAssets(assetHashes))
+      )
+  };
+}
+
+
+
+
+function getAssets(hashes) {
+  return dispatch => {
+    console.log(hashes, "lets hope we get this far.")
+    let assetList = [];
+    let promiseArray = hashes.map(singleHash => axios.get(WEB_SERVER_API_IPFS_GET, { params: singleHash })
+      //  hashes.forEach(singleHash => {
+      // axios.get(WEB_SERVER_API_IPFS_GET, { params: singleHash })
+      .then(response => {
+        console.log(response.data, 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
+        assetList.push(JSON.parse(response.data[0]));
+        // assetArray.forEach(asset => assetList.push(asset));
+        // var ipfsHash = response.data["0"].multiHash
+        console.log(assetList, "asset List")
+        // return ipfsHash
+      }).catch(console.log)
+    )
+
+    Promise.all(promiseArray)
+      .then(
+         (result) =>{
+        console.log(result, "results from multiPromise call")
+          dispatch(gotListAssets(assetList))
+         }).catch(console.log);
   }
+
+
 
 }
 
 
 
-export function getAssets(hashes) {
-  console.log(hashes, "lets hope we get this far.")
-  let hash = hashes[0];
-  console.log(hash, "a single hash")
-  return dispatch => {
+function gotListAssets(assetList) {
+  return (
+    {
+      type: GOT_LIST_ASSETS,
+      assets: assetList
+    }
+  )
+}
 
-    let assetList = [];
 
-    axios.get(WEB_SERVER_API_IPFS_GET, { params: hash })
-      .then(response => {
-        console.log(response.data, 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
-        assetList.push(JSON.parse(response.data[0]));
-        // assetArray.forEach(asset => assetList.push(asset));
-
-        // var ipfsHash = response.data["0"].hash
-        console.log(assetList, "asset List")
-        // return ipfsHash
-      })
-      .then(() =>
-
-        dispatch({
-          type: GOT_LIST_ASSETS,
-          assets: assetList
-        }))
-  }
-
-};
 
 
 
@@ -187,12 +214,12 @@ export function confirmAsset(confirmedAssetWithLogoUrl) {
 
   console.log("confirming asset", newAsset);
   // let assetWithLogo = await uploadAssetLogo(Logo.uri)
- 
-    return {
-      type: CONFIRM_ASSET,
-      newAsset 
-    };
-  }
+
+  return {
+    type: CONFIRM_ASSET,
+    newAsset
+  };
+}
 
 
 
