@@ -26,7 +26,7 @@ import firebase from '../constants/Firebase';
 const rootRef = firebase.database().ref();
 import axios from 'axios';
 import store from "../store";
-import { WEB_SERVER_API_IPFS_GET, WEB_SERVER_API_IPFS_ADD, WEB_SERVER_API_FACTOM_CHAIN_ADD } from "../components/settings"
+import { WEB_SERVER_API_IPFS_GET, WEB_SERVER_API_IPFS_ADD, WEB_SERVER_API_FACTOM_CHAIN_ADD, WEB_SERVER_API_FACTOM_ENTRY_ADD } from "../components/settings"
 
 //synchronous
 // let assets = [];
@@ -99,21 +99,32 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
             console.log("===========state.trans", state.trans)
             let header = state.trans.header; //tXlocation, hercId, price, name
             let data = state.trans.data; //documents, images, properties, dTime
-            var manyKeys = Object.keys(data) //[ 'dTime', 'documents', 'images', 'properties' ]
-            let hashList = [];
-
-            let promiseArray = manyKeys.map(key =>
+            var keys = Object.keys(data) //[ 'dTime', 'documents', 'images', 'properties' ]
+            let promiseArray = []
+            keys.forEach(key => {
               if(Object.keys(data[key]).length != 0 && data[key].constructor === Object){
-                axios.post(WEB_SERVER_API_IPFS_ADD, data[key])
+                promiseArray.push(axios.post(WEB_SERVER_API_IPFS_ADD, JSON.stringify(data[key]))
                 .then(res => {
-                  hashList.push(response.data[0])
-                }).catch(console.log)
+                  return res
+                })
+                .catch(console.log))
               }
-            )
-            Promise.all(promisedArray)
+            })
+
+            Promise.all(promiseArray)
               .then(results => {
-                console.log(results, "results from aguamenti call")
-              }).catch(console.log)
+                var hashlist = results[0].data.map(result => {return result.hash})
+                // TODO: store hashlist into factom
+                axios.post(WEB_SERVER_API_FACTOM_ENTRY_ADD, hashlist)
+                  .then(response => {
+                    console.log(response)
+                  })
+                  .catch(err => {
+                    console.log(err)
+                  })
+              })
+              .catch(console.log)
+
 
             rootRef.child('assets/' + state.edge_account + '/' + header.name).child('transactions').child(dTime).set({ header, data })
             return Object.assign({}, state, {
