@@ -1,4 +1,6 @@
 export const ADD_ASSET = 'addAsset';
+export const GET_ASSET_HASHES = 'getAssetHashes';
+export const GET_ASSETS = 'getAssets';
 export const SELECT_ASSET = 'selectAsset';
 export const START_TRANS = 'startTrans';
 export const SEND_TRANS = 'sendTrans';
@@ -25,3 +27,9 @@ export const GET_ORGANIZATION = 'getOrganization';
 export const FETCHING_DATA = 'FETCHING_DATA'
 export const FETCHING_DATA_SUCCESS = 'FETCHING_DATA_SUCCESS'
 export const FETCHING_DATA_FAILURE = 'FETCHING_DATA_FAILURE'
+
+
+// LOGO ACTIONS
+
+export const HANDLE_IMAGE_PICKED = 'handleImagePicked';
+export const GOT_LOGO = 'gotLogo';

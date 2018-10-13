@@ -1,5 +1,8 @@
 import {
+  FETCH_ASSETS,
   ADD_ASSET,
+  // GET_ASSET_HASHES,
+  GOT_LIST_ASSETS,
   GET_TRANS,
   SELECT_ASSET,
   START_TRANS,
@@ -23,10 +26,13 @@ import {
 
 } from "./types";
 
-import firebase from "../constants/Firebase";
-const rootRef = firebase.database().ref();
-import getAssets from "../reducers/Assets";
+import { WEB_SERVER_API_IPFS_GET, WEB_SERVER_API_IPFS_ADD, WEB_SERVER_API_FACTOM_CHAIN_ADD } from "../components/settings"
+import axios from 'axios';
 
+import firebase from "../constants/Firebase";
+import { assert } from "tcomb";
+const rootRef = firebase.database().ref();
+const assetRef = firebase.database().ref("assets");
 export function getHercId() {
   return dispatch => {
     let hercId;
@@ -60,23 +66,6 @@ export function incHercId(hercid) {
   };
 }
 
-// export function incHercId(hercid) {
-//   if (hercid){
-//     console.log(hercid, "hercid");
-//     let hercIdStr = (Number(hercid) + 1).toString();
-//     console.log(hercIdStr, "transformed to string");
-//     let hercId = "00" + hercIdStr; //adding leading 0's for fun
-//     console.log(hercId, "after refact");
-//     return {
-//       type: INC_HERC_ID,
-//       hercId
-//     };
-//   } else {
-//     console.log("Error hercid is not valid, hercid: ", hercid )
-//     console.log("it's a NaNNaNNaN batman")
-//   }
-// }
-
 
 export function authToken(token) {
   return {
@@ -102,17 +91,110 @@ export function getOrganization(organizationName) {
   }
 }
 
+///// This is getting the hashes from firebase to send to The server to talk to IPFS
+
+// export function fetchAssets(name) {
+//   console.log(name, 'username in action')
+//   let assetHashes = await getHashes(name);
+//   return dispatch => {
+
+//     dispatch(getAssets(assetHashes))
+
+//   }
+// }
+
+export function getHashes(userName) {
+  let assetHashes = [];
+  console.log(userName, 'username in action')
+
+  return dispatch => {
+
+    assetRef.child(userName)
+      .once("value")
+      .then(snapshot => {
+        console.log(snapshot.val(), " what's in the database?")
+        snapshot.forEach(asset => {
+          console.log(asset.toJSON().ipfsHash, "assetDef Hash in getAssetsAction!");
+          assetHashes.push(
+            asset.toJSON().ipfsHash
+          );
+        })
+
+      }).then(() =>
+
+        dispatch(getAssets(assetHashes))
+      )
+  };
+}
+
+
+
+
+function getAssets(hashes) {
+  return dispatch => {
+    console.log(hashes, "lets hope we get this far.")
+    let assetList = [];
+    let promiseArray = hashes.map(singleHash => axios.get(WEB_SERVER_API_IPFS_GET, { params: singleHash })
+      //  hashes.forEach(singleHash => {
+      // axios.get(WEB_SERVER_API_IPFS_GET, { params: singleHash })
+      .then(response => {
+        console.log(response.data, 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
+        assetList.push(JSON.parse(response.data[0]));
+        // assetArray.forEach(asset => assetList.push(asset));
+        // var ipfsHash = response.data["0"].multiHash
+        console.log(assetList, "asset List")
+        // return ipfsHash
+      }).catch(console.log)
+    )
+
+    Promise.all(promiseArray)
+      .then(
+         (result) =>{
+        console.log(result, "results from multiPromise call")
+          dispatch(gotListAssets(assetList))
+         }).catch(console.log);
+  }
+
+
+
+}
+
+
+
+function gotListAssets(assetList) {
+  return (
+    {
+      type: GOT_LIST_ASSETS,
+      assets: assetList
+    }
+  )
+}
+
+
+
+
+
+// export function gotAssetTrans(assetTrans) {
+//   let transactions = assetTrans;
+//   console.log("got the transactions list");
+//   return {
+//     type: GOT_ASSET_TRANS,
+//     transactions
+//   };
+// }
+
 export function selectAsset(asset) {
-  let assetRef = rootRef.child("assets/" + asset.key);
-  let selectedAsset = {};
-  assetRef.on("value", snapshot => {
-    selectedAsset = snapshot.val();
-  });
-  selectedAsset = Object.assign({}, selectedAsset, {
-    ...selectedAsset,
-    key: asset.key
-  });
-  console.log("asset selection in action");
+  console.log(asset, 'asset in Select')
+  // let assetRef = rootRef.child("assets/" + asset.key);
+  let selectedAsset = asset;
+  // assetRef.on("value", snapshot => {
+  //   selectedAsset = snapshot.val();
+  // });
+  // selectedAsset = Object.assign({}, selectedAsset, {
+  //   ...selectedAsset,
+  //   key: asset.key
+  // });
+  // console.log("asset selection in action");
   return {
     type: SELECT_ASSET,
     selectedAsset
@@ -126,14 +208,21 @@ export function addAsset(newAsset) {
   };
 }
 
-export function confirmAsset(confirmedAsset) {
-  let newAsset = confirmedAsset;
+export function confirmAsset(confirmedAssetWithLogoUrl) {
+  let newAsset = confirmedAssetWithLogoUrl;
+  // let Logo = confirmedAsset.Logo
+
   console.log("confirming asset", newAsset);
+  // let assetWithLogo = await uploadAssetLogo(Logo.uri)
+
   return {
     type: CONFIRM_ASSET,
     newAsset
   };
 }
+
+
+
 
 export function deleteAsset(key) {
   let delKey = key;
@@ -172,7 +261,8 @@ export function addPhoto(imgObj) {
   return {
     type: ADD_PHOTO,
     data: imgObj.image,
-    size: imgObj.size
+    size: imgObj.size,
+    uri: imgObj.uri
   };
 }
 
@@ -226,10 +316,10 @@ export function gotAssetTrans(assetTrans) {
 export function getOriginTrans(trans) {
   console.log(trans, "INSIDE get Origin");
   return (
-      {
-          type: GET_ORIGIN_TRANS,
-          trans
-      }
+    {
+      type: GET_ORIGIN_TRANS,
+      trans
+    }
   )
 }
 
