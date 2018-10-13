@@ -138,11 +138,11 @@ function getAssets(hashes) {
       //  hashes.forEach(singleHash => {
       // axios.get(WEB_SERVER_API_IPFS_GET, { params: singleHash })
       .then(response => {
-        console.log(response.data, 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
+        // console.log(response.data, 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
         assetList.push(JSON.parse(response.data[0]));
         // assetArray.forEach(asset => assetList.push(asset));
         // var ipfsHash = response.data["0"].multiHash
-        console.log(assetList, "asset List")
+        // console.log(assetList, "asset List")
         // return ipfsHash
       }).catch(console.log)
     )
@@ -150,7 +150,7 @@ function getAssets(hashes) {
     Promise.all(promiseArray)
       .then(
          (result) =>{
-        console.log(result, "results from multiPromise call")
+        // console.log(result, "results from multiPromise call")
           dispatch(gotListAssets(assetList))
          }).catch(console.log);
   }

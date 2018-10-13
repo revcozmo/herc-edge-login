@@ -111,19 +111,24 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
               }
             })
 
-            Promise.all(promiseArray)
-              .then(results => {
-                var hashlist = results[0].data.map(result => {return result.hash})
-                // TODO: store hashlist into factom
-                axios.post(WEB_SERVER_API_FACTOM_ENTRY_ADD, hashlist)
-                  .then(response => {
-                    console.log(response)
-                  })
-                  .catch(err => {
-                    console.log(err)
-                  })
-              })
-              .catch(console.log)
+            var chainId = rootRef.child('assets').child(state.edge_account).child(header.name).once('value', function(snapshot) {
+              var chainId = snapshot.val().chainId
+              Promise.all(promiseArray)
+                .then(results => {
+                  var hashlist = results[0].data.map(result => {return result.hash})
+                  var factomEntry = {hash: hashlist, chainId: chainId, assetInfo: 'SampleAssetInfo'}
+                  console.log(factomEntry, "chance factomEntry")
+                  console.log(hashlist, "chance hashlist")
+                  axios.post(WEB_SERVER_API_FACTOM_ENTRY_ADD, JSON.stringify(factomEntry))
+                    .then(response => {
+                      console.log(response)
+                    })
+                    .catch(err => {
+                      console.log(err)
+                    })
+                })
+                .catch(console.log)
+            })
 
 
             rootRef.child('assets/' + state.edge_account + '/' + header.name).child('transactions').child(dTime).set({ header, data })
