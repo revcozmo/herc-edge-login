@@ -26,7 +26,12 @@ import firebase from '../constants/Firebase';
 const rootRef = firebase.database().ref();
 import axios from 'axios';
 import store from "../store";
-import { WEB_SERVER_API_IPFS_GET, WEB_SERVER_API_IPFS_ADD, WEB_SERVER_API_FACTOM_CHAIN_ADD, WEB_SERVER_API_FACTOM_ENTRY_ADD } from "../components/settings"
+import {
+  WEB_SERVER_API_IPFS_GET,
+  WEB_SERVER_API_IPFS_ADD,
+  WEB_SERVER_API_FACTOM_CHAIN_ADD,
+  WEB_SERVER_API_FACTOM_ENTRY_ADD,
+  WEB_SERVER_API_STORJ_UPLOAD } from "../components/settings"
 
 //synchronous
 // let assets = [];
@@ -101,6 +106,17 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
             let data = state.trans.data; //documents, images, properties, dTime
             var keys = Object.keys(data) //[ 'dTime', 'documents', 'images', 'properties' ]
             let promiseArray = []
+            // Checks if image was added
+            if (data.images.length != 0) {
+              var base64 = data.images[0]
+              axios.post(WEB_SERVER_API_STORJ_UPLOAD, JSON.stringify(base64))
+               .then(response => {
+                 console.log(response)
+               })
+               .catch(error => {console.log(error)})
+            }
+
+            //Checks if documents, metrics, and EDIT was added
             keys.forEach(key => {
               if(Object.keys(data[key]).length != 0 && data[key].constructor === Object){
                 promiseArray.push(axios.post(WEB_SERVER_API_IPFS_ADD, JSON.stringify(data[key]))
@@ -118,15 +134,17 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
                   var hashlist = results[0].data.map(result => {return result.hash})
                   var factomEntry = {hash: hashlist, chainId: chainId, assetInfo: 'SampleAssetInfo'}
                   console.log(factomEntry, "chance factomEntry")
-                  console.log(hashlist, "chance hashlist")
+                  return factomEntry
+                })
+                .then(factomEntry => {
                   axios.post(WEB_SERVER_API_FACTOM_ENTRY_ADD, JSON.stringify(factomEntry))
                     .then(response => {
                       console.log(response)
                     })
                     .catch(err => {
-                      console.log(err)
+                      console.log(err) //NETWORK CREATE ERROR HERE
                     })
-                })
+                  })
                 .catch(console.log)
             })
 
