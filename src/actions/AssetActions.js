@@ -109,45 +109,55 @@ export function getHashes(userName) {
 
   return dispatch => {
 
-  assetRef.child(userName)
-    .once("value")
-    .then(snapshot => {
-      console.log(snapshot.val(), " what's in the database?")
-      snapshot.forEach(asset => {
-        console.log(asset.toJSON().ipfsHash, "assetDef Hash in getAssetsAction!");
-        assetHashes.push(
-          asset.toJSON().ipfsHash
-        );
-      })
+    assetRef.child(userName)
+      .once("value")
+      .then(snapshot => {
+        console.log(snapshot.val(), " what's in the database?")
+        snapshot.forEach(asset => {
+          console.log(asset.toJSON().ipfsHash, "assetDef Hash in getAssetsAction!");
+          assetHashes.push(
+            asset.toJSON().ipfsHash
+          );
+        })
 
-    }).then(() => 
-      dispatch(getAssets(assetHashes)) 
-    )};
+      }).then(() =>
+
+        dispatch(getAssets(assetHashes))
+      )
+  };
 }
 
 
 
 
 function getAssets(hashes) {
-  console.log(hashes, "lets hope we get this far.")
-
-  let assetList = [];
-   hashes.forEach(singleHash => {
-    axios.get(WEB_SERVER_API_IPFS_GET, { params: singleHash })
+  return dispatch => {
+    console.log(hashes, "lets hope we get this far.")
+    let assetList = [];
+    let promiseArray = hashes.map(singleHash => axios.get(WEB_SERVER_API_IPFS_GET, { params: singleHash })
+      //  hashes.forEach(singleHash => {
+      // axios.get(WEB_SERVER_API_IPFS_GET, { params: singleHash })
       .then(response => {
         console.log(response.data, 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
         assetList.push(JSON.parse(response.data[0]));
         // assetArray.forEach(asset => assetList.push(asset));
-
         // var ipfsHash = response.data["0"].multiHash
         console.log(assetList, "asset List")
         // return ipfsHash
-      })
-  })
-  return dispatch => {
-    dispatch(gotListAssets(assetList));
+      }).catch(console.log)
+    )
+
+    Promise.all(promiseArray)
+      .then(
+         () =>
+        dispatch(gotListAssets(assetList))
+        ).catch(console.log);
   }
-};
+
+
+
+}
+
 
 
 function gotListAssets(assetList) {
