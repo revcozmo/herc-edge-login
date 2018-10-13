@@ -88,7 +88,7 @@ class Splash3 extends Component {
 
     return {
       headerTitle: (
-      
+
         <View style={headerStyles.header__container}>
           <View style={headerStyles.header__container__centeredBox}>
             <View style={headerStyles.header__image__box}>
@@ -126,11 +126,11 @@ class Splash3 extends Component {
   render() {
     const { navigate } = this.props.navigation;
     let locationImage =
-      this.props.data.tXLocation === "recipient" ? recipient : originator;
+      this.props.transHeader.tXLocation === "recipient" ? recipient : originator;
     let logo = this.props.logo;
     let asset = this.props.transHeader;
     let hercId = this.props.hercId;
-   
+
 
     return (
       <View style={styles.container}>
@@ -138,7 +138,7 @@ class Splash3 extends Component {
           {/* <ScrollView contentContainerStyle={{ width: "100%", borderWidth: 3, borderColor: "green" }}> */}
           <ScrollView contentContainerStyle={styles.scrollView}>
 
-            <Text style={localStyles.originatorText}>{this.props.data.tXLocation}</Text>
+            <Text style={localStyles.originatorText}>{this.props.transHeader.tXLocation}</Text>
             <Text style={localStyles.hercIdText}>HERCid: {this.props.hercId}</Text>
             <TouchableHighlight
               style={{ marginTop: 8 }}
@@ -201,5 +201,5 @@ const localStyles = StyleSheet.create({
     color: "white",
     fontWeight: "bold"
   },
- 
+
 });

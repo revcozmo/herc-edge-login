@@ -95,17 +95,11 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
             })
 
         case SEND_TRANS:
-            let dTime = new Date().toDateString();
+            let dTime = Date.now()
+            console.log("===========state.trans", state.trans)
             let header = state.trans.header;
             let data = state.trans.data;
-            //  console.log(rootRef.ref(state.AssetReducers.transInfo.name.val()));
-            // rootRef.ref()
-            console.log(state.trans.header, "trans in send_trans reducer");
-            rootRef.child('assets/' + header.key).child('transactions').push({
-                data
-            })
-            rootRef.child('transactions/' + header.key).push({ header, data });
-            console.log(dTime, "timecheck")
+            rootRef.child('assets/' + state.edge_account + '/' + header.name).child('transactions').child(dTime).set({ header, data })
             return Object.assign({}, state, {
                 ...state,
                 trans: {

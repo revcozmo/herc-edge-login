@@ -95,6 +95,9 @@ class InputMan extends Component {
         super(props);
         this.state = {};
     }
+    componentDidMount() {
+      console.log('inside InputMan.js')
+    }
 
     _onSubmit = () => {
         const { navigate } = this.props.navigation;
@@ -150,7 +153,7 @@ class InputMan extends Component {
 const mapStateToProps = (state) => ({
     name: state.AssetReducers.trans.header.name,
     logo: state.AssetReducers.selectedAsset.Logo,
-    location: state.AssetReducers.trans.data.tXLocation,
+    location: state.AssetReducers.trans.header.tXLocation,
     coreProps: state.AssetReducers.selectedAsset.CoreProps,
 });
 
@@ -222,7 +225,7 @@ const localStyles = StyleSheet.create({
         alignSelf: "center",
         borderRadius: 3
     },
-   
+
     nextButtonContainer: {
         height: 40,
         width: 150,
