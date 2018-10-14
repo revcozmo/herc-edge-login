@@ -21,6 +21,7 @@ export default class TxSwiper extends Component {
   renderCard = card => {
 
     let data = card.data;
+    let header = card.header;
     let locationImage,
       dTime,
       price,
@@ -31,10 +32,10 @@ export default class TxSwiper extends Component {
       imgName,
       images,
       list;
-      
+
 
     data.hasOwnProperty('tXLocation') ?
-      locationImage = data.tXLocation === 'recipient' ? recipient : originator : "";
+      locationImage = header.tXLocation === 'recipient' ? recipient : originator : "";
 
     dTime = data.hasOwnProperty('dTime') ? <Text style={styles.transRevTime}>{data.dTime}</Text> : null;
 
@@ -94,7 +95,7 @@ export default class TxSwiper extends Component {
     if (data.hasOwnProperty('price')) {
       price = <View style={styles.transPropField}>
         <Text style={styles.transRevName}>Price:</Text>
-        <Text style={styles.revPropVal}>{data.price.toFixed(8)}</Text>
+        <Text style={styles.revPropVal}>{header.price.toFixed(8)}</Text>
       </View>
 
     }

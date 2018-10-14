@@ -125,7 +125,7 @@ class Splash1 extends Component {
   render() {
     const { navigate } = this.props.navigation;
     let list = this.props.assets.map((asset, index) => {
-      console.log(asset, "asset mapping in splash1", asset.Name, asset.CoreProps)
+      // console.log(asset, "asset mapping in splash1", asset.Name, asset.CoreProps)
       return (
         <TouchableHighlight style={{ borderRadius: 2 }} key={index} onPress={() => this._onPress(asset)}>
           <View style={localStyles.menuItemField}>
@@ -236,7 +236,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  
+
   selectAsset: asset => dispatch(selectAsset(asset)),
   deleteAsset: key => dispatch(deleteAsset(key))
 });
@@ -245,5 +245,3 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(Splash1);
-
-

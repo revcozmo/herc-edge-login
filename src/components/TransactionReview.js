@@ -16,12 +16,12 @@ class TransRev extends Component {
 
     constructor(props) {
         super(props);
-      
+
     }
     componentDidMount = () => {
         // this.getPricesFromApi();
         // TODO: this API needs to be updated
-      
+
     }
     // async getPricesFromApi() {
     //     try {
@@ -63,7 +63,7 @@ class TransRev extends Component {
             console.log(docPrice, "docPRice")
         }
         console.log()
-       
+
 
         if ((docPrice + imgPrice) !== 0) {
             price = (docPrice + imgPrice) + (.00000000002);
@@ -92,7 +92,7 @@ class TransRev extends Component {
                 </View>
             );
 
-            console.log(transDat.price, "transprice plus imageprice", this.state.imgPrice)
+            console.log(transInfo.price, "transprice plus imageprice", this.state.imgPrice)
         }
         return (<Text style={localStyles.revPropVal}>No Images</Text>)
     }
@@ -111,12 +111,12 @@ class TransRev extends Component {
                     </View> */}
                 </View>
             );
-            console.log(transDat.price, "transprice plus imageprice", this.state.docPrice)
+            console.log(transInfo.price, "transprice plus imageprice", this.state.docPrice)
         }
         return (<Text style={localStyles.revPropVal}>No Documents</Text>)
     }
-    
-    
+
+
     _hasList = (transDat) => {
         console.log(this.state, "transdat in haslist");
         if (transDat.properties) {
@@ -150,13 +150,13 @@ class TransRev extends Component {
         // let fctPrice = this.state ? this.state.fctPrice : "";
         console.log(this.state, 'price');
         let transDat = this.props.transDat;
-        console.log(transInfo, 'transinfo in transreviewrender', transDat.price, 'transdata')
+        console.log(transInfo, 'transinfo in transreviewrender', transInfo.price, 'transdata')
 
-        let locationImage = this.props.transDat.tXLocation === 'recipient' ? newRecipient : newOriginator;
+        let locationImage = this.props.transInfo.tXLocation === 'recipient' ? newRecipient : newOriginator;
         let list, edit;
         let dTime = transDat.dTime;
         let name = this.props.transInfo.name;
-        let transPrice = transDat.price;
+        let transPrice = transInfo.price;
         console.log(dTime, 'dtime??');
 
         if (transDat.hasOwnProperty('ediT')) {
@@ -180,7 +180,7 @@ class TransRev extends Component {
                 <Text style={styles.transReview}>Transaction Review</Text>
                 <Text style={{ fontSize: 22, color: "blue", marginTop: 5 }}> {name}  </Text>
                 <Image style={localStyles.assetLocationLabel} source={locationImage} />
-            
+
                 <Text style={localStyles.transRevTime}>{dTime}</Text>
 
                 {edit}
@@ -252,7 +252,7 @@ const localStyles = StyleSheet.create({
         margin: 2,
         fontFamily: "dinPro"
     },
-    
+
     thumb: {
         height: 50,
         width: 50,
@@ -294,7 +294,7 @@ const localStyles = StyleSheet.create({
         margin: 2,
         textAlign: "left"
     },
-  
+
     revPropField: {
         height: 20,
         width: 225,
@@ -358,5 +358,3 @@ const mapDispatchToProps = (dispatch) => ({
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(TransRev);
-
-
