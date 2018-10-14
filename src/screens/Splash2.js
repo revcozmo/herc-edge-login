@@ -126,15 +126,14 @@ class Splash2 extends Component {
     let trans = {
       header: {
         name: this.props.asset.Name,
-        key: this.props.asset.key,
-        hercId: this.props.asset.hercId
+        hercId: this.props.asset.hercId,
+        tXLocation: place,
+        price: 0.000125, //this is the bare starter price i'm going with which is (128b / 1024) x 0.001
       },
       data: {
-        price: 0.000125, //this is the bare starter price i'm going with which is (128b / 1024) x 0.001
         dTime: new Date().toDateString(),
-        tXLocation: place,
-        images: [],
-        documents: []
+        images: {},
+        documents: {}
       }
     };
     console.log(trans, "trans base");
@@ -153,8 +152,8 @@ class Splash2 extends Component {
   render() {
     console.log("this is splash2")
     return (
-      ///  I'm consistancizing all the button sizes to 50x200 or about 53% 
-      /// the styles for the location images (originator/recipient) is located at styles.locationImage 
+      ///  I'm consistancizing all the button sizes to 50x200 or about 53%
+      /// the styles for the location images (originator/recipient) is located at styles.locationImage
 
       <View style={styles.container}>
         <View style={styles.containerCenter}>

@@ -176,7 +176,7 @@ class Confirm extends Component {
 
 const mapStateToProps = (state) => ({
   newProps: state.AssetReducers.trans.data.properties,
-  location: state.AssetReducers.trans.data.tXLocation,
+  location: state.AssetReducers.trans.header.tXLocation,
   logo: state.AssetReducers.selectedAsset.Logo,
   name: state.AssetReducers.trans.header.name
   // newProperties: state.AssetReducers.selectedAsset.newProperties
@@ -243,7 +243,7 @@ const localStyles = StyleSheet.create({
     margin: 2,
     textAlign: "right"
   },
-  
+
 
     text: {
         color: "white",
@@ -253,5 +253,5 @@ const localStyles = StyleSheet.create({
         margin: 5,
         fontFamily: "dinPro"
     },
- 
+
 })

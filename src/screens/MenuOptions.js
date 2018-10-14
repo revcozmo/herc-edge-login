@@ -25,6 +25,7 @@ import { connect } from "react-redux";
 import { getHercId, getHashes } from "../actions/AssetActions";
 import Wallet from "./Wallet";
 import firebase from '../constants/Firebase';
+const rootRef = firebase.database().ref();
 
 YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTImageLoader', 'Setting a timer for a long period of time']);
 
@@ -48,7 +49,7 @@ YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTIm
 //             })
 
 //         }).then(this.props.getAssets(assetHashes))
-    
+
 
 class MenuOptions extends Component {
     constructor(props) {
