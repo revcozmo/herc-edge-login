@@ -318,7 +318,7 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
                             .then(chainId => {
                               var dataObject = Object.assign({}, asset, {chainId: chainId})
                               console.log("3 going into firebase: ", dataObject)
-                              rootRef.child('assets').child(state.edge_account).set(dataObject);
+                             assetRef.child('chainId').set(chainId);
                             })
                     })
                     .catch(err => {
