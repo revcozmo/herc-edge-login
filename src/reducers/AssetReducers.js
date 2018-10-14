@@ -110,7 +110,7 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
             //Checks if documents, metrics, images and EDIT was added
             keys.forEach(key => {
               if(Object.keys(data[key]).length != 0 && data[key].constructor === Object){
-                promiseArray.push(axios.post(WEB_SERVER_API_IPFS_ADD, JSON.stringify(data[key])) //data.properties
+                promiseArray.push(axios.post(WEB_SERVER_API_IPFS_ADD, JSON.stringify(data[key])) 
                 .then(response => { return response })
                 .catch(error => { console.log(error) }))
               } else if (data[key].constructor === Array) {
@@ -128,7 +128,7 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
               var chainId = snapshot.val().chainId
               Promise.all(promiseArray)
                 .then(results => {
-                  console.log(results, "results chance?") //object
+                  console.log(results, "results chance?")
                   var hashlist = results.map(result => { return result.data})
                   console.log(hashlist)
                   var factomEntry = {hash: hashlist, chainId: chainId, assetInfo: 'SampleAssetInfo'}
