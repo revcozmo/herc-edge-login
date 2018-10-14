@@ -11,11 +11,12 @@ export default () => {
     
     rootRef.child(edge_account).child('assets').on('value', (snapshot) => {
             snapshot.forEach((obj) => {
-                // console.log(obj.toJSON().Name, 'object in listassets');
+               let asset = obj.toJSON() // console.log(obj.toJSON().Name, 'object in listassets');
                 assetList.push({
-                    name: obj.toJSON().Name,
-                    key: obj.key,
-                    logo: obj.toJSON().Logo,
+                    Name: asset.Name,
+                    Logo: asset.Logo,
+                    ipfsHash: asset.ipfsHash,
+                    chainId: asset.chainId
                     // url: obj.toJSON().url
                 });
             })

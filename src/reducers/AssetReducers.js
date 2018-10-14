@@ -279,38 +279,47 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
         case CONFIRM_ASSET:
             const asset = action.newAsset;
             console.log(asset.Name, 'asset in reducerconfirm', state, 'state')
+            let assetRef = rootRef
+            .child('assets')
+            .child(state.edge_account)
+            .child(asset.Name);
 
             rootRef.child('idology').child(state.edge_account).once('value', function (snapshot) {
-                var organization_name = snapshot.val().organizationName
-                var dataObject = JSON.stringify(asset)
-                axios.post(WEB_SERVER_API_IPFS_ADD, dataObject)
+                var organization_name = snapshot.val().organizationName || asset.Name;
+                var dataObject = Object.assign({}, asset,{
+                    Name: asset.Name,
+                    CoreProps: asset.CoreProps,
+                    hercId: asset.hercId,
+                    date: Date.now()
+                }) 
+                  dataObject =  JSON.stringify(dataObject)
+                console.log(dataObject, "this will be written to ipfs")
+                    axios.post(WEB_SERVER_API_IPFS_ADD, dataObject)
                     .then(response => {
                         var ipfsHash = response.data["0"].hash
                         console.log("1 ipfsHash: ", ipfsHash)
                         return ipfsHash
                     })
                     .then(ipfsHash => {
-                        rootRef.child('assets').child(state.edge_account + "/" + asset.Name + "/ipfsHash/").set(ipfsHash);
-                        console.log(asset.Name, "ipfsHash: "+ ipfsHash);
+                        assetRef.child("ipfsHash").set(ipfsHash);
 
                         /* This part creates a new factom chain */
 
-                        //   var dataObject = JSON.stringify({ipfsHash: ipfsHash, organizationName: organization_name})
-                        //   console.log("2 dataObject with ipfshash and orgName:", dataObject)
+                          var dataObject = JSON.stringify({ipfsHash: ipfsHash, organizationName: organization_name})
+                          console.log("2 dataObject with ipfshash and orgName:", dataObject)
 
-                        //   axios.post(WEB_SERVER_API_FACTOM_CHAIN_ADD, dataObject)
-                        //     .then(response => {
-                        //       console.log("2 web server factom response: ", response.data)
-                        //       var chainId = response.data.chainId
-                        //       // var dataObject = Object.assign({}, asset, )
-                        //       return chainId
-                        //     })
-                        //     .then(chainId => {
-                        //       var dataObject = Object.assign({}, asset, {chainId: chainId})
-                        //       console.log("3 going into firebase: ", dataObject)
-                        //       rootRef.child('assets').child(state.edge_account).set(dataObject);
-                        //     })
-                        //     .catch(console.log(error))
+                          axios.post(WEB_SERVER_API_FACTOM_CHAIN_ADD, dataObject)
+                            .then(response => {
+                              console.log("2 web server factom response: ", response.data)
+                              var chainId = response.data.chainId
+                              // var dataObject = Object.assign({}, asset, )
+                              return chainId
+                            })
+                            .then(chainId => {
+                              var dataObject = Object.assign({}, asset, {chainId: chainId})
+                              console.log("3 going into firebase: ", dataObject)
+                              rootRef.child('assets').child(state.edge_account).set(dataObject);
+                            })
                     })
                     .catch(err => {
                         console.log("Error confirming assets in IPFS: ", err)

@@ -1,5 +1,5 @@
 export const ADD_ASSET = 'addAsset';
-export const GET_ASSET_HASHES = 'getAssetHashes';
+export const GET_ASSET_DefS = 'getAssetDefs';
 export const GET_ASSETS = 'getAssets';
 export const SELECT_ASSET = 'selectAsset';
 export const START_TRANS = 'startTrans';

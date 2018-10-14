@@ -22,7 +22,7 @@ import profileButton from "../components/buttons/profileButton.png"
 
 import styles from "../assets/styles";
 import { connect } from "react-redux";
-import { getHercId, getHashes } from "../actions/AssetActions";
+import { getHercId, getAssets } from "../actions/AssetActions";
 import Wallet from "./Wallet";
 import firebase from '../constants/Firebase';
 const rootRef = firebase.database().ref();
@@ -58,7 +58,7 @@ class MenuOptions extends Component {
 
     componentDidMount() {
         this.props.getHercId();
-        this.props.getHashes(this.props.userName)
+        this.props.getAssets(this.props.userName)
         // this.props.getAssetHashes(this.props.userName);
     }
 
@@ -119,7 +119,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     getHercId: () => dispatch(getHercId()),
-    getHashes: (name) => dispatch(getHashes(name))
+    getAssets: (name) => dispatch(getAssets(name))
 });
 export default connect(
     mapStateToProps,

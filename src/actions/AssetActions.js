@@ -1,5 +1,5 @@
 import {
-  FETCH_ASSETS,
+  GET_ASSETS,
   ADD_ASSET,
   // GET_ASSET_HASHES,
   GOT_LIST_ASSETS,
@@ -103,8 +103,8 @@ export function getOrganization(organizationName) {
 //   }
 // }
 
-export function getHashes(userName) {
-  let assetHashes = [];
+export function getAssets(userName) {
+  let assetLabels = [];
   console.log(userName, 'username in action')
 
   return dispatch => {
@@ -112,17 +112,20 @@ export function getHashes(userName) {
     assetRef.child(userName)
       .once("value")
       .then(snapshot => {
+
         console.log(snapshot.val(), " what's in the database?")
         snapshot.forEach(asset => {
-          console.log(asset.toJSON().ipfsHash, "assetDef Hash in getAssetsAction!");
-          assetHashes.push(
-            asset.toJSON().ipfsHash
+          console.log(asset.toJSON(), "assetDef Hash in getAssetsAction!");
+          assetLabels.push(
+            asset.toJSON()
+            // ipfsHash: asset.toJSON().ipfsHash,
+            // chainId: asset.toJSON().chainID
           );
         })
 
       }).then(() =>
-
-        dispatch(getAssets(assetHashes))
+        console.log(assetLabels, "assetLabels"),
+        dispatch(gotListAssets(assetLabels))
       )
   };
 }
@@ -130,7 +133,7 @@ export function getHashes(userName) {
 
 
 
-function getAssets(hashes) {
+function getAssetsDefs(hashes) {
   return dispatch => {
     console.log(hashes, "lets hope we get this far.")
     let assetList = [];
@@ -149,10 +152,10 @@ function getAssets(hashes) {
 
     Promise.all(promiseArray)
       .then(
-         (result) =>{
-        // console.log(result, "results from multiPromise call")
+        (result) => {
+          // console.log(result, "results from multiPromise call")
           dispatch(gotListAssets(assetList))
-         }).catch(console.log);
+        }).catch(console.log);
   }
 
 
@@ -208,8 +211,8 @@ export function addAsset(newAsset) {
   };
 }
 
-export function confirmAsset(confirmedAssetWithLogoUrl) {
-  let newAsset = confirmedAssetWithLogoUrl;
+export function confirmAsset(assetForIPFS) {
+  let newAsset = assetForIPFS;
   // let Logo = confirmedAsset.Logo
 
   console.log("confirming asset", newAsset);
