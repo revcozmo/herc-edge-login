@@ -106,28 +106,23 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
             let data = state.trans.data; //documents, images, properties, dTime
             var keys = Object.keys(data) //[ 'dTime', 'documents', 'images', 'properties' ]
             let promiseArray = []
-            // Checks if image was added
-            if (data.images.length != 0) {
-              var base64 = data.images[0]
-              axios.post(WEB_SERVER_API_STORJ_UPLOAD, JSON.stringify(base64))
-               .then(response => {
-                 console.log(response)
-               })
-               .catch(error => {console.log(error)})
-            }
 
-            //Checks if documents, metrics, and EDIT was added
+            //Checks if documents, metrics, images and EDIT was added
             keys.forEach(key => {
               if(Object.keys(data[key]).length != 0 && data[key].constructor === Object){
                 promiseArray.push(axios.post(WEB_SERVER_API_IPFS_ADD, JSON.stringify(data[key]))
-                .then(res => {
-                  return res
-                })
-                .catch(console.log))
+                .then(response => { return response })
+                .catch(error => { console.log(error) }))
+              } else if (data[key].constructor === Array) {
+                console.log("assume this is an array of images")
+                var base64 = data[key][0].image
+                promiseArray.push(axios.post(WEB_SERVER_API_STORJ_UPLOAD, encodeURIComponent(base64))
+                 .then(response => { return response })
+                 .catch(error => { console.log(error) }))
               }
             })
 
-            var chainId = rootRef.child('assets').child(state.edge_account).child(header.name).once('value', function(snapshot) {
+            rootRef.child('assets').child(state.edge_account).child(header.name).once('value', function(snapshot) {
               var chainId = snapshot.val().chainId
               Promise.all(promiseArray)
                 .then(results => {
