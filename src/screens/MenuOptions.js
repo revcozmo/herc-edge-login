@@ -57,9 +57,10 @@ class MenuOptions extends Component {
     }
 
     componentDidMount() {
+
+        console.log(this.props.userName, "should be UserName")
         this.props.getHercId();
-        this.props.getAssets(this.props.userName)
-        // this.props.getAssetHashes(this.props.userName);
+        this.props.getAssets(this.props.userName);
     }
 
     render() {

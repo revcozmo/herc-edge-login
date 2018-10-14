@@ -1,7 +1,7 @@
 import {
     GOT_LIST_ASSETS,
     LIST_ASSETS,
-    GOT_ASSETS,
+    GET_ASSETS,
     ADD_ASSET,
     SELECT_ASSET,
     START_TRANS,
@@ -26,6 +26,7 @@ import firebase from '../constants/Firebase';
 const rootRef = firebase.database().ref();
 import axios from 'axios';
 import store from "../store";
+
 import {
   WEB_SERVER_API_IPFS_GET,
   WEB_SERVER_API_IPFS_ADD,
@@ -56,14 +57,15 @@ const INITIAL_STATE = {};
 
 const AssetReducers = (state = INITIAL_STATE, action) => {
     switch (action.type) {
-        case LIST_ASSETS:
+        case GET_ASSETS:
+let assetLabels = action.assets;
             return {
                 ...state,
-                assets: [],
-                isFetching: true
+                assets: assetLabels,
+                
             }
 
-        case GOT_LIST_ASSETS:
+        
             console.log(action, 'listAssetsreducer');
             let assets = action.assets
 

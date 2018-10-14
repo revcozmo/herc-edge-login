@@ -1,7 +1,10 @@
 import {
   GET_ASSETS,
+  GET_ASSET_DEFS,
+  GOT_ASSET_DEFS,
   ADD_ASSET,
-  // GET_ASSET_HASHES,
+
+
   GOT_LIST_ASSETS,
   GET_TRANS,
   SELECT_ASSET,
@@ -33,6 +36,12 @@ import firebase from "../constants/Firebase";
 import { assert } from "tcomb";
 const rootRef = firebase.database().ref();
 const assetRef = firebase.database().ref("assets");
+
+
+
+
+
+
 export function getHercId() {
   return dispatch => {
     let hercId;
@@ -107,28 +116,29 @@ export function getAssets(userName) {
   let assetLabels = [];
   console.log(userName, 'username in action')
 
-  return dispatch => {
 
-    assetRef.child(userName)
-      .once("value")
-      .then(snapshot => {
 
-        console.log(snapshot.val(), " what's in the database?")
-        snapshot.forEach(asset => {
-          console.log(asset.toJSON(), "assetDef Hash in getAssetsAction!");
-          assetLabels.push(
-            asset.toJSON()
-            // ipfsHash: asset.toJSON().ipfsHash,
-            // chainId: asset.toJSON().chainID
-          );
-        })
+  assetRef.child(userName)
+    .once("value")
+    .then(snapshot => {
 
-      }).then(() =>
-        console.log(assetLabels, "assetLabels"),
-        dispatch(gotListAssets(assetLabels))
-      )
-  };
-}
+      console.log(snapshot.val(), " what's in the database?")
+      snapshot.forEach(asset => {
+        console.log(asset.toJSON(), "assetDef Hash in getAssetsAction!");
+        assetLabels.push(
+          asset.toJSON()
+          // ipfsHash: asset.toJSON().ipfsHash,
+          // chainId: asset.toJSON().chainID
+        );
+      })
+
+    })
+  return ({
+    type: GET_ASSETS,
+    assets: assetLabels
+  })
+};
+
 
 
 
