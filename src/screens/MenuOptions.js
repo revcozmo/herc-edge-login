@@ -30,35 +30,9 @@ const rootRef = firebase.database().ref();
 YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTImageLoader', 'Setting a timer for a long period of time']);
 
 
-/// This is the local method ot grab hashes from firebase, then it calls the
-/// then it calls redux getAssets that makes the call to the server.,
-//  _getHashes = (name) => {
-//     const rootRef = firebase.database().ref('assets').child(name);
-//     console.log("getHashes in MenuOpts");
-//     let assetHashes = [];
-
-//      rootRef
-//         .once("value")
-//         .then(snapshot => {
-//             console.log(snapshot.val(), " what's in the database?")
-//             snapshot.forEach(asset => {
-//                 console.log(asset.toJSON().ipfsHash, "object in getTrans!");
-//                 assetHashes.push(
-//                     asset.toJSON().ipfsHash
-//                 );
-//             })
-
-//         }).then(this.props.getAssets(assetHashes))
-
-
 class MenuOptions extends Component {
-    constructor(props) {
-        super(props);
-    }
 
     componentDidMount() {
-
-        console.log(this.props.userName, "should be UserName")
         this.props.getHercId();
         this.props.getAssets(this.props.userName);
     }
@@ -133,8 +107,6 @@ const localStyles = StyleSheet.create({
         height: 60,
         marginTop: 5,
         marginBottom: 5,
-        // borderColor: "red",
-        // borderWidth: 3,
         justifyContent: "center",
         alignItems: "center"
     },

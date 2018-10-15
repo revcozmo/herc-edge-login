@@ -35,11 +35,7 @@ import axios from 'axios';
 import firebase from "../constants/Firebase";
 import { assert } from "tcomb";
 const rootRef = firebase.database().ref();
-const assetRef = firebase.database().ref("assets");
-
-
-
-
+const assetRef = rootRef.child("assets");
 
 
 export function getHercId() {
@@ -114,24 +110,20 @@ export function getOrganization(organizationName) {
 
 export function getAssets(userName) {
   return dispatch => {
-
     let assetLabels = [];
-    console.log(userName, 'username in getAsset action')
-
-    assetRef.child(userName)
-      .once("value")
+    assetRef.once("value")
       .then(snapshot => {
 
-        console.log(snapshot.val(), " what's in the database?")
+        console.log(snapshot.val(), " chance what's in the database?")
         snapshot.forEach(asset => {
-          console.log(asset.toJSON(), "assetDef Hash in getAssetsAction!");
+          console.log(asset.toJSON(), " chance assetDef Hash in getAssetsAction!");
           assetLabels.push(
             asset.toJSON()
             // ipfsHash: asset.toJSON().ipfsHash,
             // chainId: asset.toJSON().chainID
           );
         })
-        console.log(assetLabels, "assetLabels?")
+        console.log(assetLabels, " chance assetLabels?")
       }).then(() => {
         dispatch(gotListAssets(assetLabels))
       })
@@ -157,7 +149,6 @@ export function selectAsset(asset) {
     type: SELECT_ASSET,
     selectedAsset: asset
   }
-  // let assetRef = rootRef.child("assets/" + asset.key);
 }
 
 
@@ -165,9 +156,7 @@ export function getAssetDef(ipfsHash) {
   return dispatch => {
     console.log(ipfsHash, "keeping it simple.")
     let singleHash = ipfsHash;
-    // let promiseArray = hashes.map(singleHash => axios.get(WEB_SERVER_API_IPFS_GET, { params: singleHash })
-    //  hashes.forEach(singleHash => {
-    // axios.get(WEB_SERVER_API_IPFS_GET, { params: singleHash })
+
     axios.get(WEB_SERVER_API_IPFS_GET, { params: singleHash }).then(response => {
       console.log(JSON.parse(response.data), 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
 
