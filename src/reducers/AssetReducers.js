@@ -142,10 +142,12 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
                   console.log(JSON.stringify(factomEntry), "chance stringified factomEntry")
                   axios.post(WEB_SERVER_API_FACTOM_ENTRY_ADD, JSON.stringify(factomEntry))
                     .then(response => {
-                      var data = hashlist
+                      var dataObject = {}
+                      hashlist.map(hash => dataObject[hash.key] = hash.hash)
                       var header = Object.assign({}, state.trans.header, {factomEntry: response.data})
                       console.log(data, header, "chance boyyyy")
-                      rootRef.child('assets/' + header.name).child('transactions').child(dTime).set({ data: data, header: header })
+                      // TODO: store it all to Firebase
+                      rootRef.child('assets/'+ header.name).child('transactions').child(dTime).set({ data: dataObject, header: header })
                     })
                     .catch(err => {
                       console.log(err)
