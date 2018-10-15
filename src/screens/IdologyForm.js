@@ -11,6 +11,8 @@ import {USERNAME, PASSWORD, WEB_SERVER_API_TOKEN, WEB_SERVER_API_IDENTITIES } fr
 // import { config } from '../constants/authtoken'
 
 YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTImageLoader', 'Setting a timer for a long period of time']);
+/* Following these guidelines: https://medium.com/react-native-development/easily-build-forms-in-react-native-9006fcd2a73b */
+
 const _ = require('lodash');
 const stylesheet = _.cloneDeep(t.form.Form.stylesheet);
 

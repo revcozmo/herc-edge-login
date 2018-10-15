@@ -126,7 +126,6 @@ class Splash2 extends Component {
     let trans = {
       header: {
         name: this.props.asset.Name,
-        hercId: this.props.asset.hercId,
         tXLocation: place,
         price: 0.000125, //this is the bare starter price i'm going with which is (128b / 1024) x 0.001
       },

@@ -33,7 +33,10 @@ class Splash3 extends Component {
 
     let headerStyles = StyleSheet.create({
       header__container: {
+        // borderColor: "green",
+        // borderWidth: 3,
         display: "flex",
+        // resizeMode: "contain",
         height: 80,
         alignSelf: "center",
         flex: 1,
@@ -41,25 +44,35 @@ class Splash3 extends Component {
         alignItems: "center",
         marginTop: 40,
         paddingBottom: 20
+
       },
       header__container__centeredBox: {
+        // borderColor: "purple",
+        // borderWidth: 3,
         height: "100%",
         alignItems: "center",
         flexDirection: 'row'
       },
       header__text__box: {
+        // borderColor: "blue",
+        // borderWidth: 3,
         height: "100%",
         marginBottom: 5,
         marginLeft: 12,
+
       },
       header__image__box: {
+        // borderColor: "yellow",
+        // borderWidth: 3,
         height: "100%",
         borderRadius: 100
+        // width: 50
       },
       assetHeaderLogo: {
         height: 35,
         width: 35,
         borderRadius: 50,
+        // resizeMode: "contain",
       },
       headerText: {
         fontFamily: "dinPro",
@@ -69,7 +82,8 @@ class Splash3 extends Component {
         color: "black",
         textAlign: "center",
         marginTop: 2,
-      }
+        // paddingTop: 5
+      },
     })
 
     return {
@@ -121,6 +135,7 @@ class Splash3 extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.containerCenter}>
+          {/* <ScrollView contentContainerStyle={{ width: "100%", borderWidth: 3, borderColor: "green" }}> */}
           <ScrollView contentContainerStyle={styles.scrollView}>
 
             <Text style={localStyles.originatorText}>{this.props.transHeader.tXLocation}</Text>
@@ -155,6 +170,7 @@ class Splash3 extends Component {
             >
               <Image style={styles.menuButton} source={EDIT} />
             </TouchableHighlight>
+            {/* </View> */}
 
             <TransRev navigate={navigate} />
           </ScrollView>
@@ -184,5 +200,6 @@ const localStyles = StyleSheet.create({
     marginTop: 5,
     color: "white",
     fontWeight: "bold"
-  }
+  },
+
 });
