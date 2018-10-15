@@ -1,20 +1,26 @@
-export const ADD_ASSET = 'addAsset';
-export const GET_ASSET_HASHES = 'getAssetHashes';
 export const GET_ASSETS = 'getAssets';
+export const GET_ASSET_DEF = 'getAssetDef';
+export const GOT_ASSET_DEF = 'gotAssetDef';
+export const GOT_LIST_ASSETS = 'gotListAssets';
+
 export const SELECT_ASSET = 'selectAsset';
+
 export const START_TRANS = 'startTrans';
 export const SEND_TRANS = 'sendTrans';
 export const LIST_ASSETS = 'listAssets';
-export const GOT_LIST_ASSETS = 'gotListAssets';
-export const ADD_PHOTO  = 'addPhoto';
-export const ADD_DOC    = 'addDoc';
+export const ADD_PHOTO = 'addPhoto';
+export const ADD_DOC = 'addDoc';
+export const SET_SET = 'setSet';
 export const ADD_PROPS = 'addProps';
-export const INC_HERC_ID = 'incHercId';
+
 export const GET_ACCOUNT = 'getAccount';
 export const GET_HERC_ID = 'getHercId';
 export const GOT_HERC_ID = 'gotHercId';
+export const INC_HERC_ID = 'incHercId';
+
+export const ADD_ASSET = 'addAsset';
 export const CONFIRM_ASSET = 'confirmAsset';
-export const SET_SET = 'setSet';
+
 export const DELETE_ASSET = 'deleteAsset'
 export const GET_TRANS = 'getTrans';
 export const GOT_ASSET_TRANS = 'gotAssetTrans';

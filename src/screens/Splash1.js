@@ -18,62 +18,62 @@ import Button from "react-native-button";
 import styles from "../assets/styles";
 import create from "../assets/createNewAssetButton.png";
 import supplyChain from "../assets/supplyChain.png";
-import { selectAsset, deleteAsset } from "../actions/AssetActions";
+import { getAssetDef, selectAsset, deleteAsset } from "../actions/AssetActions";
 import addIcon from "../components/buttons/addIcon.png";
 import supplyChainIcon from "../assets/supplyChainIcon.png";
 
 let headerStyles = StyleSheet.create({
   header__container: {
-      // borderColor: "green",
-      // borderWidth: 3,
-      display: "flex",
-      // resizeMode: "contain",
-      height: 80,
-      alignSelf: "center",
-      flex: 1,
-      alignContent: "center",
-      alignItems: "center",
-      marginTop: 40,
-      paddingBottom: 20
+    // borderColor: "green",
+    // borderWidth: 3,
+    display: "flex",
+    // resizeMode: "contain",
+    height: 80,
+    alignSelf: "center",
+    flex: 1,
+    alignContent: "center",
+    alignItems: "center",
+    marginTop: 40,
+    paddingBottom: 20
 
   },
   header__container__centeredBox: {
-      // borderColor: "purple",
-      // borderWidth: 3,
-      height: "100%",
-      alignItems: "center",
-      flexDirection: 'row'
+    // borderColor: "purple",
+    // borderWidth: 3,
+    height: "100%",
+    alignItems: "center",
+    flexDirection: 'row'
   },
   header__text__box: {
-      // borderColor: "blue",
-      // borderWidth: 3,
-      height: "100%",
-      marginBottom: 5,
-      marginLeft: 12,
+    // borderColor: "blue",
+    // borderWidth: 3,
+    height: "100%",
+    marginBottom: 5,
+    marginLeft: 12,
 
   },
   header__image__box: {
-      // borderColor: "yellow",
-      // borderWidth: 3,
-      height: "100%",
-      borderRadius: 100
-      // width: 50
+    // borderColor: "yellow",
+    // borderWidth: 3,
+    height: "100%",
+    borderRadius: 100
+    // width: 50
   },
   assetHeaderLogo: {
-      height: 35,
-      width: 35,
-      borderRadius: 50,
-      // resizeMode: "contain",
+    height: 35,
+    width: 35,
+    borderRadius: 50,
+    // resizeMode: "contain",
   },
   headerText: {
-      fontFamily: "dinPro",
-      fontSize: 26,
-      alignSelf: "center",
-      fontWeight: "bold",
-      color: "black",
-      textAlign: "center",
-      marginTop: 2,
-      // paddingTop: 5
+    fontFamily: "dinPro",
+    fontSize: 26,
+    alignSelf: "center",
+    fontWeight: "bold",
+    color: "black",
+    textAlign: "center",
+    marginTop: 2,
+    // paddingTop: 5
   },
 })
 
@@ -109,28 +109,21 @@ class Splash1 extends Component {
 
   }
 
-  _onDelete = key => {
-    const { navigate } = this.props.navigation;
-    this.props.deleteAsset(key);
-    navigate("MenuOptions");
-  };
+  // _onDelete = key => {
+  //   const { navigate } = this.props.navigation;
+  //   this.props.deleteAsset(key);
+  //   navigate("MenuOptions");
+  // };
 
-  _onPress = asset => {
-    const { navigate } = this.props.navigation;
-    this.props.selectAsset(asset);
-    navigate("Splash2", { logo: asset.Logo, name: asset.Name });
-
-  }
-
-  render() {
-    const { navigate } = this.props.navigation;
+  _renderAssets = () => {
     let list = this.props.assets.map((asset, index) => {
+      console.log(asset, "mapping for assetList in splash1")
       // console.log(asset, "asset mapping in splash1", asset.Name, asset.CoreProps)
       return (
         <TouchableHighlight style={{ borderRadius: 2 }} key={index} onPress={() => this._onPress(asset)}>
           <View style={localStyles.menuItemField}>
             {/* <Button onPress={() => this._onDelete(asset.key)} style={styles.assetDeleteButton}>Delete</Button> */}
-            <Image style={localStyles.assetLogo} source={{ uri: asset.logo }} />
+            <Image style={localStyles.assetLogo} source={{ uri: asset.Logo }} />
             <View style={localStyles.menuItemField__textBox}>
               <Text style={localStyles.assetLabel}>{asset.Name}</Text>
             </View>
@@ -138,13 +131,31 @@ class Splash1 extends Component {
         </TouchableHighlight>
       );
     });
+    return list;
+  }
+
+  _onPress = asset => {
+    const { navigate } = this.props.navigation;
+
+    this.props.selectAsset(asset);
+    this.props.getAssetDef(asset.ipfsHash);
+
+
+    navigate("Splash2", { logo: asset.Logo, name: asset.Name });
+
+  }
+
+  render() {
+
+    const { navigate } = this.props.navigation;
+
 
     return (
       <View style={styles.container}>
         <View style={[styles.containerCenter, { paddingTop: 25 }]}>
           <ScrollView contentContainerStyle={styles.scrollView}>
 
-            {list}
+            {this._renderAssets()}
 
             <TouchableHighlight onPress={() => navigate("Create")}>
 
@@ -236,8 +247,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-
   selectAsset: asset => dispatch(selectAsset(asset)),
+  getAssetDef: assetIpfsHash => dispatch(getAssetDef(assetIpfsHash)),
   deleteAsset: key => dispatch(deleteAsset(key))
 });
 

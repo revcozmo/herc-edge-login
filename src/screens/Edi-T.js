@@ -13,7 +13,10 @@ class EditSets extends Component {
         const { params } = navigation.state;
         let headerStyles = StyleSheet.create({
             header__container: {
+                // borderColor: "green",
+                // borderWidth: 3,
                 display: "flex",
+                // resizeMode: "contain",
                 height: 80,
                 alignSelf: "center",
                 flex: 1,
@@ -21,25 +24,35 @@ class EditSets extends Component {
                 alignItems: "center",
                 marginTop: 40,
                 paddingBottom: 20
+
             },
             header__container__centeredBox: {
+                // borderColor: "purple",
+                // borderWidth: 3,
                 height: "100%",
                 alignItems: "center",
                 flexDirection: 'row'
             },
             header__text__box: {
+                // borderColor: "blue",
+                // borderWidth: 3,
                 height: "100%",
                 marginBottom: 5,
                 marginLeft: 12,
+
             },
             header__image__box: {
+                // borderColor: "yellow",
+                // borderWidth: 3,
                 height: "100%",
                 borderRadius: 100
+                // width: 50
             },
             assetHeaderLogo: {
                 height: 35,
                 width: 35,
                 borderRadius: 50,
+                // resizeMode: "contain",
             },
             headerText: {
                 fontFamily: "dinPro",
@@ -49,7 +62,8 @@ class EditSets extends Component {
                 color: "black",
                 textAlign: "center",
                 marginTop: 2,
-            }
+                // paddingTop: 5
+            },
         })
 
         return {
@@ -57,6 +71,8 @@ class EditSets extends Component {
                 <View style={headerStyles.header__container}>
                     <View style={headerStyles.header__container__centeredBox}>
                         <View style={headerStyles.header__image__box}>
+                            {/* <TouchableHighlight style={{justifyContent: "center"}} onPress={() => navigation.navigate("MenuOptions")}>
+                     </TouchableHighlight> */}
                             <Image
                                 style={headerStyles.assetHeaderLogo}
                                 source={{ uri: params.logo }}
@@ -80,6 +96,7 @@ class EditSets extends Component {
         this.props.setSet(item);
 
         this.props.navigation.navigate('Splash3', { logo: this.props.logo, name: this.props.name });
+
     }
 
 
@@ -100,7 +117,7 @@ class EditSets extends Component {
             <View style={styles.container}>
                 <View style={[styles.containerCenter, { paddingTop: 20 }]}>
                     <ScrollView style={{ alignSelf: "center", width: "100%", paddingRight: 7 }}>
-                      <Text style={localStyles.editLabel}>EDI-T Sets</Text>
+<Text style={localStyles.editLabel}>EDI-T Sets</Text>
                         {arrayOfSets}
                     </ScrollView>
                 </View>
@@ -116,6 +133,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     setSet: (item) => dispatch(setSet(item))
+
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditSets);
@@ -151,6 +169,7 @@ const localStyles = StyleSheet.create({
         color: "yellow",
         margin: 5,
         alignSelf: "center",
+        // height: 30
     },
     editTouch: {
         height: 85,
@@ -160,10 +179,13 @@ const localStyles = StyleSheet.create({
     editField: {
         height: 50,
         width: "75%",
+        // flexDirection: "row",
         justifyContent: "center",
         padding: 3,
         margin: 5,
         alignSelf: "center",
+        // textAlign:'center',
+        // textAlignVertical: 'center',
         backgroundColor: "#ffffff"
     },
     editName: {
@@ -175,5 +197,6 @@ const localStyles = StyleSheet.create({
         height: 20,
         justifyContent: "center",
         textAlign: "center"
-    }
+    },
+
 })

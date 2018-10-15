@@ -35,28 +35,55 @@ class NewAssetConfirm extends Component {
 
     async uploadImageAsync(uri) {
 
+        let newAsset = this.props.newAsset;
+        let assetName = newAsset.Name
         const response = await fetch(uri);
         const blob = await response.blob();
-        const storageRef = firebase.storage().ref();
-        let logoLocation = storageRef.child(this.props.edge_account + this.props.newAsset.Name + "/Logo");
+        let logoLocation = firebase.storage().ref('assets')
+            .child(this.props.edgeAccount)
+            .child(assetName)
+            .child("Logo");
 
+        let assetLocation = firebase.database().ref('assets')
+            .child(this.props.edgeAccount);
+
+
+
+        const snapshot = await logoLocation.put(blob);
+        let downloadURL = snapshot.downloadURL;
+        let fbAsset, ipfsAsset;
+
+
+        ipfsAsset = Object.assign({}, {
+            Name: assetName,
+            CoreProps: newAsset.CoreProps,
+            hercId: this.props.hercId,
+            date: Date.now()
+        });
+
+        fbAsset = Object.assign({}, {
+
+            Name: assetName,
+            Logo: downloadURL,
+        }
+        )
+
+
+        console.log(ipfsAsset, fbAsset, "right before the send")
+       
+        assetLocation.child(assetName).set(fbAsset)
+            .then(this.props.confirmAsset(ipfsAsset)
+
+            )
+        this.props.incHercId(this.props.hercId);
+        this.props.navigation.navigate('MenuOptions');
         // const snapshot = await logoLocation.put(blob);
         // console.log(snapshot, 'snapshot')
         // return snapshot.downloadURL ? snapshot.downloadURL : "notingmon";
 
-        const snapshot = await logoLocation.put(blob);
 
-        let newAsset = Object.assign({}, this.props.newAsset, {
-            Name: this.props.newAsset.Name,
-            CoreProps: this.props.newAsset.CoreProps,
-            Logo: snapshot.downloadURL,
-            hercId: this.props.newAsset.hercId
-        })
-        console.log(newAsset, 'after fuckery')
-        this.props.confirmAsset(newAsset)
 
     }
-
     // Register three observers:
     // 1. 'state_changed' observer, called any time the state changes
     // 2. Error observer, called on failure
@@ -108,16 +135,13 @@ class NewAssetConfirm extends Component {
         let hercId = this.props.hercId;
         const { navigate } = this.props.navigation;
 
-        this.props.incHercId(hercId);
 
         if (this.props.newAsset.Logo) {
             this.uploadImageAsync(this.props.newAsset.Logo.uri)
+        } else {
+            this.props.confirmAsset(this.props.newAsset);
+            navigate('MenuOptions');
         }
-
-
-        this.props.confirmAsset(this.props.newAsset);
-
-        navigate('MenuOptions');
     }
 
     render() {

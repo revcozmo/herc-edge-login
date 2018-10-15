@@ -27,11 +27,11 @@ class Tee extends Component {
     super(props);
     this.setImage = this.setImage.bind(this); // method to set the log from the camera component
     this.state = {
-      Logo: {
-        uri: "",
-        imageString: "",
-        size: ""
-      }
+      // Logo: {
+      //   uri: "",
+      //   imageString: "",
+      //   size: ""
+      // }
     }
   }
 
@@ -199,7 +199,12 @@ class Tee extends Component {
   // };
 
   render() {
-    let Logo = this.state.Logo.uri || null;
+    let Logo;
+    if(this.state.Logo){
+      Logo = this.state.Logo.uri
+    }else{
+      Logo = null
+    }
 
     if (this.state.Logo) {
       console.log("logog is here")

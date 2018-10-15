@@ -10,6 +10,8 @@ export class Wallet extends React.Component {
     headerTitle: <View style={localStyles.headerBox}><Text style={localStyles.headerText}>Wallet</Text></View>,
   });
 
+
+
   render() {
     const testProfile = {
       username: "Firstuser",

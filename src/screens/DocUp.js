@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Platform, StyleSheet, Text, View, Image, ScrollView, TouchableHighlight, Alert, StatusBar, } from 'react-native';
+// import { DocumentPicker } from 'expo';
 import { connect } from 'react-redux';
 import styles from '../assets/styles';
 import { addDoc } from '../actions/AssetActions';
@@ -14,7 +15,10 @@ class DocUp extends Component {
     const { params } = navigation.state;
     let headerStyles = StyleSheet.create({
       header__container: {
+        // borderColor: "green",
+        // borderWidth: 3,
         display: "flex",
+        // resizeMode: "contain",
         height: 80,
         alignSelf: "center",
         flex: 1,
@@ -22,25 +26,35 @@ class DocUp extends Component {
         alignItems: "center",
         marginTop: 40,
         paddingBottom: 20
+
       },
       header__container__centeredBox: {
+        // borderColor: "purple",
+        // borderWidth: 3,
         height: "100%",
         alignItems: "center",
         flexDirection: 'row'
       },
       header__text__box: {
+        // borderColor: "blue",
+        // borderWidth: 3,
         height: "100%",
         marginBottom: 5,
         marginLeft: 12,
+
       },
       header__image__box: {
+        // borderColor: "yellow",
+        // borderWidth: 3,
         height: "100%",
         borderRadius: 100
+        // width: 50
       },
       assetHeaderLogo: {
         height: 35,
         width: 35,
         borderRadius: 50,
+        // resizeMode: "contain",
       },
       headerText: {
         fontFamily: "dinPro",
@@ -50,6 +64,7 @@ class DocUp extends Component {
         color: "black",
         textAlign: "center",
         marginTop: 2,
+        // paddingTop: 5
       },
     })
 
@@ -182,6 +197,8 @@ const localStyles = StyleSheet.create({
     alignSelf: "center"
   },
   assetLocationLabel: {
+    // borderColor: "yellow",
+    // borderWidth: 3,
     height: 30,
     width: 150,
     resizeMode: "contain",
@@ -211,9 +228,12 @@ const localStyles = StyleSheet.create({
     fontFamily: "dinPro"
   },
   menuItemField__textBox: {
+    // borderColor: "orange",
+    // borderWidth: 3,
     flex: 1
   },
   docContainer: {
+    // backgroundColor: "blue",
     width: "100%",
     height: 75,
   },
@@ -231,6 +251,8 @@ const localStyles = StyleSheet.create({
     textAlign: "center",
     fontSize: 20,
     fontWeight: "bold"
-  }
+  },
+
+
 });
 export default connect(mapStateToProps, mapDispatchToProps)(DocUp);
