@@ -136,21 +136,23 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
                   console.log(results, "results chance?")// [{key: 'properties', hash: 'QmU1D1eAeSLC5Dt4wVRR'}, {key: 'images', hash: 'QmU1D1eAeSLC5Dt4wVRR'}]
                   return results
                 })
-                .then(hashlist => {
+                .then(results => {
+                  var hashlist = results.map(result => { return result.data })
                   var factomEntry = {hash: hashlist, chainId: chainId, assetInfo: 'SampleAssetInfo'}
                   console.log(factomEntry, "chance factomEntry")
-                  // console.log(JSON.stringify(factomEntry), "chance stringified factomEntry")
-                  // axios.post(WEB_SERVER_API_FACTOM_ENTRY_ADD, JSON.stringify(factomEntry))
-                  //   .then(response => {
-                  //     console.log(response)
-                  //     //TODO: store entryID in firebase
-                  //     var data = hashlist
-                  //     var header = Object.assign({}, header, {factomEntry: response}
-                  //     rootRef.child('assets/' + state.edge_account + '/' + header.name).child('transactions').child(dTime).set({ header, data })
-                  //   })
-                  //   .catch(err => {
-                  //     console.log(err) //NETWORK CREATE ERROR HERE
-                  //   })
+                  console.log(JSON.stringify(factomEntry), "chance stringified factomEntry")
+                  axios.post(WEB_SERVER_API_FACTOM_ENTRY_ADD, JSON.stringify(factomEntry))
+                    .then(response => {
+                      console.log(response)
+                      //TODO: store entryID in firebase
+                      var data = hashlist
+                      var header = Object.assign({}, header, {factomEntry: response})
+                      console.log(data, header, "chance boyyyy")
+                      // rootRef.child('assets/' + state.edge_account + '/' + header.name).child('transactions').child(dTime).set({ header, data })
+                    })
+                    .catch(err => {
+                      console.log(err) //NETWORK CREATE ERROR HERE
+                    })
                   })
                 .catch(console.log)
             })
