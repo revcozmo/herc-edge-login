@@ -116,7 +116,6 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     setSet: (item) => dispatch(setSet(item))
-
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditSets);
