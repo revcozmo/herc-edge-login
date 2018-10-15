@@ -95,7 +95,7 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
 
         case START_TRANS:
             let trans = action.data;
-            console.log(state.selectedAsset.name, "selectedAssetName in startTrans reducer")
+            console.log(state.selectedAsset.Name, "selectedAssetName in startTrans reducer")
 
             return Object.assign({}, state, {
                 ...state,
@@ -295,24 +295,19 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
             })
 
         case CONFIRM_ASSET:
-            const asset = action.fbAsset;
-            console.log(asset, "chance asset")
+            const asset = action.newAsset;
             console.log(asset, 'asset in reducerconfirm', state, 'state')
+            console.log(state.edge_account)
 
-            rootRef.child('idology').child(state.edge_account).once('value', function (snapshot) {
+            rootRef.child('idology').child(state.edge_account).once('value').then(snapshot => {
+                cnosole.log(snapshot.val(), "chance snapshot")
                 var organization_name = snapshot.val().organizationName || asset.Name;
-                /*
-                  Name: assetName,
-                  CoreProps: newAsset.CoreProps,
-                  hercId: this.props.hercId,
-                  date: Date.now()
-                */
                 var dataObject = {key: 'newAsset', data:  asset}
                 console.log(dataObject, "this will be written to ipfs")
                 axios.post(WEB_SERVER_API_IPFS_ADD, JSON.stringify(dataObject))
                     .then(response => {
                       console.log("1 ipfsHash: ", response)
-                      var ipfsHash = response.data[0].hash
+                      var ipfsHash = response.data.hash
                       return ipfsHash
                     })
                     .then(ipfsHash => {
@@ -320,7 +315,6 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
                       /* This part creates a new factom chain */
 
                       var dataObject = JSON.stringify({ ipfsHash: ipfsHash, organizationName: organization_name })
-                      console.log("2 dataObject with ipfshash and orgName:", dataObject)
 
                       axios.post(WEB_SERVER_API_FACTOM_CHAIN_ADD, dataObject)
                           .then(response => {
@@ -329,10 +323,14 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
                               return chainId
                           })
                           .then(chainId => {
-                              var dataObject = Object.assign({}, { chainId : chainId, ipfsHash: ipfsHash, Logo: asset.Logo, Name: asset.Name})
+                            let dataObject = Object.assign({}, { chainId : chainId, ipfsHash: ipfsHash, Name: asset.Name})
+                            if (asset.Logo){
+                              dataObject = Object.assign(dataObject, {Logo: asset.Logo})
+                            }
                               console.log("3 going into firebase: ", dataObject)
                               rootRef.child('assets').child(asset.Name).set(dataObject)
                           })
+                          .catch(err => { console.log(err) })
                   })
                   .catch(err => {
                       console.log("Error confirming assets in IPFS: ", err)

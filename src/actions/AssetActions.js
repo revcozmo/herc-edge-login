@@ -157,15 +157,14 @@ export function getAssetDef(ipfsHash) {
     console.log(ipfsHash, "keeping it simple.")
     let singleHash = ipfsHash;
 
-    axios.get(WEB_SERVER_API_IPFS_GET, { params: singleHash }).then(response => {
-      console.log(JSON.parse(response.data), 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
-
-      let assetDef = JSON.parse(response.data);
-      console.log(assetDef, "hopefully JSON");
-      console.log(assetDef);
-      return assetDef
-    }).then((assetDef) => dispatch(gotAssetDef(assetDef)))
-      .catch(console.log)
+    axios.get(WEB_SERVER_API_IPFS_GET, { params: singleHash })
+      .then(response => {
+        let assetDef = response.data[0];
+        console.log(assetDef, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+        return assetDef
+      })
+      .then((assetDef) => dispatch(gotAssetDef(assetDef)))
+      .catch(err => {console.log(err)})
 
   }
 }

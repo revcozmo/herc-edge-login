@@ -62,11 +62,9 @@ class NewAssetConfirm extends Component {
         });
 
         fbAsset = Object.assign({}, {
-
             Name: assetName,
             Logo: downloadURL,
-        }
-        )
+        })
 
       console.log(ipfsAsset, fbAsset, "right before the send")
 
