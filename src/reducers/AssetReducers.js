@@ -128,7 +128,7 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
 
             console.log(promiseArray, "chance promiseArray")
 
-            rootRef.child('assets').child(state.edge_account).child(header.name).once('value', function(snapshot) {
+            rootRef.child('assets').child(header.name).once('value', function(snapshot) {
               var chainId = snapshot.val().chainId
               Promise.all(promiseArray)
                 .then(results => {
@@ -145,7 +145,7 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
                       var data = hashlist
                       var header = Object.assign({}, state.trans.header, {factomEntry: response.data})
                       console.log(data, header, "chance boyyyy")
-                      rootRef.child('assets/' + state.edge_account + '/' + header.name).child('transactions').child(dTime).set({ data: data, header: header })
+                      rootRef.child('assets/' + header.name).child('transactions').child(dTime).set({ data: data, header: header })
                     })
                     .catch(err => {
                       console.log(err)
@@ -294,7 +294,7 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
                         return ipfsHash
                     })
                     .then(ipfsHash => {
-                        rootRef.child('assets').child(state.edge_account + "/" + asset.Name + "/ipfsHash/").set(ipfsHash);
+                        rootRef.child('assets').child(asset.Name + "/ipfsHash/").set(ipfsHash);
                         console.log(asset.Name, "ipfsHash: "+ ipfsHash);
 
                         /* This part creates a new factom chain */
