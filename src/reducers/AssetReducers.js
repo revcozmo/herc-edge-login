@@ -130,7 +130,6 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
 
             rootRef.child('assets').child(state.edge_account).child(header.name).once('value', function(snapshot) {
               var chainId = snapshot.val().chainId
-              //TODO: create data = {EDIT:hash, documents: hash, images: hash, metrics: hash}
               Promise.all(promiseArray)
                 .then(results => {
                   console.log(results, "results chance?")// [{key: 'properties', hash: 'QmU1D1eAeSLC5Dt4wVRR'}, {key: 'images', hash: 'QmU1D1eAeSLC5Dt4wVRR'}]
@@ -143,15 +142,13 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
                   console.log(JSON.stringify(factomEntry), "chance stringified factomEntry")
                   axios.post(WEB_SERVER_API_FACTOM_ENTRY_ADD, JSON.stringify(factomEntry))
                     .then(response => {
-                      console.log(response)
-                      //TODO: store entryID in firebase
                       var data = hashlist
-                      var header = Object.assign({}, header, {factomEntry: response})
+                      var header = Object.assign({}, state.trans.header, {factomEntry: response.data})
                       console.log(data, header, "chance boyyyy")
-                      // rootRef.child('assets/' + state.edge_account + '/' + header.name).child('transactions').child(dTime).set({ header, data })
+                      rootRef.child('assets/' + state.edge_account + '/' + header.name).child('transactions').child(dTime).set({ data: data, header: header })
                     })
                     .catch(err => {
-                      console.log(err) //NETWORK CREATE ERROR HERE
+                      console.log(err)
                     })
                   })
                 .catch(console.log)
