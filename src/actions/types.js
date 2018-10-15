@@ -1,6 +1,6 @@
 export const GET_ASSETS = 'getAssets';
-export const GET_ASSET_DEFS = 'getAssetDefs';
-export const GOT_ASSET_DEFS = 'gotListDefs';
+export const GET_ASSET_DEF = 'getAssetDef';
+export const GOT_ASSET_DEF = 'gotAssetDef';
 export const GOT_LIST_ASSETS = 'gotListAssets';
 
 export const SELECT_ASSET = 'selectAsset';

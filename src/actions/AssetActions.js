@@ -1,7 +1,7 @@
 import {
   GET_ASSETS,
-  GET_ASSET_DEFS,
-  GOT_ASSET_DEFS,
+  GET_ASSET_DEF,
+  GOT_ASSET_DEF,
   ADD_ASSET,
 
 
@@ -113,68 +113,34 @@ export function getOrganization(organizationName) {
 // }
 
 export function getAssets(userName) {
-  let assetLabels = [];
-  console.log(userName, 'username in action')
-
-
-
-  assetRef.child(userName)
-    .once("value")
-    .then(snapshot => {
-
-      console.log(snapshot.val(), " what's in the database?")
-      snapshot.forEach(asset => {
-        console.log(asset.toJSON(), "assetDef Hash in getAssetsAction!");
-        assetLabels.push(
-          asset.toJSON()
-          // ipfsHash: asset.toJSON().ipfsHash,
-          // chainId: asset.toJSON().chainID
-        );
-      })
-
-    })
-  return ({
-    type: GET_ASSETS,
-    assets: assetLabels
-  })
-};
-
-
-
-
-
-function getAssetsDefs(hashes) {
   return dispatch => {
-    console.log(hashes, "lets hope we get this far.")
-    let assetList = [];
-    let promiseArray = hashes.map(singleHash => axios.get(WEB_SERVER_API_IPFS_GET, { params: singleHash })
-      //  hashes.forEach(singleHash => {
-      // axios.get(WEB_SERVER_API_IPFS_GET, { params: singleHash })
-      .then(response => {
-        // console.log(response.data, 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
-        assetList.push(JSON.parse(response.data[0]));
-        // assetArray.forEach(asset => assetList.push(asset));
-        // var ipfsHash = response.data["0"].multiHash
-        // console.log(assetList, "asset List")
-        // return ipfsHash
-      }).catch(console.log)
-    )
 
-    Promise.all(promiseArray)
-      .then(
-        (result) => {
-          // console.log(result, "results from multiPromise call")
-          dispatch(gotListAssets(assetList))
-        }).catch(console.log);
+    let assetLabels = [];
+    console.log(userName, 'username in getAsset action')
+
+    assetRef.child(userName)
+      .once("value")
+      .then(snapshot => {
+
+        console.log(snapshot.val(), " what's in the database?")
+        snapshot.forEach(asset => {
+          console.log(asset.toJSON(), "assetDef Hash in getAssetsAction!");
+          assetLabels.push(
+            asset.toJSON()
+            // ipfsHash: asset.toJSON().ipfsHash,
+            // chainId: asset.toJSON().chainID
+          );
+        })
+        console.log(assetLabels, "assetLabels?")
+      }).then(() => {
+        dispatch(gotListAssets(assetLabels))
+      })
   }
-
-
-
 }
 
 
-
 function gotListAssets(assetList) {
+  console.log("gotLIstAssetsAction", assetList)
   return (
     {
       type: GOT_LIST_ASSETS,
@@ -185,34 +151,44 @@ function gotListAssets(assetList) {
 
 
 
-
-
-// export function gotAssetTrans(assetTrans) {
-//   let transactions = assetTrans;
-//   console.log("got the transactions list");
-//   return {
-//     type: GOT_ASSET_TRANS,
-//     transactions
-//   };
-// }
-
 export function selectAsset(asset) {
   console.log(asset, 'asset in Select')
-  // let assetRef = rootRef.child("assets/" + asset.key);
-  let selectedAsset = asset;
-  // assetRef.on("value", snapshot => {
-  //   selectedAsset = snapshot.val();
-  // });
-  // selectedAsset = Object.assign({}, selectedAsset, {
-  //   ...selectedAsset,
-  //   key: asset.key
-  // });
-  // console.log("asset selection in action");
   return {
     type: SELECT_ASSET,
-    selectedAsset
+    selectedAsset: asset
+  }
+  // let assetRef = rootRef.child("assets/" + asset.key);
+}
+
+
+export function getAssetDef(ipfsHash) {
+  return dispatch => {
+    console.log(ipfsHash, "keeping it simple.")
+    let singleHash = ipfsHash;
+    // let promiseArray = hashes.map(singleHash => axios.get(WEB_SERVER_API_IPFS_GET, { params: singleHash })
+    //  hashes.forEach(singleHash => {
+    // axios.get(WEB_SERVER_API_IPFS_GET, { params: singleHash })
+    axios.get(WEB_SERVER_API_IPFS_GET, { params: singleHash }).then(response => {
+      console.log(JSON.parse(response.data), 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
+
+      let assetDef = JSON.parse(response.data);
+      console.log(assetDef, "hopefully JSON");
+      console.log(assetDef);
+      return assetDef
+    }).then((assetDef) => dispatch(gotAssetDef(assetDef)))
+      .catch(console.log)
+
+  }
+}
+
+export function gotAssetDef(assetDef) {
+  console.log(assetDef, "got the transactions list");
+  return {
+    type: GOT_ASSET_DEF,
+    ipfsDef: assetDef
   };
 }
+
 
 export function addAsset(newAsset) {
   return {

@@ -18,7 +18,7 @@ import Button from "react-native-button";
 import styles from "../assets/styles";
 import create from "../assets/createNewAssetButton.png";
 import supplyChain from "../assets/supplyChain.png";
-import { selectAsset, deleteAsset } from "../actions/AssetActions";
+import { getAssetDef, selectAsset, deleteAsset } from "../actions/AssetActions";
 import addIcon from "../components/buttons/addIcon.png";
 import supplyChainIcon from "../assets/supplyChainIcon.png";
 
@@ -136,7 +136,9 @@ class Splash1 extends Component {
 
   _onPress = asset => {
     const { navigate } = this.props.navigation;
+
     this.props.selectAsset(asset);
+    this.props.getAssetDef(asset.ipfsHash);
 
 
     navigate("Splash2", { logo: asset.Logo, name: asset.Name });
@@ -144,7 +146,7 @@ class Splash1 extends Component {
   }
 
   render() {
-    
+
     const { navigate } = this.props.navigation;
 
 
@@ -245,8 +247,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-
   selectAsset: asset => dispatch(selectAsset(asset)),
+  getAssetDef: assetIpfsHash => dispatch(getAssetDef(assetIpfsHash)),
   deleteAsset: key => dispatch(deleteAsset(key))
 });
 
