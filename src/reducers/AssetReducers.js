@@ -295,23 +295,25 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
             })
 
         case CONFIRM_ASSET:
-            const asset = action.newAsset;
-            console.log(asset.Name, 'asset in reducerconfirm', state, 'state')
+            const asset = action.newAsset.ipfsAsset;
+            const fbAsset = action.newAsset.fbAsset;
+            console.log(asset, 'asset in reducerconfirm', state, 'state')
+            console.log(fbAsset, "fbasset chance")
 
             rootRef.child('idology').child(state.edge_account).once('value', function (snapshot) {
                 var organization_name = snapshot.val().organizationName || asset.Name;
-                var assetObject = Object.assign({}, asset, {
-                    Name: asset.Name,
-                    CoreProps: asset.CoreProps,
-                    hercId: asset.hercId,
-                    date: Date.now()
-                })
-                dataObject = {key: 'newAsset', data:  assetObject}
+                /*
+                  Name: assetName,
+                  CoreProps: newAsset.CoreProps,
+                  hercId: this.props.hercId,
+                  date: Date.now()
+                */
+                var dataObject = {key: 'newAsset', data:  asset}
                 console.log(dataObject, "this will be written to ipfs")
                 axios.post(WEB_SERVER_API_IPFS_ADD, JSON.stringify(dataObject))
                     .then(response => {
                       console.log("1 ipfsHash: ", response)
-                      var ipfsHash = response.data.hash
+                      var ipfsHash = response.data[0].hash
                       return ipfsHash
                     })
                     .then(ipfsHash => {
@@ -328,7 +330,7 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
                               return chainId
                           })
                           .then(chainId => {
-                              var dataObject = Object.assign({}, asset, { chainId: chainId, ipfsHash: ipfsHash })
+                              var dataObject = Object.assign({}, { chainId : chainId, ipfsHash: ipfsHash, Logo: fbAsset.Logo, Name: fbAsset.Name})
                               console.log("3 going into firebase: ", dataObject)
                               rootRef.child('assets').child(asset.Name).set(dataObject)
                           })

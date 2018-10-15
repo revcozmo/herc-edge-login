@@ -68,9 +68,10 @@ class NewAssetConfirm extends Component {
         }
         )
 
+        var bigAsset = Object.assign({}, fbAsset, ipfsAsset)
 
         console.log(ipfsAsset, fbAsset, "right before the send")
-       
+
         assetLocation.child(assetName).set(fbAsset)
             .then(this.props.confirmAsset(ipfsAsset)
 
