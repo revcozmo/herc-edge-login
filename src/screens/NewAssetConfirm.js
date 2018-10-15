@@ -68,14 +68,13 @@ class NewAssetConfirm extends Component {
         }
         )
 
-        var bigAsset = Object.assign({}, fbAsset, ipfsAsset)
+      var bigAsset = Object.assign({}, fbAsset, ipfsAsset)
 
-        console.log(ipfsAsset, fbAsset, "right before the send")
 
-        assetLocation.child(assetName).set(fbAsset)
-            .then(this.props.confirmAsset(ipfsAsset)
+      console.log(ipfsAsset, fbAsset, "right before the send")
 
-            )
+       this.props.confirmAsset(bigAsset)
+
         this.props.incHercId(this.props.hercId);
         this.props.navigation.navigate('MenuOptions');
         // const snapshot = await logoLocation.put(blob);
