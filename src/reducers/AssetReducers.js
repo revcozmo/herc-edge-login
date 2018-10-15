@@ -295,10 +295,9 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
             })
 
         case CONFIRM_ASSET:
-            const asset = action.newAsset.ipfsAsset;
-            const fbAsset = action.newAsset.fbAsset;
+            const asset = action.fbAsset;
+            console.log(asset, "chance asset")
             console.log(asset, 'asset in reducerconfirm', state, 'state')
-            console.log(fbAsset, "fbasset chance")
 
             rootRef.child('idology').child(state.edge_account).once('value', function (snapshot) {
                 var organization_name = snapshot.val().organizationName || asset.Name;
@@ -330,7 +329,7 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
                               return chainId
                           })
                           .then(chainId => {
-                              var dataObject = Object.assign({}, { chainId : chainId, ipfsHash: ipfsHash, Logo: fbAsset.Logo, Name: fbAsset.Name})
+                              var dataObject = Object.assign({}, { chainId : chainId, ipfsHash: ipfsHash, Logo: asset.Logo, Name: asset.Name})
                               console.log("3 going into firebase: ", dataObject)
                               rootRef.child('assets').child(asset.Name).set(dataObject)
                           })

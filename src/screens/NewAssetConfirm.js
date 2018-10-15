@@ -68,12 +68,9 @@ class NewAssetConfirm extends Component {
         }
         )
 
-      var bigAsset = Object.assign({}, fbAsset, ipfsAsset)
-
-
       console.log(ipfsAsset, fbAsset, "right before the send")
 
-       this.props.confirmAsset(bigAsset)
+       this.props.confirmAsset(fbAsset)
 
         this.props.incHercId(this.props.hercId);
         this.props.navigation.navigate('MenuOptions');
