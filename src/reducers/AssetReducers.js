@@ -106,50 +106,55 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
             let data = state.trans.data; //documents, images, properties, dTime
             var keys = Object.keys(data) //[ 'dTime', 'documents', 'images', 'properties' ]
             let promiseArray = []
-            // Checks if image was added
-            if (data.images.length != 0) {
-              var base64 = data.images[0]
-              axios.post(WEB_SERVER_API_STORJ_UPLOAD, JSON.stringify(base64))
-               .then(response => {
-                 console.log(response)
-               })
-               .catch(error => {console.log(error)})
-            }
 
-            //Checks if documents, metrics, and EDIT was added
+            //Checks if documents, metrics, images and EDIT was added
             keys.forEach(key => {
               if(Object.keys(data[key]).length != 0 && data[key].constructor === Object){
-                promiseArray.push(axios.post(WEB_SERVER_API_IPFS_ADD, JSON.stringify(data[key]))
-                .then(res => {
-                  return res
-                })
-                .catch(console.log))
+                var dataObject = Object.assign({}, {key: key}, {data: data[key]}) // {key: 'properties', data: data[key]}
+                console.log(dataObject, "chance check for you")
+                promiseArray.push(
+                  axios.post(WEB_SERVER_API_IPFS_ADD, JSON.stringify(dataObject))
+                    .then(response => { return response }) // {key: 'properties', hash: 'QmU1D1eAeSLC5Dt4wVRR'}
+                    .catch(error => { console.log(error) }))
+              } else if (data[key].constructor === Array) {
+                console.log("assume this is an array of images")
+                var base64 = data[key][0].image
+                var dataObject = Object.assign({}, {key: key}, {data: encodeURIComponent(base64)})
+                promiseArray.push(axios.post(WEB_SERVER_API_STORJ_UPLOAD, JSON.stringify(dataObject))
+                 .then(response => { return response }) // {key: 'images', hash: 'QmU1D1eAeSLC5Dt4wVRR'}
+                 .catch(error => { console.log(error) }))
               }
             })
 
-            var chainId = rootRef.child('assets').child(state.edge_account).child(header.name).once('value', function(snapshot) {
+            console.log(promiseArray, "chance promiseArray")
+
+            rootRef.child('assets').child(header.name).once('value', function(snapshot) {
               var chainId = snapshot.val().chainId
               Promise.all(promiseArray)
                 .then(results => {
-                  var hashlist = results[0].data.map(result => {return result.hash})
+                  console.log(results, "results chance?")// [{key: 'properties', hash: 'QmU1D1eAeSLC5Dt4wVRR'}, {key: 'images', hash: 'QmU1D1eAeSLC5Dt4wVRR'}]
+                  return results
+                })
+                .then(results => {
+                  var hashlist = results.map(result => { return result.data })
                   var factomEntry = {hash: hashlist, chainId: chainId, assetInfo: 'SampleAssetInfo'}
                   console.log(factomEntry, "chance factomEntry")
-                  return factomEntry
-                })
-                .then(factomEntry => {
+                  console.log(JSON.stringify(factomEntry), "chance stringified factomEntry")
                   axios.post(WEB_SERVER_API_FACTOM_ENTRY_ADD, JSON.stringify(factomEntry))
                     .then(response => {
-                      console.log(response)
+                      var data = hashlist
+                      var header = Object.assign({}, state.trans.header, {factomEntry: response.data})
+                      console.log(data, header, "chance boyyyy")
+                      rootRef.child('assets/' + header.name).child('transactions').child(dTime).set({ data: data, header: header })
                     })
                     .catch(err => {
-                      console.log(err) //NETWORK CREATE ERROR HERE
+                      console.log(err)
                     })
                   })
                 .catch(console.log)
             })
 
 
-            rootRef.child('assets/' + state.edge_account + '/' + header.name).child('transactions').child(dTime).set({ header, data })
             return Object.assign({}, state, {
                 ...state,
                 trans: {
@@ -286,39 +291,35 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
                 axios.post(WEB_SERVER_API_IPFS_ADD, dataObject)
                     .then(response => {
                         var ipfsHash = response.data["0"].hash
-                        console.log("1 ipfsHash: ", ipfsHash)
                         return ipfsHash
                     })
                     .then(ipfsHash => {
-                        rootRef.child('assets').child(state.edge_account + "/" + asset.Name + "/ipfsHash/").set(ipfsHash);
+                        rootRef.child('assets').child(asset.Name + "/ipfsHash/").set(ipfsHash);
                         console.log(asset.Name, "ipfsHash: "+ ipfsHash);
 
                         /* This part creates a new factom chain */
 
-                        //   var dataObject = JSON.stringify({ipfsHash: ipfsHash, organizationName: organization_name})
-                        //   console.log("2 dataObject with ipfshash and orgName:", dataObject)
-
-                        //   axios.post(WEB_SERVER_API_FACTOM_CHAIN_ADD, dataObject)
-                        //     .then(response => {
-                        //       console.log("2 web server factom response: ", response.data)
-                        //       var chainId = response.data.chainId
-                        //       // var dataObject = Object.assign({}, asset, )
-                        //       return chainId
-                        //     })
-                        //     .then(chainId => {
-                        //       var dataObject = Object.assign({}, asset, {chainId: chainId})
-                        //       console.log("3 going into firebase: ", dataObject)
-                        //       rootRef.child('assets').child(state.edge_account).set(dataObject);
-                        //     })
-                        //     .catch(console.log(error))
+                        // var dataObject = JSON.stringify({ipfsHash: ipfsHash, organizationName: organization_name})
+                        // console.log("1 dataObject with ipfshash and orgName:", dataObject)
+                        //
+                        // axios.post(WEB_SERVER_API_FACTOM_CHAIN_ADD, dataObject)
+                        //   .then(response => {
+                        //     console.log("2 web server factom response: ", response.data)
+                        //     var chainId = response.data.chainId
+                        //     return chainId
+                        //   })
+                        //   .then(chainId => {
+                        //     var dataObject = Object.assign({}, asset, {chainId: chainId, ipfsHash: ipfsHash})
+                        //     console.log("3 going into firebase: ", dataObject)
+                        //     rootRef.child('assets').child(state.edge_account).set(dataObject);
+                        //   })
+                        //   .catch(console.log(error))
                     })
                     .catch(err => {
                         console.log("Error confirming assets in IPFS: ", err)
                     })
 
             })
-
-            // let assetRef = rootRef.child(state.edge_account).child('assets').push();
 
             return Object.assign({}, state, {
                 state: INITIAL_STATE,

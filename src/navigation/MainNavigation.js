@@ -46,10 +46,7 @@ import styles from "../assets/styles";
 
 let headerStyles = StyleSheet.create({
     header__container: {
-        // borderColor: "green",
-        // borderWidth: 3,
         display: "flex",
-        // resizeMode: "contain",
         height: 80,
         alignSelf: "center",
         flex: 1,
@@ -57,35 +54,25 @@ let headerStyles = StyleSheet.create({
         alignItems: "center",
         marginTop: 40,
         paddingBottom: 20
-
     },
     header__container__centeredBox: {
-        // borderColor: "purple",
-        // borderWidth: 3,
         height: "100%",
         alignItems: "center",
         flexDirection: 'row'
     },
     header__text__box: {
-        // borderColor: "blue",
-        // borderWidth: 3,
         height: "100%",
         marginBottom: 5,
         marginLeft: 12,
-
     },
     header__image__box: {
-        // borderColor: "yellow",
-        // borderWidth: 3,
         height: "100%",
         borderRadius: 100
-        // width: 50
     },
     assetHeaderLogo: {
         height: 35,
         width: 35,
         borderRadius: 50,
-        // resizeMode: "contain",
     },
     headerText: {
         fontFamily: "dinPro",
@@ -95,7 +82,6 @@ let headerStyles = StyleSheet.create({
         color: "black",
         textAlign: "center",
         marginTop: 2,
-        // paddingTop: 5
     },
 })
 
@@ -156,7 +142,6 @@ const MainNavigator = StackNavigator({ //this will be "createStackNavigator" aft
             headerStyle: {
                 height: Platform.OS === 'android' ? 60 : 100,
                 backgroundColor: 'white',
-
             },
             headerTitleStyle: {
                 marginTop: Platform.OS === 'android' ? 20 : 0,
@@ -164,7 +149,6 @@ const MainNavigator = StackNavigator({ //this will be "createStackNavigator" aft
                 textAlignVertical: 'center',
                 backgroundColor: 'white',
                 alignSelf: 'center',
-
             },
             headerRight: <View></View>,
             headerLeft: <TouchableHighlight onPress={() => navigation.goBack()}>
