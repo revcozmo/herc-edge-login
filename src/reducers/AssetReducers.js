@@ -59,15 +59,15 @@ const INITIAL_STATE = {};
 
 const AssetReducers = (state = INITIAL_STATE, action) => {
     switch (action.type) {
-
+        
         case GOT_LIST_ASSETS:
-            console.log(action, "getAsset Action")
-            let assetLabels = action.assets;
-            return {
-                type: GOT_LIST_ASSETS,
-                assets: assetLabels
+        console.log(action, "getAsset Action")
+        let assetLabels = action.assets;
+        return Object.assign({}, state, {
+            ...state,
+            assets: assetLabels
 
-            }
+            })
 
         case GOT_ASSET_DEF:
 

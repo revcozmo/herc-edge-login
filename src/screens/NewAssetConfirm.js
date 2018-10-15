@@ -139,9 +139,9 @@ class NewAssetConfirm extends Component {
         if (this.props.newAsset.Logo) {
             this.uploadImageAsync(this.props.newAsset.Logo.uri)
         } else {
-            // this.props.confirmAsset(this.props.newAsset);
+            this.props.confirmAsset(this.props.newAsset);
+            navigate('MenuOptions');
         }
-        // navigate('MenuOptions');
     }
 
     render() {
