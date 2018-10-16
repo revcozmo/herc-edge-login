@@ -72,10 +72,31 @@ class Login extends Component {
       if (walletInfo) {
         this.setState({walletId: walletInfo.id})
         account.waitForCurrencyWallet(walletInfo.id)
-          .then(wallet =>{
+          .then(async wallet =>{
             this.props.getEthAddress(wallet.keys.ethereumAddress)
             this.setState({wallet})
             console.log(wallet, "chance wallet")
+            // const destWallet = '0xf9f22fbec78f9578de711cc2ac3d030dddb15f73'
+            // const abcSpendInfo = {
+            //   networkFeeOption: 'standard',
+            //   currencyCode: 'ETH',
+            //   metadata: {
+            //     name: 'Transfer From Herc Wallet to Logan',
+            //     category: 'Transfer:Wallet:College Fund'
+            //   },
+            //   spendTargets: [
+            //     {
+            //       publicAddress: destWallet,
+            //       nativeAmount: '10000000000000' // 1.2 ETH
+            //     }
+            //   ]
+            // }
+            // let abcTransaction = await wallet.makeSpend(abcSpendInfo)
+            // await wallet.signTx(abcTransaction)
+            // await wallet.broadcastTx(abcTransaction)
+            // await wallet.saveTx(abcTransaction)
+            // 
+            // console.log("chance Sent transaction with ID = " + abcTransaction.txid)
           })
       } else {
         account.createCurrencyWallet('wallet:ethereum', {
