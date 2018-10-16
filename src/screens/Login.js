@@ -10,9 +10,8 @@ import { LoginScreen } from 'herc-edge-login-ui-rn';
 import { YellowBox } from 'react-native';
 import { connect } from "react-redux";
 import axios from 'axios';
-import store from "../store";
 import { ethereumCurrencyPluginFactory } from 'edge-currency-ethereum';
-import { getAccount, authToken } from "../actions/AssetActions";
+import { getAccount, authToken, getEthAddress } from "../actions/AssetActions";
 import { WEB_SERVER_API_TOKEN, WEB_SERVER_API_IDOLOGY_CHECK } from "../components/settings";
 import { makeEdgeContext } from 'edge-core-js';
 
@@ -53,10 +52,15 @@ class Login extends Component {
       this.props.getAccount(account.username);
       axios.get(WEB_SERVER_API_TOKEN + account.username)
         .then( response => {
-          this.setState({
-            token: response.data
-          })
-          this.props.authToken(this.state.token)
+          let token = response.data
+          this.setState({ token: token })
+          this.props.authToken(token)
+          axios.defaults.headers.common = {
+            "Authorization": token,
+            'Access-Control-Allow-Headers': 'x-access-token',
+            'x-access-token': token,
+            'Content-Type': 'application/x-www-form-urlencoded'
+          };
         })
         .catch ( err => {
           console.log(err)
@@ -65,13 +69,20 @@ class Login extends Component {
     if (!this.state.walletId) {
       // Check if there is a wallet, if not create it
       let walletInfo = account.getFirstWalletInfo('wallet:ethereum')
+      console.log(walletInfo, "chance walletinfo")
       if (walletInfo) {
         this.setState({walletId: walletInfo.id})
+        account.waitForCurrencyWallet(walletInfo.id)
+          .then(wallet =>
+            {this.props.getEthAddress(wallet.keys.ethereumAddress)
+            this.setState({wallet})
+          })
       } else {
         account.createCurrencyWallet('wallet:ethereum', {
           name: 'My First Wallet',
           fiatCurrencyCode: 'iso:USD'
         }).then(wallet => {
+          this.props.getEthAddress(wallet.keys.ethereumAddress)
           this.setState({ wallet })
           this.setState({walletId: wallet.id})
         })
@@ -81,16 +92,7 @@ class Login extends Component {
 
   renderLoginApp = () => {
     if (this.state.account) {
-      const AUTH_TOKEN = store.getState().AssetReducers.auth_token
-      const config = {
-        headers: {
-            'Authorization': AUTH_TOKEN,
-            'Access-Control-Allow-Headers': 'x-access-token',
-            'x-access-token': AUTH_TOKEN,
-            'Content-Type': 'application/x-www-form-urlencoded'
-        }
-      }
-      axios.get(WEB_SERVER_API_IDOLOGY_CHECK, {headers: config.headers})
+      axios.get(WEB_SERVER_API_IDOLOGY_CHECK)
         .then(response => {
           if (response.data.status == "true"){
             const { navigate } = this.props.navigation;
@@ -140,13 +142,15 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => ({
     edge_account: state.AssetReducers.edge_account,
-    auth_token: state.AssetReducers.auth_token
+    ethereumAddress: state.AssetReducers.getEthAddress
 });
 
 const mapDispatchToProps = (dispatch) => ({
     getAccount: (edge_account) =>
         dispatch(getAccount(edge_account)),
     authToken: (auth_token) =>
-          dispatch(authToken(auth_token))
+              dispatch(authToken(auth_token)),
+    getEthAddress: (ethereumAddress) =>
+      dispatch(getEthAddress(ethereumAddress))
 })
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

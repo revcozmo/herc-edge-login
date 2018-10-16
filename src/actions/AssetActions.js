@@ -3,8 +3,7 @@ import {
   GET_ASSET_DEF,
   GOT_ASSET_DEF,
   ADD_ASSET,
-
-
+  GET_ETH_ADDRESS,
   GOT_LIST_ASSETS,
   GET_TRANS,
   SELECT_ASSET,
@@ -85,6 +84,13 @@ export function getAccount(edge_account) {
   return {
     type: GET_ACCOUNT,
     edge_account
+  };
+}
+
+export function getEthAddress(ethereumAddress) {
+  return{
+    type: GET_ETH_ADDRESS,
+    ethereumAddress
   };
 }
 

@@ -23,6 +23,7 @@ import profileButton from "../components/buttons/profileButton.png"
 import styles from "../assets/styles";
 import { connect } from "react-redux";
 import { getHercId, getAssets } from "../actions/AssetActions";
+import store from "../store";
 import Wallet from "./Wallet";
 import firebase from '../constants/Firebase';
 const rootRef = firebase.database().ref();
@@ -35,6 +36,8 @@ class MenuOptions extends Component {
     componentDidMount() {
         this.props.getHercId();
         this.props.getAssets(this.props.userName);
+        console.log(store.getState().AssetReducers.ethereumAddress, "chance ethereumAddress")
+        console.log(store.getState().AssetReducers.auth_token, "chance auth_token")
     }
 
     render() {

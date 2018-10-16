@@ -13,6 +13,7 @@ import {
     ADD_PROPS,
     INC_HERC_ID,
     GET_ACCOUNT,
+    GET_ETH_ADDRESS,
     GET_ORGANIZATION,
     GET_HERC_ID,
     GOT_HERC_ID,
@@ -207,6 +208,14 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
                 ...state,
                 edge_account: edge_account
             })
+
+
+        case GET_ETH_ADDRESS:
+          let ethereumAddress = action.ethereumAddress;
+          return Object.assign({}, state, {
+            ...state,
+            ethereumAddress: ethereumAddress
+          })
 
         case GET_ORGANIZATION:
             let organizationName = action.organizationName;
