@@ -23,7 +23,6 @@ import profileButton from "../components/buttons/profileButton.png"
 import styles from "../assets/styles";
 import { connect } from "react-redux";
 import { getHercId, getAssets } from "../actions/AssetActions";
-import Wallet from "./Wallet";
 import firebase from '../constants/Firebase';
 const rootRef = firebase.database().ref();
 
@@ -67,11 +66,11 @@ class MenuOptions extends Component {
                     </TouchableHighlight>
 
 
-                    {/* <TouchableHighlight style={localStyles.touchableHighlight} onPress={() => navigate("Wallet")}>
+                    <TouchableHighlight style={localStyles.touchableHighlight} onPress={() => navigate("Wallet")}>
                         <Image style={localStyles.menuButton} source={wallet} />
                     </TouchableHighlight>
 
-                    <TouchableHighlight style={localStyles.touchableHighlight} onPress={() => navigate("Profile")}>
+                    {/*                    <TouchableHighlight style={localStyles.touchableHighlight} onPress={() => navigate("Profile")}>
                         <Image style={localStyles.menuButton} source={profileButton} />
                     </TouchableHighlight> */}
 
