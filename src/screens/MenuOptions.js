@@ -36,8 +36,6 @@ class MenuOptions extends Component {
     componentDidMount() {
         this.props.getHercId();
         this.props.getAssets(this.props.userName);
-        console.log(store.getState().AssetReducers.ethereumAddress, "chance ethereumAddress")
-        console.log(store.getState().AssetReducers.auth_token, "chance auth_token")
     }
 
     render() {

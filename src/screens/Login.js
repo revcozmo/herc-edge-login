@@ -69,13 +69,13 @@ class Login extends Component {
     if (!this.state.walletId) {
       // Check if there is a wallet, if not create it
       let walletInfo = account.getFirstWalletInfo('wallet:ethereum')
-      console.log(walletInfo, "chance walletinfo")
       if (walletInfo) {
         this.setState({walletId: walletInfo.id})
         account.waitForCurrencyWallet(walletInfo.id)
-          .then(wallet =>
-            {this.props.getEthAddress(wallet.keys.ethereumAddress)
+          .then(wallet =>{
+            this.props.getEthAddress(wallet.keys.ethereumAddress)
             this.setState({wallet})
+            console.log(wallet, "chance wallet")
           })
       } else {
         account.createCurrencyWallet('wallet:ethereum', {
