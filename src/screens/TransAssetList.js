@@ -113,9 +113,9 @@ class TransAssetList extends Component {
         <TouchableHighlight key={index} onPress={() => this._onPress(asset)}>
           <View style={localStyles.menuItemField}>
             {/* <Button onPress={() => this._onDelete(asset.key)} style={styles.assetDeleteButton}>Delete</Button> */}
-            <Image style={localStyles.assetLogo} source={{ uri: asset.logo }} />
+            <Image style={localStyles.assetLogo} source={{ uri: asset.Logo }} />
             <View style={localStyles.menuItemField__textBox}>
-              <Text style={localStyles.assetLabel}>{asset.name}</Text>
+              <Text style={localStyles.assetLabel}>{asset.Name}</Text>
             </View>
           </View>
         </TouchableHighlight>
