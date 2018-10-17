@@ -26,6 +26,8 @@ export const GET_TRANS = 'getTrans';
 export const GOT_ASSET_TRANS = 'gotAssetTrans';
 export const AUTH_TOKEN = 'authToken';
 export const GET_ORGANIZATION = 'getOrganization';
+export const GET_ETH_ADDRESS = 'getEthAddress';
+export const GET_WALLET = 'getWallet';
 
 //  Eth Actions
 

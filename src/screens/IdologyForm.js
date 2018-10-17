@@ -8,7 +8,6 @@ import store from "../store";
 import axios from 'axios';
 import t from 'tcomb-form-native';
 import {USERNAME, PASSWORD, WEB_SERVER_API_TOKEN, WEB_SERVER_API_IDENTITIES } from "../components/settings";
-// import { config } from '../constants/authtoken'
 
 YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTImageLoader', 'Setting a timer for a long period of time']);
 /* Following these guidelines: https://medium.com/react-native-development/easily-build-forms-in-react-native-9006fcd2a73b */
@@ -102,17 +101,8 @@ class IdologyForm extends Component {
         formBody.push(encodedKey + "=" + encodedValue);
     }
     formBody = formBody.join("&");
-    const AUTH_TOKEN = store.getState().AssetReducers.auth_token
-    const config = {
-      headers: {
-          'Authorization': AUTH_TOKEN,
-          'Access-Control-Allow-Headers': 'x-access-token',
-          'x-access-token': AUTH_TOKEN,
-          'Content-Type': 'application/x-www-form-urlencoded'
-      }
-    }
 
-    axios.post(WEB_SERVER_API_IDENTITIES, formBody, {headers: config.headers})
+    axios.post(WEB_SERVER_API_IDENTITIES, formBody)
     .then(response => {
       this.props.navigation.navigate('MenuOptions');
       // this.props.navigation.navigate('IdologyQuestions', {questions: response.data});

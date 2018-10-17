@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { View, StyleSheet, Text, YellowBox, TouchableHighlight } from 'react-native';
 import { Button } from 'react-native-elements';
 import axios from 'axios';
-import config from "../constants/authtoken";
 import CustomMultiPicker from 'react-native-multiple-select-list';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { WEB_SERVER_API_SUBMIT_RESPONSES } from "../components/settings";
@@ -33,7 +32,7 @@ export default class IdologyQuestions extends Component {
       this.setState({index: this.state.index + 1}, () => {console.log(this.state)})
     } else {
       setTimeout(() => {
-        axios.post(WEB_SERVER_API_SUBMIT_RESPONSES, this.state.response, config)
+        axios.post(WEB_SERVER_API_SUBMIT_RESPONSES, this.state.response)
           .then(response => {
             console.log("===DEFCON====",response)
           })
