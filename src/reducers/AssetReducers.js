@@ -15,6 +15,7 @@ import {
     GET_ACCOUNT,
     GET_ETH_ADDRESS,
     GET_ORGANIZATION,
+    GET_WALLET,
     GET_HERC_ID,
     GOT_HERC_ID,
     CONFIRM_ASSET,
@@ -215,6 +216,13 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
           return Object.assign({}, state, {
             ...state,
             ethereumAddress: ethereumAddress
+          })
+
+        case GET_WALLET:
+          let wallet = action.wallet;
+          return Object.assign({}, state, {
+            ...state,
+            wallet
           })
 
         case GET_ORGANIZATION:

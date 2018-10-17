@@ -26,10 +26,11 @@ export const GET_TRANS = 'getTrans';
 export const GOT_ASSET_TRANS = 'gotAssetTrans';
 export const AUTH_TOKEN = 'authToken';
 export const GET_ORGANIZATION = 'getOrganization';
+export const GET_ETH_ADDRESS = 'getEthAddress';
+export const GET_WALLET = 'getWallet';
 
 //  Eth Actions
 
-export const GET_ETH_ADDRESS = 'getEthAddress';
 export const FETCHING_DATA = 'FETCHING_DATA'
 export const FETCHING_DATA_SUCCESS = 'FETCHING_DATA_SUCCESS'
 export const FETCHING_DATA_FAILURE = 'FETCHING_DATA_FAILURE'

@@ -11,7 +11,7 @@ import { YellowBox } from 'react-native';
 import { connect } from "react-redux";
 import axios from 'axios';
 import { ethereumCurrencyPluginFactory } from 'edge-currency-ethereum';
-import { getAccount, authToken, getEthAddress } from "../actions/AssetActions";
+import { getAccount, authToken, getEthAddress, getWallet } from "../actions/AssetActions";
 import { WEB_SERVER_API_TOKEN, WEB_SERVER_API_IDOLOGY_CHECK } from "../components/settings";
 import { makeEdgeContext } from 'edge-core-js';
 
@@ -72,8 +72,12 @@ class Login extends Component {
       if (walletInfo) {
         this.setState({walletId: walletInfo.id})
         account.waitForCurrencyWallet(walletInfo.id)
-          .then(async wallet =>{
+          .then(wallet => {
             this.props.getEthAddress(wallet.keys.ethereumAddress)
+            this.props.getWallet(wallet)
+            return wallet
+          })
+          .then(async wallet =>{
             this.setState({wallet})
             console.log(wallet, "chance wallet")
             // const destWallet = '0xf9f22fbec78f9578de711cc2ac3d030dddb15f73'
@@ -95,7 +99,7 @@ class Login extends Component {
             // await wallet.signTx(abcTransaction)
             // await wallet.broadcastTx(abcTransaction)
             // await wallet.saveTx(abcTransaction)
-            // 
+            //
             // console.log("chance Sent transaction with ID = " + abcTransaction.txid)
           })
       } else {
@@ -104,6 +108,7 @@ class Login extends Component {
           fiatCurrencyCode: 'iso:USD'
         }).then(wallet => {
           this.props.getEthAddress(wallet.keys.ethereumAddress)
+          this.props.getWallet(wallet)
           this.setState({ wallet })
           this.setState({walletId: wallet.id})
         })
@@ -115,13 +120,8 @@ class Login extends Component {
     if (this.state.account) {
       axios.get(WEB_SERVER_API_IDOLOGY_CHECK)
         .then(response => {
-          if (response.data.status == "true"){
-            const { navigate } = this.props.navigation;
-            navigate('MenuOptions');
-          } else {
-            const { navigate } = this.props.navigation;
-            navigate('Identity');
-          }
+          const { navigate } = this.props.navigation;
+          response.data.status == "true" ? navigate('MenuOptions') : navigate('Identity');
         })
         .catch(err => {
           console.log(err)
@@ -163,7 +163,8 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => ({
     edge_account: state.AssetReducers.edge_account,
-    ethereumAddress: state.AssetReducers.getEthAddress
+    ethereumAddress: state.AssetReducers.getEthAddress,
+    wallet: state.AssetReducers.wallet
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -172,6 +173,8 @@ const mapDispatchToProps = (dispatch) => ({
     authToken: (auth_token) =>
               dispatch(authToken(auth_token)),
     getEthAddress: (ethereumAddress) =>
-      dispatch(getEthAddress(ethereumAddress))
+      dispatch(getEthAddress(ethereumAddress)),
+    getWallet: (wallet) =>
+      dispatch(getWallet(wallet))
 })
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

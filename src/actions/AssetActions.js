@@ -15,6 +15,7 @@ import {
   INC_HERC_ID,
   GET_ACCOUNT,
   GET_ORGANIZATION,
+  GET_WALLET,
   GET_HERC_ID,
   GOT_HERC_ID,
   CONFIRM_ASSET,
@@ -80,7 +81,6 @@ export function authToken(token) {
 
 
 export function getAccount(edge_account) {
-  // console.log("Account in Action: ", edge_account);
   return {
     type: GET_ACCOUNT,
     edge_account
@@ -95,10 +95,17 @@ export function getEthAddress(ethereumAddress) {
 }
 
 export function getOrganization(organizationName) {
-  console.log("Organization Name in Actions: ", organizationName)
   return {
     type: GET_ORGANIZATION,
     organizationName
+  }
+}
+
+export function getWallet(wallet) {
+  console.log("Wallet Object in Actions: ", wallet)
+  return {
+    type: GET_WALLET,
+    wallet
   }
 }
 
