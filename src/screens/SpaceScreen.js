@@ -4,6 +4,7 @@ import { StackNavigator } from 'react-navigation';
 import { STATUS_BAR_HEIGHT } from '../constants';
 import styles from '../assets/styles';
 import { connect } from 'react-redux';
+import { fetchBlock } from '../actions/EthActions';
 import MagicButton from 'react-native-button';
 
 class SpaceScreen extends Component {
@@ -97,9 +98,13 @@ class SpaceScreen extends Component {
         this.state = this.props.asset
     }
 
+    componentDidMount() {
+        this._checkProps();
+    }
+
     _checkProps() {
         const { navigate } = this.props.navigation;
-        this.state.hasOwnProperty('transactions')
+        this.state.selectedAsset.hasOwnProperty('transactions')
             ?
             this.setState({
                 tx: <MagicButton style={localStyles.menuButton}
@@ -111,8 +116,15 @@ class SpaceScreen extends Component {
             :
             this.setState({ tx: <Text style={styles.noTransLabel}>No Transactions</Text> });
     }
-    componentDidMount() {
-        this._checkProps();
+
+    _onPress = () => {
+
+        console.log('pressing blockscanner in spacescreen')
+        const { navigate } = this.props.navigation;
+        this.props.fetchBlock();
+        {this.state.EthReducers.data && navigate('BlockScanner', { name: this.props.asset.Name, logo: this.props.asset.Logo })}
+
+
     }
 
     render() {
@@ -130,7 +142,7 @@ class SpaceScreen extends Component {
                   
                     {/* <Button title={'Transaction Viewer'} onPress={() => navigate('TransSwiper', { name: this.props.name, logo: this.props.logo })} /> */}
 
-                    <MagicButton styles={localStyles.menuButton} onPress={() => navigate('BlockScanner', { name: this.props.name, logo: this.props.logo })}>Block Scanner</MagicButton>
+                    <MagicButton styles={localStyles.menuButton} onPress={this._onPress}>Block Scanner</MagicButton>
                 </View>
             </View>
         );
@@ -144,12 +156,12 @@ const mapStateToProps = (state) => ({
 
 });
 
-// const mapDispatchToProps = (dispatch) => ({
-//     setSet: (item) => dispatch(setSet(item))
+const mapDispatchToProps = (dispatch) => ({
+    fetchBlock: () => dispatch(fetchBlock())
 
-// });
+});
 
-export default connect(mapStateToProps)(SpaceScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(SpaceScreen);
 
 const localStyles = StyleSheet.create({
 
