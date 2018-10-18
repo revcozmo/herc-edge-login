@@ -14,7 +14,7 @@ import { ethereumCurrencyPluginFactory } from 'edge-currency-ethereum';
 import { getAccount, authToken, getEthAddress, getWallet } from "../actions/AssetActions";
 import { WEB_SERVER_API_TOKEN, WEB_SERVER_API_IDOLOGY_CHECK } from "../components/settings";
 import { makeEdgeContext } from 'edge-core-js';
-
+import firebase from "../constants/Firebase";
 YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTImageLoader', 'Setting a timer for a long period of time']);
 
 
@@ -29,8 +29,7 @@ class Login extends Component {
       context: null,
       account: null,
       walletId: null,
-      wallet: null,
-      token: null
+      wallet: null
     }
   makeEdgeContext({
     // Replace this with your own API key from https://developer.airbitz.co:
@@ -53,8 +52,14 @@ class Login extends Component {
       axios.get(WEB_SERVER_API_TOKEN + account.username)
         .then( response => {
           let token = response.data
-          this.setState({ token: token })
           this.props.authToken(token)
+          firebase.auth().signInWithCustomToken(token)
+            .then(user_login => {
+              console.log(user_login, "chance userlogin")
+            })
+            .catch(error => {
+              console.log(error)
+            })
           axios.defaults.headers.common = {
             "Authorization": token,
             'Access-Control-Allow-Headers': 'x-access-token',
