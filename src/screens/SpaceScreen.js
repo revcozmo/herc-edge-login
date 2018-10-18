@@ -12,76 +12,76 @@ class SpaceScreen extends Component {
         const { params } = navigation.state;
         let headerStyles = StyleSheet.create({
             header__container: {
-              // borderColor: "green",
-              // borderWidth: 3,
-              display: "flex",
-            //   resizeMode: "contain",
-              height: 80,
-              alignSelf: "center",
-              flex: 1,
-              alignContent: "center",
-              alignItems: "center",
-              marginTop: 40,
-              paddingBottom: 20
-      
+                // borderColor: "green",
+                // borderWidth: 3,
+                display: "flex",
+                //   resizeMode: "contain",
+                height: 80,
+                alignSelf: "center",
+                flex: 1,
+                alignContent: "center",
+                alignItems: "center",
+                marginTop: 40,
+                paddingBottom: 20
+
             },
             header__container__centeredBox: {
-              // borderColor: "purple",
-              // borderWidth: 3,
-              height: "100%",
-              alignItems: "center",
-              flexDirection: 'row'
+                // borderColor: "purple",
+                // borderWidth: 3,
+                height: "100%",
+                alignItems: "center",
+                flexDirection: 'row'
             },
             header__text__box: {
-              // borderColor: "blue",
-              // borderWidth: 3,
-              height: "100%",
-              marginBottom: 5,
-              marginLeft: 12,
-              
+                // borderColor: "blue",
+                // borderWidth: 3,
+                height: "100%",
+                marginBottom: 5,
+                marginLeft: 12,
+
             },
             header__image__box: {
-              // borderColor: "yellow",
-              // borderWidth: 3,
-              height: "100%",
-              borderRadius: 100
-              // width: 50
+                // borderColor: "yellow",
+                // borderWidth: 3,
+                height: "100%",
+                borderRadius: 100
+                // width: 50
             },
             assetHeaderLogo: {
-              height: 35,
-              width: 35,
-              borderRadius: 50,
-              // resizeMode: "contain",
+                height: 35,
+                width: 35,
+                borderRadius: 50,
+                // resizeMode: "contain",
             },
             headerText: {
-              fontFamily: "dinPro",
-              fontSize: 26,
-              alignSelf: "center",
-              fontWeight: "bold",
-              color: "black",
-              textAlign: "center",
-              marginTop: 2,
-              // paddingTop: 5
+                fontFamily: "dinPro",
+                fontSize: 26,
+                alignSelf: "center",
+                fontWeight: "bold",
+                color: "black",
+                textAlign: "center",
+                marginTop: 2,
+                // paddingTop: 5
             },
-          })
+        })
 
         return {
             headerTitle: (
                 <View style={headerStyles.header__container}>
-                <View style={headerStyles.header__container__centeredBox}>
-                  <View style={headerStyles.header__image__box}>
-                    {/* <TouchableHighlight style={{justifyContent: "center"}} onPress={() => navigation.navigate("MenuOptions")}>
+                    <View style={headerStyles.header__container__centeredBox}>
+                        <View style={headerStyles.header__image__box}>
+                            {/* <TouchableHighlight style={{justifyContent: "center"}} onPress={() => navigation.navigate("MenuOptions")}>
                    </TouchableHighlight> */}
-                    <Image
-                      style={headerStyles.assetHeaderLogo}
-                      source={{ uri: params.logo }}
-                    />
-                  </View>
-                  <View style={headerStyles.header__text__box}>
-                    <Text style={headerStyles.headerText}>{params.name}</Text>
-                  </View>
+                            <Image
+                                style={headerStyles.assetHeaderLogo}
+                                source={{ uri: params.logo }}
+                            />
+                        </View>
+                        <View style={headerStyles.header__text__box}>
+                            <Text style={headerStyles.headerText}>{params.name}</Text>
+                        </View>
+                    </View>
                 </View>
-              </View>
             ),
             // headerTitleStyle: {
             //   height: 50,
@@ -95,37 +95,49 @@ class SpaceScreen extends Component {
     };
     constructor(props) {
         super(props);
-        this.state = this.props.asset
+        this.state = {
+            tx: null,
+        }
     }
 
     componentDidMount() {
+        console.log(this.props.asset.hasOwnProperty('transactions'), 'Does it have transactions??');
         this._checkProps();
+        this.props.fetchBlock();
     }
 
     _checkProps() {
         const { navigate } = this.props.navigation;
-        this.state.selectedAsset.hasOwnProperty('transactions')
-            ?
+        if (this.props.asset.hasOwnProperty('transactions')) {
             this.setState({
                 tx: <MagicButton style={localStyles.menuButton}
 
                     onPress={() => navigate('TransSwiper', { name: this.props.name, logo: this.props.logo })}>
                     Transaction Swiper
-                    </MagicButton>
+                </MagicButton>
+
             })
-            :
+        }
+        else {
+
             this.setState({ tx: <Text style={styles.noTransLabel}>No Transactions</Text> });
+
+        }
+
+
+
     }
 
     _onPress = () => {
 
         console.log('pressing blockscanner in spacescreen')
         const { navigate } = this.props.navigation;
-        this.props.fetchBlock();
-        {this.state.EthReducers.data && navigate('BlockScanner', { name: this.props.asset.Name, logo: this.props.asset.Logo })}
-
-
+        // this.props.fetchBlock();
+        navigate('BlockScanner', { name: this.props.asset.Name, logo: this.props.asset.Logo })
     }
+
+
+
 
     render() {
         const { navigate } = this.props.navigation;
@@ -139,7 +151,7 @@ class SpaceScreen extends Component {
             <View style={styles.container}>
                 <View style={[styles.containerCenter, { paddingTop: 25 }]}>
                     {this.state.tx}
-                  
+
                     {/* <Button title={'Transaction Viewer'} onPress={() => navigate('TransSwiper', { name: this.props.name, logo: this.props.logo })} /> */}
 
                     <MagicButton styles={localStyles.menuButton} onPress={this._onPress}>Block Scanner</MagicButton>

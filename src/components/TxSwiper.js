@@ -18,102 +18,44 @@ export default class TxSwiper extends Component {
     }
   }
 
-  renderCard = card => {
 
+
+
+  renderCard = card => {
+    let factomEntry
     let data = card.data;
     let header = card.header;
-    let locationImage,
-      dTime,
-      price,
-      ediT,
-      docName,
-      docs,
-      imgNum,
-      imgName,
-      images,
-      list;
+    let locationImage = header.tXLocation === 'recipient' ? recipient : originator;
+    let price = card.header.price;
+    let metricsHash, ediT, docHash, imageHash;
 
 
-    data.hasOwnProperty('tXLocation') ?
-      locationImage = header.tXLocation === 'recipient' ? recipient : originator : "";
+    // if(data.hasOwnProperty('documents')) {
+    // docNum = data.documents.length
+    // docHash = <Text style={styles.text}>Document IPFS Hash:{data.documents}</Text>;
+    // }    
 
-    dTime = data.hasOwnProperty('dTime') ? <Text style={styles.transRevTime}>{data.dTime}</Text> : null;
+    // if(data.hasOwnProperty('images')) {
+    //   imageHash = <Text style={styles.text}>Image StorJ Hash: {data.images}</Text>;
+    // }
 
-    if (data.hasOwnProperty('ediT')) {
-
-
-     ediT = (
-
-        <View style={{ height: 30, width: '70%' }}>
-          <Text style={styles.text}>{data.ediT.name}:</Text>
-          <Text style={styles.text}>{data.ediT.value}</Text>
-
-        </View>
-      )
-    }
-
-
-    if (data.hasOwnProperty('documents')) {
-      docNum = data.documents.length
-      docs = data.documents.map((x, i) => {
-        return (
-          <View key={i} style={styles.transDocField}>
-            <Text style={styles.text}>{x.name}</Text>
-            <Text style={styles.text}>{(x.size / 1024).toFixed(4)} kb</Text>
-
-          </View>
-        )
-      })
-    }
-
-    if (data.hasOwnProperty('images')) {
-      imgNum = data.images.length
-      images = data.images.map((x, i) => {
-        return (
-          <View key={i} style={styles.imgContainer}>
-            <Image style={styles.image} source={{ uri: x.image }} />
-            <Text style={styles.text}>{(x.size / 1024).toFixed(4)} kb</Text>
-          </View>
-        )
-      })
-    }
-
-    if (data.hasOwnProperty('properties')) {
-
-      list = Object.keys(data.properties).map((name, idx) => {
-        console.log(name, 'name in for loop in review')
-        return (
-
-          <View key={idx} style={styles.transPropField}>
-            <Text style={styles.transRevName}>{name}:</Text>
-            <Text style={styles.revPropVal}>{data.properties[name]}</Text>
-          </View>
-        )
-      })
-    }
-
-    if (data.hasOwnProperty('price')) {
-      price = <View style={styles.transPropField}>
-        <Text style={styles.transRevName}>Price:</Text>
-        <Text style={styles.revPropVal}>{header.price.toFixed(8)}</Text>
-      </View>
-
-    }
-
+    // if(data.hasOwnProperty('properties')) {
+    //   metricsHash = <Text style={styles.text}>Metrics IPFS Hash: {data.properties}</Text>;
+    // }
 
     return (
       <View key={card.key} style={styles.card}>
         <Image style={styles.assetLocationLabel} source={locationImage} />
-        {dTime}
+        {/* {dTime} */}
         <View style={styles.transPropField}>
-          <Text style={styles.transRevName}>Herc ID:</Text>
-          <Text style={styles.revPropVal}>{this.props.hercId}</Text>
+          {/* <Text style={styles.transRevName}>Herc ID:</Text> */}
+          {/* <Text style={styles.revPropVal}>{this.props.hercId}</Text> */}
         </View>
-        {ediT}
-        {docs}
-        {images}
-        {list}
-        {price}
+        {/* {ediT} */}
+        {/* {docHash}
+        {imageHash}
+        {metricHash} */}
+        {/* {price} */}
       </View>
     )
   };

@@ -29,6 +29,7 @@ import {
 
 } from "./types";
 
+import { fetchBlock } from './EthActions';
 import { WEB_SERVER_API_IPFS_GET, WEB_SERVER_API_IPFS_ADD, WEB_SERVER_API_FACTOM_CHAIN_ADD } from "../components/settings"
 import axios from 'axios';
 
@@ -88,7 +89,7 @@ export function getAccount(edge_account) {
 }
 
 export function getEthAddress(ethereumAddress) {
-  return{
+  return {
     type: GET_ETH_ADDRESS,
     ethereumAddress
   };
@@ -157,12 +158,13 @@ function gotListAssets(assetList) {
 
 
 export function selectAsset(asset) {
-  console.log(asset, 'asset in Select')
-  return {
-    type: SELECT_ASSET,
-    selectedAsset: asset
+ 
+    console.log(asset, 'asset in Select')
+    return {
+      type: SELECT_ASSET,
+      selectAsset: asset
+    }
   }
-}
 
 
 export function getAssetDef(ipfsHash) {
@@ -177,7 +179,7 @@ export function getAssetDef(ipfsHash) {
         return assetDef
       })
       .then((assetDef) => dispatch(gotAssetDef(assetDef)))
-      .catch(err => {console.log(err)})
+      .catch(err => { console.log(err) })
 
   }
 }

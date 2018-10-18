@@ -4,6 +4,7 @@ import {
     FETCHING_DATA_FAILURE
 } from '../actions/types';
 
+
 const ETH_STATE =
 {
     isFetching: false,
@@ -21,10 +22,10 @@ const EthReducers = (ethState = ETH_STATE, action) => {
         return Object.assign({}, ethState, {
             ...ethState,
             isFetching: action.isFetching
-        })
-
+        });
+        
         case FETCHING_DATA_SUCCESS:
-
+        
             console.log('eth reducer data success');
             let ethData = action.data;
             return Object.assign({}, ethState, {
@@ -32,7 +33,7 @@ const EthReducers = (ethState = ETH_STATE, action) => {
                 isFetched: true,
                 isFetching: false,
                 data: ethData
-            })
+            });
 
 
         case FETCHING_DATA_FAILURE:
