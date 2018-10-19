@@ -19,7 +19,6 @@ import Create from "../screens/Create";
 import Digi from "../screens/DigiViewer";
 import DocUp from "../screens/DocUp";
 import EdiT from "../screens/Edi-T";
-import Factom from "../screens/Factom";
 import FileUp from "../screens/FileUp";
 import Hipr from "../screens/Hipr";
 import HiprAssets from "../screens/HiprAssets";
@@ -113,7 +112,6 @@ const MainNavigator = StackNavigator({ //this will be "createStackNavigator" aft
     PreHipr: { screen: PreHipr },
     HiprAssets: { screen: HiprAssets },
     Hipr: { screen: Hipr },
-    Factom: { screen: Factom },
     BlockScanner: { screen: BlockScanner },
     TransSwiper: { screen: TransSwiper },
     TransAssetList: { screen: TransAssetList },

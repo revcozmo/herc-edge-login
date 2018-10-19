@@ -61,9 +61,7 @@ class Login extends Component {
               console.log(error)
             })
           axios.defaults.headers.common = {
-            "Authorization": token,
-            'Access-Control-Allow-Headers': 'x-access-token',
-            'x-access-token': token,
+            'Authorization': token,
             'Content-Type': 'application/x-www-form-urlencoded'
           };
         })
