@@ -27,7 +27,7 @@ export default class TxSwiper extends Component {
     let header = card.header;
     let locationImage = header.tXLocation === 'recipient' ? recipient : originator;
     let price = card.header.price;
-    let metricsHash, ediT, docHash, imageHash;
+    let metricsHash, ediT, documentHash, imageHash;
 
 
     // if(data.hasOwnProperty('documents')) {
@@ -35,21 +35,24 @@ export default class TxSwiper extends Component {
     // docHash = <Text style={styles.text}>Document IPFS Hash:{data.documents}</Text>;
     // }    
 
-    // if(data.hasOwnProperty('images')) {
-    //   imageHash = <Text style={styles.text}>Image StorJ Hash: {data.images}</Text>;
-    // }
+    if (data.hasOwnProperty('images')) {
+      imageHash = data.images;
+    }
 
-    // if(data.hasOwnProperty('properties')) {
-    //   metricsHash = <Text style={styles.text}>Metrics IPFS Hash: {data.properties}</Text>;
-    // }
+    if (data.hasOwnProperty('properties')) {
+      metricsHash = data.properties;
+    }
 
     return (
       <View key={card.key} style={styles.card}>
-        <Image style={styles.assetLocationLabel} source={locationImage} />
+        {/* <Image style={styles.assetLocationLabel} source={locationImage} /> */}
+        {/* <Text style={styles.revPropVal}>{this.props.hercId}</Text> */}
         {/* {dTime} */}
+          <Text style={styles.transRevName}>{header.tXLocation}</Text>
+          {imageHash && <Text style={styles.text}>Image StorJ Hash:{imageHash}</Text>}
+          {metricsHash && <Text style={styles.text}>Metrics IPFS Hash: {metricsHash}</Text>}
+          {documentHash && <Text style={styles.text}>Document IPFS Hash:{documentHash}</Text>}
         <View style={styles.transPropField}>
-          {/* <Text style={styles.transRevName}>Herc ID:</Text> */}
-          {/* <Text style={styles.revPropVal}>{this.props.hercId}</Text> */}
         </View>
         {/* {ediT} */}
         {/* {docHash}

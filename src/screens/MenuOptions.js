@@ -34,6 +34,7 @@ YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTIm
 class MenuOptions extends Component {
 
     componentDidMount() {
+        console.log("MenuOptions")
         this.props.getHercId();
         this.props.getAssets(this.props.userName);
     }
@@ -50,7 +51,8 @@ class MenuOptions extends Component {
                             <Image style={localStyles.menuButton} source={registerAsset} />
                         </TouchableHighlight>
                     </View>
-                    <TouchableHighlight style={localStyles.touchableHighlight} onPress={() => navigate("Splash1")}>
+                    <TouchableHighlight style={localStyles.touchableHighlight} 
+                    onPress={() => navigate("Splash1")}>
                         <Image style={localStyles.menuButton} source={supplyChain} />
                     </TouchableHighlight>
 
