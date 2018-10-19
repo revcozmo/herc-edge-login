@@ -37,7 +37,7 @@ import firebase from "../constants/Firebase";
 import { assert } from "tcomb";
 const rootRef = firebase.database().ref();
 const assetRef = rootRef.child("assets");
-
+import { NavigationActions } from 'react-navigation'
 
 export function getHercId() {
   return dispatch => {
@@ -75,11 +75,10 @@ export function incHercId(hercid) {
 
 export function authToken(token) {
   return {
-    type: AUTH_TOKEN,
-    token
-  };
-}
-
+      type: AUTH_TOKEN,
+      token
+    };
+  }
 
 export function getAccount(edge_account) {
   return {
