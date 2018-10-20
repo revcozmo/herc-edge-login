@@ -39,13 +39,12 @@ export class Settings extends Component {
   }
 
   componentDidMount() {
-    let getFromStore = store.getState();
-    let userName = getFromStore.AssetReducers.edge_account
-    this.setState({userName: userName})
+    // let getFromStore = store.getState();
+    // let userName = getFromStore.AssetReducers.edge_account
+    // this.setState({userName: userName})
   }
 
   onLogOut = () => {
-
     firebase.auth().signOut().then(function() {
       // Sign-out successful.
       console.log("Firebase Sign-out successful.")
@@ -53,10 +52,12 @@ export class Settings extends Component {
       // An error happened.
     })
 
-    // store.account.logout(function() {
-    //  console.log('hooray im out!')
-    // })
+    this.props.account.logout(function() {
+     console.log('hooray im out!')
+    })
 
+
+    console.log(this.props)
     this.props.navigation.navigate('Login');
   };
 
@@ -142,7 +143,7 @@ export class Settings extends Component {
                     <Text style={localStyles.subInfo__TextUserName}>
                       {/* {" "} */}
                       {/* {this.props.displayName}{" "} */}
-                      {this.state.userName}
+                      {this.state.accountName}
                     </Text>
                     <TouchableHighlight onPress={() => this.onLogOut()}>
                       <View>
@@ -385,10 +386,13 @@ const localStyles = StyleSheet.create({
 });
 
 const mapStateToProps = state => ({
+  account: state.AssetReducers.account,
   edge_account: state.AssetReducers.edge_account,
 });
 
 const mapDispatchToProps = dispatch => ({
+  getAccount: (account) =>
+  dispatch(getAccount(account)),
   getUsername: (edge_account) =>
   dispatch(getUsername(edge_account)),
   fetchAssets: () => dispatch(fetchAssets()),
