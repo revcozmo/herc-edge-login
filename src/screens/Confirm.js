@@ -118,7 +118,7 @@ class Confirm extends Component {
 
 
   componentDidMount() {
-    console.log(this.props.newProps, 'thisnewtransinfo')
+    console.log(this.props.newMetrics, 'thisnewtransinfo')
     // console.log(this.props, 'props')
 
 
@@ -127,21 +127,21 @@ class Confirm extends Component {
   render() {
     // let price = this.state.fctPrice;
     const { navigate } = this.props.navigation;
-    console.log(this.props.newProps, "txNewProps")
+    console.log(this.props.newMetrics, "txnewMetrics")
 
     let locationImage = this.props.location === 'originator' ? originator : recipient;
     let logo = this.props.logo;
     // console.log(this.props.Assets);
 
-    let list = this.props.newProps
+    let list = this.props.newMetrics
       ?
-      Object.keys(this.props.newProps).map((propName, idx) => {
+      Object.keys(this.props.newMetrics).map((propName, idx) => {
         let name = propName;
         return (
 
           <View key={idx} style={localStyles.assetMetricInputField}>
             <Text style={localStyles.text}>{name}</Text>
-            <Text style={localStyles.propVal}>{this.props.newProps[name]}</Text>
+            <Text style={localStyles.propVal}>{this.props.newMetrics[name]}</Text>
           </View>
         )
       })
@@ -175,7 +175,7 @@ class Confirm extends Component {
 
 
 const mapStateToProps = (state) => ({
-  newProps: state.AssetReducers.trans.data.properties,
+  newMetrics: state.AssetReducers.trans.data.properties,
   location: state.AssetReducers.trans.header.tXLocation,
   logo: state.AssetReducers.selectedAsset.Logo,
   name: state.AssetReducers.trans.header.name

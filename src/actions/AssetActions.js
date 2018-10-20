@@ -2,7 +2,7 @@ import {
   GET_ASSETS,
   GET_ASSET_DEF,
   GOT_ASSET_DEF,
-  ADD_ASSET,
+  ADD_ASSET, 
   GET_ETH_ADDRESS,
   GOT_LIST_ASSETS,
   GET_TRANS,
@@ -11,7 +11,7 @@ import {
   SEND_TRANS,
   ADD_PHOTO,
   ADD_DOC,
-  ADD_PROPS,
+  ADD_METRICS,
   INC_HERC_ID,
   GET_ACCOUNT,
   GET_ORGANIZATION,
@@ -73,41 +73,41 @@ export function incHercId(hercid) {
 }
 
 
-export function authToken(token) {
-  return {
-      type: AUTH_TOKEN,
-      token
-    };
-  }
+// export function authToken(token) {
+//   return {
+//       type: AUTH_TOKEN,
+//       token
+//     };
+//   }
 
-export function getAccount(edge_account) {
-  return {
-    type: GET_ACCOUNT,
-    edge_account
-  };
-}
+// export function getAccount(edge_account) {
+//   return {
+//     type: GET_ACCOUNT,
+//     edge_account
+//   };
+// }
 
-export function getEthAddress(ethereumAddress) {
-  return {
-    type: GET_ETH_ADDRESS,
-    ethereumAddress
-  };
-}
+// export function getEthAddress(ethereumAddress) {
+//   return {
+//     type: GET_ETH_ADDRESS,
+//     ethereumAddress
+//   };
+// }
 
-export function getOrganization(organizationName) {
-  return {
-    type: GET_ORGANIZATION,
-    organizationName
-  }
-}
+// export function getOrganization(organizationName) {
+//   return {
+//     type: GET_ORGANIZATION,
+//     organizationName
+//   }
+// }
 
-export function getWallet(wallet) {
-  console.log("Wallet Object in Actions: ", wallet)
-  return {
-    type: GET_WALLET,
-    wallet
-  }
-}
+// export function getWallet(wallet) {
+//   console.log("Wallet Object in Actions: ", wallet)
+//   return {
+//     type: GET_WALLET,
+//     wallet
+//   }
+// }
 
 ///// This is getting the hashes from firebase to send to The server to talk to IPFS
 
@@ -167,7 +167,9 @@ export function selectAsset(asset) {
 
 
 export function getAssetDef(ipfsHash) {
+
   return dispatch => {
+    dispatch()
     console.log(ipfsHash, "keeping it simple.")
     let singleHash = ipfsHash;
 
@@ -241,10 +243,10 @@ export function sendTrans(trans) {
   };
 }
 
-export function addProps(newProps) {
+export function addMetrics(newMetrics) {
   return {
-    type: ADD_PROPS,
-    data: newProps
+    type: ADD_METRICS,
+    data: newMetrics
   };
 }
 

@@ -1,17 +1,17 @@
 import { combineReducers } from 'redux';
 // import Assets from './Assets';
-import EthReducers from './EthReducers';
+import Web3Reducers from './Web3Reducers';
 import AssetReducers from './AssetReducers';
-import dataReducer from './dataReducer';
-import WalletReducers from './WalletReducers';
+import DataReducers from './DataReducers';
+import WalletActReducers from './WalletAcctReducers';
 import EDIT from './Edi-T-Sets'
   ;
 const rootReducer = combineReducers({
   AssetReducers,
   // Assets,
-  dataReducer,
-  EthReducers,
-  WalletReducers,
+  DataReducers,
+  Web3Reducers,
+  WalletActReducers,
   EDIT
 })
 

@@ -1,7 +1,7 @@
 import { StyleSheet, Text, Modal, View, Image, TouchableHighlight, Alert } from 'react-native';
 import React from 'react';
 import styles from '../assets/styles';
-import { Button } from 'react-native-button';
+import { NewButton } from 'react-native-button';
 import round from '../assets/round.png';
 import plus from '../assets/plus.png';
 import { connect } from "react-redux";
@@ -11,17 +11,17 @@ import {
   // addWallet,
   // deleteWallet,
   // switchWallet
-} from '../actions/WalletActions';
+} from '../actions/WalletActActions';
+import BigNumber from 'bignumber.js';
 
 ///////  All this wallet balance stuff, 
 class Wallet extends React.Component {
   constructor(props) {
     super(props)
-  }
-
-  state = {
-    modalVisible: false,
-    
+    this.state = {
+      currentDenom: 'wei',
+      balance: ""
+    }
   }
 
   static navigationOptions = ({ navigation }) => ({
@@ -29,80 +29,99 @@ class Wallet extends React.Component {
   });
 
   componentDidMount = () => {
-    console.log(this.state)
+    console.log(this.setState({ balance: this.props.wallet.getBalance(this.props.currencyCode) }))
     console.log(this.props, 'props')
-    this._getTotUs(this.props.balance);
+
+    // this._getTotUs(this.props.balance);
   }
 
   // setModalVisible() {
   //   console.log(this.state.modalVisible)
   //   this.setState({ modalVisible: !this.state.modalVisible });
   // }
-
-  // _addWallet = (walObj) => {
-  //   this.props.addWallet(walObj)
-  //   console.log(this.state);
-  //   this.setModalVisible();
-  // }
-  // _getWallets = () => {
-  //   let walletArray = iconsArray.map((x, idx) => {
-  //     console.log(x.icon, x.currency, '_getwallets');
-  //     //  return (<Text key={idx} style={walletLabelStyles.walletCoinName}>{x.currency}</Text>)
-  //     return <TouchableHighlight key={idx} style={walletLabelStyles.walletLabelField} onPress={() => this._addWallet(x)}>
-  //       <View style={walletLabelStyles.walletLabelField}>
-  //         <Image style={walletLabelStyles.walletIcon} source={x.icon} />
-  //         <Text style={walletLabelStyles.walletCoinName}>{x.currency}</Text>
-  //         <Image style={walletLabelStyles.walletIcon} source={plus} />
-  //       </View>
-  //     </TouchableHighlight>
-  //   })
-  //   return walletArray;
-  // }
-
-  // _onPayment = (pay) => {
-  //   console.log(pay, 'onpayment');
-  //   this.props.debitTrans(pay);
-  // }
+  _changeBalanceDenom = () => {
+    let converting = new BigNumber(this.state.balance);
+    console.log(converting, "bigNumber")
+    console.log(this.state, 'changing balance');
+    console.log(converting.toExponential(-18).toString())
+    //   this.state.currentDenom === 'wei'
+    //     ? this.setState({
+    //       balance: converting.toNumber.div,
+    //       currentDenom: 'standard'
+    //     })
+    //     : this.setState({
+    //       currentDenom: 'wei',
+    //       balance: this.props.wallet.getBalance(this.props.currencyCode)
+    //     });
+    }
 
 
-  _getTotUs = () => {
-    let hercs = this.props.currentBalance;
-    console.log(hercs, "hercs in getTotUs");
-    let totUs = (hercs * (.6)).toFixed(2);
-    console.log(totUs, " after conversion to dollars");
-    return (totUs)
-  }
+    _addWallet = (walObj) => {
+      this.props.addWallet(walObj)
+      console.log(this.state);
+      this.setModalVisible();
+    }
+    // _getWallets = () => {
+    //   let walletList = Object.keys(this.props.wallet.balances).map(x => {
+    //     return {
+    //       this.props.wallet.balances[x]: this.props.wallet.balances[x]
+    //     }
+    //   });
+    //   console.log(walletList, 'wallets')
+    // }
+    //   return walletArray;
+    // }
 
-  render() {
+    // _onPayment = (pay) => {
+    //   console.log(pay, 'onpayment');
+    //   this.props.debitTrans(pay);
+    // }
 
-    let balance = this.props.currentBalance;
-    let usValue = this._getTotUs();
-    // let wallets = this._getWallets();
-    // console.log(iconsArray.filter(coin => coin.currency === 'HERC'));
-    // Method to render the currently selected coin's icon. 
-    // let currentCoin = iconsArray.filter(coin => coin.currency === this.props.currentWallet)
 
-    return (
-      <View style={styles.container}>
-      <View style={[styles.containerCenter, { paddingTop: 25 }]}>
-        {/* <View style={[styles.containerCenter, { paddingTop: 25 }]}> */}
-        <View style={localStyles.balanceContainer}>
+    // _getTotUs = () => {
+    //   let hercs = this.props.currentBalance;
+    //   console.log(hercs, "hercs in getTotUs");
+    //   let totUs = (hercs * (.6)).toFixed(2);
+    //   console.log(totUs, " after conversion to dollars");
+    //   return (totUs)
+    // }
 
-          <View style={localStyles.centerBalance}>
-          <Text style={localStyles.text}>Balance: {this.props.currentWallet}</Text>
+    render() {
+      console.log(this.state.currentDenom, this.state.balance, 'hopefully some good news')
+      console.log(this.props.wallet.balances);
 
-          <View style={localStyles.tokenValueContainer}>
-            <Image style={localStyles.icon} source={round} />
-            <Text style={localStyles.currencyValue}>{balance}</Text>
-            {/* <Text style={localStyles.text}>{this.state.selectedCurrency}</Text> */}
-          </View>
+      // let usValue = this._getTotUs();
+      // let wallets = this._getWallets();
+      // console.log(iconsArray.filter(coin => coin.currency === 'HERC'));
+      // Method to render the currently selected coin's icon. 
+      // let currentCoin = iconsArray.filter(coin => coin.currency === this.props.currentWallet)
 
-          <Text style={localStyles.usdValue}>{usValue} USD</Text>
-          <View style={{ flexDirection: 'row', width: '60%', height: 50, justifyContent: 'space-around', alignItems: 'center' }}>
-          </View>
-        </View>
+      return (
+        <View style={styles.container}>
+          <View style={[styles.containerCenter, { paddingTop: 25 }]}>
+            {/* <View style={[styles.containerCenter, { paddingTop: 25 }]}> */}
+            <View style={localStyles.balanceContainer}>
 
-        {/* <View style={localStyles.addWalletField}>
+              <View style={localStyles.centerBalance}>
+                <Text style={localStyles.text}>{this.props.currencyCode} Balance:</Text>
+
+                <View style={localStyles.tokenValueContainer}>
+                  <Image style={localStyles.icon} source={round} />
+
+                  <Text style={localStyles.currencyValue}>{this.state.balance}</Text>
+                  {/* <Text style={localStyles.currencyValue}>{balance}</Text> */}
+                  {/* <Text style={localStyles.text}>{this.state.selectedCurrency}</Text> */}
+                </View>
+
+                {/* <Text style={localStyles.usdValue}>{usValue} USD</Text> */}
+                <View style={{ flexDirection: 'row', width: '60%', height: 50, justifyContent: 'space-around', alignItems: 'center' }}>
+
+                  <Text style={localStyles.text} onPress={() => this._changeBalanceDenom()}>ChangetheDenom</Text>
+
+                </View>
+              </View>
+
+              {/* <View style={localStyles.addWalletField}>
           <TouchableHighlight onPress={() => this.setModalVisible()}>
             <View>
               <Text style={localStyles.text}>Add Wallet(pending)</Text>
@@ -111,15 +130,15 @@ class Wallet extends React.Component {
           </TouchableHighlight>
 
         </View> */}
-        {/* <View style={{ alignItems: 'center', height: 200, width: 300, alignContent: 'center', justifyContent: 'space-around', backgroundColor: 'green' }}>
+              {/* <View style={{ alignItems: 'center', height: 200, width: 300, alignContent: 'center', justifyContent: 'space-around', backgroundColor: 'green' }}>
 
           <Wallet coin={this.props.currentWallet} icon={round} />
 
         </View> */}
 
-        {/* <Text style={localStyles.text}> Address: {this.state.monies[this.state.currency].address}</Text> */}
+              {/* <Text style={localStyles.text}> Address: {this.state.monies[this.state.currency].address}</Text> */}
 
-        {/* <View style={{ flexDirection: 'row', alignItems: 'center', height: 200, width: 300, alignContent: 'center', justifyContent: 'space-around' }}>
+              {/* <View style={{ flexDirection: 'row', alignItems: 'center', height: 200, width: 300, alignContent: 'center', justifyContent: 'space-around' }}>
           <View style={{ height: 30, width: 100, backgroundColor: "yellow", borderRadius: 5, }}>
             <Text style={localStyles.buttonText}>Send</Text>
           </View>
@@ -130,7 +149,7 @@ class Wallet extends React.Component {
             </TouchableHighlight>
           </View> */}
 
-          {/* <Modal
+              {/* <Modal
             animationIn={'slideInLeft'}
             animationOut={'slideOutRight'}
             transparent={false}
@@ -155,29 +174,34 @@ class Wallet extends React.Component {
               </TouchableHighlight>
             </View>
           </Modal> */}
+            </View>
+
+            {/* <NewButton style={{height: 20, width: 30, backgroundColor: 'blue',}} onPress={this._changeBalanceDenom(this.state.currentDenom)}>Change Denom</NewButton> */}
+            {/* <Text style={localStyles.text}> QR Code Generator/Reader </Text> */}
           </View>
-        {/* <Text style={localStyles.text}> QR Code Generator/Reader </Text> */}
-      </View>
-       </View>
-    );
-  }
-};
+        </View>
+      );
+    }
+  };
 
-const mapStateToProps = state => ({
-  currentBalance: state.WalletReducers.currentBalance,
-  originalBalance: state.WalletReducers.origBalance,
-  currentWallet: state.WalletReducers.wallet,
-  // ownedWallets: state.WalletReducers.wallets
-})
+  const mapStateToProps = state => ({
+    currencyCode: state.WalletActReducers.wallet.currencyInfo.currencyCode,
+    availableWallets: state.WalletActReducers.walletTypes,
+    wallet: state.WalletActReducers.wallet,
+    balanceInWei: state.WalletActReducers.wallet.balances[state.WalletActReducers.wallet.currencyInfo.currencyCode],
+    // originalBalance: state.WalletActReducers.origBalance,
+    // currentWallet: state.WalletActReducers.wallet,
+    // ownedWallets: state.WalletReducers.wallets
+  })
 
-const mapDispatchToProps = dispatch => ({
-  debitTrans: (amount) => dispatch(debitTrans(amount)),
-  addWallet: (walletName) => dispatch(addWallet(walletName)),
-  switchWallet: (walletName) => dispatch(switchWallet(walletName)),
-  deleteWallet: (walletName) => dispatch(deleteWallet(walletName))
-})
+  const mapDispatchToProps = dispatch => ({
+    // debitTrans: (amount) => dispatch(debitTrans(amount)),
+    // Wallet: (walletName) => dispatch(addWallet(walletName)),
+    // switchWallet: (walletName) => dispatch(switchWallet(walletName)),
+    // deleteWallet: (walletName) => dispatch(deleteWallet(walletName))
+  })
 
-export default connect(mapStateToProps, mapDispatchToProps)(Wallet);
+  export default connect(mapStateToProps, mapDispatchToProps)(Wallet);
 
 const localStyles = StyleSheet.create({
   centerBalance: {
@@ -209,7 +233,7 @@ const localStyles = StyleSheet.create({
     // borderRadius: 25,
     flexDirection: 'row',
     height: "30%",
-    minWidth: 245,
+    width: "90%",
     justifyContent: 'space-around',
     alignItems: "center",
     backgroundColor: 'white',
@@ -237,7 +261,7 @@ const localStyles = StyleSheet.create({
 
   },
   currencyValue: {
-    fontSize: 30,
+    fontSize: 26,
     color: "black"
   },
   usdValue: {
@@ -318,6 +342,7 @@ const walletLabelStyles = StyleSheet.create({
   coinBalance: {
     fontSize: 10,
     marginRight: 5,
+    color: 'yellow'
 
   }
 

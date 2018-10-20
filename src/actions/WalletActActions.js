@@ -1,12 +1,55 @@
 import {
+    AUTH_TOKEN,
+    GET_ACCOUNT,
+    GET_ETH_ADDRESS,
+    GET_ORGANIZATION,
+    GET_WALLET,
     GET_BALANCE,
-    CREDIT_TRANS,
     DEBIT_TRANS,
-    ADD_WALLET,
     DELETE_WALLET,
     SWITCH_WALLET,
+    ADD_WALLET
 }
     from './types';
+
+export function authToken(token) {
+    return {
+        type: AUTH_TOKEN,
+        token
+    };
+}
+
+export function getAccount(edge_account) {
+    return {
+        type: GET_ACCOUNT,
+        edge_account
+    };
+}
+
+export function getOrganization(organizationName) {
+    return {
+        type: GET_ORGANIZATION,
+        organizationName
+    }
+}
+
+
+export function getEthAddress(ethereumAddress) {
+    return {
+        type: GET_ETH_ADDRESS,
+        ethereumAddress
+    };
+}
+
+
+export function getWallet(wallet) {
+    console.log("Wallet Object in Actions: ", wallet)
+    return {
+        type: GET_WALLET,
+        wallet
+    }
+}
+
 
 export function debitTrans(amount) {
     console.log('debit trans action', amount)

@@ -10,7 +10,7 @@ import {
     GOT_ASSET_TRANS,
     ADD_PHOTO,
     ADD_DOC,
-    ADD_PROPS,
+    ADD_METRICS,
     INC_HERC_ID,
     GET_ACCOUNT,
     GET_ETH_ADDRESS,
@@ -201,43 +201,43 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
                 hercId
             });
 
-        case AUTH_TOKEN:
-            let token = action.token;
-            // console.log('Token captured in reducer', token);
-            return Object.assign({}, state, {
-                ...state,
-                auth_token: token
-            })
+        // case AUTH_TOKEN:
+        //     let token = action.token;
+        //     // console.log('Token captured in reducer', token);
+        //     return Object.assign({}, state, {
+        //         ...state,
+        //         auth_token: token
+        //     })
 
 
-        case GET_ACCOUNT:
-            let edge_account = action.edge_account;
-            return Object.assign({}, state, {
-                ...state,
-                edge_account: edge_account
-            })
+        // case GET_ACCOUNT:
+        //     let edge_account = action.edge_account;
+        //     return Object.assign({}, state, {
+        //         ...state,
+        //         edge_account: edge_account
+        //     })
 
 
-        case GET_ETH_ADDRESS:
-            let ethereumAddress = action.ethereumAddress;
-            return Object.assign({}, state, {
-                ...state,
-                ethereumAddress: ethereumAddress
-            })
+        // case GET_ETH_ADDRESS:
+        //     let ethereumAddress = action.ethereumAddress;
+        //     return Object.assign({}, state, {
+        //         ...state,
+        //         ethereumAddress: ethereumAddress
+        //     })
 
-        case GET_WALLET:
-            let wallet = action.wallet;
-            return Object.assign({}, state, {
-                ...state,
-                wallet
-            })
+        // case GET_WALLET:
+        //     let wallet = action.wallet;
+        //     return Object.assign({}, state, {
+        //         ...state,
+        //         wallet
+        //     })
 
-        case GET_ORGANIZATION:
-            let organizationName = action.organizationName;
-            return Object.assign({}, state, {
-                ...state,
-                organizationName: organizationName
-            })
+        // case GET_ORGANIZATION:
+        //     let organizationName = action.organizationName;
+        //     return Object.assign({}, state, {
+        //         ...state,
+        //         organizationName: organizationName
+        //     })
 
         case ADD_PHOTO:
             let image = {
@@ -287,7 +287,7 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
                 }
             })
 
-        case ADD_PROPS:
+        case ADD_METRICS:
             const properties = action.data;
             console.log(properties, "updating attributes in reducers");
             return Object.assign({}, state, {
