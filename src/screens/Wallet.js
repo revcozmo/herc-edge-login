@@ -41,18 +41,16 @@ class Wallet extends React.Component {
   // }
   _changeBalanceDenom = () => {
     let converting = new BigNumber(this.state.balance);
-    console.log(converting, "bigNumber")
-    console.log(this.state, 'changing balance');
-    console.log(converting.toExponential(-18).toString())
-    //   this.state.currentDenom === 'wei'
-    //     ? this.setState({
-    //       balance: converting.toNumber.div,
-    //       currentDenom: 'standard'
-    //     })
-    //     : this.setState({
-    //       currentDenom: 'wei',
-    //       balance: this.props.wallet.getBalance(this.props.currencyCode)
-    //     });
+
+      this.state.currentDenom === 'wei'
+        ? this.setState({
+          balance: converting.times(1e-18).toString(),
+          currentDenom: 'standard'
+        })
+        : this.setState({
+          currentDenom: 'wei',
+          balance: this.props.wallet.getBalance(this.props.currencyCode)
+        });
     }
 
 
