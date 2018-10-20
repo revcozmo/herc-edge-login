@@ -33,6 +33,15 @@ export class Settings extends Component {
 
   constructor(props) {
     super(props);
+    this.state = {
+      accountName: ""
+    }
+  }
+
+  componentDidMount() {
+    let getFromStore = store.getState();
+    let userName = getFromStore.AssetReducers.edge_account
+    this.setState({userName: userName})
   }
 
   onLogOut = () => {
@@ -44,14 +53,11 @@ export class Settings extends Component {
       // An error happened.
     })
 
-    account.logout(function() {
-     console.log('hooray im out!')
-    })
+    // store.account.logout(function() {
+    //  console.log('hooray im out!')
+    // })
 
-
-    // console.log(this.props);
-    // this.props.signOut();
-    this.props.navigation.navigate("OrgRegistration");
+    this.props.navigation.navigate('Login');
   };
 
 
@@ -135,9 +141,10 @@ export class Settings extends Component {
                 <View style={localStyles.block__textBlock}>
                   <Text style={localStyles.title__Text}> Profile </Text>
                   <View style={localStyles.profileBlock}>
-                    <Text style={localStyles.subInfo__Text}>
-                      {" "}
-                      {this.props.displayName}{" "}
+                    <Text style={localStyles.subInfo__TextUserName}>
+                      {/* {" "} */}
+                      {/* {this.props.displayName}{" "} */}
+                      {this.state.userName}
                     </Text>
                     <TouchableHighlight onPress={() => this.onLogOut()}>
                       <View>
@@ -352,6 +359,10 @@ const localStyles = StyleSheet.create({
     color: "gray",
     fontSize: 10
   },
+  subInfo__TextUserName: {
+    color: "green",
+    fontSize: 15
+  },
   container: {
     width: "95%",
     height: "100%",
@@ -384,8 +395,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   fetchAssets: () => dispatch(fetchAssets()),
   getHercId: () => dispatch(getHercId()),
-  signOut: () => dispatch(signOut())
-  //  fetchData: () => dispatch(fetchData())
+  signOut: () => dispatch(signOut()),
+   fetchData: () => dispatch(fetchData())
 });
 export default connect(
   mapStateToProps,

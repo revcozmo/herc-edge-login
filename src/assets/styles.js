@@ -47,6 +47,11 @@ module.exports = StyleSheet.create({
     height: 30,
     marginLeft: 5
   },
+  drawerIcon: {
+    width: 30,
+    height: 30,
+    marginRight: 25,
+  },
   assetHeaderLogo: {
     height: 45,
     width: 45,
