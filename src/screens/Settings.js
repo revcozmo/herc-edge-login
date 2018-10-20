@@ -34,7 +34,7 @@ export class Settings extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      accountName: ""
+      accountName: this.props.edge_account
     }
   }
 
@@ -57,7 +57,7 @@ export class Settings extends Component {
     //  console.log('hooray im out!')
     // })
 
-    // this.props.navigation.navigate('Login');
+    this.props.navigation.navigate('Login');
   };
 
 
@@ -102,8 +102,6 @@ export class Settings extends Component {
         marginTop: 2
       }
     });
-
-
 
     return {
       headerTitle: (
@@ -349,7 +347,6 @@ const localStyles = StyleSheet.create({
   block__textBlock: {
     flex: 3,
     flexDirection: "column"
-    // marginBottom: 2
   },
   title__Text: {
     color: "white",
@@ -388,11 +385,12 @@ const localStyles = StyleSheet.create({
 });
 
 const mapStateToProps = state => ({
-  // displayName: state.AccountReducers.displayName,
-  // uid: state.AccountReducers.uid
+  edge_account: state.AssetReducers.edge_account,
 });
 
 const mapDispatchToProps = dispatch => ({
+  getUsername: (edge_account) =>
+  dispatch(getUsername(edge_account)),
   fetchAssets: () => dispatch(fetchAssets()),
   getHercId: () => dispatch(getHercId()),
   signOut: () => dispatch(signOut()),

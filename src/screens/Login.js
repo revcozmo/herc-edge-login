@@ -31,27 +31,27 @@ class Login extends Component {
       walletId: null,
       wallet: null
     }
-    makeEdgeContext({
-      // Replace this with your own API key from https://developer.airbitz.co:
-      apiKey: '0b5776a91bf409ac10a3fe5f3944bf50417209a0',
-      appId: 'com.mydomain.myapp',
-      vendorName: 'Chain Net',
-      vendorImageUrl: 'https://airbitz.co/go/wp-content/uploads/2016/10/GenericEdgeLoginIcon.png',
-      plugins: [ethereumCurrencyPluginFactory]
-    }).then(context => {
-      this.setState({ context })
-    })
-  }
+  makeEdgeContext({
+    // Replace this with your own API key from https://developer.airbitz.co:
+    apiKey: '0b5776a91bf409ac10a3fe5f3944bf50417209a0',
+    appId: 'com.mydomain.myapp',
+    vendorName: 'Chain Net',
+    vendorImageUrl: 'https://airbitz.co/go/wp-content/uploads/2016/10/GenericEdgeLoginIcon.png',
+    plugins: [ethereumCurrencyPluginFactory]
+  }).then(context => {
+    this.setState({ context })
+  })
+}
 
   onLogin = (error = null, account) => {
     console.log('ar: OnLogin error', error)
     console.log('ar: OnLogin account', account)
     if (!this.state.account) {
-      this.setState({ account })
+      this.setState({account})
       this.props.getAccount(account);
       this.props.getUsername(account.username);
       axios.get(WEB_SERVER_API_TOKEN + account.username)
-        .then(response => {
+        .then( response => {
           let token = response.data
           this.props.authToken(token)
           firebase.auth().signInWithCustomToken(token)
@@ -66,7 +66,7 @@ class Login extends Component {
             'Content-Type': 'application/x-www-form-urlencoded'
           };
         })
-        .catch(err => {
+        .catch ( err => {
           console.log(err)
         })
     }
@@ -74,15 +74,15 @@ class Login extends Component {
       // Check if there is a wallet, if not create it
       let walletInfo = account.getFirstWalletInfo('wallet:ethereum')
       if (walletInfo) {
-        this.setState({ walletId: walletInfo.id })
+        this.setState({walletId: walletInfo.id})
         account.waitForCurrencyWallet(walletInfo.id)
           .then(wallet => {
             this.props.getEthAddress(wallet.keys.ethereumAddress)
             this.props.getWallet(wallet)
             return wallet
           })
-          .then(async wallet => {
-            this.setState({ wallet })
+          .then(async wallet =>{
+            this.setState({wallet})
             console.log(wallet, "chance wallet")
             // const destWallet = '0xf9f22fbec78f9578de711cc2ac3d030dddb15f73'
             // const abcSpendInfo = {
@@ -114,7 +114,7 @@ class Login extends Component {
           this.props.getEthAddress(wallet.keys.ethereumAddress)
           this.props.getWallet(wallet)
           this.setState({ wallet })
-          this.setState({ walletId: wallet.id })
+          this.setState({walletId: wallet.id})
         })
       }
     }
@@ -145,10 +145,10 @@ class Login extends Component {
   };
 
   render() {
-    return (
-      <View style={styles.container}>{this.renderLoginApp()}</View>
-    );
-  }
+      return (
+        <View style={styles.container}>{this.renderLoginApp()}</View>
+      );
+    }
 }
 
 const styles = StyleSheet.create({
@@ -166,21 +166,21 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => ({
-  edge_account: state.AssetReducers.edge_account,
-  ethereumAddress: state.AssetReducers.getEthAddress,
-  wallet: state.AssetReducers.wallet
+    edge_account: state.AssetReducers.edge_account,
+    ethereumAddress: state.AssetReducers.getEthAddress,
+    wallet: state.AssetReducers.wallet
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  getUsername: (edge_account) =>
-    dispatch(getUsername(edge_account)),
-  authToken: (auth_token) =>
-    dispatch(authToken(auth_token)),
-  getEthAddress: (ethereumAddress) =>
-    dispatch(getEthAddress(ethereumAddress)),
-  getWallet: (wallet) =>
-    dispatch(getWallet(wallet)),
-  getAccount: (account) =>
-    dispatch(getAccount(account))
+    getUsername: (edge_account) =>
+        dispatch(getUsername(edge_account)),
+    authToken: (auth_token) =>
+              dispatch(authToken(auth_token)),
+    getEthAddress: (ethereumAddress) =>
+      dispatch(getEthAddress(ethereumAddress)),
+    getWallet: (wallet) =>
+      dispatch(getWallet(wallet)),
+    getAccount: (account) =>
+      dispatch(getAccount(account))
 })
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
