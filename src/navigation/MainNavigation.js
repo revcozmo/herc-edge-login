@@ -135,7 +135,7 @@ const MainNavigator = StackNavigator({ //this will be "createStackNavigator" aft
     Camera: { screen: Camera }
 
 }, {
-        initialRouteName: 'Login',
+        initialRouteName: 'MenuOptions',
         navigationOptions: ({ navigation }) => ({
 
             headerTitle:

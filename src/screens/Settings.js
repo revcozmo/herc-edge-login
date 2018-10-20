@@ -57,7 +57,7 @@ export class Settings extends Component {
     //  console.log('hooray im out!')
     // })
 
-    this.props.navigation.navigate('Login');
+    // this.props.navigation.navigate('Login');
   };
 
 
