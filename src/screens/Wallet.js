@@ -29,17 +29,26 @@ class Wallet extends React.Component {
   });
 
   componentDidMount = () => {
-    console.log(this.setState({ balance: this.props.wallet.getBalance(this.props.currencyCode) }))
-    console.log(this.props, 'props')
+    console.log(this.setState({ balance: this.props.wallet.getBalance(this.props.currencyCode) }));
+    console.log(this.props, 'props');
+    
+    var tokenTrx = {
+      currencyName: 'Tron',
+      contractAddress: '0xf230b790e05390fc8295f4d3f60332c93bed42e2',
+      currencyCode: 'TRX',
+      multiplier: '1000000000000000000'
+    };
+    
+   let trxWallet = await this.props.wallet.addCustomToken(tokenTrx);
 
+   console.log(trxWallet, "somthingwalletlike?")
     // this._getTotUs(this.props.balance);
   }
-
   // setModalVisible() {
-  //   console.log(this.state.modalVisible)
-  //   this.setState({ modalVisible: !this.state.modalVisible });
-  // }
-  _changeBalanceDenom = () => {
+    //   console.log(this.state.modalVisible)
+    //   this.setState({ modalVisible: !this.state.modalVisible });
+    // }
+    _changeBalanceDenom = () => {
     let converting = new BigNumber(this.state.balance);
 
       this.state.currentDenom === 'wei'
