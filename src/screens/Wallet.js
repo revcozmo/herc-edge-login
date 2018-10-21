@@ -32,16 +32,18 @@ class Wallet extends React.Component {
     console.log(this.setState({ balance: this.props.wallet.getBalance(this.props.currencyCode) }));
     console.log(this.props, 'props');
     
-    var tokenTrx = {
-      currencyName: 'Tron',
-      contractAddress: '0xf230b790e05390fc8295f4d3f60332c93bed42e2',
-      currencyCode: 'TRX',
-      multiplier: '1000000000000000000'
-    };
-    
-   let trxWallet = await this.props.wallet.addCustomToken(tokenTrx);
 
-   console.log(trxWallet, "somthingwalletlike?")
+    ////this makes the token in "customTokens"
+  //   var tokenTrx = {
+  //     currencyName: 'Tron',
+  //     contractAddress: '0xf230b790e05390fc8295f4d3f60332c93bed42e2',
+  //     currencyCode: 'TRX',
+  //     multiplier: '1000000000000000000'
+  //   };
+    
+  //  let trxWallet = await this.props.wallet.addCustomToken(tokenTrx);
+
+  //  console.log(trxWallet, "somthingwalletlike?")
     // this._getTotUs(this.props.balance);
   }
   // setModalVisible() {
