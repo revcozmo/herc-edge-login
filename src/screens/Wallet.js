@@ -31,9 +31,18 @@ class Wallet extends React.Component {
   componentDidMount = () => {
     console.log(this.setState({ balance: this.props.wallet.getBalance(this.props.currencyCode) }));
     console.log(this.props, 'props');
-    
+    let options = {currencyCode: 'TRX'};
 
-    ////this makes the token in "customTokens"
+    const trxReceiveAdd = this.props.wallet.getReceiveAddress(options, function(error, trxRecieveAdd) {
+     
+        if(!error) 
+        {
+          console.log(trxReceiveAdd)
+        }
+      });
+ 
+ 
+    ////  this makes the token in "customTokens"
   //   var tokenTrx = {
   //     currencyName: 'Tron',
   //     contractAddress: '0xf230b790e05390fc8295f4d3f60332c93bed42e2',
@@ -41,7 +50,7 @@ class Wallet extends React.Component {
   //     multiplier: '1000000000000000000'
   //   };
     
-  //  let trxWallet = await this.props.wallet.addCustomToken(tokenTrx);
+  //  let trxWallet = await this.props.wallet.addCustomToken(tokenTrx); ////trxwallet is undefined
 
   //  console.log(trxWallet, "somthingwalletlike?")
     // this._getTotUs(this.props.balance);
@@ -50,6 +59,8 @@ class Wallet extends React.Component {
     //   console.log(this.state.modalVisible)
     //   this.setState({ modalVisible: !this.state.modalVisible });
     // }
+   
+   
     _changeBalanceDenom = () => {
     let converting = new BigNumber(this.state.balance);
 

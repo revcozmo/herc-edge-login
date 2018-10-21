@@ -45,7 +45,7 @@ export const GET_ACCOUNT = 'getAccount';
 export const AUTH_TOKEN = 'authToken';
 export const GET_ORGANIZATION = 'getOrganization';
 
-/////  Eth Actions
+
 
 export const GET_LATEST_BLOCK = "getLatestBlock";
 export const FETCHING_DATA = 'FETCHING_DATA'
@@ -53,7 +53,9 @@ export const FETCHING_DATA_SUCCESS = 'FETCHING_DATA_SUCCESS'
 export const FETCHING_DATA_FAILURE = 'FETCHING_DATA_FAILURE'
 
 
-// LOGO ACTIONS
 
-export const HANDLE_IMAGE_PICKED = 'handleImagePicked';
-export const GOT_LOGO = 'gotLogo';
+
+// export const GETTING_IPFS = "gettingIpfs";
+// export const GOT_IPFS = "gotIpfs";
+// export const IPFS_ERROR = "ipfsError";
+// export const
