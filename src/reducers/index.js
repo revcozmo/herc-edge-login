@@ -9,7 +9,7 @@ import EDIT from './Edi-T-Sets'
 const rootReducer = combineReducers({
   AssetReducers,
   // Assets,
-  TransactionDataReducers,
+ // TransactionDataReducers,
   Web3Reducers,
   WalletActReducers,
   EDIT
