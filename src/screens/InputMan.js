@@ -15,10 +15,7 @@ class InputMan extends Component {
         const { params } = navigation.state;
         let headerStyles = StyleSheet.create({
             header__container: {
-                // borderColor: "green",
-                // borderWidth: 3,
                 display: "flex",
-                // resizeMode: "contain",
                 height: 80,
                 alignSelf: "center",
                 flex: 1,
@@ -29,32 +26,24 @@ class InputMan extends Component {
 
             },
             header__container__centeredBox: {
-                // borderColor: "purple",
-                // borderWidth: 3,
                 height: "100%",
                 alignItems: "center",
                 flexDirection: 'row'
             },
             header__text__box: {
-                // borderColor: "blue",
-                // borderWidth: 3,
                 height: "100%",
                 marginBottom: 5,
                 marginLeft: 12,
 
             },
             header__image__box: {
-                // borderColor: "yellow",
-                // borderWidth: 3,
                 height: "100%",
                 borderRadius: 100
-                // width: 50
             },
             assetHeaderLogo: {
                 height: 35,
                 width: 35,
                 borderRadius: 50,
-                // resizeMode: "contain",
             },
             headerText: {
                 fontFamily: "dinPro",
@@ -64,7 +53,6 @@ class InputMan extends Component {
                 color: "black",
                 textAlign: "center",
                 marginTop: 2,
-                // paddingTop: 5
             },
         })
 
@@ -96,15 +84,13 @@ class InputMan extends Component {
         this.state = {};
     }
     componentDidMount() {
-      console.log('inside InputMan.js')
+
     }
 
     _onSubmit = () => {
         const { navigate } = this.props.navigation;
         let attributes = this.state;
-        console.log(this.state, "stateInputesfilled?");
         this.props.addProps(attributes);
-        console.log("justaddedPRoperties");
         navigate('Confirm', { logo: this.props.logo, name: this.props.name });
     }
     render() {
@@ -227,8 +213,8 @@ const localStyles = StyleSheet.create({
     },
 
     nextButtonContainer: {
-        height: 40,
-        width: 150,
+        width: 200,
+        height: 45,
         alignSelf: "center",
         resizeMode: "contain"
     }

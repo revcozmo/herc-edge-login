@@ -191,7 +191,7 @@ const mapDispatchToProps = (dispatch) => ({
 const localStyles = StyleSheet.create({
   submitButton: {
     height: 40,
-    width: 175,
+    width: 200,
     resizeMode: "contain",
     marginTop: 80,
     alignSelf: "center"

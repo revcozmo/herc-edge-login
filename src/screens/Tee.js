@@ -200,9 +200,9 @@ class Tee extends Component {
 
   render() {
     let Logo;
-    if(this.state.Logo){
+    if (this.state.Logo) {
       Logo = this.state.Logo.uri
-    }else{
+    } else {
       Logo = null
     }
 
@@ -365,12 +365,11 @@ class Tee extends Component {
               <TouchableHighlight onPress={this._pickImage}>
                 <Image style={styles.menuButton} source={uploadPhoto} />
               </TouchableHighlight>
+              <TouchableHighlight onPress={() => this._onSubmit()}>
+                <Image style={localStyles.nextButtonContainer} source={next} />
+              </TouchableHighlight>
             </View>
           </ScrollView>
-
-          <TouchableHighlight onPress={() => this._onSubmit()}>
-            <Image style={localStyles.nextButtonContainer} source={next} />
-          </TouchableHighlight>
         </View>
       </View>
     );
@@ -412,7 +411,7 @@ const localStyles = StyleSheet.create({
   },
   nextButtonContainer: {
     height: 40,
-    width: 150,
+    width: 200,
     margin: 10,
     resizeMode: "contain"
   },
@@ -420,7 +419,6 @@ const localStyles = StyleSheet.create({
     justifyContent: "center",
     marginTop: 10,
     marginBottom: 15,
-    // backgroundColor: 'blue',
     alignItems: "center"
   },
   wordsText: {
@@ -452,9 +450,7 @@ const localStyles = StyleSheet.create({
 })
 
 const mapStateToProps = state => ({
-  // newAsset: state.AssetReducers.newAsset,
   hercId: state.AssetReducers.hercId
-  // newProperties: state.AssetReducers.selectedAsset.newProperties
 });
 const mapDispatchToProps = dispatch => ({
   addAsset: newAsset => dispatch(addAsset(newAsset)),
