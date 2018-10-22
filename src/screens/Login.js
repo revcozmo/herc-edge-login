@@ -11,7 +11,7 @@ import { YellowBox } from 'react-native';
 import { connect } from "react-redux";
 import axios from 'axios';
 import { ethereumCurrencyPluginFactory } from 'edge-currency-ethereum';
-import { getAccount, authToken, getEthAddress, getWallet } from "../actions/AssetActions";
+import { getUsername, authToken, getEthAddress, getWallet, getAccount } from "../actions/AssetActions";
 import { WEB_SERVER_API_TOKEN, WEB_SERVER_API_IDOLOGY_CHECK } from "../components/settings";
 import { makeEdgeContext } from 'edge-core-js';
 import firebase from "../constants/Firebase";
@@ -48,7 +48,8 @@ class Login extends Component {
     console.log('ar: OnLogin account', account)
     if (!this.state.account) {
       this.setState({account})
-      this.props.getAccount(account.username);
+      this.props.getAccount(account);
+      this.props.getUsername(account.username);
       axios.get(WEB_SERVER_API_TOKEN + account.username)
         .then( response => {
           let token = response.data
@@ -171,13 +172,15 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    getAccount: (edge_account) =>
-        dispatch(getAccount(edge_account)),
+    getUsername: (edge_account) =>
+        dispatch(getUsername(edge_account)),
     authToken: (auth_token) =>
               dispatch(authToken(auth_token)),
     getEthAddress: (ethereumAddress) =>
       dispatch(getEthAddress(ethereumAddress)),
     getWallet: (wallet) =>
-      dispatch(getWallet(wallet))
+      dispatch(getWallet(wallet)),
+    getAccount: (account) =>
+      dispatch(getAccount(account))
 })
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

@@ -13,6 +13,7 @@ import {
   ADD_DOC,
   ADD_PROPS,
   INC_HERC_ID,
+  GET_USERNAME,
   GET_ACCOUNT,
   GET_ORGANIZATION,
   GET_WALLET,
@@ -78,13 +79,6 @@ export function authToken(token) {
       token
     };
   }
-
-export function getAccount(edge_account) {
-  return {
-    type: GET_ACCOUNT,
-    edge_account
-  };
-}
 
 export function getEthAddress(ethereumAddress) {
   return {
@@ -318,4 +312,18 @@ export function getQRData(data) {
     type: GET_QR_DATA,
     data
   }
+}
+
+export function getUsername(edge_account) {
+  return {
+    type: GET_USERNAME,
+    edge_account
+  };
+}
+
+export function getAccount(account) {
+  return {
+    type: GET_ACCOUNT,
+    account
+  };
 }
