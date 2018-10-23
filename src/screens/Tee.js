@@ -400,7 +400,6 @@ const localStyles = StyleSheet.create({
     height: 36,
     textAlign: "center",
     backgroundColor: "#ffffff",
-
     fontSize: 15,
     fontWeight: "200",
     borderColor: "blue",
@@ -413,7 +412,7 @@ const localStyles = StyleSheet.create({
     height: 40,
     width: 200,
     margin: 10,
-    resizeMode: "contain"
+    // resizeMode: "contain"
   },
   imageButtonContainer: {
     justifyContent: "center",
