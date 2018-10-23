@@ -1,25 +1,26 @@
 import {
- ADD_ASSET,
- ADD_DOC,
- ADD_METRICS,
- ADD_PHOTO,
- CONFIRM_ASSET,
- DELETE_ASSET,
- GET_ASSETS,
- GET_ASSET_DEF,
- GET_HERC_ID,
- GET_ORIGIN_TRANS,
- GET_QR_DATA,
- GET_TRANS,
- GOT_ASSET_DEF,
- GOT_ASSET_TRANS,
- GOT_HERC_ID,
- GOT_LIST_ASSETS,
- INC_HERC_ID,
- SELECT_ASSET,
- SEND_TRANS,
- SET_SET,
- START_TRANS
+  ADD_ASSET,
+  ADD_DOC,
+  ADD_METRICS,
+  ADD_PHOTO,
+  CONFIRM_ASSET,
+  DELETE_ASSET,
+  GET_ASSETS,
+  GETTING_ASSET_DEF,
+  GET_HERC_ID,
+  GET_ORIGIN_TRANS,
+  GET_QR_DATA,
+  GET_TRANS,
+  GOT_ASSET_DEF,
+  ASSET_DEF_ERROR,
+  GOT_ASSET_TRANS,
+  GOT_HERC_ID,
+  GOT_LIST_ASSETS,
+  INC_HERC_ID,
+  SELECT_ASSET,
+  SEND_TRANS,
+  SET_SET,
+  START_TRANS
 } from "./types";
 import {
   WEB_SERVER_API_IPFS_GET,
@@ -92,17 +93,24 @@ function gotListAssets(assetList) {
 }
 
 export function selectAsset(asset) {
-    console.log(asset, 'asset in Select')
-    return {
-      type: SELECT_ASSET,
-      selectAsset: asset
-    }
+  console.log(asset, 'asset in Select')
+  return {
+    type: SELECT_ASSET,
+    selectAsset: asset
   }
-
+}
 
 export function getAssetDef(ipfsHash) {
   return dispatch => {
-    dispatch(gettingAssetDef());
+    dispatch(gettingAssetDef(ipfsHash))
+    return {
+      type: GETTING_ASSET_DEF
+    }
+  }
+}
+
+export function gettingAssetDef(ipfsHash) {
+  return dispatch => {
     console.log(ipfsHash, "keeping it simple.")
     let singleHash = ipfsHash;
     axios.get(WEB_SERVER_API_IPFS_GET, { params: singleHash })
@@ -112,7 +120,10 @@ export function getAssetDef(ipfsHash) {
         return assetDef
       })
       .then((assetDef) => dispatch(gotAssetDef(assetDef)))
-      .catch(err => { console.log(err) })
+      .catch(error => {
+        dispatch(assetDefError(error)),
+          console.log(err)
+      })
   }
 }
 
@@ -120,10 +131,20 @@ export function gotAssetDef(assetDef) {
   console.log(assetDef, "got the transactions list");
   return {
     type: GOT_ASSET_DEF,
-    
+
     ipfsDef: assetDef
   };
 }
+
+export function assetDefError(error) {
+  console.log(assetDef, "got the transactions list");
+  return {
+    type: ASSET_DEF_ERROR,
+    error
+  };
+}
+
+
 
 export function addAsset(newAsset) {
   return {

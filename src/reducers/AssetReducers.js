@@ -1,23 +1,25 @@
 import {
-  ADD_ASSET,
-  ADD_DOC,
-  ADD_METRICS,
-  ADD_PHOTO,
-  CONFIRM_ASSET,
-  DELETE_ASSET,
-  GET_HERC_ID,
-  GET_ORIGIN_TRANS,
-  GET_QR_DATA,
-  GET_TRANS,
-  GOT_ASSET_DEF,
-  GOT_ASSET_TRANS,
-  GOT_HERC_ID,
-  GOT_LIST_ASSETS,
-  INC_HERC_ID,
-  SELECT_ASSET,
-  SEND_TRANS,
-  SET_SET,
-  START_TRANS,
+    ADD_ASSET,
+    ADD_DOC,
+    ADD_METRICS,
+    ADD_PHOTO,
+    CONFIRM_ASSET,
+    DELETE_ASSET,
+    GET_HERC_ID,
+    GET_ORIGIN_TRANS,
+    GET_QR_DATA,
+    GET_TRANS,
+    GETTING_ASSET_DEF,
+    GOT_ASSET_DEF,
+    ASSET_DEF_ERROR,
+    GOT_ASSET_TRANS,
+    GOT_HERC_ID,
+    GOT_LIST_ASSETS,
+    INC_HERC_ID,
+    SELECT_ASSET,
+    SEND_TRANS,
+    SET_SET,
+    START_TRANS,
 } from '../actions/types';
 import firebase from '../constants/Firebase';
 const rootRef = firebase.database().ref();
@@ -53,8 +55,10 @@ import {
 const INITIAL_STATE = {
     assetFetching: false,
     assetFetched: false,
+    assetFetchError: false,
     assetDefFetching: false,
     assetDefFetched: false,
+    assetDefFetchError: false,
 };
 
 
@@ -70,12 +74,17 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
                 assets: assetLabels
             })
 
+        case GETTING_ASSET_DEF:
+            return {
+                assetDefFetching: true
+            }
+
         case GOT_ASSET_DEF:
 
             console.log(action, "action in GOT_ASSET_DEF REDUCER")
 
             return Object.assign({}, state, {
-                ...state,
+                assetDefFetching: false,
                 assetDefFetched: true,
                 selectedAsset:
                 {
@@ -84,6 +93,12 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
                     ipfsDef: action.ipfsDef
                 },
             })
+
+        case ASSET_DEF_ERROR:
+            return {
+                type: ASSET_DEF_ERROR,
+                error: action.error
+            }
 
         case SELECT_ASSET:
             return Object.assign({}, state, {

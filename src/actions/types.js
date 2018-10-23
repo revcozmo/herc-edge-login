@@ -8,10 +8,15 @@ export const INC_HERC_ID = 'incHercId';
 
 ///// ASSET TYPES //////
 export const GET_ASSETS = 'getAssets';
-export const GET_ASSET_DEF = 'getAssetDef';
-export const GOT_ASSET_DEF = 'gotAssetDef';
-export const GOT_LIST_ASSETS = 'gotListAssets';
 export const LIST_ASSETS = 'listAssets';
+export const GOT_LIST_ASSETS = 'gotListAssets';
+
+///// ASSET DEFINITION TYPES
+export const GET_ASSET_DEF = 'getAssetDef';
+export const GETTING_ASSET_DEF = 'gettingAssetDef';
+export const GOT_ASSET_DEF = 'gotAssetDef';
+export const ASSET_DEF_ERROR = 'assetDefError';
+
 export const SELECT_ASSET = 'selectAsset';
 export const ADD_ASSET = 'addAsset';
 export const CONFIRM_ASSET = 'confirmAsset';
