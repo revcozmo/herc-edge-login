@@ -177,7 +177,7 @@ const localStyles = StyleSheet.create({
   createNew__Box: {
     flexDirection: "row",
     width: 200,
-    height: 50,
+    height: 40,
     backgroundColor: 'white',
     borderRadius: 2,
     alignItems: "center",

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, TextInput, View, Image, TouchableHighlight, Alert,YellowBox } from 'react-native';
+import { Platform, StyleSheet, Text, TextInput, View, Image, TouchableHighlight, Alert, YellowBox } from 'react-native';
 import logo from "../assets/round.png";
 import { STATUS_BAR_HEIGHT } from '../constants';
 import begin from "../components/buttons/beginBtn.png";
@@ -67,11 +67,11 @@ export default class Create extends Component {
     })
     return {
       headerTitle: (
-       
+
         <View style={headerStyles.header__container}>
           <View style={headerStyles.header__container__centeredBox}>
             <View style={headerStyles.header__image__box}>
-            
+
               <Image
                 style={headerStyles.assetHeaderLogo}
                 source={logo}
@@ -95,7 +95,7 @@ export default class Create extends Component {
     })
   }
 
- 
+
   render() {
     const { navigate } = this.props.navigation;
     console.log(this.state)
@@ -112,9 +112,13 @@ export default class Create extends Component {
             <Image source={begin} style={localStyles.menuButton} />
           </TouchableHighlight>
           {this.state.info && <View style={localStyles.copyContainer}>
-            <Text style={localStyles.copy}>Whattup! I'm copy!</Text>
+            <Text style={localStyles.copy}>
+              Create a New Asset by defining its Name, URL, Up to 8 Metrics,
+              and choosing a photo. This asset can be unique to either an
+              individual part or a batch of a specific item. Be as succicint
+              as possible as these asset metrics cannot be redefined later.
+              </Text>
           </View>}
-
         </View>
       </View>
 
@@ -125,7 +129,7 @@ export default class Create extends Component {
 
 
 const localStyles = StyleSheet.create({
-  
+
   menuButton: {
     // borderColor: "yellow",
     // borderWidth: 3,
@@ -139,13 +143,12 @@ const localStyles = StyleSheet.create({
     // borderColor: "black"
   },
   copyContainer: {
-    height: 200,
-    width: 200,
-    backgroundColor: "blue"
+    // backgroundColor: "blue"
   },
   copy: {
-    fontSize: 25,
-    color: "yellow",
+    textAlign: "center",
+    fontSize: 20,
+    color: "white",
     textAlign: "center"
   }
 

@@ -229,7 +229,7 @@ const localStyles = StyleSheet.create({
   
   submitButton: {
     height: 40,
-    width: 175,
+    width: 200,
     resizeMode: "contain",
     marginTop: 20,
     alignSelf: "center"
