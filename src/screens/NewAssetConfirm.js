@@ -57,10 +57,10 @@ class NewAssetConfirm extends Component {
             date: Date.now()
         });
 
-        fbAsset = Object.assign({}, {
+        fbAsset = {
             Name: newAsset.Name,
             Logo: downloadURL,
-        })
+        }
 
       console.log(ipfsAsset, fbAsset, "right before the send chance")
 

@@ -45,10 +45,9 @@ export function getHercId() {
 }
 
 export function gotHercId(hercId) {
-  let id = hercId;
   return {
     type: GOT_HERC_ID,
-    hercId: id
+    hercId: hercId
   };
 }
 
@@ -83,7 +82,7 @@ export function getAssets(userName) {
 
 
 function gotListAssets(assetList) {
-  console.log("gotLIstAssetsAction", assetList)
+  console.log("gotListAssetsAction", assetList)
   return (
     {
       type: GOT_LIST_ASSETS,
@@ -138,7 +137,7 @@ export function confirmAsset(assetForIPFS) {
   // let Logo = confirmedAsset.Logo
   // let assetWithLogo = await uploadAssetLogo(Logo.uri)
 
-  console.log("confirming asset", newAsset);
+  console.log("confirming asset chance", newAsset);
 
   return {
     type: CONFIRM_ASSET,

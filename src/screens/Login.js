@@ -62,6 +62,14 @@ class Login extends Component {
             'Content-Type': 'application/x-www-form-urlencoded'
           };
         })
+        .then(() => {
+          axios.get(WEB_SERVER_API_IDOLOGY_CHECK)
+          .then(response => {
+            const { navigate } = this.props.navigation;
+            response.data.status == "true" ? navigate('MenuOptions') : navigate('Identity');
+          })
+          .catch( err => { console.log(err) })
+        })
         .catch ( err => { console.log(err) })
     }
     if (!this.state.walletId) {
@@ -115,15 +123,6 @@ class Login extends Component {
   }
 
   renderLoginApp = () => {
-    if (this.state.account) { // && this.state.walletId (slow down the race condition)
-      axios.get(WEB_SERVER_API_IDOLOGY_CHECK)
-        .then(response => {
-          const { navigate } = this.props.navigation;
-          response.data.status == "true" ? navigate('MenuOptions') : navigate('Identity');
-        })
-        .catch( err => { console.log(err) })
-    }
-
     if (this.state.context && !this.state.account) {
       return (
         <LoginScreen

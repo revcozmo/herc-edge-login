@@ -3,7 +3,7 @@ import { combineReducers } from 'redux';
 import Web3Reducers from './Web3Reducers';
 import AssetReducers from './AssetReducers';
 import TransactionDataReducers from './TransactionDataReducers';
-import WalletActReducers from './WalletAcctReducers';
+import WalletActReducers from './WalletActReducers';
 import EDIT from './Edi-T-Sets'
   ;
 const rootReducer = combineReducers({

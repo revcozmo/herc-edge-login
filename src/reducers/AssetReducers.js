@@ -5,8 +5,6 @@ import {
   ADD_PHOTO,
   CONFIRM_ASSET,
   DELETE_ASSET,
-  GET_ASSETS,
-  GET_ASSET_DEF,
   GET_HERC_ID,
   GET_ORIGIN_TRANS,
   GET_QR_DATA,
@@ -64,6 +62,7 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
     switch (action.type) {
 
         case GOT_LIST_ASSETS:
+            console.log(state, "chance")
             console.log(action, " GOT_LIST_ASSETS Action")
             let assetLabels = action.assets;
             return Object.assign({}, state, {
@@ -246,7 +245,7 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
 
         case ADD_ASSET:
             const newAsset = action.newAsset;
-            console.log('adding asset', newAsset.name, newAsset)
+            console.log('adding asset', newAsset.Name)
             return Object.assign({}, state, {
                 ...state,
                 newAsset
@@ -254,8 +253,9 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
 
         case CONFIRM_ASSET:
             const asset = action.newAsset;
+            console.log(store, 'chance edge_account')
             console.log(asset, 'asset in reducerconfirm', state, 'state')
-            console.log(state.edge_account)
+            debugger;
 
             rootRef.child('idology').child(state.edge_account).once('value').then(snapshot => {
                 console.log(snapshot.val(), "chance snapshot")
