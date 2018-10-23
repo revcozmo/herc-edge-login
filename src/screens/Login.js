@@ -85,7 +85,6 @@ class Login extends Component {
             return wallet
           })
           // .then(async wallet =>{
-          //   console.log(wallet, "chance wallet")
             // const destWallet = '0xf9f22fbec78f9578de711cc2ac3d030dddb15f73'
             // const abcSpendInfo = {
             //   networkFeeOption: 'standard',
@@ -106,7 +105,7 @@ class Login extends Component {
             // await wallet.broadcastTx(abcTransaction)
             // await wallet.saveTx(abcTransaction)
             //
-            // console.log("chance Sent transaction with ID = " + abcTransaction.txid)
+            // console.log("Sent transaction with ID = " + abcTransaction.txid)
           // })
       } else {
         account.createCurrencyWallet('wallet:ethereum', {
