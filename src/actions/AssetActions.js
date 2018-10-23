@@ -169,7 +169,7 @@ export function selectAsset(asset) {
 export function getAssetDef(ipfsHash) {
 
   return dispatch => {
-    dispatch()
+    dispatch(gettingAssetDef());
     console.log(ipfsHash, "keeping it simple.")
     let singleHash = ipfsHash;
 
@@ -189,6 +189,7 @@ export function gotAssetDef(assetDef) {
   console.log(assetDef, "got the transactions list");
   return {
     type: GOT_ASSET_DEF,
+    
     ipfsDef: assetDef
   };
 }
