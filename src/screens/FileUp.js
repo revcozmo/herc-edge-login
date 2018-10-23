@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Platform, StyleSheet, Text, View, Image, ScrollView, TouchableHighlight, Alert } from 'react-native';
 
-import { STATUS_BAR_HEIGHT } from '../constants';
 import { StackNavigator } from 'react-navigation';
 import styles from '../assets/styles';
 import { connect } from 'react-redux';
@@ -75,7 +74,7 @@ class FileUp extends Component {
     return {
 
       headerTitle:
-       
+
         <View style={headerStyles.header__container}>
           <View style={headerStyles.header__container__centeredBox}>
             <View style={headerStyles.header__image__box}>
@@ -134,9 +133,9 @@ class FileUp extends Component {
   }
   _pickImage = () => {
     console.log("picking image")
-   
+
     ImagePicker.launchImageLibrary({}, (response) => {
-     
+
       if (response.didCancel) {
         console.log('User cancelled image picker');
       }
@@ -148,7 +147,7 @@ class FileUp extends Component {
       }
       else {
         let source = { uri: response.uri };
-     
+
         this.setState({
           image: "data:image/jpg;base64," + response.data,
           size: response.fileSize,
@@ -188,7 +187,7 @@ class FileUp extends Component {
             image &&
             <Image source={{ uri: image.image }} style={{ width: 200, height: 200, margin: 10 }} />
           }
-         
+
           <TouchableHighlight onPress={() => this._pickImage()}>
             <Image style={styles.menuButton} source={uploadImage} />
           </TouchableHighlight>
@@ -226,7 +225,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(FileUp);
 
 
 const localStyles = StyleSheet.create({
-  
+
   submitButton: {
     height: 40,
     width: 200,

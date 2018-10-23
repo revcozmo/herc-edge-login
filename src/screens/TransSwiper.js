@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { StyleSheet, Platform, TextInput, Text, View, Image, ScrollView, TouchableHighlight, Alert, TouchableNativeFeedback } from 'react-native';
-import { STATUS_BAR_HEIGHT } from '../constants';
 import { StackNavigator } from 'react-navigation';
 import Swiper from '../components/TxSwiper';
 import { connect } from "react-redux";
@@ -24,7 +23,7 @@ class TransSwiper extends Component {
               alignItems: "center",
               marginTop: 40,
               paddingBottom: 20
-      
+
             },
             header__container__centeredBox: {
               // borderColor: "purple",
@@ -39,7 +38,7 @@ class TransSwiper extends Component {
               height: "100%",
               marginBottom: 5,
               marginLeft: 12,
-              
+
             },
             header__image__box: {
               // borderColor: "yellow",
@@ -103,7 +102,7 @@ class TransSwiper extends Component {
     componentDidMount() {
         console.log(this.props.transactions, 'Swiper Here');
         console.log(this.state.transactions, 'state transactions')
-       
+
     }
     // _renderCards() {
     //     if(this.props.asset.hasOwnProperty('transactions')){
@@ -121,9 +120,9 @@ class TransSwiper extends Component {
     let cards = this.state.transactions.map(x => x);
 
         return (
-         
+
                 <Swiper cards={cards} />
-         
+
         )
     }
 

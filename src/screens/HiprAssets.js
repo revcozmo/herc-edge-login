@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, Image, ScrollView, TouchableHighlight, Alert, Platform } from 'react-native';
 import { StackNavigator } from 'react-navigation';
-import { STATUS_BAR_HEIGHT } from '../constants';
 import { connect } from 'react-redux';
 import hiprLogo from "../assets/hiprLogo.png";
 import styles from '../assets/styles';
@@ -162,7 +161,7 @@ const localStyles = StyleSheet.create({
     paddingLeft: 5,
     // justifyContent: "space-between"
   },
- 
+
   menuItemField: {
     display: "flex",
     flexDirection: "row",

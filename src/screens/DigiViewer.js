@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Platform, StyleSheet, Text, TextInput, View, Image, TouchableHighlight, Alert } from 'react-native';
-import { STATUS_BAR_HEIGHT } from '../constants';
 
 import hLogo from "../assets/hercLogoPillar.png";
 
@@ -170,7 +169,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     margin: 5
 
-    // height: 
+    // height:
 
   },
   feeLabel: {

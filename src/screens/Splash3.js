@@ -12,7 +12,6 @@ import {
   TouchableNativeFeedback,
   StatusBar,
 } from "react-native";
-import { STATUS_BAR_HEIGHT } from "../constants";
 
 import { StackNavigator } from "react-navigation";
 

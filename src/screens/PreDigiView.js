@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, ScrollView, View, Image, TouchableHighlight, Alert } from 'react-native';
 import { StackNavigator } from 'react-navigation';
-import { STATUS_BAR_HEIGHT } from '../constants';
 import { connect } from 'react-redux';
 import styles from '../assets/styles';
 
@@ -10,10 +9,10 @@ class PreDigi extends Component {
   // static navigationOptions = ({ navigation }) => ({
   //   // headerTitle: <Image source={supply} style={{ height: 50, width: 250, marginLeft: 20 }} />,
   // })
-  
+
   _onPress = (asset) => {
     const { navigate } = this.props.navigation;
-    
+
     navigate("Digi", { logo: asset.logo, name: asset.name });
   }
   render() {

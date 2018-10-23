@@ -7,7 +7,6 @@ import {
   Image,
   ScrollView
 } from "react-native";
-import { STATUS_BAR_HEIGHT } from "../constants";
 import styles from "../assets/styles";
 import { connect } from "react-redux";
 
@@ -79,7 +78,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  
+
   // fetchContract: (abi) => dispatch(fetchContract(abi))
 })
 

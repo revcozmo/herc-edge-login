@@ -7,11 +7,10 @@ import styles from '../assets/styles';
 import info from "../components/buttons/infoBtn.png";
 import begin from "../components/buttons/beginBtn.png";
 import hiprLogo from "../assets/hiprLogo.png";
-import { STATUS_BAR_HEIGHT } from '../constants';
 import hiprText from "../assets/hiprText";
- 
+
 export default class PreHIPR extends Component {
- 
+
   static navigationOptions = ({ navigation }) => {
     let headerStyles = StyleSheet.create({
       header__container: {
@@ -26,7 +25,7 @@ export default class PreHIPR extends Component {
         alignItems: "center",
         marginTop: 40,
         paddingBottom: 20
- 
+
       },
       header__container__centeredBox: {
         // borderColor: "purple",
@@ -41,7 +40,7 @@ export default class PreHIPR extends Component {
         height: "100%",
         marginBottom: 5,
         marginLeft: 12,
- 
+
       },
       header__image__box: {
         // borderColor: "yellow",
@@ -69,11 +68,11 @@ export default class PreHIPR extends Component {
     })
     return {
       headerTitle: (
- 
+
         <View style={headerStyles.header__container}>
           <View style={headerStyles.header__container__centeredBox}>
             <View style={headerStyles.header__image__box}>
- 
+
               <Image
                 style={headerStyles.assetHeaderLogo}
                 source={hiprLogo}
@@ -89,27 +88,27 @@ export default class PreHIPR extends Component {
   }
   state = {
     info: false
- 
+
   }
- 
+
   _toggleShow = () => {
     this.setState({
       info: !this.state.info
     })
   }
- 
+
   render() {
     const { navigate } = this.props.navigation;
     console.log(this.state)
     return (
- 
+
       <View style={styles.container}>
         <View style={[styles.containerCenter, { paddingTop: 59 }]}>
- 
+
           <TouchableHighlight onPress={() => this._toggleShow()}>
             <Image source={info} style={localStyles.menuButton} />
           </TouchableHighlight>
- 
+
           <TouchableHighlight onPress={() => navigate('HiprAssets')}>
             <Image source={begin} style={localStyles.menuButton} />
           </TouchableHighlight>
@@ -120,15 +119,15 @@ export default class PreHIPR extends Component {
           }
         </View>
       </View>
- 
- 
+
+
     )
   };
 }
- 
- 
+
+
 const localStyles = StyleSheet.create({
- 
+
   headerField: {
     flexDirection: "row",
     width: 200,
@@ -152,7 +151,7 @@ const localStyles = StyleSheet.create({
     color: "black",
     textAlign: "center"
   },
- 
+
   menuButton: {
     // borderColor: "yellow",
     // borderWidth: 3,
@@ -175,5 +174,5 @@ const localStyles = StyleSheet.create({
     color: "yellow",
     textAlign: "center"
   }
- 
+
 })

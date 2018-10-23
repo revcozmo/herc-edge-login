@@ -12,7 +12,6 @@ import {
   StatusBar,
 } from "react-native";
 import { createStackNavigator } from "react-navigation";
-import { STATUS_BAR_HEIGHT } from "../constants";
 import { connect } from "react-redux";
 import Button from "react-native-button";
 import styles from "../assets/styles";

@@ -55,20 +55,14 @@ class Login extends Component {
           let token = response.data
           this.props.authToken(token)
           firebase.auth().signInWithCustomToken(token)
-            .then(user_login => {
-              console.log(user_login, "chance userlogin")
-            })
-            .catch(error => {
-              console.log(error)
-            })
+            .then( user_login => { console.log(user_login, "firebase userlogin") })
+            .catch( error => { console.log(error) })
           axios.defaults.headers.common = {
             'Authorization': token,
             'Content-Type': 'application/x-www-form-urlencoded'
           };
         })
-        .catch ( err => {
-          console.log(err)
-        })
+        .catch ( err => { console.log(err) })
     }
     if (!this.state.walletId) {
       // Check if there is a wallet, if not create it
@@ -79,11 +73,11 @@ class Login extends Component {
           .then(wallet => {
             this.props.getEthAddress(wallet.keys.ethereumAddress)
             this.props.getWallet(wallet)
+            this.setState({wallet})
             return wallet
           })
-          .then(async wallet =>{
-            this.setState({wallet})
-            console.log(wallet, "chance wallet")
+          // .then(async wallet =>{
+          //   console.log(wallet, "chance wallet")
             // const destWallet = '0xf9f22fbec78f9578de711cc2ac3d030dddb15f73'
             // const abcSpendInfo = {
             //   networkFeeOption: 'standard',
@@ -105,7 +99,7 @@ class Login extends Component {
             // await wallet.saveTx(abcTransaction)
             //
             // console.log("chance Sent transaction with ID = " + abcTransaction.txid)
-          })
+          // })
       } else {
         account.createCurrencyWallet('wallet:ethereum', {
           name: 'My First Wallet',
@@ -121,15 +115,13 @@ class Login extends Component {
   }
 
   renderLoginApp = () => {
-    if (this.state.account) {
+    if (this.state.account) { // && this.state.walletId (slow down the race condition)
       axios.get(WEB_SERVER_API_IDOLOGY_CHECK)
         .then(response => {
           const { navigate } = this.props.navigation;
           response.data.status == "true" ? navigate('MenuOptions') : navigate('Identity');
         })
-        .catch(err => {
-          console.log(err)
-        })
+        .catch( err => { console.log(err) })
     }
 
     if (this.state.context && !this.state.account) {

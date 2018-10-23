@@ -11,7 +11,6 @@ import {
   TouchableNativeFeedback,
   StatusBar,
 } from "react-native";
-// import { STATUS_BAR_HEIGHT } from "../constants";
 import { createStackNavigator } from "react-navigation";
 import styles from "../assets/styles";
 import { connect } from "react-redux";

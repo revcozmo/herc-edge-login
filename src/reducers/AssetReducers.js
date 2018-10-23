@@ -1,30 +1,25 @@
 import {
-    GOT_LIST_ASSETS,
-    LIST_ASSETS,
-    GET_ASSETS,
-    ADD_ASSET,
-    SELECT_ASSET,
-    START_TRANS,
-    SEND_TRANS,
-    GET_TRANS,
-    GOT_ASSET_TRANS,
-    ADD_PHOTO,
-    ADD_DOC,
-    ADD_METRICS,
-    INC_HERC_ID,
-    GET_USERNAME,
-    GET_ACCOUNT,
-    GET_ETH_ADDRESS,
-    GET_ORGANIZATION,
-    GET_WALLET,
-    GET_HERC_ID,
-    GOT_HERC_ID,
-    CONFIRM_ASSET,
-    SET_SET,
-    DELETE_ASSET,
-    AUTH_TOKEN,
-    GOT_ASSET_DEF
-
+  ADD_ASSET,
+  ADD_DOC,
+  ADD_METRICS,
+  ADD_PHOTO,
+  CONFIRM_ASSET,
+  DELETE_ASSET,
+  GET_ASSETS,
+  GET_ASSET_DEF,
+  GET_HERC_ID,
+  GET_ORIGIN_TRANS,
+  GET_QR_DATA,
+  GET_TRANS,
+  GOT_ASSET_DEF,
+  GOT_ASSET_TRANS,
+  GOT_HERC_ID,
+  GOT_LIST_ASSETS,
+  INC_HERC_ID,
+  SELECT_ASSET,
+  SEND_TRANS,
+  SET_SET,
+  START_TRANS,
 } from '../actions/types';
 import firebase from '../constants/Firebase';
 const rootRef = firebase.database().ref();
@@ -69,17 +64,16 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
     switch (action.type) {
 
         case GOT_LIST_ASSETS:
-            console.log(action, "getAsset Action")
+            console.log(action, " GOT_LIST_ASSETS Action")
             let assetLabels = action.assets;
             return Object.assign({}, state, {
                 ...state,
                 assets: assetLabels
-
             })
 
         case GOT_ASSET_DEF:
 
-            console.log(action, "action in GOTASSETDEF REDUCER")
+            console.log(action, "action in GOT_ASSET_DEF REDUCER")
 
             return Object.assign({}, state, {
                 ...state,
@@ -93,19 +87,17 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
             })
 
         case SELECT_ASSET:
-            // console.log(action, 'action in select reducer');
             return Object.assign({}, state, {
                 ...state,
                 assetFetching: false,
                 assetFetched: true,
                 selectedAsset: action.selectAsset
-
             })
 
 
         case START_TRANS:
             let trans = action.data;
-            console.log(state.selectedAsset.Name, "selectedAssetName in startTrans reducer")
+            console.log(state.selectedAsset.Name, "selectedAssetName in START_TRANS reducer")
 
             return Object.assign({}, state, {
                 ...state,
@@ -184,61 +176,23 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
 
         case GOT_HERC_ID:
             let hercId = action.hercId;
-            console.log(hercId, action, "hercidstuff")
+            console.log(hercId, action, "herc id stuff")
             return Object.assign({}, state, {
                 ...state,
-
                 hercId
             })
 
         case INC_HERC_ID:
             let hercID = action.hercIdplus1;
             console.log(hercID, "in increase reducer");
-
             rootRef.child("hercID").set(hercID);
-
             return Object.assign({}, state, {
                 ...state,
                 hercId
             });
 
-        // case AUTH_TOKEN:
-        //     let token = action.token;
-        //     // console.log('Token captured in reducer', token);
-        //     return Object.assign({}, state, {
-        //         ...state,
-        //         auth_token: token
-        //     })
 
 
-        // case GET_ACCOUNT:
-        //     let edge_account = action.edge_account;
-        //     return Object.assign({}, state, {
-        //         ...state,
-        //         edge_account: edge_account
-        //     })
-
-
-        // case GET_ETH_ADDRESS:
-        //     let ethereumAddress = action.ethereumAddress;
-        //     return Object.assign({}, state, {
-        //         ...state,
-        //         ethereumAddress: ethereumAddress
-        //     })
-
-        // case GET_WALLET:
-        //     let wallet = action.wallet;
-        //     return Object.assign({}, state, {
-        //         ...state,
-        //         wallet
-        //     })
-
-        // case GET_ORGANIZATION:
-        //     let organizationName = action.organizationName;
-        //     return Object.assign({}, state, {
-        //         ...state,
-        //         organizationName: organizationName
-        //     })
 
         case ADD_PHOTO:
             let image = {
@@ -259,19 +213,6 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
                 }
             })
 
-        // case GOT_LOGO:
-        // let logoURl = action.Logo;
-        // return{
-        //     ...state,
-        //     AssetReducers:{
-        //         ...state.AssetReducers,
-        //         newAsset: {
-        //             ...state.AssetReducers.newAsset,
-        //             Logo: logoURl
-        //         },
-
-        //     }
-        // }
 
         case ADD_DOC:
             let doc = action.document;
@@ -305,7 +246,7 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
 
         case ADD_ASSET:
             const newAsset = action.newAsset;
-            console.log('adding asset', newAsset.name)
+            console.log('adding asset', newAsset.name, newAsset)
             return Object.assign({}, state, {
                 ...state,
                 newAsset
@@ -372,19 +313,6 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
                 }
             })
 
-        case GET_USERNAME:
-            let edge_account = action.edge_account;
-            return Object.assign({}, state, {
-                ...state,
-                edge_account: edge_account
-            })
-
-        case GET_ACCOUNT:
-            let account = action.account;
-            return Object.assign({}, state, {
-                ...state,
-                account
-            })
 
         case DELETE_ASSET:
             const key = action.delKey;

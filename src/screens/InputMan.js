@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Platform, StyleSheet, Text, View, Image, ScrollView, TextInput, TouchableHighlight } from 'react-native';
-import { STATUS_BAR_HEIGHT } from '../constants';
 import styles from "../assets/styles";
 import originator from "../components/buttons/originatorButton.png";
 import recipient from "../components/buttons/recipientButton.png";

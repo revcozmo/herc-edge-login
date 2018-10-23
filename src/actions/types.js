@@ -12,12 +12,9 @@ export const GET_ASSET_DEF = 'getAssetDef';
 export const GOT_ASSET_DEF = 'gotAssetDef';
 export const GOT_LIST_ASSETS = 'gotListAssets';
 export const LIST_ASSETS = 'listAssets';
-
 export const SELECT_ASSET = 'selectAsset';
-
 export const ADD_ASSET = 'addAsset';
 export const CONFIRM_ASSET = 'confirmAsset';
-
 export const DELETE_ASSET = 'deleteAsset';
 
 
@@ -36,15 +33,13 @@ export const GOT_ASSET_TRANS = 'gotAssetTrans';
 ///// WALLET TYPES /////
 
 export const GET_ETH_ADDRESS = 'getEthAddress';
-
+export const GET_USERNAME = 'getUsername';
 export const GET_WALLET = 'getWallet';
+export const GET_ACCOUNT = 'getAccount';
 
 ///// ACCOUNT TYPES /////
-
-export const GET_ACCOUNT = 'getAccount';
 export const AUTH_TOKEN = 'authToken';
 export const GET_ORGANIZATION = 'getOrganization';
-
 
 
 export const GET_LATEST_BLOCK = "getLatestBlock";
@@ -54,12 +49,3 @@ export const FETCHING_DATA_FAILURE = 'FETCHING_DATA_FAILURE'
 
 export const HANDLE_IMAGE_PICKED = 'handleImagePicked';
 export const GOT_LOGO = 'gotLogo';
-
-
-export const GET_USERNAME = 'getUsername';
-
-
-// export const GETTING_IPFS = "gettingIpfs";
-// export const GOT_IPFS = "gotIpfs";
-// export const IPFS_ERROR = "ipfsError";
-// export const
