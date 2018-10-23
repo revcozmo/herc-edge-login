@@ -60,15 +60,17 @@ class InputMan extends Component {
                 <View style={headerStyles.header__container}>
                     <View style={headerStyles.header__container__centeredBox}>
                         <View style={headerStyles.header__image__box}>
-                            <TouchableHighlight style={{ justifyContent: "center" }} onPress={() => navigation.navigate("MenuOptions")}>
-                                <Image
-                                    style={headerStyles.assetHeaderLogo}
-                                    source={{ uri: params.logo }}
-                                />
-                            </TouchableHighlight>
-                        </View>
-                        <View style={headerStyles.header__text__box}>
-                            <Text style={headerStyles.headerText}>{params.name}</Text>
+                          <TouchableHighlight style={{justifyContent: "center"}} onPress={() => navigation.navigate("MenuOptions")}>
+                            <View>
+                              <Image
+                                style={headerStyles.assetHeaderLogo}
+                                source={{ uri: params.logo }}
+                              />
+                              <View style={headerStyles.header__text__box}>
+                                <Text style={headerStyles.headerText}>{params.name}</Text>
+                              </View>
+                            </View>
+                        </TouchableHighlight>
                         </View>
                     </View>
                 </View>
@@ -151,7 +153,6 @@ const localStyles = StyleSheet.create({
         width: 35,
         borderRadius: 35 / 2,
         resizeMode: "contain",
-
     },
     headerTitle: {
         fontFamily: "dinPro",
@@ -185,7 +186,6 @@ const localStyles = StyleSheet.create({
         height: 36,
         textAlign: "center",
         backgroundColor: "#ffffff",
-
         fontSize: 15,
         fontWeight: "200",
         borderColor: "blue",
