@@ -102,10 +102,8 @@ export function selectAsset(asset) {
 
 export function getAssetDef(ipfsHash) {
   return dispatch => {
-    dispatch()
     console.log(ipfsHash, "keeping it simple.")
     let singleHash = ipfsHash;
-
     axios.get(WEB_SERVER_API_IPFS_GET, { params: singleHash })
       .then(response => {
         let assetDef = response.data[0];
