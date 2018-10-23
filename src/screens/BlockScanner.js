@@ -28,15 +28,7 @@ import JSONTree from "react-native-json-tree";
           </TouchableHighlight>
           <Text style={styles.headerText}>{params.name}</Text>
         </View>
-      ),
-      // headerTitleStyle: {
-      //   height: 50,
-      //   width: 200,
-      //   alignSelf: "center",
-      //   justifyContent: "center",
-      //   flexDirection: "row",
-      //   marginLeft: 20
-      // }
+      )
     };
   };
 
