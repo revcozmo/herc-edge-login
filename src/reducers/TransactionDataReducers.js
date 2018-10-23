@@ -7,7 +7,7 @@ import {
   FACT_ERROR
 } from '../actions/TransactionDataTypes';
 
-const initialState = {
+const INITIAL_STATE = {
   transResponseData: [],
   ipfsIsFetching: false,
   ipfsIsFetched: false,
@@ -18,7 +18,7 @@ const initialState = {
   transError: ""
 }
 
-export default function TransactionDataReducers(state = initialState, action) {
+export default function TransactionDataReducers(state = INITIAL_STATE, action) {
   switch (action.type) {
 
     case FETCHING_IPFS:
@@ -66,7 +66,7 @@ export default function TransactionDataReducers(state = initialState, action) {
 
       case CLEAR_STATE:
       return initialState
-      
+
     default:
       return state
   }

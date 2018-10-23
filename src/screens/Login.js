@@ -11,7 +11,7 @@ import { YellowBox } from 'react-native';
 import { connect } from "react-redux";
 import axios from 'axios';
 import { ethereumCurrencyPluginFactory } from 'edge-currency-ethereum';
-import { getAccount, authToken, getEthAddress, getWallet } from "../actions/WalletActActions";
+import { getUsername, getAccount, authToken, getEthAddress, getWallet } from "../actions/WalletActActions";
 import { WEB_SERVER_API_TOKEN, WEB_SERVER_API_IDOLOGY_CHECK } from "../components/settings";
 import { makeEdgeContext } from 'edge-core-js';
 import firebase from "../constants/Firebase";
@@ -48,26 +48,29 @@ class Login extends Component {
     console.log('ar: OnLogin account', account)
     if (!this.state.account) {
       this.setState({account})
-      this.props.getAccount(account.username);
+      this.props.getAccount(account);
+      this.props.getUsername(account.username);
       axios.get(WEB_SERVER_API_TOKEN + account.username)
         .then( response => {
           let token = response.data
           this.props.authToken(token)
           firebase.auth().signInWithCustomToken(token)
-            .then(user_login => {
-              console.log(user_login, "chance userlogin")
-            })
-            .catch(error => {
-              console.log(error)
-            })
+            .then( user_login => { console.log(user_login, "firebase userlogin") })
+            .catch( error => { console.log(error) })
           axios.defaults.headers.common = {
             'Authorization': token,
             'Content-Type': 'application/x-www-form-urlencoded'
           };
         })
-        .catch ( err => {
-          console.log(err)
+        .then(() => {
+          axios.get(WEB_SERVER_API_IDOLOGY_CHECK)
+          .then(response => {
+            const { navigate } = this.props.navigation;
+            response.data.status == "true" ? navigate('MenuOptions') : navigate('Identity');
+          })
+          .catch( err => { console.log(err) })
         })
+        .catch ( err => { console.log(err) })
     }
     if (!this.state.walletId) {
       // Check if there is a wallet, if not create it
@@ -78,11 +81,11 @@ class Login extends Component {
           .then(wallet => {
             this.props.getEthAddress(wallet.keys.ethereumAddress)
             this.props.getWallet(wallet)
+            this.setState({wallet})
             return wallet
           })
-          .then(async wallet =>{
-            this.setState({wallet})
-            console.log(wallet, "chance wallet")
+          // .then(async wallet =>{
+          //   console.log(wallet, "chance wallet")
             // const destWallet = '0xf9f22fbec78f9578de711cc2ac3d030dddb15f73'
             // const abcSpendInfo = {
             //   networkFeeOption: 'standard',
@@ -104,7 +107,7 @@ class Login extends Component {
             // await wallet.saveTx(abcTransaction)
             //
             // console.log("chance Sent transaction with ID = " + abcTransaction.txid)
-          })
+          // })
       } else {
         account.createCurrencyWallet('wallet:ethereum', {
           name: 'My First Wallet',
@@ -120,17 +123,6 @@ class Login extends Component {
   }
 
   renderLoginApp = () => {
-    if (this.state.account) {
-      axios.get(WEB_SERVER_API_IDOLOGY_CHECK)
-        .then(response => {
-          const { navigate } = this.props.navigation;
-          response.data.status == "true" ? navigate('MenuOptions') : navigate('Identity');
-        })
-        .catch(err => {
-          console.log(err)
-        })
-    }
-
     if (this.state.context && !this.state.account) {
       return (
         <LoginScreen
@@ -171,13 +163,15 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    getAccount: (edge_account) =>
-        dispatch(getAccount(edge_account)),
+    getUsername: (edge_account) =>
+        dispatch(getUsername(edge_account)),
     authToken: (auth_token) =>
               dispatch(authToken(auth_token)),
     getEthAddress: (ethereumAddress) =>
       dispatch(getEthAddress(ethereumAddress)),
     getWallet: (wallet) =>
-      dispatch(getWallet(wallet))
+      dispatch(getWallet(wallet)),
+    getAccount: (account) =>
+      dispatch(getAccount(account))
 })
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

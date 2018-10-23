@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, Image, ScrollView, TouchableHighlight, Alert, Platform } from 'react-native';
 import { StackNavigator } from 'react-navigation';
-import { STATUS_BAR_HEIGHT } from '../constants';
 // import track from '../components/buttons/blockScannerBtn.png';
 import { connect } from 'react-redux';
 import styles from '../assets/styles';

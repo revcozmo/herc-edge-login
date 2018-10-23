@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import {View, TouchableHighlight, Text, Platform, Image, WebView } from 'react-native';
-import { STATUS_BAR_HEIGHT } from '../constants';
 import { StackNavigator } from 'react-navigation';
 
 
