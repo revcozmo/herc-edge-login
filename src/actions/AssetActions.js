@@ -54,7 +54,7 @@ export function gotHercId(hercId) {
 export function incHercId(hercid) {
   console.log(hercid, "hercid");
   let hercIdplus1 = parseInt(hercid) + 1;
-  console.log(hercIdplus1, 'transformed hopefully plus one')
+  console.log(hercIdplus1, 'incHercId Action: transformed hopefully plus one')
   return {
     type: INC_HERC_ID,
     hercIdplus1
@@ -66,7 +66,7 @@ export function getAssets(userName) {
     let assetLabels = [];
     assetRef.once("value")
       .then(snapshot => {
-        console.log(snapshot.val(), " chance what's in the database?")
+        console.log(snapshot.val(), " getAssets Action: what's in the database?")
         snapshot.forEach(asset => {
           assetLabels.push(
             asset.toJSON()

@@ -88,7 +88,7 @@ class Splash1 extends Component {
   componentDidMount() {
     StatusBar.setBackgroundColor("white");
     StatusBar.setBarStyle("dark-content", true);
-    console.log(this.props.assets, "brand new assets from IPFS!")
+    console.log(this.props.assets, "Supply Chain: Received Assets from IPFS")
 
   }
 
@@ -100,7 +100,6 @@ class Splash1 extends Component {
 
   _renderAssets = () => {
     let list = this.props.assets.map((asset, index) => {
-      console.log(asset, "mapping for assetList in splash1")
       return (
         <TouchableHighlight style={{ borderRadius: 2 }} key={index} onPress={() => this._onPress(asset)}>
           <View style={localStyles.menuItemField}>

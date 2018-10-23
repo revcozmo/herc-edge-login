@@ -24,10 +24,7 @@ class Splash2 extends Component {
     const { params } = navigation.state;
     let headerStyles = StyleSheet.create({
       header__container: {
-        // borderColor: "green",
-        // borderWidth: 3,
         display: "flex",
-        // resizeMode: "contain",
         height: 80,
         alignSelf: "center",
         flex: 1,
@@ -35,35 +32,25 @@ class Splash2 extends Component {
         alignItems: "center",
         marginTop: 40,
         paddingBottom: 20
-
       },
       header__container__centeredBox: {
-        // borderColor: "purple",
-        // borderWidth: 3,
         height: "100%",
         alignItems: "center",
         flexDirection: 'row'
       },
       header__text__box: {
-        // borderColor: "blue",
-        // borderWidth: 3,
         height: "100%",
         marginBottom: 5,
         marginLeft: 12,
-
       },
       header__image__box: {
-        // borderColor: "yellow",
-        // borderWidth: 3,
         height: "100%",
         borderRadius: 100
-        // width: 50
       },
       assetHeaderLogo: {
         height: 35,
         width: 35,
         borderRadius: 50,
-        // resizeMode: "contain",
       },
       headerText: {
         fontFamily: "dinPro",
@@ -73,34 +60,23 @@ class Splash2 extends Component {
         color: "black",
         textAlign: "center",
         marginTop: 2,
-        // paddingTop: 5
       },
     })
 
     return {
       headerTitle: (
-        // <View style={styles.assetHeaderTitle}>
-        //   <TouchableHighlight style={{justifyContent: "center"}} onPress={() => navigation.navigate("MenuOptions")}>
-        //     <Image
-        //       style={styles.assetHeaderLogo}
-        //       source={{ uri: params.logo }}
-        //     />
-        //   </TouchableHighlight>
-        //   <Text style={styles.headerText}>{params.name}</Text>
-        // </View>
-
         <View style={headerStyles.header__container}>
           <View style={headerStyles.header__container__centeredBox}>
             <View style={headerStyles.header__image__box}>
-              {/* <TouchableHighlight style={{justifyContent: "center"}} onPress={() => navigation.navigate("MenuOptions")}>
-             </TouchableHighlight> */}
-              <Image
-                style={headerStyles.assetHeaderLogo}
-                source={{ uri: params.logo }}
-              />
-            </View>
-            <View style={headerStyles.header__text__box}>
-              <Text style={headerStyles.headerText}>{params.name}</Text>
+              <TouchableHighlight style={{justifyContent: "center"}} onPress={() => navigation.navigate("MenuOptions")}>
+                <Image
+                  style={headerStyles.assetHeaderLogo}
+                  source={{ uri: params.logo }}
+                />
+                <View style={headerStyles.header__text__box}>
+                  <Text style={headerStyles.headerText}>{params.name}</Text>
+                </View>
+             </TouchableHighlight>
             </View>
           </View>
         </View>
@@ -134,8 +110,6 @@ class Splash2 extends Component {
         documents: {}
       }
     };
-    console.log(trans, "trans base");
-
     this.props.startTrans(trans);
 
     navigate("Splash3", {
@@ -148,10 +122,7 @@ class Splash2 extends Component {
     StatusBar.setBarStyle("dark-content", true);
   }
   render() {
-    console.log("this is splash2")
     return (
-      ///  I'm consistancizing all the button sizes to 50x200 or about 53%
-      /// the styles for the location images (originator/recipient) is located at styles.locationImage
 
       <View style={styles.container}>
         <View style={styles.containerCenter}>
@@ -174,8 +145,6 @@ class Splash2 extends Component {
 
 const localStyles = StyleSheet.create({
   header__container: {
-    // borderColor: "green",
-    // borderWidth: 3,
     display: "flex",
     resizeMode: "contain",
     height: 60,
@@ -185,21 +154,15 @@ const localStyles = StyleSheet.create({
     alignItems: "center",
   },
   header__container__centeredBox: {
-    // borderColor: "purple",
-    // borderWidth: 3,
     height: "100%",
     alignItems: "center",
     flexDirection: 'row'
   },
   header__text__box: {
-    // borderColor: "blue",
-    // borderWidth: 3,
     height: "100%",
     marginBottom: 5,
   },
   header__image__box: {
-    // borderColor: "green",
-    // borderWidth: 3,
     height: "100%",
     width: 50
   },
@@ -208,10 +171,9 @@ const localStyles = StyleSheet.create({
 const mapStateToProps = state => ({
   asset: state.AssetReducers.selectedAsset
 });
+
 const mapDispatchToProps = dispatch => ({
   startTrans: trans => dispatch(startTrans(trans))
 });
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Splash2);
+
+export default connect(mapStateToProps, mapDispatchToProps)(Splash2);

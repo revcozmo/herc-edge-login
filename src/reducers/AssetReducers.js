@@ -190,9 +190,6 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
                 hercId
             });
 
-
-
-
         case ADD_PHOTO:
             let image = {
                 image: action.data,
