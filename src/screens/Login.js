@@ -11,7 +11,7 @@ import { YellowBox } from 'react-native';
 import { connect } from "react-redux";
 import axios from 'axios';
 import { ethereumCurrencyPluginFactory } from 'edge-currency-ethereum';
-import { getUsername, authToken, getEthAddress, getWallet, getAccount } from "../actions/AssetActions";
+import { getUsername, getAccount, authToken, getEthAddress, getWallet } from "../actions/WalletActActions";
 import { WEB_SERVER_API_TOKEN, WEB_SERVER_API_IDOLOGY_CHECK } from "../components/settings";
 import { makeEdgeContext } from 'edge-core-js';
 import firebase from "../constants/Firebase";

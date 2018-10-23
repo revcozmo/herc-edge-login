@@ -6,6 +6,7 @@ import { STATUS_BAR_HEIGHT } from '../constants';
 import { connect } from 'react-redux';
 import styles from '../assets/styles';
 import { selectAsset } from '../actions/AssetActions';
+import { fetchBlock } from '../actions/EthActions';
 import logo from "../assets/round.png";
 
 class TransAssetList extends Component {
@@ -99,7 +100,8 @@ class TransAssetList extends Component {
 
     console.log("going to the trans")
     this.props.selectAsset(asset);
-    navigate('SpaceScreen', { name: asset.name, logo: asset.logo });
+
+    navigate('SpaceScreen', { name: asset.Name, logo: asset.Logo });
 
   }
 
@@ -113,9 +115,9 @@ class TransAssetList extends Component {
         <TouchableHighlight key={index} onPress={() => this._onPress(asset)}>
           <View style={localStyles.menuItemField}>
             {/* <Button onPress={() => this._onDelete(asset.key)} style={styles.assetDeleteButton}>Delete</Button> */}
-            <Image style={localStyles.assetLogo} source={{ uri: asset.logo }} />
+            <Image style={localStyles.assetLogo} source={{ uri: asset.Logo }} />
             <View style={localStyles.menuItemField__textBox}>
-              <Text style={localStyles.assetLabel}>{asset.name}</Text>
+              <Text style={localStyles.assetLabel}>{asset.Name}</Text>
             </View>
           </View>
         </TouchableHighlight>
@@ -140,16 +142,12 @@ class TransAssetList extends Component {
 //need to write GET_TRANS
 
 const mapStateToProps = (state) => ({
-  assets: state.Assets,
+  assets: state.AssetReducers.assets,
 
 });
 const mapDispatchToProps = (dispatch) => ({
-
-  selectAsset: (asset) =>
-    dispatch(selectAsset(asset)),
-  //   deleteAsset: (key) =>
-  //     dispatch(deleteAsset(key))
-
+  fetchBlock: () => dispatch(getBlock()),
+  selectAsset: (asset) => dispatch(selectAsset(asset)),
 })
 export default connect(mapStateToProps, mapDispatchToProps)(TransAssetList)
 

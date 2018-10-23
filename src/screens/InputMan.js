@@ -6,7 +6,7 @@ import originator from "../components/buttons/originatorButton.png";
 import recipient from "../components/buttons/recipientButton.png";
 import { StackNavigator, } from 'react-navigation';
 import { connect } from "react-redux";
-import { addProps } from "../actions/AssetActions";
+import { addMetrics } from "../actions/AssetActions";
 import review from "../components/buttons/reviewBtn.png";
 
 class InputMan extends Component {
@@ -90,7 +90,9 @@ class InputMan extends Component {
     _onSubmit = () => {
         const { navigate } = this.props.navigation;
         let attributes = this.state;
-        this.props.addProps(attributes);
+        console.log(this.state, "stateInputesfilled?");
+        this.props.addMetrics(attributes);
+        console.log("justaddedPRoperties");
         navigate('Confirm', { logo: this.props.logo, name: this.props.name });
     }
     render() {
@@ -144,8 +146,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    addProps: (attributes) =>
-        dispatch(addProps(attributes),
+    addMetrics: (attributes) =>
+        dispatch(addMetrics(attributes),
         )
 })
 export default connect(mapStateToProps, mapDispatchToProps)(InputMan);

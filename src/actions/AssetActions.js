@@ -11,7 +11,7 @@ import {
   SEND_TRANS,
   ADD_PHOTO,
   ADD_DOC,
-  ADD_PROPS,
+  ADD_METRICS,
   INC_HERC_ID,
   GET_USERNAME,
   GET_ACCOUNT,
@@ -30,6 +30,7 @@ import {
 
 } from "./types";
 
+import { fetchBlock } from './EthActions';
 import { WEB_SERVER_API_IPFS_GET, WEB_SERVER_API_IPFS_ADD, WEB_SERVER_API_FACTOM_CHAIN_ADD } from "../components/settings"
 import axios from 'axios';
 
@@ -73,34 +74,42 @@ export function incHercId(hercid) {
 }
 
 
-export function authToken(token) {
-  return {
-      type: AUTH_TOKEN,
-      token
-    };
-  }
+// export function authToken(token) {
+//   return {
+//       type: AUTH_TOKEN,
+//       token
+//     };
+//   }
 
-export function getEthAddress(ethereumAddress) {
-  return {
-    type: GET_ETH_ADDRESS,
-    ethereumAddress
-  };
-}
+// export function getAccount(edge_account) {
+//   return {
+//     type: GET_ACCOUNT,
+//     edge_account
+//   };
+// }
 
-export function getOrganization(organizationName) {
-  return {
-    type: GET_ORGANIZATION,
-    organizationName
-  }
-}
+// export function getEthAddress(ethereumAddress) {
+//   return {
+//     type: GET_ETH_ADDRESS,
+//     ethereumAddress
+//   };
+// }
 
-export function getWallet(wallet) {
-  console.log("Wallet Object in Actions: ", wallet)
-  return {
-    type: GET_WALLET,
-    wallet
-  }
-}
+
+// export function getOrganization(organizationName) {
+//   return {
+//     type: GET_ORGANIZATION,
+//     organizationName
+//   }
+// }
+
+// export function getWallet(wallet) {
+//   console.log("Wallet Object in Actions: ", wallet)
+//   return {
+//     type: GET_WALLET,
+//     wallet
+//   }
+// }
 
 ///// This is getting the hashes from firebase to send to The server to talk to IPFS
 
@@ -150,16 +159,19 @@ function gotListAssets(assetList) {
 
 
 export function selectAsset(asset) {
-  console.log(asset, 'asset in Select')
-  return {
-    type: SELECT_ASSET,
-    selectedAsset: asset
+
+    console.log(asset, 'asset in Select')
+    return {
+      type: SELECT_ASSET,
+      selectAsset: asset
+    }
   }
-}
 
 
 export function getAssetDef(ipfsHash) {
+
   return dispatch => {
+    dispatch()
     console.log(ipfsHash, "keeping it simple.")
     let singleHash = ipfsHash;
 
@@ -170,7 +182,7 @@ export function getAssetDef(ipfsHash) {
         return assetDef
       })
       .then((assetDef) => dispatch(gotAssetDef(assetDef)))
-      .catch(err => {console.log(err)})
+      .catch(err => { console.log(err) })
 
   }
 }
@@ -233,10 +245,10 @@ export function sendTrans(trans) {
   };
 }
 
-export function addProps(newProps) {
+export function addMetrics(newMetrics) {
   return {
-    type: ADD_PROPS,
-    data: newProps
+    type: ADD_METRICS,
+    data: newMetrics
   };
 }
 

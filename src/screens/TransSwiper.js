@@ -101,7 +101,8 @@ class TransSwiper extends Component {
         }
     }
     componentDidMount() {
-        // console.log(this.props.transactions, 'Swiper Here');
+        console.log(this.props.transactions, 'Swiper Here');
+        console.log(this.state.transactions, 'state transactions')
        
     }
     // _renderCards() {
@@ -117,11 +118,11 @@ class TransSwiper extends Component {
 
 
     render() {
-    
+    let cards = this.state.transactions.map(x => x);
 
         return (
          
-                <Swiper hercId={this.props.asset.hercId} cards={this.state.transactions} />
+                <Swiper cards={cards} />
          
         )
     }

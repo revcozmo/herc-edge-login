@@ -55,6 +55,7 @@ class NewAssetConfirm extends Component {
 
 
         ipfsAsset = Object.assign({}, {
+            // url: newAsset.Url || 'No URL',
             Name: assetName,
             CoreProps: newAsset.CoreProps,
             hercId: this.props.hercId,

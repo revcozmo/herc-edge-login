@@ -34,6 +34,7 @@ YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTIm
 class MenuOptions extends Component {
 
     componentDidMount() {
+        console.log("MenuOptions")
         this.props.getHercId();
         this.props.getAssets(this.props.userName);
     }
@@ -50,7 +51,8 @@ class MenuOptions extends Component {
                             <Image style={localStyles.menuButton} source={registerAsset} />
                         </TouchableHighlight>
                     </View>
-                    <TouchableHighlight style={localStyles.touchableHighlight} onPress={() => navigate("Splash1")}>
+                    <TouchableHighlight style={localStyles.touchableHighlight} 
+                    onPress={() => navigate("Splash1")}>
                         <Image style={localStyles.menuButton} source={supplyChain} />
                     </TouchableHighlight>
 
@@ -59,7 +61,7 @@ class MenuOptions extends Component {
                     </TouchableHighlight> */}
 
                     <TouchableHighlight style={localStyles.touchableHighlight}
-                        onPress={() => navigate("TransAssetList", { web3: this.web3 })}>
+                        onPress={() => navigate("TransAssetList")}>
                         <Image style={localStyles.menuButton} source={track} />
                     </TouchableHighlight>
 
@@ -68,11 +70,11 @@ class MenuOptions extends Component {
                     </TouchableHighlight>
 
 
-                    {/* <TouchableHighlight style={localStyles.touchableHighlight} onPress={() => navigate("Wallet")}>
+                    <TouchableHighlight style={localStyles.touchableHighlight} onPress={() => navigate("Wallet")}>
                         <Image style={localStyles.menuButton} source={wallet} />
                     </TouchableHighlight>
 
-                    <TouchableHighlight style={localStyles.touchableHighlight} onPress={() => navigate("Profile")}>
+                    {/*                    <TouchableHighlight style={localStyles.touchableHighlight} onPress={() => navigate("Profile")}>
                         <Image style={localStyles.menuButton} source={profileButton} />
                     </TouchableHighlight> */}
 

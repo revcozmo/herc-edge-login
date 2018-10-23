@@ -10,7 +10,7 @@ import {
     GOT_ASSET_TRANS,
     ADD_PHOTO,
     ADD_DOC,
-    ADD_PROPS,
+    ADD_METRICS,
     INC_HERC_ID,
     GET_USERNAME,
     GET_ACCOUNT,
@@ -57,7 +57,12 @@ import {
 
 
 
-const INITIAL_STATE = {};
+const INITIAL_STATE = {
+    assetFetching: false,
+    assetFetched: false,
+    assetDefFetching: false,
+    assetDefFetched: false,
+};
 
 
 const AssetReducers = (state = INITIAL_STATE, action) => {
@@ -78,6 +83,7 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
 
             return Object.assign({}, state, {
                 ...state,
+                assetDefFetched: true,
                 selectedAsset:
                 {
                     ...state.selectedAsset,
@@ -88,12 +94,13 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
 
         case SELECT_ASSET:
             // console.log(action, 'action in select reducer');
-            let selectedAsset = action.selectedAsset;
             return Object.assign({}, state, {
                 ...state,
-                selectedAsset
-            })
+                assetFetching: false,
+                assetFetched: true,
+                selectedAsset: action.selectAsset
 
+            })
 
 
         case START_TRANS:
@@ -195,35 +202,43 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
                 hercId
             });
 
-        case AUTH_TOKEN:
-            let token = action.token;
-            // console.log('Token captured in reducer', token);
-            return Object.assign({}, state, {
-                ...state,
-                auth_token: token
-            })
+        // case AUTH_TOKEN:
+        //     let token = action.token;
+        //     // console.log('Token captured in reducer', token);
+        //     return Object.assign({}, state, {
+        //         ...state,
+        //         auth_token: token
+        //     })
 
 
-        case GET_ETH_ADDRESS:
-            let ethereumAddress = action.ethereumAddress;
-            return Object.assign({}, state, {
-                ...state,
-                ethereumAddress: ethereumAddress
-            })
+        // case GET_ACCOUNT:
+        //     let edge_account = action.edge_account;
+        //     return Object.assign({}, state, {
+        //         ...state,
+        //         edge_account: edge_account
+        //     })
 
-        case GET_WALLET:
-            let wallet = action.wallet;
-            return Object.assign({}, state, {
-                ...state,
-                wallet
-            })
 
-        case GET_ORGANIZATION:
-            let organizationName = action.organizationName;
-            return Object.assign({}, state, {
-                ...state,
-                organizationName: organizationName
-            })
+        // case GET_ETH_ADDRESS:
+        //     let ethereumAddress = action.ethereumAddress;
+        //     return Object.assign({}, state, {
+        //         ...state,
+        //         ethereumAddress: ethereumAddress
+        //     })
+
+        // case GET_WALLET:
+        //     let wallet = action.wallet;
+        //     return Object.assign({}, state, {
+        //         ...state,
+        //         wallet
+        //     })
+
+        // case GET_ORGANIZATION:
+        //     let organizationName = action.organizationName;
+        //     return Object.assign({}, state, {
+        //         ...state,
+        //         organizationName: organizationName
+        //     })
 
         case ADD_PHOTO:
             let image = {
@@ -273,7 +288,7 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
                 }
             })
 
-        case ADD_PROPS:
+        case ADD_METRICS:
             const properties = action.data;
             console.log(properties, "updating attributes in reducers");
             return Object.assign({}, state, {
@@ -302,7 +317,7 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
             console.log(state.edge_account)
 
             rootRef.child('idology').child(state.edge_account).once('value').then(snapshot => {
-                cnosole.log(snapshot.val(), "chance snapshot")
+                console.log(snapshot.val(), "chance snapshot")
                 var organization_name = snapshot.val().organizationName || asset.Name;
                 var dataObject = { key: 'newAsset', data: asset }
                 console.log(dataObject, "this will be written to ipfs")
