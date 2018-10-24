@@ -67,15 +67,19 @@ class Splash2 extends Component {
       headerTitle: (
         <View style={headerStyles.header__container}>
           <View style={headerStyles.header__container__centeredBox}>
-            <TouchableHighlight style={{ justifyContent: "center" }} onPress={() => navigation.navigate("MenuOptions")}>
-              <View style={headerStyles.header__image__box}>
+            <View style={headerStyles.header__image__box}>
+              <TouchableHighlight style={{justifyContent: "center"}} onPress={() => navigation.navigate("MenuOptions")}>
+                <View>
                 <Image
                   style={headerStyles.assetHeaderLogo}
                   source={{ uri: params.logo }}
                 />
-                <Text style={headerStyles.headerText}>{params.name}</Text>
+                <View style={headerStyles.header__text__box}>
+                  <Text style={headerStyles.headerText}>{params.name}</Text>
+                </View>
               </View>
-            </TouchableHighlight>
+             </TouchableHighlight>
+            </View>
           </View>
         </View>
 

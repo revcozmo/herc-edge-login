@@ -55,15 +55,17 @@ class EditSets extends Component {
                 <View style={headerStyles.header__container}>
                     <View style={headerStyles.header__container__centeredBox}>
                         <View style={headerStyles.header__image__box}>
-                            <TouchableHighlight style={{justifyContent: "center"}} onPress={() => navigation.navigate("MenuOptions")}>
+                          <TouchableHighlight style={{justifyContent: "center"}} onPress={() => navigation.navigate("MenuOptions")}>
+                            <View>
                               <Image
-                                  style={headerStyles.assetHeaderLogo}
-                                  source={{ uri: params.logo }}
+                                style={headerStyles.assetHeaderLogo}
+                                source={{ uri: params.logo }}
                               />
                               <View style={headerStyles.header__text__box}>
                                 <Text style={headerStyles.headerText}>{params.name}</Text>
                               </View>
-                            </TouchableHighlight>
+                            </View>
+                        </TouchableHighlight>
                         </View>
                     </View>
                 </View>
