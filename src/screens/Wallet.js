@@ -14,7 +14,7 @@ import {
 } from '../actions/WalletActActions';
 import BigNumber from 'bignumber.js';
 
-///////  All this wallet balance stuff, 
+///////  All this wallet balance stuff,
 class Wallet extends React.Component {
   constructor(props) {
     super(props)
@@ -34,14 +34,14 @@ class Wallet extends React.Component {
     let options = {currencyCode: 'TRX'};
 
     const trxReceiveAdd = this.props.wallet.getReceiveAddress(options, function(error, trxRecieveAdd) {
-     
-        if(!error) 
+
+        if(!error)
         {
           console.log(trxReceiveAdd)
         }
       });
- 
- 
+
+
     ////  this makes the token in "customTokens"
   //   var tokenTrx = {
   //     currencyName: 'Tron',
@@ -49,7 +49,7 @@ class Wallet extends React.Component {
   //     currencyCode: 'TRX',
   //     multiplier: '1000000000000000000'
   //   };
-    
+
   //  let trxWallet = await this.props.wallet.addCustomToken(tokenTrx); ////trxwallet is undefined
 
   //  console.log(trxWallet, "somthingwalletlike?")
@@ -59,8 +59,8 @@ class Wallet extends React.Component {
     //   console.log(this.state.modalVisible)
     //   this.setState({ modalVisible: !this.state.modalVisible });
     // }
-   
-   
+
+
     _changeBalanceDenom = () => {
     let converting = new BigNumber(this.state.balance);
 
@@ -113,7 +113,7 @@ class Wallet extends React.Component {
       // let usValue = this._getTotUs();
       // let wallets = this._getWallets();
       // console.log(iconsArray.filter(coin => coin.currency === 'HERC'));
-      // Method to render the currently selected coin's icon. 
+      // Method to render the currently selected coin's icon.
       // let currentCoin = iconsArray.filter(coin => coin.currency === this.props.currentWallet)
 
       return (
@@ -226,14 +226,11 @@ class Wallet extends React.Component {
 const localStyles = StyleSheet.create({
   centerBalance: {
     height: "100%",
-    // borderWidth: 3,
-    // borderColor: "red",
     alignContent: "center",
     alignSelf: "center",
     alignItems: "center",
     justifyContent: "center",
     flexDirection: "column",
-    // marginTop: "20%",
   },
   balanceContainer: {
     borderColor: "gold",
@@ -242,15 +239,12 @@ const localStyles = StyleSheet.create({
     width: '95%',
     height: 150,
     backgroundColor: 'silver',
-    // paddingLeft: 10,
-    // paddingRight: 10,
     alignSelf: "center"
   },
   tokenValueContainer: {
     borderColor: "#091141",
     borderTopWidth: 1,
     borderBottomWidth: 1,
-    // borderRadius: 25,
     flexDirection: 'row',
     height: "30%",
     width: "100%",
@@ -261,16 +255,12 @@ const localStyles = StyleSheet.create({
   icon: {
     height: 30,
     width: 30,
-    // margin: 5,
     borderRadius: 30 / 2,
     resizeMode: "contain",
-
   },
-
   walletsField: {
     marginTop: 10,
     width: "100%",
-    // height: "7%",
     flex: 1,
     backgroundColor: 'blue'
   },
@@ -278,7 +268,6 @@ const localStyles = StyleSheet.create({
     width: "50%",
     height: 120,
     color: "white"
-
   },
   currencyValue: {
     fontSize: 26,
@@ -287,7 +276,6 @@ const localStyles = StyleSheet.create({
   usdValue: {
     fontSize: 20,
     color: 'black'
-
   },
 
   headerBox: {
@@ -325,8 +313,7 @@ const localStyles = StyleSheet.create({
     alignContent: 'center',
     alignSelf: 'center',
     alignItems: 'center'
-  },
-
+  }
 })
 
 const walletLabelStyles = StyleSheet.create({
@@ -338,8 +325,6 @@ const walletLabelStyles = StyleSheet.create({
     alignItems: "center",
     padding: 2,
     margin: 2,
-    // textAlign:'center',
-    // textAlignVertical: 'center',
     backgroundColor: "white",
     alignSelf: "center"
 
@@ -350,20 +335,15 @@ const walletLabelStyles = StyleSheet.create({
     resizeMode: "contain",
     borderRadius: 20 / 2
   },
-
   walletCoinName: {
-    // fontFamily: 'dinPro',
     fontSize: 14,
     margin: 2,
     marginLeft: 5,
     textAlign: 'left'
   },
-
   coinBalance: {
     fontSize: 10,
     marginRight: 5,
     color: 'yellow'
-
   }
-
 })
