@@ -54,20 +54,20 @@ class TransAssetList extends Component {
     return {
       headerTitle: (
         <View style={headerStyles.header__container}>
-          <View style={headerStyles.header__container__centeredBox}>
-            <View style={headerStyles.header__image__box}>
-              {/* <TouchableHighlight style={{justifyContent: "center"}} onPress={() => navigation.navigate("MenuOptions")}>
-              </TouchableHighlight> */}
-                  <Image
-                    style={headerStyles.assetHeaderLogo}
-                    source={logo}
-                  />
-                  <View style={headerStyles.header__text__box}>
-                    <Text style={headerStyles.headerText}>Track</Text>
-                  </View>
-            </View>
+        <View style={headerStyles.header__container__centeredBox}>
+          <View style={headerStyles.header__image__box}>
+            {/* <TouchableHighlight style={{justifyContent: "center"}} onPress={() => navigation.navigate("MenuOptions")}>
+         </TouchableHighlight> */}
+            <Image
+              style={headerStyles.assetHeaderLogo}
+              source={logo}
+            />
+          </View>
+          <View style={headerStyles.header__text__box}>
+            <Text style={headerStyles.headerText}>Track</Text>
           </View>
         </View>
+      </View>
       )
     }
   }

@@ -165,7 +165,6 @@ dependencies {
     compile project(':react-native-camera')
 
     compile project(':react-native-vector-icons')
-    compile project(':edge-login-ui-rn')
     compile project(':herc-edge-login-ui-rn')
     compile project(':react-native-tcp')
     compile project(':react-native-randombytes')
