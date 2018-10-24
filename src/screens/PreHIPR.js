@@ -14,10 +14,7 @@ export default class PreHIPR extends Component {
   static navigationOptions = ({ navigation }) => {
     let headerStyles = StyleSheet.create({
       header__container: {
-        // borderColor: "green",
-        // borderWidth: 3,
         display: "flex",
-        // resizeMode: "contain",
         height: 80,
         alignSelf: "center",
         flex: 1,
@@ -25,35 +22,25 @@ export default class PreHIPR extends Component {
         alignItems: "center",
         marginTop: 40,
         paddingBottom: 20
-
       },
       header__container__centeredBox: {
-        // borderColor: "purple",
-        // borderWidth: 3,
         height: "100%",
         alignItems: "center",
         flexDirection: 'row'
       },
       header__text__box: {
-        // borderColor: "blue",
-        // borderWidth: 3,
         height: "100%",
         marginBottom: 5,
         marginLeft: 12,
-
       },
       header__image__box: {
-        // borderColor: "yellow",
-        // borderWidth: 3,
         height: "100%",
         borderRadius: 100
-        // width: 50
       },
       assetHeaderLogo: {
         height: 35,
         width: 35,
         borderRadius: 50,
-        // resizeMode: "contain",
       },
       headerText: {
         fontFamily: "dinPro",
@@ -63,7 +50,6 @@ export default class PreHIPR extends Component {
         color: "black",
         textAlign: "center",
         marginTop: 2,
-        // paddingTop: 5
       },
     })
     return {
@@ -72,7 +58,6 @@ export default class PreHIPR extends Component {
         <View style={headerStyles.header__container}>
           <View style={headerStyles.header__container__centeredBox}>
             <View style={headerStyles.header__image__box}>
-
               <Image
                 style={headerStyles.assetHeaderLogo}
                 source={hiprLogo}
@@ -88,20 +73,15 @@ export default class PreHIPR extends Component {
   }
   state = {
     info: false
-
   }
 
   _toggleShow = () => {
-    this.setState({
-      info: !this.state.info
-    })
+    this.setState({ info: !this.state.info })
   }
 
   render() {
     const { navigate } = this.props.navigation;
-    console.log(this.state)
     return (
-
       <View style={styles.container}>
         <View style={[styles.containerCenter, { paddingTop: 59 }]}>
 
@@ -115,11 +95,9 @@ export default class PreHIPR extends Component {
           {this.state.info &&
           <View style={localStyles.copyContainer}>
               <Text style={localStyles.copy}>{[hiprText]}</Text>
-            </View>
-          }
+            </View>}
         </View>
       </View>
-
 
     )
   };
@@ -127,7 +105,6 @@ export default class PreHIPR extends Component {
 
 
 const localStyles = StyleSheet.create({
-
   headerField: {
     flexDirection: "row",
     width: 200,
@@ -151,28 +128,19 @@ const localStyles = StyleSheet.create({
     color: "black",
     textAlign: "center"
   },
-
   menuButton: {
-    // borderColor: "yellow",
-    // borderWidth: 3,
     width: 200,
     height: 45,
     marginBottom: 25,
     resizeMode: "contain",
     borderRadius: 2,
-    // backgroundColor:
-    // borderWidth: 2,
-    // borderColor: "black"
   },
   copyContainer: {
-    // height: 200,
     width: '90%',
-    // backgroundColor: "blue"
   },
   copy: {
     fontSize: 18,
     color: "yellow",
     textAlign: "center"
   }
-
 })

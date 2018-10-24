@@ -130,7 +130,6 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
             keys.forEach(key => {
                 if (Object.keys(data[key]).length != 0 && data[key].constructor === Object) {
                     var dataObject = Object.assign({}, { key: key }, { data: data[key] }) // {key: 'properties', data: data[key]}
-                    console.log(dataObject, "chance check for you")
                     promiseArray.push(
                         axios.post(WEB_SERVER_API_IPFS_ADD, JSON.stringify(dataObject))
                             .then(response => { return response }) // {key: 'properties', hash: 'QmU1D1eAeSLC5Dt4wVRR'}
@@ -151,8 +150,7 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
                 var chainId = snapshot.val().chainId
                 Promise.all(promiseArray)
                     .then(results => {
-                        console.log(results, "results chance?")// [{key: 'properties', hash: 'QmU1D1eAeSLC5Dt4wVRR'}, {key: 'images', hash: 'QmU1D1eAeSLC5Dt4wVRR'}]
-                        return results
+                        return results // [{key: 'properties', hash: 'QmU1D1eAeSLC5Dt4wVRR'}, {key: 'images', hash: 'QmU1D1eAeSLC5Dt4wVRR'}]
                     })
                     .then(results => {
                         var hashlist = results.map(result => { return result.data })

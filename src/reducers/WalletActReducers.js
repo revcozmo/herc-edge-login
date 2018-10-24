@@ -19,7 +19,6 @@ export default function WalletReducer(state = INITIAL_STATE, action) {
     switch (action.type) {
 
         case AUTH_TOKEN:
-        console.log(state, "chance")
             let token = action.token;
             // console.log('Token captured in reducer', token);
             return Object.assign({}, state, {
@@ -29,7 +28,6 @@ export default function WalletReducer(state = INITIAL_STATE, action) {
 
 
         case GET_USERNAME:
-        console.log(state, "chance")
             let edge_account = action.edge_account;
             return Object.assign({}, state, {
                 ...state,
@@ -37,7 +35,6 @@ export default function WalletReducer(state = INITIAL_STATE, action) {
             })
 
         case GET_ACCOUNT:
-        console.log(state, "chance")
             let account = action.account;
             return Object.assign({}, state, {
                 ...state,
@@ -53,7 +50,6 @@ export default function WalletReducer(state = INITIAL_STATE, action) {
             })
 
         case GET_ETH_ADDRESS:
-        console.log(state, "chance")
             let ethereumAddress = action.ethereumAddress;
             return Object.assign({}, state, {
                 ...state,
@@ -61,7 +57,6 @@ export default function WalletReducer(state = INITIAL_STATE, action) {
             })
 
         case GET_WALLET:
-        console.log(state, "chance")
             let wallet = action.wallet;
             return Object.assign({}, state, {
                 ...state,
@@ -69,7 +64,7 @@ export default function WalletReducer(state = INITIAL_STATE, action) {
             })
 
         case DEBIT_TRANS:
-            console.log('updating balance', action.hercAmount);
+            console.log('DEBIT_TRANS: updating balance', action.hercAmount);
             let newBalance = (state.currentBalance - action.hercAmount);
             console.log(newBalance, 'newBalance');
             return {
@@ -79,7 +74,7 @@ export default function WalletReducer(state = INITIAL_STATE, action) {
             }
 
         case GET_BALANCE:
-            console.log('getting balance', state);
+            console.log('GET_BALANCE: getting balance', state);
             return {
                 ...state
             }

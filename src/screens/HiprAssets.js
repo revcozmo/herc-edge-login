@@ -11,10 +11,7 @@ class HiprAssets extends Component {
     const { params } = navigation.state;
     let headerStyles = StyleSheet.create({
       header__container: {
-        // borderColor: "green",
-        // borderWidth: 3,
         display: "flex",
-        // resizeMode: "contain",
         height: 80,
         alignSelf: "center",
         flex: 1,
@@ -22,35 +19,25 @@ class HiprAssets extends Component {
         alignItems: "center",
         marginTop: 40,
         paddingBottom: 20
-
       },
       header__container__centeredBox: {
-        // borderColor: "purple",
-        // borderWidth: 3,
         height: "100%",
         alignItems: "center",
         flexDirection: 'row'
       },
       header__text__box: {
-        // borderColor: "blue",
-        // borderWidth: 3,
         height: "100%",
         marginBottom: 5,
         marginLeft: 12,
-
       },
       header__image__box: {
-        // borderColor: "yellow",
-        // borderWidth: 3,
         height: "100%",
         borderRadius: 100
-        // width: 50
       },
       assetHeaderLogo: {
         height: 35,
         width: 35,
         borderRadius: 50,
-        // resizeMode: "contain",
       },
       headerText: {
         fontFamily: "dinPro",
@@ -60,7 +47,6 @@ class HiprAssets extends Component {
         color: "black",
         textAlign: "center",
         marginTop: 2,
-        // paddingTop: 5
       },
     })
 
@@ -82,7 +68,6 @@ class HiprAssets extends Component {
             </View>
           </View>
         </View>
-
       ),
       headerTitleStyle: {
         height: 50,
@@ -96,12 +81,6 @@ class HiprAssets extends Component {
   };
   constructor(props) {
     super(props);
-
-  }
-
-  componentDidMount() {
-
-
   }
 
   _onPress = (asset) => {
@@ -111,7 +90,7 @@ class HiprAssets extends Component {
 
   render() {
     const { navigate } = this.props.navigation;
-    console.log(this.props)
+    console.log('HiprAssets :', this.props, )
     let list = this.props.assets.map((asset, index) => {
       return (
         <TouchableHighlight style={{ borderRadius: 2 }} key={index} onPress={() => this._onPress(asset)}>
@@ -127,7 +106,6 @@ class HiprAssets extends Component {
     });
 
     return (
-
       <View style={styles.container}>
         <View style={styles.containerCenter}>
           <ScrollView contentContainerStyle={styles.scrollView}>
@@ -135,15 +113,12 @@ class HiprAssets extends Component {
           </ScrollView>
         </View>
       </View>
-
-
     )
   };
 }
 
 const mapStateToProps = (state) => ({
   assets: state.Assets,
-
 });
 
 export default connect(mapStateToProps)(HiprAssets);
@@ -159,9 +134,7 @@ const localStyles = StyleSheet.create({
     alignContent: "center",
     marginTop: 100,
     paddingLeft: 5,
-    // justifyContent: "space-between"
   },
-
   menuItemField: {
     display: "flex",
     flexDirection: "row",
@@ -173,20 +146,14 @@ const localStyles = StyleSheet.create({
     alignContent: "center",
     justifyContent: "center",
     margin: 15,
-    // marginTop: 10,
     paddingLeft: 3,
-    // borderWidth: 2,
-    // borderColor: "black"
   },
   assetLogo: {
-    // borderColor: "green",
-    // borderWidth: 3,
     height: 25,
     width: 25,
     marginLeft: 2,
     borderRadius: 25 / 2,
     alignSelf: "center"
-    // resizeMode: "contain"
   },
   assetLabel: {
     color: "black",
@@ -195,12 +162,9 @@ const localStyles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "normal",
     margin: 2,
-    // marginLeft: "20%",
     fontFamily: "dinPro"
   },
   menuItemField__textBox: {
-    // borderColor: "orange",
-    // borderWidth: 3,
     flex: 1
   },
 });
