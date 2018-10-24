@@ -13,7 +13,7 @@ import { connect } from "react-redux";
 import JSONTree from "react-native-json-tree";
 // import Web3 from "web3";
 
- class BlockScanner extends Component {
+class BlockScanner extends Component {
   static navigationOptions = ({ navigation }) => {
     const { params } = navigation.state;
 
@@ -35,12 +35,12 @@ import JSONTree from "react-native-json-tree";
   constructor(props) {
     super(props);
     this.state = {
-      block: this.props.data
+      block: null
     }
   }
 
   componentDidMount() {
-console.log(this.props.data, "this should be the block")
+    console.log(this.props.data, "this should be the block")
   }
   render() {
     // let block = this.props.data ? this.props.data :  null;
@@ -51,9 +51,9 @@ console.log(this.props.data, "this should be the block")
             POC Ropsten TestNet Latest Block
         </Text>
 
-          {this.state.block && (
+          {this.props.data && (
             <ScrollView style={{ paddingLeft: 10 }}>
-              <JSONTree data={this.state.block} theme={theme} invertTheme={false} />
+              <JSONTree data={this.props.data} theme={theme} invertTheme={false} />
             </ScrollView>
           )}
         </View>
@@ -64,9 +64,9 @@ console.log(this.props.data, "this should be the block")
 
 
 const mapStateToProps = (state) => ({
-  data: state.EthReducers.data,
-  isFetching: state.EthReducers.isFetching,
-  isFetched: state.EthReducers.isFetched
+  data: state.Web3Reducers.data,
+  isFetching: state.Web3Reducers.isFetching,
+  isFetched: state.Web3Reducers.isFetched
 })
 
 const mapDispatchToProps = (dispatch) => ({
