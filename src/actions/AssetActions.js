@@ -22,6 +22,12 @@ import {
   SET_SET,
   START_TRANS
 } from "./types";
+import axios from 'axios';
+import store from "../store";
+import firebase from "../constants/Firebase";
+const rootRef = firebase.database().ref();
+const assetRef = rootRef.child("assets");
+
 import {
   WEB_SERVER_API_IPFS_GET,
   WEB_SERVER_API_IPFS_ADD,
@@ -29,11 +35,6 @@ import {
   WEB_SERVER_API_FACTOM_ENTRY_ADD,
   WEB_SERVER_API_STORJ_UPLOAD
 } from "../components/settings"
-import axios from 'axios';
-import store from "../store";
-import firebase from "../constants/Firebase";
-const rootRef = firebase.database().ref();
-const assetRef = rootRef.child("assets");
 
 export function getHercId() {
   return dispatch => {
@@ -179,8 +180,8 @@ export function confirmAsset(assetForIPFS) {
 
               axios.post(WEB_SERVER_API_FACTOM_CHAIN_ADD, dataObject)
                   .then(response => {
-                      console.log("2 web server factom response: ", response.data)
-                      var chainId = response.data.chainId
+                      console.log("2 web server factom response: ", response)
+                      var chainId = response.data
                       return chainId
                   })
                   .then(chainId => {
