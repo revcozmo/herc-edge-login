@@ -19,10 +19,10 @@ import {
   SET_SET,
   START_TRANS,
 } from '../actions/types';
-import firebase from '../constants/Firebase';
-const rootRef = firebase.database().ref();
 import axios from 'axios';
 import store from "../store";
+import firebase from '../constants/Firebase';
+const rootRef = firebase.database().ref();
 
 import {
     WEB_SERVER_API_IPFS_GET,
@@ -248,47 +248,6 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
 
         case CONFIRM_ASSET:
             const asset = action.newAsset;
-            console.log(store, 'chance edge_account')
-            console.log(asset, 'asset in reducerconfirm', state, 'state')
-            debugger;
-
-            rootRef.child('idology').child(state.edge_account).once('value').then(snapshot => {
-                console.log(snapshot.val(), "chance snapshot")
-                var organization_name = snapshot.val().organizationName || asset.Name;
-                var dataObject = { key: 'newAsset', data: asset }
-                console.log(dataObject, "this will be written to ipfs")
-                axios.post(WEB_SERVER_API_IPFS_ADD, JSON.stringify(dataObject))
-                    .then(response => {
-                        console.log("1 ipfsHash: ", response)
-                        var ipfsHash = response.data.hash
-                        return ipfsHash
-                    })
-                    .then(ipfsHash => {
-
-                        /* This part creates a new factom chain */
-
-                        var dataObject = JSON.stringify({ ipfsHash: ipfsHash, organizationName: organization_name })
-
-                        axios.post(WEB_SERVER_API_FACTOM_CHAIN_ADD, dataObject)
-                            .then(response => {
-                                console.log("2 web server factom response: ", response.data)
-                                var chainId = response.data.chainId
-                                return chainId
-                            })
-                            .then(chainId => {
-                                let dataObject = Object.assign({}, { chainId: chainId, ipfsHash: ipfsHash, Name: asset.Name })
-                                if (asset.Logo) {
-                                    dataObject = Object.assign(dataObject, { Logo: asset.Logo })
-                                }
-                                console.log("3 going into firebase: ", dataObject)
-                                rootRef.child('assets').child(asset.Name).set(dataObject)
-                            })
-                            .catch(err => { console.log(err) })
-                    })
-                    .catch(err => {
-                        console.log("Error confirming assets in IPFS: ", err)
-                    })
-            })
 
             return Object.assign({}, state, {
                 state: INITIAL_STATE,

@@ -24,9 +24,12 @@ import {
 import {
   WEB_SERVER_API_IPFS_GET,
   WEB_SERVER_API_IPFS_ADD,
-  WEB_SERVER_API_FACTOM_CHAIN_ADD
+  WEB_SERVER_API_FACTOM_CHAIN_ADD,
+  WEB_SERVER_API_FACTOM_ENTRY_ADD,
+  WEB_SERVER_API_STORJ_UPLOAD
 } from "../components/settings"
 import axios from 'axios';
+import store from "../store";
 import firebase from "../constants/Firebase";
 const rootRef = firebase.database().ref();
 const assetRef = rootRef.child("assets");
@@ -131,15 +134,50 @@ export function addAsset(newAsset) {
 }
 
 export function confirmAsset(assetForIPFS) {
-  let newAsset = assetForIPFS;
-  // let Logo = confirmedAsset.Logo
-  // let assetWithLogo = await uploadAssetLogo(Logo.uri)
+  let asset = assetForIPFS;
+  console.log(asset, "chance in confirmAsset")
+  let username = store.getState().WalletActReducers.edge_account
 
-  console.log("confirming asset chance", newAsset);
+  rootRef.child('idology').child(username).once('value').then(snapshot => {
+      console.log(snapshot.val(), "chance snapshot")
+      var organization_name = snapshot.val().organizationName || asset.Name;
+      var dataObject = { key: 'asset', data: asset }
+      axios.post(WEB_SERVER_API_IPFS_ADD, JSON.stringify(dataObject))
+          .then(response => {
+              console.log("1 ipfsHash: ", response)
+              var ipfsHash = response.data.hash
+              return ipfsHash
+          })
+          .then(ipfsHash => {
+
+              /* This part creates a new factom chain */
+
+              var dataObject = JSON.stringify({ ipfsHash: ipfsHash, organizationName: organization_name })
+
+              axios.post(WEB_SERVER_API_FACTOM_CHAIN_ADD, dataObject)
+                  .then(response => {
+                      console.log("2 web server factom response: ", response.data)
+                      var chainId = response.data.chainId
+                      return chainId
+                  })
+                  .then(chainId => {
+                      let dataObject = Object.assign({}, { chainId: chainId, ipfsHash: ipfsHash, Name: asset.Name })
+                      if (asset.Logo) {
+                          dataObject = Object.assign(dataObject, { Logo: asset.Logo })
+                      }
+                      console.log("3 going into firebase: ", dataObject)
+                      rootRef.child('assets').child(asset.Name).set(dataObject)
+                  })
+                  .catch(err => { console.log(err) })
+          })
+          .catch(err => {
+              console.log("Error confirming assets in IPFS: ", err)
+          })
+  })
 
   return {
     type: CONFIRM_ASSET,
-    newAsset
+    asset
   };
 }
 
