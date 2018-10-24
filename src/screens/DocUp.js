@@ -22,7 +22,6 @@ class DocUp extends Component {
         alignItems: "center",
         marginTop: 40,
         paddingBottom: 20
-
       },
       header__container__centeredBox: {
         height: "100%",
@@ -33,7 +32,6 @@ class DocUp extends Component {
         height: "100%",
         marginBottom: 5,
         marginLeft: 12,
-
       },
       header__image__box: {
         height: "100%",
