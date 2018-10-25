@@ -24,33 +24,30 @@ class TransRev extends Component {
 
     _sendTrans(price) {
         const { navigate } = this.props.navigate;
-        console.log(this.props, "send trans", price)
         this.props.sendTrans(price);
         this.props.navigate('MenuOptions');
 
     }
     _getPrices = () => {
 
-        console.log("getPrices")
         let transDat = this.props.transDat;
         let price = 0;
         let imgPrice = 0;
         let docPrice = 0;
 
         if (transDat.images[0]) {
-            imgPrice = ((((transDat.images[0].size / 1024) * (.00000002)) + (.000256)) / (.6));
+            imgPrice = (((transDat.images[0].size / 1024) * (.00000002)) / (.4))
             console.log(imgPrice, "imgPrice");
-
         };
+
         if (transDat.documents[0]) {
-            docPrice = .00000000000125;
-            console.log(docPrice, "docPRice")
+            docPrice = (transDat.documents[0].size * .000032) * .4
         }
 
         if ((docPrice + imgPrice) !== 0) {
-            price = (docPrice + imgPrice) + (.00000000002);
+            price = (docPrice + imgPrice) + (.000032);
         }
-        console.log(price, "price in getPrice before return")
+
         return (
             price
         )
@@ -59,8 +56,7 @@ class TransRev extends Component {
 
     _hasImage = (transDat) => {
         if (transDat.images[0]) {
-            let imgPrice = ((((transDat.images[0].size / 1024) * (.00000002)) + (.000256)) / (.6));
-            console.log(imgPrice)
+            let imgPrice = ((transDat.images[0].size / 1024) * (.00000002)) / (.4);
             return (
                 <View style={localStyles.imgContainer}>
                     <Text style={localStyles.transRevTime}>Images</Text>
@@ -79,16 +75,21 @@ class TransRev extends Component {
     }
 
     _hasDocuments = (transDat) => {
+<<<<<<< HEAD
+=======
+
+>>>>>>> modifiedTxReview
         if (transDat.documents[0]) {
+            let docPrice = (transDat.documents[0].size * .000032) * .4;
             return (
                 <View style={localStyles.docContainer}>
                     <Text style={localStyles.transRevTime}>Documents</Text>
                     <Text style={localStyles.text}>{transDat.documents[0].name}</Text>
                     <Text style={localStyles.text}>{(transDat.documents[0].size / 1024).toFixed(3)} kb</Text>
-                    {/* <View style={localStyles.feeContainer}>
+                    <View style={localStyles.feeContainer}>
                         <Image style={localStyles.hercPillarIcon} source={fee} />
                         <Text style={localStyles.teePrice}>{docPrice.toFixed(8)}</Text>
-                    </View> */}
+                    </View>
                 </View>
             );
             console.log(transInfo.price, "transprice plus docprice", this.state.docPrice)
@@ -113,28 +114,20 @@ class TransRev extends Component {
                     {list}
                 </View>
             )
-
-
         }
         return (<Text style={localStyles.revPropVal}>No Properties</Text>)
     }
 
-
-
     render() {
-        // let price = this._getPrices();
-        // console.log(price, "price")
         let transInfo = this.props.transInfo;
         // let fctPrice = this.state ? this.state.fctPrice : "";
         let transDat = this.props.transDat;
         console.log(transInfo, 'transinfo in transreviewrender', transInfo.price, 'transdata')
-
         let locationImage = this.props.transInfo.tXLocation === 'recipient' ? newRecipient : newOriginator;
         let list, edit;
         let dTime = transDat.dTime;
         let name = this.props.transInfo.name;
         let transPrice = transInfo.price;
-        console.log(dTime, 'dtime??');
 
         if (transDat.hasOwnProperty('ediT')) {
             edit = (
@@ -162,8 +155,6 @@ class TransRev extends Component {
                 {this._hasDocuments(transDat)}
 
                 {this._hasList(transDat)}
-
-
 
                 <TouchableHighlight style={{ margin: 10 }} onPress={() => this._sendTrans(transPrice)}>
                     <Image source={submit} style={localStyles.submitButton} />
@@ -244,7 +235,8 @@ const localStyles = StyleSheet.create({
         fontFamily: "dinPro",
         textAlign: "center",
         fontSize: 20,
-        fontWeight: "bold"
+        fontWeight: "bold",
+        flexDirection: "column",
     },
     transRevName: {
         fontFamily: "dinPro",
@@ -269,7 +261,9 @@ const localStyles = StyleSheet.create({
         fontFamily: "dinPro",
         fontSize: 15,
         color: "white",
-        margin: 2,
+        //put this margin  top combat an overlap issue
+        marginTop: 20,
+        padding: 2,
         textAlign: "center"
     },
     listContainer: {
@@ -278,12 +272,22 @@ const localStyles = StyleSheet.create({
         justifyContent: "center"
     },
     feeContainer: {
+<<<<<<< HEAD
         height: 20,
         width: 130,
         flexDirection: "row",
         justifyContent: "space-between",
+=======
+        // borderColor: "red",
+        // borderWidth: 3,
+        // height: 20,
+        // width: 130,
+        flexDirection: "row",
+        justifyContent: "center",
+>>>>>>> modifiedTxReview
         alignItems: "center",
-        alignSelf: "center"
+        alignSelf: "center",
+        margin: 5,
     },
     teePrice: {
         fontSize: 10,
@@ -296,7 +300,11 @@ const localStyles = StyleSheet.create({
         width: 15,
         resizeMode: "contain",
         borderRadius: 15 / 2
+<<<<<<< HEAD
     }
+=======
+    },
+>>>>>>> modifiedTxReview
 });
 
 const mapStateToProps = (state) => ({
