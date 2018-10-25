@@ -1,35 +1,28 @@
 import {
-    GOT_LIST_ASSETS,
-    LIST_ASSETS,
-    GET_ASSETS,
-    ADD_ASSET,
-    SELECT_ASSET,
-    START_TRANS,
-    SEND_TRANS,
-    GET_TRANS,
-    GOT_ASSET_TRANS,
-    ADD_PHOTO,
-    ADD_DOC,
-    ADD_PROPS,
-    INC_HERC_ID,
-    GET_USERNAME,
-    GET_ACCOUNT,
-    GET_ETH_ADDRESS,
-    GET_ORGANIZATION,
-    GET_WALLET,
-    GET_HERC_ID,
-    GOT_HERC_ID,
-    CONFIRM_ASSET,
-    SET_SET,
-    DELETE_ASSET,
-    AUTH_TOKEN,
-    GOT_ASSET_DEF
-
+  ADD_ASSET,
+  ADD_DOC,
+  ADD_METRICS,
+  ADD_PHOTO,
+  CONFIRM_ASSET,
+  DELETE_ASSET,
+  GET_HERC_ID,
+  GET_ORIGIN_TRANS,
+  GET_QR_DATA,
+  GET_TRANS,
+  GOT_ASSET_DEF,
+  GOT_ASSET_TRANS,
+  GOT_HERC_ID,
+  GOT_LIST_ASSETS,
+  INC_HERC_ID,
+  SELECT_ASSET,
+  SEND_TRANS,
+  SET_SET,
+  START_TRANS,
 } from '../actions/types';
-import firebase from '../constants/Firebase';
-const rootRef = firebase.database().ref();
 import axios from 'axios';
 import store from "../store";
+import firebase from '../constants/Firebase';
+const rootRef = firebase.database().ref();
 
 import {
     WEB_SERVER_API_IPFS_GET,
@@ -57,27 +50,33 @@ import {
 
 
 
-const INITIAL_STATE = {};
+const INITIAL_STATE = {
+    assetFetching: false,
+    assetFetched: false,
+    assetDefFetching: false,
+    assetDefFetched: false,
+};
 
 
 const AssetReducers = (state = INITIAL_STATE, action) => {
     switch (action.type) {
 
         case GOT_LIST_ASSETS:
-            console.log(action, "getAsset Action")
+            console.log(state, "chance")
+            console.log(action, " GOT_LIST_ASSETS Action")
             let assetLabels = action.assets;
             return Object.assign({}, state, {
                 ...state,
                 assets: assetLabels
-
             })
 
         case GOT_ASSET_DEF:
 
-            console.log(action, "action in GOTASSETDEF REDUCER")
+            console.log(action, "action in GOT_ASSET_DEF REDUCER")
 
             return Object.assign({}, state, {
                 ...state,
+                assetDefFetched: true,
                 selectedAsset:
                 {
                     ...state.selectedAsset,
@@ -87,18 +86,17 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
             })
 
         case SELECT_ASSET:
-            // console.log(action, 'action in select reducer');
-            let selectedAsset = action.selectedAsset;
             return Object.assign({}, state, {
                 ...state,
-                selectedAsset
+                assetFetching: false,
+                assetFetched: true,
+                selectedAsset: action.selectAsset
             })
-
 
 
         case START_TRANS:
             let trans = action.data;
-            console.log(state.selectedAsset.Name, "selectedAssetName in startTrans reducer")
+            console.log(state.selectedAsset.Name, "selectedAssetName in START_TRANS reducer")
 
             return Object.assign({}, state, {
                 ...state,
@@ -117,7 +115,6 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
             keys.forEach(key => {
                 if (Object.keys(data[key]).length != 0 && data[key].constructor === Object) {
                     var dataObject = Object.assign({}, { key: key }, { data: data[key] }) // {key: 'properties', data: data[key]}
-                    console.log(dataObject, "chance check for you")
                     promiseArray.push(
                         axios.post(WEB_SERVER_API_IPFS_ADD, JSON.stringify(dataObject))
                             .then(response => { return response }) // {key: 'properties', hash: 'QmU1D1eAeSLC5Dt4wVRR'}
@@ -138,8 +135,7 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
                 var chainId = snapshot.val().chainId
                 Promise.all(promiseArray)
                     .then(results => {
-                        console.log(results, "results chance?")// [{key: 'properties', hash: 'QmU1D1eAeSLC5Dt4wVRR'}, {key: 'images', hash: 'QmU1D1eAeSLC5Dt4wVRR'}]
-                        return results
+                        return results // [{key: 'properties', hash: 'QmU1D1eAeSLC5Dt4wVRR'}, {key: 'images', hash: 'QmU1D1eAeSLC5Dt4wVRR'}]
                     })
                     .then(results => {
                         var hashlist = results.map(result => { return result.data })
@@ -177,53 +173,20 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
 
         case GOT_HERC_ID:
             let hercId = action.hercId;
-            console.log(hercId, action, "hercidstuff")
+            console.log(hercId, action, "herc id stuff")
             return Object.assign({}, state, {
                 ...state,
-
                 hercId
             })
 
         case INC_HERC_ID:
             let hercID = action.hercIdplus1;
             console.log(hercID, "in increase reducer");
-
             rootRef.child("hercID").set(hercID);
-
             return Object.assign({}, state, {
                 ...state,
                 hercId
             });
-
-        case AUTH_TOKEN:
-            let token = action.token;
-            // console.log('Token captured in reducer', token);
-            return Object.assign({}, state, {
-                ...state,
-                auth_token: token
-            })
-
-
-        case GET_ETH_ADDRESS:
-            let ethereumAddress = action.ethereumAddress;
-            return Object.assign({}, state, {
-                ...state,
-                ethereumAddress: ethereumAddress
-            })
-
-        case GET_WALLET:
-            let wallet = action.wallet;
-            return Object.assign({}, state, {
-                ...state,
-                wallet
-            })
-
-        case GET_ORGANIZATION:
-            let organizationName = action.organizationName;
-            return Object.assign({}, state, {
-                ...state,
-                organizationName: organizationName
-            })
 
         case ADD_PHOTO:
             let image = {
@@ -244,19 +207,6 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
                 }
             })
 
-        // case GOT_LOGO:
-        // let logoURl = action.Logo;
-        // return{
-        //     ...state,
-        //     AssetReducers:{
-        //         ...state.AssetReducers,
-        //         newAsset: {
-        //             ...state.AssetReducers.newAsset,
-        //             Logo: logoURl
-        //         },
-
-        //     }
-        // }
 
         case ADD_DOC:
             let doc = action.document;
@@ -273,7 +223,7 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
                 }
             })
 
-        case ADD_PROPS:
+        case ADD_METRICS:
             const properties = action.data;
             console.log(properties, "updating attributes in reducers");
             return Object.assign({}, state, {
@@ -290,7 +240,7 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
 
         case ADD_ASSET:
             const newAsset = action.newAsset;
-            console.log('adding asset', newAsset.name)
+            console.log('adding asset', newAsset.Name)
             return Object.assign({}, state, {
                 ...state,
                 newAsset
@@ -298,46 +248,6 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
 
         case CONFIRM_ASSET:
             const asset = action.newAsset;
-            console.log(asset, 'asset in reducerconfirm', state, 'state')
-            console.log(state.edge_account)
-
-            rootRef.child('idology').child(state.edge_account).once('value').then(snapshot => {
-                cnosole.log(snapshot.val(), "chance snapshot")
-                var organization_name = snapshot.val().organizationName || asset.Name;
-                var dataObject = { key: 'newAsset', data: asset }
-                console.log(dataObject, "this will be written to ipfs")
-                axios.post(WEB_SERVER_API_IPFS_ADD, JSON.stringify(dataObject))
-                    .then(response => {
-                        console.log("1 ipfsHash: ", response)
-                        var ipfsHash = response.data.hash
-                        return ipfsHash
-                    })
-                    .then(ipfsHash => {
-
-                        /* This part creates a new factom chain */
-
-                        var dataObject = JSON.stringify({ ipfsHash: ipfsHash, organizationName: organization_name })
-
-                        axios.post(WEB_SERVER_API_FACTOM_CHAIN_ADD, dataObject)
-                            .then(response => {
-                                console.log("2 web server factom response: ", response.data)
-                                var chainId = response.data.chainId
-                                return chainId
-                            })
-                            .then(chainId => {
-                                let dataObject = Object.assign({}, { chainId: chainId, ipfsHash: ipfsHash, Name: asset.Name })
-                                if (asset.Logo) {
-                                    dataObject = Object.assign(dataObject, { Logo: asset.Logo })
-                                }
-                                console.log("3 going into firebase: ", dataObject)
-                                rootRef.child('assets').child(asset.Name).set(dataObject)
-                            })
-                            .catch(err => { console.log(err) })
-                    })
-                    .catch(err => {
-                        console.log("Error confirming assets in IPFS: ", err)
-                    })
-            })
 
             return Object.assign({}, state, {
                 state: INITIAL_STATE,
@@ -357,19 +267,6 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
                 }
             })
 
-        case GET_USERNAME:
-            let edge_account = action.edge_account;
-            return Object.assign({}, state, {
-                ...state,
-                edge_account: edge_account
-            })
-
-        case GET_ACCOUNT:
-            let account = action.account;
-            return Object.assign({}, state, {
-                ...state,
-                account
-            })
 
         case DELETE_ASSET:
             const key = action.delKey;

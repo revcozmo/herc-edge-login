@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Platform, StyleSheet, Text, View, Image, ScrollView, TouchableHighlight, Alert, StatusBar, } from 'react-native';
-// import { DocumentPicker } from 'expo';
 import { connect } from 'react-redux';
 import styles from '../assets/styles';
 import { addDoc } from '../actions/AssetActions';
@@ -15,10 +14,7 @@ class DocUp extends Component {
     const { params } = navigation.state;
     let headerStyles = StyleSheet.create({
       header__container: {
-        // borderColor: "green",
-        // borderWidth: 3,
         display: "flex",
-        // resizeMode: "contain",
         height: 80,
         alignSelf: "center",
         flex: 1,
@@ -29,32 +25,24 @@ class DocUp extends Component {
 
       },
       header__container__centeredBox: {
-        // borderColor: "purple",
-        // borderWidth: 3,
         height: "100%",
         alignItems: "center",
         flexDirection: 'row'
       },
       header__text__box: {
-        // borderColor: "blue",
-        // borderWidth: 3,
         height: "100%",
         marginBottom: 5,
         marginLeft: 12,
 
       },
       header__image__box: {
-        // borderColor: "yellow",
-        // borderWidth: 3,
         height: "100%",
         borderRadius: 100
-        // width: 50
       },
       assetHeaderLogo: {
         height: 35,
         width: 35,
         borderRadius: 50,
-        // resizeMode: "contain",
       },
       headerText: {
         fontFamily: "dinPro",
@@ -64,7 +52,6 @@ class DocUp extends Component {
         color: "black",
         textAlign: "center",
         marginTop: 2,
-        // paddingTop: 5
       },
     })
 
@@ -75,15 +62,17 @@ class DocUp extends Component {
         <View style={headerStyles.header__container}>
           <View style={headerStyles.header__container__centeredBox}>
             <View style={headerStyles.header__image__box}>
-              {/* <TouchableHighlight style={{justifyContent: "center"}} onPress={() => navigation.navigate("MenuOptions")}>
-           </TouchableHighlight> */}
-              <Image
-                style={headerStyles.assetHeaderLogo}
-                source={{ uri: params.logo }}
-              />
-            </View>
-            <View style={headerStyles.header__text__box}>
-              <Text style={headerStyles.headerText}>{params.name}</Text>
+              <TouchableHighlight style={{justifyContent: "center"}} onPress={() => navigation.navigate("MenuOptions")}>
+                <View>
+                  <Image
+                    style={headerStyles.assetHeaderLogo}
+                    source={{ uri: params.logo }}
+                  />
+                  <View style={headerStyles.header__text__box}>
+                    <Text style={headerStyles.headerText}>{params.name}</Text>
+                  </View>
+                </View>
+              </TouchableHighlight>
             </View>
           </View>
         </View>
@@ -91,7 +80,6 @@ class DocUp extends Component {
     }
   }
   state = {
-
     name: null,
     uri: null,
     size: null
@@ -107,9 +95,8 @@ class DocUp extends Component {
       uri: uri,
       size: docSize,
       name: docName
-    }
-    )
-    console.log(doc, "onsubmitcsv")
+    })
+    console.log(doc, "DocUp: onsubmitcsv")
     this.props.addDoc(doc);
 
     navigate('Splash3', { logo: this.props.logo, name: this.props.name });
@@ -117,12 +104,12 @@ class DocUp extends Component {
 
 
   _pickDocument = () => {
-    console.log("picking Doc")
+    console.log("DocUp: picking Doc")
     DocumentPicker.show({
       filetype: [DocumentPickerUtil.allFiles()],
     }, (error, res) => {
       if (error) Alert.alert("Something Went Wrong! Error: " + error);
-      console.log(res);
+      console.log("DocUp: ", res);
       // Android
       this.setState({
         uri: res.uri,
@@ -131,16 +118,7 @@ class DocUp extends Component {
       });
     });
   }
-  // iPad
-  // const {pageX, pageY} = event.nativeEvent;
 
-  // DocumentPicker.show({
-  //   top: pageY,
-  //   left: pageX,
-  //   filetype: ['public.image'],
-  // }, (error, url) => {
-  //   alert(url);
-  // });
   render() {
     const { navigate } = this.props.navigation;
 
@@ -175,18 +153,6 @@ class DocUp extends Component {
     )
   }
 }
-const mapStateToProps = (state) => ({
-  transInfo: state.AssetReducers.trans.header,
-  logo: state.AssetReducers.selectedAsset.Logo,
-  name: state.AssetReducers.selectedAsset.Name
-
-});
-const mapDispatchToProps = (dispatch) => ({
-
-  addDoc: (doc) =>
-    dispatch(addDoc(doc)),
-
-})
 
 const localStyles = StyleSheet.create({
   submitButton: {
@@ -197,8 +163,6 @@ const localStyles = StyleSheet.create({
     alignSelf: "center"
   },
   assetLocationLabel: {
-    // borderColor: "yellow",
-    // borderWidth: 3,
     height: 30,
     width: 150,
     resizeMode: "contain",
@@ -228,12 +192,9 @@ const localStyles = StyleSheet.create({
     fontFamily: "dinPro"
   },
   menuItemField__textBox: {
-    // borderColor: "orange",
-    // borderWidth: 3,
     flex: 1
   },
   docContainer: {
-    // backgroundColor: "blue",
     width: "100%",
     height: 75,
   },
@@ -252,7 +213,19 @@ const localStyles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold"
   },
+});
 
+const mapStateToProps = (state) => ({
+  transInfo: state.AssetReducers.trans.header,
+  logo: state.AssetReducers.selectedAsset.Logo,
+  name: state.AssetReducers.selectedAsset.Name
 
 });
+
+const mapDispatchToProps = (dispatch) => ({
+  addDoc: (doc) =>
+    dispatch(addDoc(doc)),
+
+})
+
 export default connect(mapStateToProps, mapDispatchToProps)(DocUp);

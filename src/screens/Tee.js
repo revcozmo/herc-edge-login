@@ -18,7 +18,6 @@ import { addAsset, getHercId } from "../actions/AssetActions";
 import next from "../components/buttons/nextButton.png";
 import takePhoto from "../components/buttons/takePhoto.png";
 import uploadPhoto from "../components/buttons/uploadImage.png";
-import { STATUS_BAR_HEIGHT } from "../constants";
 var ImagePicker = require('react-native-image-picker');
 
 
@@ -26,13 +25,7 @@ class Tee extends Component {
   constructor(props) {
     super(props);
     this.setImage = this.setImage.bind(this); // method to set the log from the camera component
-    this.state = {
-      // Logo: {
-      //   uri: "",
-      //   imageString: "",
-      //   size: ""
-      // }
-    }
+    this.state = {}
   }
 
   static navigationOptions = ({ navigation }) => {
@@ -114,7 +107,7 @@ class Tee extends Component {
 
   _takePic = () => {
     const { navigate } = this.props.navigation;
-    console.log("takingpic")
+    console.log("Camera: Taking pic......")
     navigate('Camera', { setPic: this.setImage })
   }
 
@@ -122,23 +115,21 @@ class Tee extends Component {
     console.log("picking image")
 
     ImagePicker.launchImageLibrary({}, (response) => {
-      console.log('Response = ', response);
+      console.log('Camera: Response = ', response);
 
       if (response.didCancel) {
-        console.log('User cancelled image picker');
+        console.log('Camera: User cancelled image picker');
       }
       else if (response.error) {
-        console.log('ImagePicker Error: ', response.error);
+        console.log('Camera: ImagePicker Error: ', response.error);
       }
       else if (response.customButton) {
-        console.log('User tapped custom button: ', response.customButton);
+        console.log('Camera: User tapped custom button: ', response.customButton);
       }
       else {
         let source = response.uri;
-
         // You can also display the image using data:
         // let source = { uri: 'data:image/jpeg;base64,' + response.data };
-
         this.setState({
           Logo: {
             imageString: "data:image/jpg;base64," + response.data,
@@ -149,6 +140,7 @@ class Tee extends Component {
       }
     });
   }
+
   // _pickImage = async () => {
   //   let logo = await ImagePicker.launchImageLibraryAsync({
   //     allowsEditing: false,
@@ -156,9 +148,9 @@ class Tee extends Component {
   //     base64: true
   //   });
   //   alert(logo.uri);
-
+  //
   //   console.log(logo.uri, "logouri");
-
+  //
   //   if (!logo.cancelled) {
   //     this.setState({
   //       Logo: "data:image/png;base64," + logo.base64
@@ -185,6 +177,9 @@ class Tee extends Component {
         CoreProps
       });
       if (this.state.Name && this.state.CoreProps) {
+
+        console.log(newAsset, "chance debugging: newAsset in Tee")
+
         this.props.addAsset(newAsset);
         navigate("NewAssetConfirm");
       }
@@ -200,15 +195,8 @@ class Tee extends Component {
 
   render() {
     let Logo;
-    if (this.state.Logo) {
-      Logo = this.state.Logo.uri
-    } else {
-      Logo = null
-    }
-
-    if (this.state.Logo) {
-      console.log("logog is here")
-    }
+    this.state.Logo ? Logo = this.state.Logo.uri : Logo = null
+    if (this.state.Logo) { console.log("Camera: logo is here") }
 
     return (
       <View style={styles.container}>
@@ -227,7 +215,6 @@ class Tee extends Component {
                 underlineColorAndroid='transparent'
                 style={localStyles.input}
                 onChangeText={Name => this.setState({ Name })}
-                // underlineColorAndroid="transparent"
                 placeholder="Asset Name"
               />
             </View>
@@ -412,7 +399,6 @@ const localStyles = StyleSheet.create({
     height: 40,
     width: 200,
     margin: 10,
-    // resizeMode: "contain"
   },
   imageButtonContainer: {
     justifyContent: "center",
@@ -456,7 +442,4 @@ const mapDispatchToProps = dispatch => ({
   getHercId: () => dispatch(getHercId())
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Tee);
+export default connect( mapStateToProps, mapDispatchToProps )(Tee);

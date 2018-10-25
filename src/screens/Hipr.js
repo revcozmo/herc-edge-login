@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Platform, WebView, Image, StyleSheet, View, TouchableHighlight } from 'react-native';
-// import { STATUS_BAR_HEIGHT } from '../constants';
 import hiprLogo from "../assets/hiprLogo.png";
 import backArrow from "../assets/icons/blueBackArrow.png";
 import profilePic from "../assets/icons/darker_profileIcon.png";

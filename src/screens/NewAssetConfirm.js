@@ -17,9 +17,7 @@ class NewAssetConfirm extends Component {
     static navigationOptions = ({ navigation }) => {
         return {
             headerTitleStyle:
-            {
-                justifyContent: "space-around"
-            },
+            { justifyContent: "space-around" },
             headerTitle: (
                 <View style={localStyles.headerField}>
                     <Image
@@ -36,18 +34,15 @@ class NewAssetConfirm extends Component {
     async uploadImageAsync(uri) {
 
         let newAsset = this.props.newAsset;
-        let assetName = newAsset.Name
         const response = await fetch(uri);
         const blob = await response.blob();
         let logoLocation = firebase.storage().ref('assets')
             .child(this.props.edgeAccount)
-            .child(assetName)
+            .child(newAsset.Name)
             .child("Logo");
 
         let assetLocation = firebase.database().ref('assets')
             .child(this.props.edgeAccount);
-
-
 
         const snapshot = await logoLocation.put(blob);
         let downloadURL = snapshot.downloadURL;
@@ -55,82 +50,28 @@ class NewAssetConfirm extends Component {
 
 
         ipfsAsset = Object.assign({}, {
-            Name: assetName,
+            url: newAsset.Url || 'No URL',
+            Name: newAsset.Name,
             CoreProps: newAsset.CoreProps,
             hercId: this.props.hercId,
             date: Date.now()
         });
 
-        fbAsset = Object.assign({}, {
-            Name: assetName,
+        fbAsset = {
+            Name: newAsset.Name,
             Logo: downloadURL,
-        })
+        }
 
-      console.log(ipfsAsset, fbAsset, "right before the send")
+      console.log(ipfsAsset, fbAsset, "right before the send chance")
 
-       this.props.confirmAsset(fbAsset)
-
-        this.props.incHercId(this.props.hercId);
-        this.props.navigation.navigate('MenuOptions');
-        // const snapshot = await logoLocation.put(blob);
-        // console.log(snapshot, 'snapshot')
-        // return snapshot.downloadURL ? snapshot.downloadURL : "notingmon";
-
-
-
+      this.props.confirmAsset(fbAsset)
+      this.props.incHercId(this.props.hercId);
+      this.props.navigation.navigate('MenuOptions');
     }
-    // Register three observers:
-    // 1. 'state_changed' observer, called any time the state changes
-    // 2. Error observer, called on failure
-    // 3. Completion observer, called on successful completion
-    // uploadTask.on(
-    //     "state_changed",
-    //     function (snapshot) {
-    //         // Observe state change events such as progress, pause, and resume
-    //         // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-    //         var progress =
-    //             (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-    //         console.log("Upload is " + progress + "% done");
-    //         switch (snapshot.state) {
-    //             case firebase.storage.TaskState.PAUSED: // or 'paused'
-    //                 console.log("Upload is paused");
-    //                 break;
-    //             case firebase.storage.TaskState.RUNNING: // or 'running'
-    //                 console.log("Upload is running");
-    //                 break;
-    //         }
-    //     },
-    //     function (error) {
-    //         Alert.alert("Something Went Wrong");
-    //         // Handle unsuccessful uploads
-    //     },
-    //     function () {
-    //         // Handle successful uploads on complete
-    //         // For instance, get the download URL: https://firebasestorage.googleapis.com/...
-    //         uploadTask.snapshot.ref.getDownloadURL().then(function (downloadURL) {
-    //             console.log("File available at", downloadURL);
-
-    //             let newAsset = Object.assign({}, this.props.newAsset, {
-    //                     Name: this.props.newAsset.Name,
-    //                     CoreProps: this.props.newAsset.CoreProps,
-    //                     Logo: downloadURL,
-    //                     hercId
-    //                 })
-    //                 console.log(newAsset, 'after fuckery')
-    //                 this.props.confirmAsset(newAsset)
-    //             })
-    //             // setImageinState(downloadURL);
-    //         });
-    // }
-
-
-
 
     _onPressSubmit() {
         let hercId = this.props.hercId;
         const { navigate } = this.props.navigation;
-
-
         if (this.props.newAsset.Logo) {
             this.uploadImageAsync(this.props.newAsset.Logo.uri)
         } else {
@@ -171,9 +112,7 @@ class NewAssetConfirm extends Component {
                     </View>
                 )
             })
-        } else {
-            list = (<Text style={styles.label}>No Properties</Text>)
-        }
+        } else { list = (<Text style={styles.label}>No Properties</Text>) }
 
 
 
@@ -216,10 +155,10 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
     confirmAsset: (asset) =>
         dispatch(confirmAsset(asset)),
-
     incHercId: (hercid) =>
         dispatch(incHercId(hercid))
 })
+
 export default connect(mapStateToProps, mapDispatchToProps)(NewAssetConfirm);
 
 
@@ -285,7 +224,6 @@ const localStyles = StyleSheet.create({
         alignSelf: "center",
         margin: 7
     },
-
     newAssetFeeContainer: {
         height: 50,
         width: 125,

@@ -12,7 +12,6 @@ import {
   StatusBar,
 } from "react-native";
 import { createStackNavigator } from "react-navigation";
-import { STATUS_BAR_HEIGHT } from "../constants";
 import { connect } from "react-redux";
 import Button from "react-native-button";
 import styles from "../assets/styles";
@@ -24,10 +23,7 @@ import supplyChainIcon from "../assets/supplyChainIcon.png";
 
 let headerStyles = StyleSheet.create({
   header__container: {
-    // borderColor: "green",
-    // borderWidth: 3,
     display: "flex",
-    // resizeMode: "contain",
     height: 80,
     alignSelf: "center",
     flex: 1,
@@ -35,35 +31,25 @@ let headerStyles = StyleSheet.create({
     alignItems: "center",
     marginTop: 40,
     paddingBottom: 20
-
   },
   header__container__centeredBox: {
-    // borderColor: "purple",
-    // borderWidth: 3,
     height: "100%",
     alignItems: "center",
     flexDirection: 'row'
   },
   header__text__box: {
-    // borderColor: "blue",
-    // borderWidth: 3,
     height: "100%",
     marginBottom: 5,
     marginLeft: 12,
-
   },
   header__image__box: {
-    // borderColor: "yellow",
-    // borderWidth: 3,
     height: "100%",
     borderRadius: 100
-    // width: 50
   },
   assetHeaderLogo: {
     height: 35,
     width: 35,
     borderRadius: 50,
-    // resizeMode: "contain",
   },
   headerText: {
     fontFamily: "dinPro",
@@ -73,7 +59,6 @@ let headerStyles = StyleSheet.create({
     color: "black",
     textAlign: "center",
     marginTop: 2,
-    // paddingTop: 5
   },
 })
 
@@ -84,8 +69,6 @@ class Splash1 extends Component {
       <View style={headerStyles.header__container}>
         <View style={headerStyles.header__container__centeredBox}>
           <View style={headerStyles.header__image__box}>
-            {/* <TouchableHighlight style={{justifyContent: "center"}} onPress={() => navigation.navigate("MenuOptions")}>
-            </TouchableHighlight> */}
             <Image
               style={headerStyles.assetHeaderLogo}
               source={supplyChainIcon}
@@ -105,7 +88,7 @@ class Splash1 extends Component {
   componentDidMount() {
     StatusBar.setBackgroundColor("white");
     StatusBar.setBarStyle("dark-content", true);
-    console.log(this.props.assets, "brand new assets from IPFS!")
+    console.log(this.props.assets, "Supply Chain: Received Assets from IPFS")
 
   }
 
@@ -117,8 +100,6 @@ class Splash1 extends Component {
 
   _renderAssets = () => {
     let list = this.props.assets.map((asset, index) => {
-      console.log(asset, "mapping for assetList in splash1")
-      // console.log(asset, "asset mapping in splash1", asset.Name, asset.CoreProps)
       return (
         <TouchableHighlight style={{ borderRadius: 2 }} key={index} onPress={() => this._onPress(asset)}>
           <View style={localStyles.menuItemField}>
@@ -184,11 +165,8 @@ const localStyles = StyleSheet.create({
     alignContent: "center",
     marginTop: 100,
     paddingLeft: 5,
-    // justifyContent: "space-between"
   },
   createNewText: {
-    // borderWidth: 3,
-    // borderColor: "purple",
     flex: 1,
     color: "black",
     alignSelf: "center",
@@ -196,7 +174,6 @@ const localStyles = StyleSheet.create({
     fontSize: 22,
     fontWeight: "normal",
     margin: 5,
-    // marginLeft: "20%",
     fontFamily: "dinPro"
   },
   menuItemField: {
@@ -210,20 +187,14 @@ const localStyles = StyleSheet.create({
     alignContent: "center",
     justifyContent: "center",
     margin: 15,
-    // marginTop: 10,
     paddingLeft: 3,
-    // borderWidth: 2,
-    // borderColor: "black"
   },
   assetLogo: {
-    // borderColor: "green",
-    // borderWidth: 3,
     height: 25,
     width: 25,
     marginLeft: 2,
     borderRadius: 25 / 2,
     alignSelf: "center"
-    // resizeMode: "contain"
   },
   assetLabel: {
     color: "black",
@@ -232,12 +203,9 @@ const localStyles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "normal",
     margin: 2,
-    // marginLeft: "20%",
     fontFamily: "dinPro"
   },
   menuItemField__textBox: {
-    // borderColor: "orange",
-    // borderWidth: 3,
     flex: 1
   },
 });
@@ -252,7 +220,4 @@ const mapDispatchToProps = dispatch => ({
   deleteAsset: key => dispatch(deleteAsset(key))
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Splash1);
+export default connect(mapStateToProps, mapDispatchToProps)(Splash1);

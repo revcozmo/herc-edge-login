@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
-import { getOrganization } from "../actions/AssetActions";
+import { getOrganization } from "../actions/WalletActActions";
 import { Button } from 'react-native-elements';
 import { YellowBox } from 'react-native';
 import { connect } from "react-redux";
@@ -114,10 +114,10 @@ class IdologyForm extends Component {
   }
 
   render() {
-    if (!store.getState().AssetReducers.edge_account){
+    if (!store.getState().WalletActReducers.edge_account){
       edgeAccount = "No Account Captured"
     } else {
-      edgeAccount = store.getState().AssetReducers.edge_account
+      edgeAccount = store.getState().WalletActReducers.edge_account
     }
     var defaultValues = {
       edgeAccount: edgeAccount,
@@ -167,7 +167,7 @@ const localStyles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => ({
-    organizationName: state.AssetReducers.organizationName
+    organizationName: state.WalletActReducers.organizationName
 });
 
 const mapDispatchToProps = (dispatch) => ({

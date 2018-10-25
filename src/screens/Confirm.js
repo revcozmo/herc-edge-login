@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Platform, StyleSheet, Text, View, Image, ScrollView, TextInput, TouchableHighlight, Alert } from 'react-native';
-import { STATUS_BAR_HEIGHT } from '../constants';
 import submit from "../components/buttons/submit.png";
 import originator from "../components/buttons/originatorButton.png";
 import recipient from "../components/buttons/recipientButton.png";
@@ -18,10 +17,7 @@ class Confirm extends Component {
     const { params } = navigation.state;
     let headerStyles = StyleSheet.create({
         header__container: {
-            // borderColor: "green",
-            // borderWidth: 3,
             display: "flex",
-            // resizeMode: "contain",
             height: 80,
             alignSelf: "center",
             flex: 1,
@@ -29,35 +25,25 @@ class Confirm extends Component {
             alignItems: "center",
             marginTop: 40,
             paddingBottom: 20
-
         },
         header__container__centeredBox: {
-            // borderColor: "purple",
-            // borderWidth: 3,
             height: "100%",
             alignItems: "center",
             flexDirection: 'row'
         },
         header__text__box: {
-            // borderColor: "blue",
-            // borderWidth: 3,
             height: "100%",
             marginBottom: 5,
             marginLeft: 12,
-
         },
         header__image__box: {
-            // borderColor: "yellow",
-            // borderWidth: 3,
             height: "100%",
             borderRadius: 100
-            // width: 50
         },
         assetHeaderLogo: {
             height: 35,
             width: 35,
             borderRadius: 50,
-            // resizeMode: "contain",
         },
         headerText: {
             fontFamily: "dinPro",
@@ -67,20 +53,10 @@ class Confirm extends Component {
             color: "black",
             textAlign: "center",
             marginTop: 2,
-            // paddingTop: 5
         },
     })
 
     return {
-        // headerStyle: {
-        //     padding: 0,
-        //     marginTop: -20,
-        // },
-        // headerTitleStyle:
-        // {
-        //     justifyContent: "space-around",
-
-        // },
         headerTitle: (
             // <View style={localStyles.headerField}>
             //     <Image
@@ -118,8 +94,7 @@ class Confirm extends Component {
 
 
   componentDidMount() {
-    console.log(this.props.newProps, 'thisnewtransinfo')
-    // console.log(this.props, 'props')
+    console.log(this.props.newMetrics, 'thisnewtransinfo')
 
 
   }
@@ -127,21 +102,21 @@ class Confirm extends Component {
   render() {
     // let price = this.state.fctPrice;
     const { navigate } = this.props.navigation;
-    console.log(this.props.newProps, "txNewProps")
+    console.log(this.props.newMetrics, "txnewMetrics")
 
     let locationImage = this.props.location === 'originator' ? originator : recipient;
     let logo = this.props.logo;
     // console.log(this.props.Assets);
 
-    let list = this.props.newProps
+    let list = this.props.newMetrics
       ?
-      Object.keys(this.props.newProps).map((propName, idx) => {
+      Object.keys(this.props.newMetrics).map((propName, idx) => {
         let name = propName;
         return (
 
           <View key={idx} style={localStyles.assetMetricInputField}>
             <Text style={localStyles.text}>{name}</Text>
-            <Text style={localStyles.propVal}>{this.props.newProps[name]}</Text>
+            <Text style={localStyles.propVal}>{this.props.newMetrics[name]}</Text>
           </View>
         )
       })
@@ -175,7 +150,7 @@ class Confirm extends Component {
 
 
 const mapStateToProps = (state) => ({
-  newProps: state.AssetReducers.trans.data.properties,
+  newMetrics: state.AssetReducers.trans.data.properties,
   location: state.AssetReducers.trans.header.tXLocation,
   logo: state.AssetReducers.selectedAsset.Logo,
   name: state.AssetReducers.trans.header.name

@@ -7,14 +7,13 @@ import {
   Image,
   ScrollView
 } from "react-native";
-import { STATUS_BAR_HEIGHT } from "../constants";
 import styles from "../assets/styles";
 import { connect } from "react-redux";
 
 import JSONTree from "react-native-json-tree";
 // import Web3 from "web3";
 
-export default class BlockScanner extends Component {
+ class BlockScanner extends Component {
   static navigationOptions = ({ navigation }) => {
     const { params } = navigation.state;
 
@@ -29,45 +28,22 @@ export default class BlockScanner extends Component {
           </TouchableHighlight>
           <Text style={styles.headerText}>{params.name}</Text>
         </View>
-      ),
-      // headerTitleStyle: {
-      //   height: 50,
-      //   width: 200,
-      //   alignSelf: "center",
-      //   justifyContent: "center",
-      //   flexDirection: "row",
-      //   marginLeft: 20
-      // }
+      )
     };
   };
 
   constructor(props) {
     super(props);
     this.state = {
-      block: { still: "loading" },
-      isFetching: true
-
-      // search: this.state.wallet
-      // address: wallet
-    };
+      block: this.props.data
+    }
   }
 
   componentDidMount() {
-    // console.log(Web3, "webs");
-    // Web3.eth.getBlock("latest", (err, block) => {
-    //   this.setState({
-    //     block,
-    //     isFetching: false
-      // });
-
-      //   Web3.eth.defaultAccount = '0x1864a4327931f04B7FB489be97667FCE1B23223E';
-      //   console.log(Web3.eth.defaultAccount);
-      //   https://api-ropsten.etherscan.io/api?module=contract&action=getabi&address=0xBB9bc244D798123fDe783fCc1C72d3Bb8C189413&apikey=YourApiKeyToken
-    // });
+console.log(this.props.data, "this should be the block")
   }
   render() {
-    let block = this.state.block;
-    console.log(this.state.isFetching, "fetching");
+    // let block = this.props.data ? this.props.data :  null;
     return (
       <View style={styles.container}>
         <View style={styles.containerCenter}>
@@ -75,9 +51,9 @@ export default class BlockScanner extends Component {
             POC Ropsten TestNet Latest Block
         </Text>
 
-          {!this.state.isLoading && (
+          {this.state.block && (
             <ScrollView style={{ paddingLeft: 10 }}>
-              <JSONTree data={block} theme={theme} invertTheme={false} />
+              <JSONTree data={this.state.block} theme={theme} invertTheme={false} />
             </ScrollView>
           )}
         </View>
@@ -86,6 +62,19 @@ export default class BlockScanner extends Component {
   }
 }
 
+
+const mapStateToProps = (state) => ({
+  data: state.EthReducers.data,
+  isFetching: state.EthReducers.isFetching,
+  isFetched: state.EthReducers.isFetched
+})
+
+const mapDispatchToProps = (dispatch) => ({
+
+  // fetchContract: (abi) => dispatch(fetchContract(abi))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(BlockScanner);
 const theme = {
   scheme: "monokai",
   author: "wimer hazenberg (http://www.monokai.nl)",
@@ -107,19 +96,7 @@ const theme = {
   base0F: "#cc6633"
 };
 
-// const mapStateToProps = (state) => ({
-//     // data: state.EthReducers.data,
-//     isFetching: state.EthReducers.isFetching,
-// isFetched: state.EthReducers.isFetched,
-// fetchError: state.EthReducers.fetchError
-// })
 
-// const mapDispatchToProps = (dispatch) => ({
-//     fetchBlock: () => dispatch(fetchBlock()),
-// fetchContract: (abi) => dispatch(fetchContract(abi))
-// })
-
-// export default connect(mapStateToProps, mapDispatchToProps)(BlockScanner);
 
 // const localStyles = StyleSheet.create({
 
