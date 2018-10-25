@@ -2,6 +2,13 @@
   "name": "hercules",
   "version": "1.0.0",
   "private": true,
+  "description": "Hercules: Decentralized Supply Chain Application",
+  "homepage": "https://herc.one",
+  "license": "SEE LICENSE IN LICENSE",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:HERCone/herc-edge-login.git"
+  },
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest",

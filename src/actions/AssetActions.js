@@ -231,6 +231,7 @@ export function sendTrans(trans) {
   let header = transObject.header; //tXlocation, hercId, price, name
   let data = transObject.data; //documents, images, properties, dTime
   let keys = Object.keys(data) //[ 'dTime', 'documents', 'images', 'properties' ]
+  console.log(keys, "chance keys")
   let promiseArray = []
 
   //Checks if documents, metrics, images and EDIT was added
@@ -256,32 +257,27 @@ export function sendTrans(trans) {
   })
 
   console.log(promiseArray, "chance promiseArray")
-  debugger;
-  
-  rootRef.child('assets').child(header.name).once('value', function (snapshot) {
-      var chainId = snapshot.val().chainId
-      Promise.all(promiseArray)
-          .then(results => {
-              return results // [{key: 'properties', hash: 'QmU1D1eAeSLC5Dt4wVRR'}, {key: 'images', hash: 'QmU1D1eAeSLC5Dt4wVRR'}]
-          })
-          .then(results => {
-              var hashlist = results.map(result => { return result.data })
-              var factomEntry = { hash: hashlist, chainId: chainId, assetInfo: 'SampleAssetInfo' }
-              console.log(factomEntry, "chance factomEntry")
-              axios.post(WEB_SERVER_API_FACTOM_ENTRY_ADD, JSON.stringify(factomEntry))
-                  .then(response => { //response.data = entryHash
-                      var dataObject = {}
-                      hashlist.map(hash => dataObject[hash.key] = hash.hash)
-                      var header = Object.assign({}, header, { factomEntry: response.data })
-                      rootRef.child('assets').child(header.name).child('transactions').child(dTime).set({ data: dataObject, header: header })
-                      console.log("finished firebase writing ")
-                  })
-                  .catch(err => {
-                      console.log(err)
-                  })
-          })
-          .catch(console.log)
-  })
+
+  let chainId = store.getState().AssetReducers.selectedAsset.chainId
+
+  Promise.all(promiseArray)
+      .then(results => {
+          // results = [{key: 'properties', hash: 'QmU1D1eAeSLC5Dt4wVRR'}, {key: 'images', hash: 'QmU1D1eAeSLC5Dt4wVRR'}]
+          var hashlist = results.map(result => { return result.data })
+          var factomEntry = { hash: hashlist, chainId: chainId, assetInfo: 'SampleAssetInfo' } // TODO: make assetInfo = organizationName
+          console.log(factomEntry, "chance factomEntry")
+          axios.post(WEB_SERVER_API_FACTOM_ENTRY_ADD, JSON.stringify(factomEntry))
+              .then(response => { //response.data = entryHash
+                  var dataObject = {}
+                  hashlist.map(hash => dataObject[hash.key] = hash.hash)
+                  var firebaseHeader = Object.assign({}, header, { factomEntry: response.data })
+                  rootRef.child('assets').child(firebaseHeader.name).child('transactions').child(dTime).set({ data: dataObject, header: firebaseHeader })
+                  console.log("....finished writing to firebase.")
+              })
+              .catch(err => { console.log(err) })
+      })
+      .catch(err => { console.log(err) })
+
 
   return {
     type: SEND_TRANS,

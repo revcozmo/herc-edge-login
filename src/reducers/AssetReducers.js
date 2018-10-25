@@ -67,7 +67,6 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
     switch (action.type) {
 
         case GOT_LIST_ASSETS:
-            console.log(state, "chance")
             console.log(action, " GOT_LIST_ASSETS Action")
             let assetLabels = action.assets;
             return Object.assign({}, state, {

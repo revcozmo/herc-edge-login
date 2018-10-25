@@ -6,6 +6,7 @@ src/components/settings.js
 # OSX
 #
 .DS_Store
+**/.DS_Store
 
 # Xcode
 #

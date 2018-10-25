@@ -98,10 +98,8 @@ class TransRev extends Component {
 
 
     _hasList = (transDat) => {
-        console.log(this.state, "transdat in haslist");
         if (transDat.properties) {
             list = Object.keys(transDat.properties).map((name, idx) => {
-                console.log(name, 'name in for loop in review')
                 return (
                     <View key={idx} style={localStyles.revPropField}>
                         <Text style={localStyles.transRevName}>{name}:</Text>
@@ -128,7 +126,6 @@ class TransRev extends Component {
         // console.log(price, "price")
         let transInfo = this.props.transInfo;
         // let fctPrice = this.state ? this.state.fctPrice : "";
-        console.log(this.state, 'price');
         let transDat = this.props.transDat;
         console.log(transInfo, 'transinfo in transreviewrender', transInfo.price, 'transdata')
 
