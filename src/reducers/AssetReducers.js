@@ -31,7 +31,8 @@ import {
     WEB_SERVER_API_IPFS_ADD,
     WEB_SERVER_API_FACTOM_CHAIN_ADD,
     WEB_SERVER_API_FACTOM_ENTRY_ADD,
-    WEB_SERVER_API_STORJ_UPLOAD
+    WEB_SERVER_API_STORJ_UPLOAD,
+    WEB_SERVER_API_CSV
 } from "../components/settings"
 
 //synchronous
@@ -119,61 +120,6 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
             })
 
         case SEND_TRANS:
-            let dTime = Date.now()
-            console.log("===========state.trans", state.trans)
-            let header = state.trans.header; //tXlocation, hercId, price, name
-            let data = state.trans.data; //documents, images, properties, dTime
-            var keys = Object.keys(data) //[ 'dTime', 'documents', 'images', 'properties' ]
-            let promiseArray = []
-
-            //Checks if documents, metrics, images and EDIT was added
-            keys.forEach(key => {
-                if (Object.keys(data[key]).length != 0 && data[key].constructor === Object) {
-                    var dataObject = Object.assign({}, { key: key }, { data: data[key] }) // {key: 'properties', data: data[key]}
-                    promiseArray.push(
-                        axios.post(WEB_SERVER_API_IPFS_ADD, JSON.stringify(dataObject))
-                            .then(response => { return response }) // {key: 'properties', hash: 'QmU1D1eAeSLC5Dt4wVRR'}
-                            .catch(error => { console.log(error) }))
-                } else if (data[key].constructor === Array) {
-                    console.log("assume this is an array of images")
-                    var base64 = data[key][0].image
-                    var dataObject = Object.assign({}, { key: key }, { data: encodeURIComponent(base64) })
-                    promiseArray.push(axios.post(WEB_SERVER_API_STORJ_UPLOAD, JSON.stringify(dataObject))
-                        .then(response => { return response }) // {key: 'images', hash: 'QmU1D1eAeSLC5Dt4wVRR'}
-                        .catch(error => { console.log(error) }))
-                }
-            })
-
-            console.log(promiseArray, "chance promiseArray")
-
-            rootRef.child('assets').child(header.name).once('value', function (snapshot) {
-                var chainId = snapshot.val().chainId
-                Promise.all(promiseArray)
-                    .then(results => {
-                        return results // [{key: 'properties', hash: 'QmU1D1eAeSLC5Dt4wVRR'}, {key: 'images', hash: 'QmU1D1eAeSLC5Dt4wVRR'}]
-                    })
-                    .then(results => {
-                        var hashlist = results.map(result => { return result.data })
-                        var factomEntry = { hash: hashlist, chainId: chainId, assetInfo: 'SampleAssetInfo' }
-                        console.log(factomEntry, "chance factomEntry")
-                        console.log(JSON.stringify(factomEntry), "chance stringified factomEntry")
-                        axios.post(WEB_SERVER_API_FACTOM_ENTRY_ADD, JSON.stringify(factomEntry))
-                            .then(response => {
-                                var dataObject = {}
-                                hashlist.map(hash => dataObject[hash.key] = hash.hash)
-                                var header = Object.assign({}, state.trans.header, { factomEntry: response.data })
-                                console.log(data, header, "chance boyyyy")
-                                // TODO: store it all to Firebase
-                                rootRef.child('assets/' + header.name).child('transactions').child(dTime).set({ data: dataObject, header: header })
-                            })
-                            .catch(err => {
-                                console.log(err)
-                            })
-                    })
-                    .catch(console.log)
-            })
-
-
             return Object.assign({}, state, {
                 ...state,
                 trans: {

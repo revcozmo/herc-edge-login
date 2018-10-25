@@ -14,7 +14,7 @@ import { ethereumCurrencyPluginFactory } from 'edge-currency-ethereum';
 import { getUsername, getAccount, authToken, getEthAddress, getWallet } from "../actions/WalletActActions";
 import { WEB_SERVER_API_TOKEN, WEB_SERVER_API_IDOLOGY_CHECK } from "../components/settings";
 import { makeEdgeContext } from 'edge-core-js';
-import { AIRBITZ_API_KEY } from '../components/settings.js'
+import { EDGE_API_KEY } from '../components/settings.js'
 import firebase from "../constants/Firebase";
 YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTImageLoader', 'Setting a timer for a long period of time']);
 
@@ -34,7 +34,7 @@ class Login extends Component {
     }
   makeEdgeContext({
     // Replace this with your own API key from https://developer.airbitz.co:
-    apiKey: AIRBITZ_API_KEY,
+    apiKey: EDGE_API_KEY,
     appId: 'com.mydomain.myapp',
     vendorName: 'Chain Net',
     vendorImageUrl: 'https://airbitz.co/go/wp-content/uploads/2016/10/GenericEdgeLoginIcon.png',
