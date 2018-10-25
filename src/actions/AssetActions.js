@@ -228,11 +228,9 @@ export function sendTrans(trans) {
   // TODO: charge payment. trans = 0.000125
   let dTime = Date.now()
   let transObject = store.getState().AssetReducers.trans
-  console.log(transObject.header, "chance check for you")
-  debugger;
   let header = transObject.header; //tXlocation, hercId, price, name
   let data = transObject.data; //documents, images, properties, dTime
-  var keys = Object.keys(data) //[ 'dTime', 'documents', 'images', 'properties' ]
+  let keys = Object.keys(data) //[ 'dTime', 'documents', 'images', 'properties' ]
   let promiseArray = []
 
   //Checks if documents, metrics, images and EDIT was added
@@ -244,15 +242,13 @@ export function sendTrans(trans) {
                   .then(response => { return response }) // {key: 'properties', hash: 'QmU1D1eAeSLC5Dt4wVRR'}
                   .catch(error => { console.log(error) }))
       } else if (data[key].constructor === Array && data[key][0].image) {
-          console.log("assume this is an array of images")
           var base64 = data[key][0].image
-          var dataObject = Object.assign({}, { key: key }, { data: encodeURIComponent(base64) })
+          var dataObject = Object.assign({}, { key: key }, { data: encodeURIComponent(base64)})
           promiseArray.push(axios.post(WEB_SERVER_API_STORJ_UPLOAD, JSON.stringify(dataObject))
               .then(response => { return response }) // {key: 'images', hash: 'QmU1D1eAeSLC5Dt4wVRR'}
               .catch(error => { console.log(error) }))
       } else if (data[key].constructor === Array && data[key][0].type === "text/comma-separated-values") {
-        // TODO: do something
-        var dataObject = Object.assign({}, {key: key}, {data: data[key][0].contents})
+        var dataObject = Object.assign({}, {"key": key}, {"data": encodeURIComponent(data[key][0].content)})
         promiseArray.push(axios.post(WEB_SERVER_API_CSV, JSON.stringify(dataObject))
             .then(response => { return response })
             .catch(error => { console.log(error) }))
@@ -260,7 +256,8 @@ export function sendTrans(trans) {
   })
 
   console.log(promiseArray, "chance promiseArray")
-
+  debugger;
+  
   rootRef.child('assets').child(header.name).once('value', function (snapshot) {
       var chainId = snapshot.val().chainId
       Promise.all(promiseArray)
@@ -271,14 +268,13 @@ export function sendTrans(trans) {
               var hashlist = results.map(result => { return result.data })
               var factomEntry = { hash: hashlist, chainId: chainId, assetInfo: 'SampleAssetInfo' }
               console.log(factomEntry, "chance factomEntry")
-              console.log(JSON.stringify(factomEntry), "chance stringified factomEntry")
-              debugger;
               axios.post(WEB_SERVER_API_FACTOM_ENTRY_ADD, JSON.stringify(factomEntry))
-                  .then(response => {
+                  .then(response => { //response.data = entryHash
                       var dataObject = {}
                       hashlist.map(hash => dataObject[hash.key] = hash.hash)
-                      var header = Object.assign({}, transObject.header, { factomEntry: response.data })
-                      rootRef.child('assets/' + header.name).child('transactions').child(dTime).set({ data: dataObject, header: header })
+                      var header = Object.assign({}, header, { factomEntry: response.data })
+                      rootRef.child('assets').child(header.name).child('transactions').child(dTime).set({ data: dataObject, header: header })
+                      console.log("finished firebase writing ")
                   })
                   .catch(err => {
                       console.log(err)

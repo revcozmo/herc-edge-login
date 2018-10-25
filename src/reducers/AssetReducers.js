@@ -124,10 +124,9 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
                 ...state,
                 trans: {
                     ...state.trans,
-                    header,
+                    ...state.trans.header,
                     data: {
-                        ...state.trans.data,
-                        dTime
+                        ...state.trans.data
                     }
                 }
             })

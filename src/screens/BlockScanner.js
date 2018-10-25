@@ -5,13 +5,13 @@ import {
   Text,
   TouchableHighlight,
   Image,
-  ScrollView
+  ScrollView,
+  StyleSheet
 } from "react-native";
 import styles from "../assets/styles";
 import { connect } from "react-redux";
 
 import JSONTree from "react-native-json-tree";
-// import Web3 from "web3";
 
 class BlockScanner extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -98,46 +98,42 @@ const theme = {
 
 
 
-// const localStyles = StyleSheet.create({
-
-//     headerField: {
-//         flexDirection: "row",
-//         width: 200,
-//         justifyContent: "space-around",
-//         alignItems: "center"
-//     },
-//     hercLogoHeader: {
-//         height: 45,
-//         width: 45,
-//         borderRadius: 45 / 2,
-//         resizeMode: "contain",
-//         alignSelf: "center",
-//         marginBottom: 3,
-//     },
-//     registerHeaderText: {
-//         fontFamily: "dinPro",
-//         height: 50,
-//         fontSize: 30,
-//         alignSelf: "center",
-//         fontWeight: "bold",
-//         color: "black",
-//         textAlign: "center"
-//     },
-//     createButton: {
-//         width: 150,
-//         height: 50,
-//         borderColor: "#f3c736",
-//         borderWidth: 1,
-
-
-//         // resizeMode: "contain"
-//     },
-//     imageButtons: {
-//         height: 40,
-//         width: 175,
-//         // resizeMode: "contain",
-//         alignSelf: "center",
-//         margin: 7
-
-//     },
-// })
+const localStyles = StyleSheet.create({
+    headerField: {
+        flexDirection: "row",
+        width: 200,
+        justifyContent: "space-around",
+        alignItems: "center"
+    },
+    hercLogoHeader: {
+        height: 45,
+        width: 45,
+        borderRadius: 45 / 2,
+        resizeMode: "contain",
+        alignSelf: "center",
+        marginBottom: 3,
+    },
+    registerHeaderText: {
+        fontFamily: "dinPro",
+        height: 50,
+        fontSize: 30,
+        alignSelf: "center",
+        fontWeight: "bold",
+        color: "black",
+        textAlign: "center"
+    },
+    createButton: {
+        width: 150,
+        height: 50,
+        borderColor: "#f3c736",
+        borderWidth: 1,
+        // resizeMode: "contain"
+    },
+    imageButtons: {
+        height: 40,
+        width: 175,
+        // resizeMode: "contain",
+        alignSelf: "center",
+        margin: 7
+    },
+})

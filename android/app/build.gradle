@@ -103,7 +103,7 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
     defaultConfig {
-        applicationId "com.demo"
+        applicationId "com.hercules"
         minSdkVersion 23
         targetSdkVersion 25
         versionCode 1

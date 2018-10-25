@@ -16,27 +16,11 @@ class TransRev extends Component {
 
     constructor(props) {
         super(props);
-
     }
     componentDidMount = () => {
         // this.getPricesFromApi();
         // TODO: this API needs to be updated
-
     }
-    // async getPricesFromApi() {
-    //     try {
-    //         let response = await fetch(
-    //             'https://jsondata.herc.one/service-1.0-SNAPSHOT/JSON'
-    //         );
-    //         let responseJson = await response.json();
-    //         let fctPrice = responseJson.list["0"].pricePerHercForFCT;
-    //         console.log(fctPrice, 'newthing');
-    //         this.setState({ fctPrice });
-
-    //     } catch (error) {
-    //         console.error(error);
-    //     }
-    // }
 
     _sendTrans(price) {
         const { navigate } = this.props.navigate;
@@ -62,8 +46,6 @@ class TransRev extends Component {
             docPrice = .00000000000125;
             console.log(docPrice, "docPRice")
         }
-        console.log()
-
 
         if ((docPrice + imgPrice) !== 0) {
             price = (docPrice + imgPrice) + (.00000000002);
@@ -76,7 +58,6 @@ class TransRev extends Component {
 
 
     _hasImage = (transDat) => {
-        console.log("this is in Image");
         if (transDat.images[0]) {
             let imgPrice = ((((transDat.images[0].size / 1024) * (.00000002)) + (.000256)) / (.6));
             console.log(imgPrice)
@@ -98,7 +79,6 @@ class TransRev extends Component {
     }
 
     _hasDocuments = (transDat) => {
-        console.log("this is in Image");
         if (transDat.documents[0]) {
             return (
                 <View style={localStyles.docContainer}>
@@ -111,7 +91,7 @@ class TransRev extends Component {
                     </View> */}
                 </View>
             );
-            console.log(transInfo.price, "transprice plus imageprice", this.state.docPrice)
+            console.log(transInfo.price, "transprice plus docprice", this.state.docPrice)
         }
         return (<Text style={localStyles.revPropVal}>No Documents</Text>)
     }
@@ -168,11 +148,6 @@ class TransRev extends Component {
                 </View>)
         }
 
-        // console.log((transDat.hasOwnProperty('properties')));
-        console.log("THIS IS LINE 81 IN TRANSACTION REVIEW", this.props.transInfo.name);
-
-
-
         /// I'm using a smaller location image locally. localStyles.assetLocationLabel
         return (
 
@@ -208,8 +183,6 @@ class TransRev extends Component {
 
 const localStyles = StyleSheet.create({
     transactionReviewContainer: {
-        // borderColor: "white",
-        // borderWidth: 3,
         marginTop: 10,
         flex: 1,
         alignItems: "center",
@@ -220,7 +193,6 @@ const localStyles = StyleSheet.create({
         width: 200,
         resizeMode: "contain",
         alignSelf: "center",
-        // marginTop: 80,
     },
     assetLocationLabel: {
         height: 30,
@@ -228,18 +200,15 @@ const localStyles = StyleSheet.create({
         resizeMode: "contain",
         marginTop: 10,
         alignSelf: "center"
-        // marginRight: 10
     },
     teePrice: {
         color: "white"
     },
     docContainer: {
-        // backgroundColor: "blue",
         width: "100%",
         height: 100,
     },
     imgContainer: {
-        // backgroundColor: "yellow",
         width: "100%",
         height: 125,
         justifyContent: "center"
@@ -252,25 +221,19 @@ const localStyles = StyleSheet.create({
         margin: 2,
         fontFamily: "dinPro"
     },
-
     thumb: {
         height: 50,
         width: 50,
         resizeMode: "cover",
         alignSelf: "center",
         margin: 4
-
     },
     editField: {
         height: 75,
         width: "100%",
-        // flexDirection: "row",
         justifyContent: "center",
         padding: 3,
         margin: 10,
-        // textAlign:'center',
-        // textAlignVertical: 'center',
-        // backgroundColor: "blue"
     },
     editLabel: {
         fontFamily: "dinPro",
@@ -278,7 +241,6 @@ const localStyles = StyleSheet.create({
         color: "yellow",
         margin: 2,
         alignSelf: "center",
-        // height: 30
     },
     transRevTime: {
         color: "#f3c736",
@@ -303,12 +265,9 @@ const localStyles = StyleSheet.create({
         alignItems: "center",
         padding: 2,
         margin: 2,
-        // textAlign:'center',
-        // textAlignVertical: 'center',
         backgroundColor: "#021227",
         alignSelf: "center"
     },
-
     revPropVal: {
         fontFamily: "dinPro",
         fontSize: 15,
@@ -324,10 +283,7 @@ const localStyles = StyleSheet.create({
     feeContainer: {
         height: 20,
         width: 130,
-        // resizeMode: 'cover',
         flexDirection: "row",
-        // justifyContent: 'space-between',
-        // textAlign: "center",
         justifyContent: "space-between",
         alignItems: "center",
         alignSelf: "center"
@@ -336,7 +292,6 @@ const localStyles = StyleSheet.create({
         fontSize: 10,
         color: "white",
         backgroundColor: "#091141",
-        //   resizeMode: "contain",
         marginRight: 5
     },
     hercPillarIcon: {
@@ -344,8 +299,7 @@ const localStyles = StyleSheet.create({
         width: 15,
         resizeMode: "contain",
         borderRadius: 15 / 2
-    },
-
+    }
 });
 
 const mapStateToProps = (state) => ({
