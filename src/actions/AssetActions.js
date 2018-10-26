@@ -263,6 +263,7 @@ export function sendTrans(trans) {
   Promise.all(promiseArray)
       .then(results => {
           // results = [{key: 'properties', hash: 'QmU1D1eAeSLC5Dt4wVRR'}, {key: 'images', hash: 'QmU1D1eAeSLC5Dt4wVRR'}]
+          // TODO: add error handling for undefined results
           var hashlist = results.map(result => { return result.data })
           var factomEntry = { hash: hashlist, chainId: chainId, assetInfo: 'SampleAssetInfo' } // TODO: make assetInfo = organizationName
           console.log(factomEntry, "chance factomEntry")

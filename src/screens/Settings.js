@@ -39,6 +39,7 @@ export class Settings extends Component {
   }
 
   componentDidMount() {
+    console.log(this.props)
     // let getFromStore = store.getState();
     // let userName = getFromStore.AssetReducers.edge_account
     // this.setState({userName: userName})
@@ -386,8 +387,8 @@ const localStyles = StyleSheet.create({
 });
 
 const mapStateToProps = state => ({
-  account: state.AssetReducers.account,
-  edge_account: state.AssetReducers.edge_account,
+  account: state.WalletActReducers.account,
+  edge_account: state.WalletActReducers.edge_account,
 });
 
 const mapDispatchToProps = dispatch => ({

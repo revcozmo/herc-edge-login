@@ -22,7 +22,7 @@ class BlockScanner extends Component {
         <View style={styles.assetHeaderTitle}>
           <TouchableHighlight style={{ justifyContent: "center" }} onPress={() => navigation.navigate("MenuOptions")}>
             <Image
-              style={styles.assetHeaderLogo}
+              style={localStyles.hercLogoHeader}
               source={{ uri: params.logo }}
             />
           </TouchableHighlight>
@@ -108,7 +108,7 @@ const localStyles = StyleSheet.create({
     hercLogoHeader: {
         height: 45,
         width: 45,
-        borderRadius: 45 / 2,
+        borderRadius: 50,
         resizeMode: "contain",
         alignSelf: "center",
         marginBottom: 3,

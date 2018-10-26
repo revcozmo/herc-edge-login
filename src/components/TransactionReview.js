@@ -75,10 +75,6 @@ class TransRev extends Component {
     }
 
     _hasDocuments = (transDat) => {
-<<<<<<< HEAD
-=======
-
->>>>>>> modifiedTxReview
         if (transDat.documents[0]) {
             let docPrice = (transDat.documents[0].size * .000032) * .4;
             return (
@@ -272,19 +268,8 @@ const localStyles = StyleSheet.create({
         justifyContent: "center"
     },
     feeContainer: {
-<<<<<<< HEAD
-        height: 20,
-        width: 130,
-        flexDirection: "row",
-        justifyContent: "space-between",
-=======
-        // borderColor: "red",
-        // borderWidth: 3,
-        // height: 20,
-        // width: 130,
         flexDirection: "row",
         justifyContent: "center",
->>>>>>> modifiedTxReview
         alignItems: "center",
         alignSelf: "center",
         margin: 5,
@@ -300,11 +285,7 @@ const localStyles = StyleSheet.create({
         width: 15,
         resizeMode: "contain",
         borderRadius: 15 / 2
-<<<<<<< HEAD
     }
-=======
-    },
->>>>>>> modifiedTxReview
 });
 
 const mapStateToProps = (state) => ({
