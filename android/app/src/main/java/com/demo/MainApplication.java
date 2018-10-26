@@ -1,4 +1,4 @@
-package com.demo;
+package com.hercules;
 
 import android.app.Application;
 

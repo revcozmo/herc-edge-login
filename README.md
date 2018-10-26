@@ -1,10 +1,8 @@
 # HERC Wallet Powered by EdgeSecure
 ## A multicurrency mobile wallet for CryptoCurrencies, ERC-20 Tokens, and HERC Supply Chain tokens
-<<<<<<< HEAD
-![HERC Wallet](https://i.imgur.com/h0nwznp.png =100x)
-=======
+
 ![HERC Wallet](https://i.imgur.com/h0nwznp.png)
->>>>>>> master
+
 
 Edge Wallet is:
 - simple

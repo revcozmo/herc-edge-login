@@ -1,38 +1,41 @@
 import {
- ADD_ASSET,
- ADD_DOC,
- ADD_METRICS,
- ADD_PHOTO,
- CONFIRM_ASSET,
- DELETE_ASSET,
- GET_ASSETS,
- GET_ASSET_DEF,
- GET_HERC_ID,
- GET_ORIGIN_TRANS,
- GET_QR_DATA,
- GET_TRANS,
- GOT_ASSET_DEF,
- GOT_ASSET_TRANS,
- GOT_HERC_ID,
- GOT_LIST_ASSETS,
- INC_HERC_ID,
- SELECT_ASSET,
- SEND_TRANS,
- SET_SET,
- START_TRANS
+  ADD_ASSET,
+  ADD_DOC,
+  ADD_METRICS,
+  ADD_PHOTO,
+  CONFIRM_ASSET,
+  DELETE_ASSET,
+  GET_ASSETS,
+  GETTING_ASSET_DEF,
+  GET_HERC_ID,
+  GET_ORIGIN_TRANS,
+  GET_QR_DATA,
+  GET_TRANS,
+  GOT_ASSET_DEF,
+  ASSET_DEF_ERROR,
+  GOT_ASSET_TRANS,
+  GOT_HERC_ID,
+  GOT_LIST_ASSETS,
+  INC_HERC_ID,
+  SELECT_ASSET,
+  SEND_TRANS,
+  SET_SET,
+  START_TRANS
 } from "./types";
-import {
-  WEB_SERVER_API_IPFS_GET,
-  WEB_SERVER_API_IPFS_ADD,
-  WEB_SERVER_API_FACTOM_CHAIN_ADD,
-  WEB_SERVER_API_FACTOM_ENTRY_ADD,
-  WEB_SERVER_API_STORJ_UPLOAD
-} from "../components/settings"
 import axios from 'axios';
 import store from "../store";
 import firebase from "../constants/Firebase";
 const rootRef = firebase.database().ref();
 const assetRef = rootRef.child("assets");
+
+import {
+  WEB_SERVER_API_IPFS_GET,
+  WEB_SERVER_API_IPFS_ADD,
+  WEB_SERVER_API_FACTOM_CHAIN_ADD,
+  WEB_SERVER_API_FACTOM_ENTRY_ADD,
+  WEB_SERVER_API_STORJ_UPLOAD,
+  WEB_SERVER_API_CSV
+} from "../components/settings"
 
 export function getHercId() {
   return dispatch => {
@@ -95,15 +98,23 @@ function gotListAssets(assetList) {
 }
 
 export function selectAsset(asset) {
-    console.log(asset, 'asset in Select')
-    return {
-      type: SELECT_ASSET,
-      selectAsset: asset
-    }
+  console.log(asset, 'asset in Select')
+  return {
+    type: SELECT_ASSET,
+    selectAsset: asset
   }
-
+}
 
 export function getAssetDef(ipfsHash) {
+  return dispatch => {
+    dispatch(gettingAssetDef(ipfsHash))
+    return {
+      type: GETTING_ASSET_DEF
+    }
+  }
+}
+
+export function gettingAssetDef(ipfsHash) {
   return dispatch => {
     console.log(ipfsHash, "keeping it simple.")
     let singleHash = ipfsHash;
@@ -114,7 +125,10 @@ export function getAssetDef(ipfsHash) {
         return assetDef
       })
       .then((assetDef) => dispatch(gotAssetDef(assetDef)))
-      .catch(err => { console.log(err) })
+      .catch(error => {
+        dispatch(assetDefError(error)),
+          console.log(err)
+      })
   }
 }
 
@@ -122,9 +136,20 @@ export function gotAssetDef(assetDef) {
   console.log(assetDef, "got the transactions list");
   return {
     type: GOT_ASSET_DEF,
+
     ipfsDef: assetDef
   };
 }
+
+export function assetDefError(error) {
+  console.log(assetDef, "got the transactions list");
+  return {
+    type: ASSET_DEF_ERROR,
+    error
+  };
+}
+
+
 
 export function addAsset(newAsset) {
   return {
@@ -156,8 +181,8 @@ export function confirmAsset(assetForIPFS) {
 
               axios.post(WEB_SERVER_API_FACTOM_CHAIN_ADD, dataObject)
                   .then(response => {
-                      console.log("2 web server factom response: ", response.data)
-                      var chainId = response.data.chainId
+                      console.log("2 web server factom response: ", response)
+                      var chainId = response.data
                       return chainId
                   })
                   .then(chainId => {
@@ -200,7 +225,61 @@ export function startTrans(trans) {
 }
 
 export function sendTrans(trans) {
-  console.log("inside set Location action");
+  // TODO: charge payment. trans = 0.000125
+  let dTime = Date.now()
+  let transObject = store.getState().AssetReducers.trans
+  let header = transObject.header; //tXlocation, hercId, price, name
+  let data = transObject.data; //documents, images, properties, dTime
+  let keys = Object.keys(data) //[ 'dTime', 'documents', 'images', 'properties' ]
+  console.log(keys, "chance keys")
+  let promiseArray = []
+
+  //Checks if documents, metrics, images and EDIT was added
+  keys.forEach(key => {
+      if (Object.keys(data[key]).length != 0 && data[key].constructor === Object) {
+          var dataObject = Object.assign({}, { key: key }, { data: data[key] }) // {key: 'properties', data: data[key]}
+          promiseArray.push(
+              axios.post(WEB_SERVER_API_IPFS_ADD, JSON.stringify(dataObject))
+                  .then(response => { return response }) // {key: 'properties', hash: 'QmU1D1eAeSLC5Dt4wVRR'}
+                  .catch(error => { console.log(error) }))
+      } else if (data[key].constructor === Array && data[key][0].image) {
+          var base64 = data[key][0].image
+          var dataObject = Object.assign({}, { key: key }, { data: encodeURIComponent(base64)})
+          promiseArray.push(axios.post(WEB_SERVER_API_STORJ_UPLOAD, JSON.stringify(dataObject))
+              .then(response => { return response }) // {key: 'images', hash: 'QmU1D1eAeSLC5Dt4wVRR'}
+              .catch(error => { console.log(error) }))
+      } else if (data[key].constructor === Array && data[key][0].type === "text/comma-separated-values") {
+        var dataObject = Object.assign({}, {"key": key}, {"data": encodeURIComponent(data[key][0].content)})
+        promiseArray.push(axios.post(WEB_SERVER_API_CSV, JSON.stringify(dataObject))
+            .then(response => { return response })
+            .catch(error => { console.log(error) }))
+      }
+  })
+
+  console.log(promiseArray, "chance promiseArray")
+
+  let chainId = store.getState().AssetReducers.selectedAsset.chainId
+
+  Promise.all(promiseArray)
+      .then(results => {
+          // results = [{key: 'properties', hash: 'QmU1D1eAeSLC5Dt4wVRR'}, {key: 'images', hash: 'QmU1D1eAeSLC5Dt4wVRR'}]
+          // TODO: add error handling for undefined results
+          var hashlist = results.map(result => { return result.data })
+          var factomEntry = { hash: hashlist, chainId: chainId, assetInfo: 'SampleAssetInfo' } // TODO: make assetInfo = organizationName
+          console.log(factomEntry, "chance factomEntry")
+          axios.post(WEB_SERVER_API_FACTOM_ENTRY_ADD, JSON.stringify(factomEntry))
+              .then(response => { //response.data = entryHash
+                  var dataObject = {}
+                  hashlist.map(hash => dataObject[hash.key] = hash.hash)
+                  var firebaseHeader = Object.assign({}, header, { factomEntry: response.data })
+                  rootRef.child('assets').child(firebaseHeader.name).child('transactions').child(dTime).set({ data: dataObject, header: firebaseHeader })
+                  console.log("....finished writing to firebase.")
+              })
+              .catch(err => { console.log(err) })
+      })
+      .catch(err => { console.log(err) })
+
+
   return {
     type: SEND_TRANS,
     data: trans

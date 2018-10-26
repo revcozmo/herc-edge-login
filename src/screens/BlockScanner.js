@@ -5,15 +5,15 @@ import {
   Text,
   TouchableHighlight,
   Image,
-  ScrollView
+  ScrollView,
+  StyleSheet
 } from "react-native";
 import styles from "../assets/styles";
 import { connect } from "react-redux";
 
 import JSONTree from "react-native-json-tree";
-// import Web3 from "web3";
 
- class BlockScanner extends Component {
+class BlockScanner extends Component {
   static navigationOptions = ({ navigation }) => {
     const { params } = navigation.state;
 
@@ -22,7 +22,7 @@ import JSONTree from "react-native-json-tree";
         <View style={styles.assetHeaderTitle}>
           <TouchableHighlight style={{ justifyContent: "center" }} onPress={() => navigation.navigate("MenuOptions")}>
             <Image
-              style={styles.assetHeaderLogo}
+              style={localStyles.hercLogoHeader}
               source={{ uri: params.logo }}
             />
           </TouchableHighlight>
@@ -35,12 +35,12 @@ import JSONTree from "react-native-json-tree";
   constructor(props) {
     super(props);
     this.state = {
-      block: this.props.data
+      block: null
     }
   }
 
   componentDidMount() {
-console.log(this.props.data, "this should be the block")
+    console.log(this.props.data, "this should be the block")
   }
   render() {
     // let block = this.props.data ? this.props.data :  null;
@@ -51,9 +51,9 @@ console.log(this.props.data, "this should be the block")
             POC Ropsten TestNet Latest Block
         </Text>
 
-          {this.state.block && (
+          {this.props.data && (
             <ScrollView style={{ paddingLeft: 10 }}>
-              <JSONTree data={this.state.block} theme={theme} invertTheme={false} />
+              <JSONTree data={this.props.data} theme={theme} invertTheme={false} />
             </ScrollView>
           )}
         </View>
@@ -64,9 +64,9 @@ console.log(this.props.data, "this should be the block")
 
 
 const mapStateToProps = (state) => ({
-  data: state.EthReducers.data,
-  isFetching: state.EthReducers.isFetching,
-  isFetched: state.EthReducers.isFetched
+  data: state.Web3Reducers.data,
+  isFetching: state.Web3Reducers.isFetching,
+  isFetched: state.Web3Reducers.isFetched
 })
 
 const mapDispatchToProps = (dispatch) => ({
@@ -98,46 +98,42 @@ const theme = {
 
 
 
-// const localStyles = StyleSheet.create({
-
-//     headerField: {
-//         flexDirection: "row",
-//         width: 200,
-//         justifyContent: "space-around",
-//         alignItems: "center"
-//     },
-//     hercLogoHeader: {
-//         height: 45,
-//         width: 45,
-//         borderRadius: 45 / 2,
-//         resizeMode: "contain",
-//         alignSelf: "center",
-//         marginBottom: 3,
-//     },
-//     registerHeaderText: {
-//         fontFamily: "dinPro",
-//         height: 50,
-//         fontSize: 30,
-//         alignSelf: "center",
-//         fontWeight: "bold",
-//         color: "black",
-//         textAlign: "center"
-//     },
-//     createButton: {
-//         width: 150,
-//         height: 50,
-//         borderColor: "#f3c736",
-//         borderWidth: 1,
-
-
-//         // resizeMode: "contain"
-//     },
-//     imageButtons: {
-//         height: 40,
-//         width: 175,
-//         // resizeMode: "contain",
-//         alignSelf: "center",
-//         margin: 7
-
-//     },
-// })
+const localStyles = StyleSheet.create({
+    headerField: {
+        flexDirection: "row",
+        width: 200,
+        justifyContent: "space-around",
+        alignItems: "center"
+    },
+    hercLogoHeader: {
+        height: 45,
+        width: 45,
+        borderRadius: 50,
+        resizeMode: "contain",
+        alignSelf: "center",
+        marginBottom: 3,
+    },
+    registerHeaderText: {
+        fontFamily: "dinPro",
+        height: 50,
+        fontSize: 30,
+        alignSelf: "center",
+        fontWeight: "bold",
+        color: "black",
+        textAlign: "center"
+    },
+    createButton: {
+        width: 150,
+        height: 50,
+        borderColor: "#f3c736",
+        borderWidth: 1,
+        // resizeMode: "contain"
+    },
+    imageButtons: {
+        height: 40,
+        width: 175,
+        // resizeMode: "contain",
+        alignSelf: "center",
+        margin: 7
+    },
+})

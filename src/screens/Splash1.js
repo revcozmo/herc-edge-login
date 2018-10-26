@@ -67,6 +67,7 @@ class Splash1 extends Component {
   static navigationOptions = ({ navigation }) => ({
     headerTitle:
       <View style={headerStyles.header__container}>
+       
         <View style={headerStyles.header__container__centeredBox}>
           <View style={headerStyles.header__image__box}>
             <Image
@@ -88,7 +89,7 @@ class Splash1 extends Component {
   componentDidMount() {
     StatusBar.setBackgroundColor("white");
     StatusBar.setBarStyle("dark-content", true);
-    console.log(this.props.assets, "Supply Chain: Received Assets from IPFS")
+    console.log(this.props.assets, "Supply Chain: Asset Headers From Firebase")
 
   }
 

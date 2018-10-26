@@ -6,6 +6,7 @@ import { addDoc } from '../actions/AssetActions';
 import newOriginator from "../components/buttons/originatorButton.png";
 import newRecipient from "../components/buttons/recipientButton.png";
 import submit from "../components/buttons/submit.png";
+var RNFS = require('react-native-fs')
 
 import { DocumentPicker, DocumentPickerUtil } from 'react-native-document-picker';
 class DocUp extends Component {
@@ -22,7 +23,6 @@ class DocUp extends Component {
         alignItems: "center",
         marginTop: 40,
         paddingBottom: 20
-
       },
       header__container__centeredBox: {
         height: "100%",
@@ -33,7 +33,6 @@ class DocUp extends Component {
         height: "100%",
         marginBottom: 5,
         marginLeft: 12,
-
       },
       header__image__box: {
         height: "100%",
@@ -91,12 +90,15 @@ class DocUp extends Component {
     let uri = this.state.uri;
     let docName = this.state.name;
     let docSize = this.state.size;
+    let docContent = this.state.content;
     let doc = Object.assign({}, this.state, {
       uri: uri,
       size: docSize,
-      name: docName
+      name: docName,
+      content: docContent
     })
-    console.log(doc, "DocUp: onsubmitcsv")
+    console.log(doc, "DocUp: pressed _onSubmit")
+
     this.props.addDoc(doc);
 
     navigate('Splash3', { logo: this.props.logo, name: this.props.name });
@@ -104,18 +106,22 @@ class DocUp extends Component {
 
 
   _pickDocument = () => {
-    console.log("DocUp: picking Doc")
     DocumentPicker.show({
       filetype: [DocumentPickerUtil.allFiles()],
     }, (error, res) => {
       if (error) Alert.alert("Something Went Wrong! Error: " + error);
-      console.log("DocUp: ", res);
+      if (res.type != "text/comma-separated-values") Alert.alert("This filetype is not supported. Please upload a CSV file. ");
       // Android
-      this.setState({
-        uri: res.uri,
-        name: res.fileName,
-        size: res.fileSize
-      });
+      RNFS.readFile(res.uri, 'utf8')
+      .then(contents => {
+        this.setState({
+          uri: res.uri,
+          name: res.fileName,
+          size: res.fileSize,
+          type: res.type,
+          content: contents
+        });
+      })
     });
   }
 
