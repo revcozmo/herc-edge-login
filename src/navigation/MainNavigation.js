@@ -37,7 +37,7 @@ import Splash3 from "../screens/Splash3";
 import Tee from "../screens/Tee";
 import TransAssetList from "../screens/TransAssetList";
 import TransSwiper from "../screens/TransSwiper";
-import Wallet from "../screens/Wallet_julie";
+import Wallet from "../screens/Wallet";
 import Settings from "../screens/Settings";
 import roundImage from "../assets/round.png"
 import QRCapture from "../screens/QRCapture";
