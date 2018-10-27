@@ -46,20 +46,22 @@ export class Settings extends Component {
   }
 
   onLogOut = () => {
-    firebase.auth().signOut().then(function() {
-      // Sign-out successful.
-      console.log("Firebase Sign-out successful.")
-    }).catch(function(error) {
-      // An error happened.
-    })
-
-    this.props.account.logout(function() {
-     console.log('hooray im out!')
-    })
-
 
     console.log(this.props)
-    this.props.navigation.navigate('Login');
+    // firebase.auth().signOut().then(function() {
+    //   // Sign-out successful.
+    //   console.log("Firebase Sign-out successful.")
+    // }).catch(function(error) {
+    //   // An error happened.
+    // })
+
+    // this.props.account.logout(function() {
+    //  console.log('hooray im out!')
+    // })
+
+
+    // console.log(this.props)
+    // this.props.navigation.navigate('Login');
   };
 
 
@@ -222,7 +224,7 @@ export class Settings extends Component {
             <Text style={localStyles.sectionHeader}> Support </Text>
             <View style={localStyles.divider}>
               <TouchableHighlight onPress={() => {
-                Linking.openURL("mailto:feedback@test.com?subject=Feedback");
+                Linking.openURL("mailto:social@herc.one?subject=Feedback");
               }}>
 
                 <View style={localStyles.block}>
@@ -236,7 +238,7 @@ export class Settings extends Component {
             <View style={localStyles.divider}>
               <TouchableHighlight
                 onPress={() => {
-                  Linking.openURL("https://tge.herc.one");
+                  Linking.openURL("https://purchase.herc.one/");
                 }}
               >
                 <View style={localStyles.block}>

@@ -96,9 +96,9 @@ export default class Create extends Component {
           </TouchableHighlight>
           {this.state.info && <View style={localStyles.copyContainer}>
             <Text style={localStyles.copy}>
-              Create a New Asset by defining its Name, URL, Up to 8 Metrics,
+              Create a New Asset by defining its Name, URL, up to 8 Metrics,
               and choosing a photo. This asset can be unique to either an
-              individual part or a batch of a specific item. Be as succicint
+              individual part or a batch of a specific item. Be as succinct
               as possible as these asset metrics cannot be redefined later.
               </Text>
           </View>}
