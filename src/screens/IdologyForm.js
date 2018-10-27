@@ -1,37 +1,32 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, Alert, Text, TouchableOpacity } from 'react-native';
 import { getOrganization } from "../actions/WalletActActions";
-import { Button } from 'react-native-elements';
+import Loader from '../components/loader';
 import { YellowBox } from 'react-native';
 import { connect } from "react-redux";
 import store from "../store";
 import axios from 'axios';
 import t from 'tcomb-form-native';
-import {USERNAME, PASSWORD, WEB_SERVER_API_TOKEN, WEB_SERVER_API_IDENTITIES } from "../components/settings";
-
+import { sendIdology} from "../actions/WalletActActions";
+import {WEB_SERVER_API_IDENTITIES } from "../components/settings";
 YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTImageLoader', 'Setting a timer for a long period of time']);
-/* Following these guidelines: https://medium.com/react-native-development/easily-build-forms-in-react-native-9006fcd2a73b */
 
 const _ = require('lodash');
 const stylesheet = _.cloneDeep(t.form.Form.stylesheet);
 
-// overriding the text color
 stylesheet.textbox.normal.color = 'black';
-// overriding the text box background color
 stylesheet.textbox.normal.backgroundColor = 'white';
-// overriding the text box label color
 stylesheet.controlLabel.normal.color = 'silver';
 
 const Form = t.form.Form;
 
 const User = t.struct({
-  /* TODO: remove all t.maybe */
-  edgeAccount:t.maybe(t.String),
-  organizationName: t.maybe(t.String),
-  firstName: t.maybe(t.String),
-  lastName: t.maybe(t.String),
-  address: t.maybe(t.String),
-  zipCode: t.Number,
+  edgeAccount: t.String,
+  organizationName: t.String,
+  firstName: t.String,
+  lastName: t.String,
+  address: t.String,
+  zip: t.Number,
 });
 
 const options = {
@@ -61,7 +56,7 @@ const options = {
       error: 'This is required.',
       stylesheet: stylesheet
     },
-    zipCode: {
+    zip: {
       label: 'Zip Code',
       error: 'This is required.',
       stylesheet: stylesheet
@@ -88,12 +83,42 @@ const formStyles = {
 }
 
 class IdologyForm extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      loading:false
+    };
+  }
+  componentDidMount(){
+    //check if navigation params redirect is true, if true alert, "Identity could not be verified."
+    const { navigation } = this.props;
+    const redirectFlag = navigation.getParam('redirect', false);
+    console.log(redirectFlag, "======= chance redirect boolean")
+    if (redirectFlag){
+      Alert.alert("Identity could not be verified. Please try again.")
+    }
+  }
+
+  _sendToIdology(formBody){
+    const { navigate } = this.props.navigation;
+
+    axios.post(WEB_SERVER_API_IDENTITIES, formBody)
+      .then(response => {
+        this.setState({loading: false})
+        console.log(response, "======================")
+        if (response.data === true){
+          navigate('MenuOptions')
+        } else {
+          navigate('IdologyForm', {"redirect": "true"})
+        }
+      })
+      .catch(error => {console.log(error)})
+  }
 
   handleSubmit = () => {
+    this.setState({loading: true})
     const value = this._form.getValue();
-    console.log('****** Idology Form value: ', value);
     this.props.getOrganization(value.organizationName);
-
     let formBody = [];
     for (let property in value) {
         let encodedKey = encodeURIComponent(property);
@@ -102,29 +127,18 @@ class IdologyForm extends Component {
     }
     formBody = formBody.join("&");
 
-    axios.post(WEB_SERVER_API_IDENTITIES, formBody)
-    .then(response => {
-      this.props.navigation.navigate('MenuOptions');
-      // this.props.navigation.navigate('IdologyQuestions', {questions: response.data});
-     })
-
-    .catch(function(error) {
-      console.log(error)
-    });
+    this._sendToIdology(formBody)
   }
 
   render() {
-    if (!store.getState().WalletActReducers.edge_account){
-      edgeAccount = "No Account Captured"
-    } else {
-      edgeAccount = store.getState().WalletActReducers.edge_account
-    }
     var defaultValues = {
-      edgeAccount: edgeAccount,
+      edgeAccount: this.props.username,
     };
 
     return (
       <View style={localStyles.container}>
+      <Loader
+        loading={this.state.loading} />
         <Form
           ref={c => this._form = c}
           type={User}
@@ -167,11 +181,14 @@ const localStyles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => ({
-    organizationName: state.WalletActReducers.organizationName
+    organizationName: state.WalletActReducers.organizationName,
+    username: state.WalletActReducers.edge_account
 });
 
 const mapDispatchToProps = (dispatch) => ({
     getOrganization: (organizationName) =>
-        dispatch(getOrganization(organizationName))
+        dispatch(getOrganization(organizationName)),
+    sendIdology: (idologyForm) =>
+      dispatch(sendIdology(idologyForm)),
 })
 export default connect(mapStateToProps, mapDispatchToProps)(IdologyForm);
