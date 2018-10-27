@@ -1,10 +1,9 @@
-# HERC Wallet Powered by EdgeSecure
-## A multicurrency mobile wallet for CryptoCurrencies, ERC-20 Tokens, and HERC Supply Chain tokens
+# [H]ERC Decentralized Application with Identity Powered by Https://Edge.App
 
 ![HERC Wallet](https://i.imgur.com/h0nwznp.png)
 
 
-Edge Wallet is:
+The Full Edge Wallet is:
 - simple
 - secure
 - private
@@ -13,12 +12,13 @@ Edge Wallet is:
 - cross-platform
 - mobile first
 - open source
+and can be built form source [here](https://github.com/EdgeApp)
 
 HERC is:
 - Supply Chain Orientated
 - Functional to specific params
 - React Native based with web3 functionality for audit
-- Helping Eradicate Rackateering and Colussion
+- Helping Eradicate Rackateering and Colussion by providing transparency, data integrity, and chain of custody throughout a supplychain
 ------------
 
 
