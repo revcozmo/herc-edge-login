@@ -13,7 +13,7 @@ import {
   // switchWallet
 } from '../actions/WalletActActions';
 import BigNumber from 'bignumber.js';
-import QRCode from 'react-qr-code';
+// import QRCode from 'react-qr-code';
 
 ///////  All this wallet balance stuff,
 class Wallet extends React.Component {
