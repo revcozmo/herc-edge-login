@@ -85,29 +85,6 @@ class Login extends Component {
             this.setState({wallet})
             return wallet
           })
-          // .then(async wallet =>{
-            // const destWallet = '0xf9f22fbec78f9578de711cc2ac3d030dddb15f73'
-            // const abcSpendInfo = {
-            //   networkFeeOption: 'standard',
-            //   currencyCode: 'ETH',
-            //   metadata: {
-            //     name: 'Transfer From Herc Wallet to Logan',
-            //     category: 'Transfer:Wallet:College Fund'
-            //   },
-            //   spendTargets: [
-            //     {
-            //       publicAddress: destWallet,
-            //       nativeAmount: '10000000000000' // 1.2 ETH
-            //     }
-            //   ]
-            // }
-            // let abcTransaction = await wallet.makeSpend(abcSpendInfo)
-            // await wallet.signTx(abcTransaction)
-            // await wallet.broadcastTx(abcTransaction)
-            // await wallet.saveTx(abcTransaction)
-            //
-            // console.log("Sent transaction with ID = " + abcTransaction.txid)
-          // })
       } else {
         account.createCurrencyWallet('wallet:ethereum', {
           name: 'My First Wallet',
