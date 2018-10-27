@@ -135,7 +135,7 @@ class NewAssetConfirm extends Component {
 
                     <View style={localStyles.newAssetFeeContainer}>
                         <Image style={localStyles.assetFeePillarLogo} source={hercPillar} />
-                        <Text style={localStyles.assetFeePrice}>10,000</Text>
+                        <Text style={localStyles.assetFeePrice}>1,000</Text>
                     </View>
 
                 </View>
