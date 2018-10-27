@@ -103,29 +103,56 @@ class Splash2 extends Component {
 
   _startTrans = place => {
     const { navigate } = this.props.navigation;
+    let trans;
+    if (place === 'Originator') {
+      trans = {
+        header: {
+          // password: this.state.password,
+          name: this.props.asset.Name,
+          tXLocation: place,
+          price: 0.000125, //this is the bare starter price i'm going with which is (128b / 1024) x 0.001
+          dTime: new Date().toDateString(),
+          // ogEntry: this.state.originalTransInfo.entryHash,
 
-    let trans = {
-      header: {
-        // password: this.state.password,
-        name: this.props.asset.Name,
-        tXLocation: place,
-        price: 0.000125, //this is the bare starter price i'm going with which is (128b / 1024) x 0.001
-        dTime: new Date().toDateString(),
+        },
+        data: {
+          images: {},
+          documents: {}
+        }
+      };
+      this.props.startTrans(trans);
 
-      },
-      data: {
-        images: {},
-        documents: {}
-      }
-    };
-    this.props.startTrans(trans);
+      navigate("Splash3", {
+        logo: this.props.asset.Logo,
+        name: this.props.asset.Name
+      });
+    } else {
 
-    navigate("Splash3", {
-      logo: this.props.asset.Logo,
-      name: this.props.asset.Name
-    });
-  };
+      trans = {
+        header: {
+          // password: this.state.password,
+          name: this.props.asset.Name,
+          tXLocation: place,
+          price: 0.000125, //this is the bare starter price i'm going with which is (128b / 1024) x 0.001
+          dTime: new Date().toDateString(),
+          ogEntry: this.state.originalTransInfo.entryHash
+          // ogEntry: this.state.originalTransInfo.entryHash,
 
+        },
+        data: {
+          images: {},
+          documents: {}
+        }
+      };
+      this.props.startTrans(trans);
+
+      navigate("Splash3", {
+        logo: this.props.asset.Logo,
+        name: this.props.asset.Name
+      });
+
+    }
+  }
   _onPasswordSubmit = () => {
     if (this.state.location === "Originator") {
       this._startTrans(this.state.location);
@@ -151,7 +178,7 @@ class Splash2 extends Component {
     });
   };
 
-  _getOriginTrans(password) {
+  _getOriginTrans = (password) => {
 
 
     const { navigate } = this.props.navigation;
@@ -183,19 +210,20 @@ class Splash2 extends Component {
         }
       }
     }
-    // if (this.props.transactions[key].transData) {
-    //   pwlocation = this.props.transactions[key].transData;
-    // }
-    // console.log(key);
-    // if (pwlocation.password === password) {
-    //   console.log(pwlocation, "pwlocation");
-    //   console.log("gotone", key, password);
+  };
+  // if (this.props.transactions[key].transData) {
+  //   pwlocation = this.props.transactions[key].transData;
+  // }
+  // console.log(key);
+  // if (pwlocation.password === password) {
+  //   console.log(pwlocation, "pwlocation");
+  //   console.log("gotone", key, password);
 
 
-    // return originalTransInfo;
-    // this will be where the transaction data is collected, the transactions moving forward will be
-    // saved in the "transData" directory beneath the firebase pushkey.
-  }
+  // return originalTransInfo;
+  // this will be where the transaction data is collected, the transactions moving forward will be
+  // saved in the "transData" directory beneath the firebase pushkey.
+
 
 
 
@@ -268,7 +296,7 @@ class Splash2 extends Component {
                   {"\n"}
                 </Text>
               </Text>
-              
+
               <Text style={localStyles.passwordLabel}>
                 Of TXID:{" "}
                 <Text style={{ color: "#F3C736" }}>
@@ -276,23 +304,23 @@ class Splash2 extends Component {
                   {"\n"}
                 </Text>
               </Text>
-              
+
               {/* {this.state.originalTransInfo.ogTransTime && <Text style={localStyles.passwordLabel}>
                 Origin Date:{" "}
                 <Text style={{ color: "#F3C736" }}>
                   {this.state.originalTransInfo.ogTransTime}
                 </Text>
               </Text> */}
-               <Text style={localStyles.passwordLabel}>
-                  Factom Entry Hash:{" "}
-                  <Text style={{ color: "#F3C736" }}>
-                    {this.state.originalTransInfo.entryHash}
-                  </Text>
+              <Text style={localStyles.passwordLabel}>
+                Originator Entry Hash:{" "}
+                <Text style={{ color: "#F3C736" }}>
+                  {this.state.originalTransInfo.entryHash}
                 </Text>
-              
+              </Text>
+
 
               <View style={localStyles.buttonField}>
-                <TouchableHighlight onPress={this._startTrans}>
+                <TouchableHighlight onPress={() => this._startTrans('Recipient')}>
                   <Image
                     style={[
                       localStyles.button,
