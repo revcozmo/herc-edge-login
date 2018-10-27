@@ -114,7 +114,7 @@ export default class DigiViewer extends Component {
 
         <View style={styles.walletBalance}>
           <Image source={hLogo} style={styles.icon} />
-          <Text style={styles.text}>10,000</Text>
+          <Text style={styles.text}>1,000</Text>
           <View style={styles.feeBalance}>
             <Text style={styles.text}>Fee:</Text>
             <View style={{ alignSelf: 'flex-end', flexDirection: 'row' }}>
