@@ -10,6 +10,7 @@ import {
   Alert,
   TouchableNativeFeedback,
   StatusBar,
+  TextInput
 } from "react-native";
 import { createStackNavigator } from "react-navigation";
 import styles from "../assets/styles";
@@ -17,7 +18,7 @@ import { connect } from "react-redux";
 import { startTrans } from "../actions/AssetActions";
 import newOriginator from "../components/buttons/originatorButton.png";
 import newRecipient from "../components/buttons/recipientButton.png";
-
+import submit from "../components/buttons/submit.png";
 
 class Splash2 extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -94,18 +95,25 @@ class Splash2 extends Component {
   };
   constructor(props) {
     super(props);
+    this.state = {
+      showPass: false,
+      gotTransInfo: false
+    };
   }
-  _onPress = place => {
+
+  _startTrans = place => {
     const { navigate } = this.props.navigation;
 
     let trans = {
       header: {
+        // password: this.state.password,
         name: this.props.asset.Name,
         tXLocation: place,
         price: 0.000125, //this is the bare starter price i'm going with which is (128b / 1024) x 0.001
+        dTime: new Date().toDateString(),
+
       },
       data: {
-        dTime: new Date().toDateString(),
         images: {},
         documents: {}
       }
@@ -117,59 +125,202 @@ class Splash2 extends Component {
       name: this.props.asset.Name
     });
   };
+
+  _onPasswordSubmit = () => {
+    if (this.state.location === "Originator") {
+      this._startTrans(this.state.location);
+    } else {
+      this._getOriginTrans(this.state.password);
+    }
+  };
+
+  _cancelPass = () => {
+    this.setState({
+      showPass: false,
+      password: ""
+    });
+  };
+
+
+  _getPlace = place => {
+    console.log(place, "place in splash2");
+
+    this.setState({
+      showPass: true,
+      location: place
+    });
+  };
+
+  _getOriginTrans(password) {
+
+
+    const { navigate } = this.props.navigation;
+
+    console.log(this.state, "state in_getORigin");
+    // if (this.state.location === 'Recipient') {
+    let originalTransInfo;
+    let origTransHeader;
+
+
+    for (const key of Object.keys(this.props.transactions)) {
+      if (this.props.asset.transactions[key].header.password) {
+        console.log("password found", this.props.asset.transactions[key].header)
+        if (this.props.asset.transactions[key].header.password === password) {
+
+          origTransHeader = this.props.transactions[key].header;
+          this.setState({
+            originalTransInfo: {
+              // ogTransTime: origTransHeader.dTime,
+              entryHash: origTransHeader.factomEntry,
+              hercId: this.props.asset.hercId || null,
+              txId: key
+            },
+            showPass: false,
+            gotTransInfo: true,
+            // originalTransInfo
+          });
+          return originalTransInfo;
+        }
+      }
+    }
+    // if (this.props.transactions[key].transData) {
+    //   pwlocation = this.props.transactions[key].transData;
+    // }
+    // console.log(key);
+    // if (pwlocation.password === password) {
+    //   console.log(pwlocation, "pwlocation");
+    //   console.log("gotone", key, password);
+
+
+    // return originalTransInfo;
+    // this will be where the transaction data is collected, the transactions moving forward will be
+    // saved in the "transData" directory beneath the firebase pushkey.
+  }
+
+
+
+
   componentDidMount() {
     StatusBar.setBackgroundColor("white");
     StatusBar.setBarStyle("dark-content", true);
   }
   render() {
+    console.log(this.state, 'the state')
     return (
+      ///  I'm consistancizing all the button sizes to 50x200 or about 53%
+      /// the styles for the location images (originator/recipient) is located at styles.locationImage
 
       <View style={styles.container}>
         <View style={styles.containerCenter}>
           <TouchableHighlight
             style={{ marginTop: 50 }}
-            onPress={() => this._onPress("originator")}
+            onPress={() => this._getPlace("Originator")}
           >
             <Image style={styles.menuButton} source={newOriginator} />
           </TouchableHighlight>
 
-          <TouchableHighlight onPress={() => this._onPress("recipient")}>
+          <TouchableHighlight onPress={() => this._getPlace("Recipient")}>
             <Image style={styles.menuButton} source={newRecipient} />
           </TouchableHighlight>
 
+          {this.state.showPass && (
+            <View style={localStyles.passwordFieldContainer}>
+              <Text style={localStyles.passwordLabel}>
+                Please Enter{" "}
+                <Text style={{ color: "#F3C736" }}>{this.state.location} </Text>
+                Transaction Secret Code Word
+              </Text>
+              <View style={localStyles.passwordTextInputView}>
+                <TextInput
+                  autoCorrect={false}
+                  spellCheck={false}
+                  underlineColorAndroid="transparent"
+                  style={{ fontSize: 20, textAlign: "center" }}
+                  onChangeText={pass => this.setState({ password: pass })}
+                />
+              </View>
+              <View style={localStyles.buttonField}>
+                <TouchableHighlight onPress={this._onPasswordSubmit}>
+                  <Image
+                    style={[
+                      localStyles.button,
+                      { resizeMode: "cover", alignSelf: "flex-start" }
+                    ]}
+                    source={submit}
+                  />
+                </TouchableHighlight>
+                <TouchableHighlight
+                  style={localStyles.button}
+                  onPress={this._cancelPass}
+                >
+                  <Text style={{ fontSize: 18 }}>Cancel</Text>
+                </TouchableHighlight>
+              </View>
+            </View>
+          )}
+
+          {this.state.originalTransInfo && (
+            <View style={[localStyles.passwordFieldContainer, { height: 195 }]}>
+              <Text style={[localStyles.passwordLabel, { marginTop: 5 }]}>
+                Confirm{" "}
+                <Text style={{ color: "#F3C736" }}>
+                  {this.state.location}
+                  {"\n"}
+                </Text>
+              </Text>
+              
+              <Text style={localStyles.passwordLabel}>
+                Of TXID:{" "}
+                <Text style={{ color: "#F3C736" }}>
+                  {this.state.originalTransInfo.txId}
+                  {"\n"}
+                </Text>
+              </Text>
+              
+              {/* {this.state.originalTransInfo.ogTransTime && <Text style={localStyles.passwordLabel}>
+                Origin Date:{" "}
+                <Text style={{ color: "#F3C736" }}>
+                  {this.state.originalTransInfo.ogTransTime}
+                </Text>
+              </Text> */}
+               <Text style={localStyles.passwordLabel}>
+                  Factom Entry Hash:{" "}
+                  <Text style={{ color: "#F3C736" }}>
+                    {this.state.originalTransInfo.entryHash}
+                  </Text>
+                </Text>
+              
+
+              <View style={localStyles.buttonField}>
+                <TouchableHighlight onPress={this._startTrans}>
+                  <Image
+                    style={[
+                      localStyles.button,
+                      { resizeMode: "cover", alignSelf: "flex-start" }
+                    ]}
+                    source={submit}
+                  />
+                </TouchableHighlight>
+                <TouchableHighlight
+                  style={localStyles.button}
+                  onPress={this._cancelPass}
+                >
+                  <Text style={{ fontSize: 18 }}>Cancel</Text>
+                </TouchableHighlight>
+              </View>
+            </View>
+          )}
         </View>
       </View>
     );
   }
 }
 
-const localStyles = StyleSheet.create({
-  header__container: {
-    display: "flex",
-    resizeMode: "contain",
-    height: 60,
-    alignSelf: "center",
-    flex: 1,
-    alignContent: "center",
-    alignItems: "center",
-  },
-  header__container__centeredBox: {
-    height: "100%",
-    alignItems: "center",
-    flexDirection: 'row'
-  },
-  header__text__box: {
-    height: "100%",
-    marginBottom: 5,
-  },
-  header__image__box: {
-    height: "100%",
-    width: 50
-  },
-});
+
 
 const mapStateToProps = state => ({
-  asset: state.AssetReducers.selectedAsset
+  asset: state.AssetReducers.selectedAsset,
+  transactions: state.AssetReducers.selectedAsset.transactions
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -177,3 +328,73 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Splash2);
+
+const localStyles = StyleSheet.create({
+
+  passwordFieldContainer: {
+    height: "28%",
+    width: "88%",
+    justifyContent: "center",
+    backgroundColor: "#123C4A",
+    marginTop: 17,
+    paddingTop: 17,
+    paddingBottom: 5
+  },
+  passwordTextInput: {
+    fontSize: 20,
+    textAlign: "center",
+    height: 30,
+    justifyContent: "center"
+  },
+  passwordTextInputView: {
+    backgroundColor: "white",
+    padding: 5,
+    alignItems: "center",
+    width: "90%",
+    alignSelf: "center",
+    marginTop: 4
+  },
+  passwordLabel: {
+    color: "white",
+    fontSize: 18,
+    textAlign: "center",
+    margin: 5
+  },
+  // passwordFieldContainer: {
+  //   height: 140,
+  //   width: "88%",
+  //   justifyContent: "center",
+  //   backgroundColor: "#123C4A",
+  //   marginTop: 20,
+  //   paddingTop: 5,
+  //   paddingBottom: 5
+  // },
+  // passwordTextInput: {
+  //   fontSize: 20,
+  //   textAlign: "center",
+  //   height: 30,
+  //   justifyContent: "center"
+  // },
+
+  // passwordLabel: {
+  //   color: "white",
+  //   fontSize: 18,
+  //   textAlign: "center",
+  //   margin: 5
+  // },
+  buttonField: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    padding: 5,
+    margin: 5
+  },
+  button: {
+    height: 40,
+    width: 80,
+    borderColor: "black",
+    borderWidth: 2,
+    margin: 5,
+    padding: 5,
+    justifyContent: "center"
+  }
+});

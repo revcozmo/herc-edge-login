@@ -258,7 +258,7 @@ const localStyles = StyleSheet.create({
         fontSize: 15,
         color: "white",
         //put this margin  top combat an overlap issue
-        marginTop: 20,
+        // marginTop: 20,
         padding: 2,
         textAlign: "center"
     },
