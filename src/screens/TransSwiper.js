@@ -54,15 +54,17 @@ class TransSwiper extends Component {
                 <View style={headerStyles.header__container}>
                 <View style={headerStyles.header__container__centeredBox}>
                   <View style={headerStyles.header__image__box}>
-                    {/* <TouchableHighlight style={{justifyContent: "center"}} onPress={() => navigation.navigate("MenuOptions")}>
-                   </TouchableHighlight> */}
-                    <Image
-                      style={headerStyles.assetHeaderLogo}
-                      source={{ uri: params.logo }}
-                    />
-                  </View>
-                  <View style={headerStyles.header__text__box}>
-                    <Text style={headerStyles.headerText}>{params.name}</Text>
+                    <TouchableHighlight style={{justifyContent: "center"}} onPress={() => navigation.navigate("MenuOptions")}>
+                    <View>
+                      <Image
+                        style={headerStyles.assetHeaderLogo}
+                        source={{ uri: params.logo }}
+                      />
+                    <View style={headerStyles.header__text__box}>
+                      <Text style={headerStyles.headerText}>{params.name}</Text>
+                    </View>
+                    </View>
+                  </TouchableHighlight>
                   </View>
                 </View>
               </View>
