@@ -98,9 +98,11 @@ class TransAssetList extends Component {
     return (
       <View style={styles.container}>
         <View style={[styles.containerCenter, { paddingTop: 15 }]}>
+          <ScrollView>
 
           {list}
 
+          </ScrollView>
         </View>
       </View>
 
