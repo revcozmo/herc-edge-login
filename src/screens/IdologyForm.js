@@ -104,13 +104,10 @@ class IdologyForm extends Component {
 
     axios.post(WEB_SERVER_API_IDENTITIES, formBody)
       .then(response => {
-        this.setState({loading: false})
-        console.log(response, "======================")
-        if (response.data === true){
-          navigate('MenuOptions')
-        } else {
-          navigate('IdologyForm', {"redirect": "true"})
-        }
+        console.log(response, "=====idology server response")
+        this.setState({loading: false}, () => {
+          response.data === true ? navigate('MenuOptions') : navigate('IdologyForm', {"redirect": true})
+        })
       })
       .catch(error => {console.log(error)})
   }

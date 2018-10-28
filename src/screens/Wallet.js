@@ -13,7 +13,7 @@ import {
   // switchWallet
 } from '../actions/WalletActActions';
 import BigNumber from 'bignumber.js';
-// import QRCode from 'react-qr-code';
+import QRCode from 'react-qr-code';
 
 ///////  All this wallet balance stuff,
 class Wallet extends React.Component {
@@ -61,6 +61,26 @@ class Wallet extends React.Component {
     // this._getTotUs(this.props.balance);
   }
 
+async _makeCustomHercWallet(){
+  var tokenTrx = {
+    currencyName: 'Tron',
+    contractAddress: '0xf230b790e05390fc8295f4d3f60332c93bed42e2',
+    currencyCode: 'TRX',
+    multiplier: '1000000000000000000'
+  };
+  const customTokens = {
+    tokens: [ "TRX", "TRON" ]
+  }
+  this.props.wallet.addCustomToken(tokenTrx)
+    .then(wallet => {
+        wallet.enableToken(customTokens)
+        return wallet
+    })
+    .then(wallet => {
+      console.log(wallet)
+    })
+    .catch(err => {console.error(err)})
+}
   async _onPressSend() {
     const wallet = this.props.wallet
     let destAddress = this.state.destAddress
@@ -179,6 +199,7 @@ class Wallet extends React.Component {
 
                 <Text style={localStyles.text} onPress={() => this._changeBalanceDenom()}>ChangetheDenom</Text>
 
+
               </View>
             </View>
 
@@ -247,7 +268,13 @@ class Wallet extends React.Component {
             underlineColorAndroid='transparent'
             selectionColor={'gold'}
           />
-
+          <TouchableHighlight
+            style={{ marginTop: 10 }}
+            onPress={() => this._makeCustomHercWallet()}>
+            <Text style={{ color: "white", marginTop: 10 }}>
+              makeCustomTronWallet
+            </Text>
+            </TouchableHighlight>
           <TouchableHighlight
             style={{ marginTop: 10 }}
             onPress={() => this._onPressSend()}>
