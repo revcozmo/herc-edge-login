@@ -110,6 +110,6 @@ const localStyles = StyleSheet.create({
         height: 60,
         width: 200,
         resizeMode: "contain",
-        borderRadius: 2,
+        // borderRadius: 2,
     }
 })
