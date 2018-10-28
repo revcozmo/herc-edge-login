@@ -45,6 +45,7 @@ export const GET_ACCOUNT = 'getAccount';
 ///// ACCOUNT TYPES /////
 export const AUTH_TOKEN = 'authToken';
 export const GET_ORGANIZATION = 'getOrganization';
+export const GETTING_ORGANIZATION = 'gettingOrganization;'
 
 
 export const GET_LATEST_BLOCK = "getLatestBlock";

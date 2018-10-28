@@ -2,7 +2,7 @@ import {
     AUTH_TOKEN,
     GET_ACCOUNT,
     GET_ETH_ADDRESS,
-    GET_ORGANIZATION,
+    GETTING_ORGANIZATION,
     GET_WALLET,
     GET_BALANCE,
     DEBIT_TRANS,
@@ -42,7 +42,7 @@ export default function WalletReducer(state = INITIAL_STATE, action) {
             })
 
 
-        case GET_ORGANIZATION:
+        case GETTING_ORGANIZATION:
             let organizationName = action.organizationName;
             return Object.assign({}, state, {
                 ...state,
