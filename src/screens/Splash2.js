@@ -242,6 +242,7 @@ class Splash2 extends Component {
 
       <View style={styles.container}>
         <View style={styles.containerCenter}>
+          <Text style={{ color: "#F3C736" }}>Where are you along the Supply Chain? </Text>
           <TouchableHighlight
             style={{ marginTop: 50 }}
             onPress={() => this._getPlace("Originator")}
