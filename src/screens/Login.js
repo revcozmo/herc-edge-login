@@ -89,7 +89,25 @@ class Login extends Component {
         account.createCurrencyWallet('wallet:ethereum', {
           name: 'My First Wallet',
           fiatCurrencyCode: 'iso:USD'
-        }).then(wallet => {
+        }).then(async wallet => {
+          //customToken & enable
+            // var tokenHerc = {
+            //   currencyName: 'Hercules',
+            //   contractAddress: '0xf230b790e05390fc8295f4d3f60332c93bed42e2',
+            //   currencyCode: 'HERC',
+            //   multiplier: '1000000000000000000'
+            // };
+          var tokenTrx = {
+            currencyName: 'Tron',
+            contractAddress: '0xf230b790e05390fc8295f4d3f60332c93bed42e2',
+            currencyCode: 'TRX',
+            multiplier: '1000000000000000000'
+          };
+          let customWallet = await wallet.addCustomToken(tokenTrx)
+          const customTokens = {
+            tokens: [ "TRX", "TRON" ]
+          }
+          customWallet.enableToken(customTokens)
           this.props.getEthAddress(wallet.keys.ethereumAddress)
           this.props.getWallet(wallet)
           this.setState({ wallet })

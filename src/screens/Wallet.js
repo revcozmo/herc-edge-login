@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TextInput, Modal, View, Image, Button, TouchableHighlight, Alert, Clipboard } from 'react-native';
+import { StyleSheet, Text, TextInput, Modal, View, Image, Button, TouchableHighlight, ScrollView, Alert, Clipboard, Linking } from 'react-native';
 import React from 'react';
 import styles from '../assets/styles';
 import { NewButton } from 'react-native-button';
@@ -13,7 +13,7 @@ import {
   // switchWallet
 } from '../actions/WalletActActions';
 import BigNumber from 'bignumber.js';
-// import QRCode from 'react-qr-code';
+import QRCode from 'react-qr-code';
 
 ///////  All this wallet balance stuff,
 class Wallet extends React.Component {
@@ -24,6 +24,7 @@ class Wallet extends React.Component {
       balance: "",
       ethereumAddress: "",
       destAddress: "",
+      sendAmount: "",
     }
   }
 
@@ -61,22 +62,46 @@ class Wallet extends React.Component {
     // this._getTotUs(this.props.balance);
   }
 
+async _makeCustomHercWallet(){
+  var tokenTrx = {
+    currencyName: 'Tron',
+    contractAddress: '0xf230b790e05390fc8295f4d3f60332c93bed42e2',
+    currencyCode: 'TRX',
+    multiplier: '1000000000000000000'
+  };
+  const customTokens = {
+    tokens: [ "TRX", "TRON" ]
+  }
+  this.props.wallet.addCustomToken(tokenTrx)
+    .then(wallet => {
+        wallet.enableToken(customTokens)
+        return wallet
+    })
+    .then(wallet => {
+      console.log(wallet)
+    })
+    .catch(err => {console.error(err)})
+}
+
   async _onPressSend() {
     const wallet = this.props.wallet
     let destAddress = this.state.destAddress
-    console.log(this.state)
+    let sendAmountInEth = new BigNumber(this.state.sendAmount)
     if (!destAddress) Alert.alert("Missing Destination Address");
+    if (!sendAmountInEth) Alert.alert("Invalid Send Amount");
+    let sendAmountInWei = sendAmountInEth.times(1e18).toString()
+    console.log(sendAmountInWei, "chance in wei")
     const abcSpendInfo = {
       networkFeeOption: 'standard',
       currencyCode: 'ETH',
       metadata: {
-        name: 'Transfer From Herc Wallet to Logan',
+        name: 'Transfer From Herc Wallet',
         category: 'Transfer:Wallet:College Fund'
       },
       spendTargets: [
         {
           publicAddress: destAddress,
-          nativeAmount: '10000000000000' // 1.2 ETH
+          nativeAmount: sendAmountInWei
         }
       ]
     }
@@ -158,9 +183,9 @@ class Wallet extends React.Component {
     // let currentCoin = iconsArray.filter(coin => coin.currency === this.props.currentWallet)
 
     return (
+      <ScrollView>
       <View style={styles.container}>
         <View style={[styles.containerCenter, { paddingTop: 25 }]}>
-          {/* <View style={[styles.containerCenter, { paddingTop: 25 }]}> */}
           <View style={localStyles.balanceContainer}>
 
             <View style={localStyles.centerBalance}>
@@ -178,6 +203,7 @@ class Wallet extends React.Component {
               <View style={{ flexDirection: 'row', width: '60%', height: 50, justifyContent: 'space-around', alignItems: 'center' }}>
 
                 <Text style={localStyles.text} onPress={() => this._changeBalanceDenom()}>ChangetheDenom</Text>
+
 
               </View>
             </View>
@@ -234,16 +260,35 @@ class Wallet extends React.Component {
                 <Text>Hide Modal</Text>
               </TouchableHighlight>
             </View>
-          </Modal> */}
+          </Modal>
+          // <TouchableHighlight
+          //   style={{ marginTop: 10 }}
+          //   onPress={() => this._makeCustomHercWallet()}>
+          //   <Text style={{ color: "white", marginTop: 10 }}>
+          //     makeCustomTronWallet
+          //   </Text>
+          //   </TouchableHighlight>
+
+*/}
           </View>
           <TextInput
-            style={{ width: "80%", marginTop: "10%", textAlign: "center", borderColor: "gold", borderWidth: 1, borderRadius: 10, color: "white" }}
+            style={{ width: "80%", marginTop: "5%", textAlign: "center", borderColor: "gold", borderWidth: 1, borderRadius: 10, color: "white" }}
             onChangeText={(destAddress) =>
               this.setState({ destAddress })
             }
             placeholderTextColor="silver"
             placeholder="Destination Address"
             value={this.state.text}
+            underlineColorAndroid='transparent'
+            selectionColor={'gold'}
+          />
+          <TextInput
+            style={{ width: "80%", marginTop: "5%", textAlign: "center", borderColor: "gold", borderWidth: 1, borderRadius: 10, color: "white" }}
+            onChangeText={(sendAmount) =>
+              this.setState({ sendAmount })
+            }
+            placeholderTextColor="silver"
+              placeholder="Amount(ETH)"
             underlineColorAndroid='transparent'
             selectionColor={'gold'}
           />
@@ -254,8 +299,19 @@ class Wallet extends React.Component {
             <Text style={{ backgroundColor: "green", width: 100, lineHeight: 30, height: 30, borderRadius: 5, color: "white", textAlign: "center", justifyContent: "center", alignContent: "center" }}>Send</Text>
           </TouchableHighlight>
 
+          <View
+            style={{
+              marginTop: '10%',
+              borderBottomColor: 'white',
+              borderBottomWidth: 1,
+              width: '100%'
+            }}
+          />
+
           <View style={{ marginTop: "10%", alignContent: "center", alignItems: "center", margin: 5}}>
-            <QRCode size={140} value="{this.state.ethereumAddress}" />
+            <View style={{ borderWidth: 10, borderColor: 'white'}}>
+              <QRCode size={140} value={this.state.ethereumAddress} />
+            </View>
             <Text style={{ color: "white", marginTop: 10 }}>
               {this.state.ethereumAddress}
             </Text>
@@ -264,9 +320,19 @@ class Wallet extends React.Component {
                 Copy
               </Text>
             </TouchableHighlight>
+            <TouchableHighlight onPress={() => {
+              Linking.openURL("https://purchase.herc.one/");
+            }}>
+              <View>
+                <Text style={{ marginTop: "30%", color: "white", textAlign: "center", justifyContent: "center", alignContent: "center" }}>
+                  Top Up HERCs
+                </Text>
+              </View>
+            </TouchableHighlight>
           </View>
         </View>
       </View>
+    </ScrollView>
     );
   }
 };
