@@ -309,7 +309,9 @@ async _makeCustomHercWallet(){
           />
 
           <View style={{ marginTop: "10%", alignContent: "center", alignItems: "center", margin: 5}}>
-            <QRCode size={140} value="{this.state.ethereumAddress}" />
+            <View style={{ borderWidth: 10, borderColor: 'white'}}>
+              <QRCode size={140} value={this.state.ethereumAddress} />
+            </View>
             <Text style={{ color: "white", marginTop: 10 }}>
               {this.state.ethereumAddress}
             </Text>
