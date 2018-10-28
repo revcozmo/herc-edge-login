@@ -309,7 +309,7 @@ export function startTrans(trans) {
 export function sendTrans(trans) {
   // TODO: charge payment. trans = 0.000125
   let dTime = Date.now()
-  let transObject = store.getState().AssetReducers.trans
+  let transObject = store.getState().AssetReducers.selectedAsset.trans
   let header = transObject.header; //tXlocation, hercId, price, name
   let data = transObject.data; //documents, images, properties, dTime
   let keys = Object.keys(data) //[ 'dTime', 'documents', 'images', 'properties' ]

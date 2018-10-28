@@ -222,7 +222,7 @@ const localStyles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => ({
-  transInfo: state.AssetReducers.trans.header,
+  transInfo: state.AssetReducers.selectedAsset.trans.header,
   logo: state.AssetReducers.selectedAsset.Logo,
   name: state.AssetReducers.selectedAsset.Name
 

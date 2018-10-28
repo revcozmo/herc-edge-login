@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, TextInput, View, Image, TouchableHighlight, Alert, ScrollView, YellowBox } from 'react-native';
+import { StyleSheet, Text, TextInput, View, Image, Modal, ActivityIndicator, Button, TouchableHighlight, Alert, ScrollView, YellowBox } from 'react-native';
 import { connect } from 'react-redux';
 import { StackNavigator } from 'react-navigation';
 import styles from '../assets/styles';
@@ -202,10 +202,10 @@ class TransRev extends Component {
                     </View>
                     </View>
                 </Modal>
-           
+
             </View>
 
-            
+
 
         )
     }
@@ -345,5 +345,3 @@ const localStyles = StyleSheet.create({
         borderRadius: 15 / 2
     }
 });
-
-
