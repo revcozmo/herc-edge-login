@@ -183,10 +183,9 @@ async _makeCustomHercWallet(){
     // let currentCoin = iconsArray.filter(coin => coin.currency === this.props.currentWallet)
 
     return (
+      <ScrollView>
       <View style={styles.container}>
         <View style={[styles.containerCenter, { paddingTop: 25 }]}>
-          <ScrollView>
-          {/* <View style={[styles.containerCenter, { paddingTop: 25 }]}> */}
           <View style={localStyles.balanceContainer}>
 
             <View style={localStyles.centerBalance}>
@@ -284,7 +283,7 @@ async _makeCustomHercWallet(){
             selectionColor={'gold'}
           />
           <TextInput
-            style={{ width: "80%", marginTop: "5%", textAlign: "center", borderColor: "gold", borderWidth: 1, borderRadius: 10, color: "white" }}
+            style={{ width: "80%", marginTop: "10%", textAlign: "center", borderColor: "gold", borderWidth: 1, borderRadius: 10, color: "white" }}
             onChangeText={(sendAmount) =>
               this.setState({ sendAmount })
             }
@@ -320,9 +319,9 @@ async _makeCustomHercWallet(){
               </View>
             </TouchableHighlight>
           </View>
-          </ScrollView>
         </View>
       </View>
+    </ScrollView>
     );
   }
 };
