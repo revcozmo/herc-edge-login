@@ -156,7 +156,7 @@ class NewAssetConfirm extends Component {
 
     _goToMenu = () => {
         const { navigate } = this.props.navigation;
-        this._closeModal();
+        this._changeModalVisibility(false);
         navigate('MenuOptions');
 
     }
@@ -229,7 +229,9 @@ class NewAssetConfirm extends Component {
                 >
                 <View style={modalStyle.container}>
                     <View style={modalStyle.modalBackground}>
-
+                 {!this.props.dataFlags.confirmAssetComplete  &&  
+                  <Text style={modalStyle.wordsText}>Your Asset Information Is Being Written To The Blockchain</Text>
+                  }
 
                         <View style={modalStyle.activityIndicatorWrapper}>
                             <ActivityIndicator
@@ -241,9 +243,7 @@ class NewAssetConfirm extends Component {
                             <Text style={modalStyle.wordsText}>Your Transaction Has Completed!</Text>
                                 <Button
                                     title={'BackToMenu'}
-                                    onPress={() => {
-                                        this._changeModalVisibility(false) && navigate('MenuOptions')
-                                        }}
+                                    onPress={() => this._goToMenu()}
                                     style={modalStyle.modalButton}>Menu</Button>
                             </View>
                             }

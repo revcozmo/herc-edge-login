@@ -214,7 +214,7 @@ class TransRev extends Component {
 const mapStateToProps = (state) => ({
     transInfo: state.AssetReducers.selectedAsset.trans.header,
     transDat: state.AssetReducers.selectedAsset.trans.data,
-    dataFlags: state.AssetReducers.dataFlags
+    dataFlags: state.AssetReducers.transDataFlags
     // price: state.dataReducer.prices.list[0].pricePerHercForFCT
 })
 const mapDispatchToProps = (dispatch) => ({

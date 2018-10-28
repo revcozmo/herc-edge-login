@@ -25,6 +25,7 @@ import {
     SEND_TRANS,
     SET_SET,
     START_TRANS,
+    TRANS_COMPLETE,
 } from '../actions/types';
 import axios from 'axios';
 import store from "../store";
@@ -63,8 +64,12 @@ const INITIAL_STATE = {
     dataFlags: {
         confirmStarted: false,
         confAssetComplete: false,
+    },
+    transDataFlags: {
+        transStarted: false,
+        confTransComplete: false,
     }
-};
+}
 
 
 const AssetReducers = (state = INITIAL_STATE, action) => {
@@ -124,7 +129,7 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
 
             return Object.assign({}, state, {
                 ...state,
-                dataFlags: {
+                transDataFlags: {
                     transStarted: true
                 },
                 selectedAsset: {
@@ -137,17 +142,43 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
         case SEND_TRANS:
             return Object.assign({}, state, {
                 ...state,
-                dataFlags: {
+                transDataFlags: {
                     sendingTrans: true
                 },
-                trans: {
-                    ...state.trans,
-                    ...state.trans.header,
-                    data: {
-                        ...state.trans.data
+
+            })
+
+        // case TRANS_SENDING:
+        //     return Object.assign({}, state, {
+        //         ...state,
+        //         transDataFlags: {
+        //             ...state.transDataFlags,
+        //             transStarted: true
+        //         }
+        //     })
+
+
+        case TRANS_COMPLETE:
+            // let trans = action.data;
+            return Object.assign({}, state, {
+                ...state,
+                transDataFlags: {
+                    ...state.transDataFlags,
+                    confTransComplete: true,
+                },
+                selectedAsset: {
+                    ...state.selectedAsset,
+                    trans: {
+                        ...state.selectedAsset.trans,
+                        ...state.selectedAsset.trans.header,
+                        data: {
+                            ...state.selectedAsset.trans.data
+                        }
                     }
                 }
             })
+
+
 
         case GOT_HERC_ID:
             let hercId = action.hercId;
