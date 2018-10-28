@@ -241,14 +241,16 @@ class NewAssetConfirm extends Component {
                             <Text style={modalStyle.wordsText}>Your Transaction Has Completed!</Text>
                                 <Button
                                     title={'BackToMenu'}
-                                    onPress={() => navigate('MenuOptions')}
+                                    onPress={() => {
+                                        this._changeModalVisibility(false) && navigate('MenuOptions')
+                                        }}
                                     style={modalStyle.modalButton}>Menu</Button>
                             </View>
                             }
-                            <Button
+                            {/* <Button
                                 title={'Close Modal'}
                                 onPress={() => this._changeModalVisibility(false)}
-                                style={modalStyle.modalButton}>Menu</Button>
+                                style={modalStyle.modalButton}>Menu</Button> */}
 
                     </View>
                     </View>
