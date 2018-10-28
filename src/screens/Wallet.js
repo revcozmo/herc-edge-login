@@ -272,7 +272,7 @@ async _makeCustomHercWallet(){
 */}
           </View>
           <TextInput
-            style={{ width: "80%", marginTop: "10%", textAlign: "center", borderColor: "gold", borderWidth: 1, borderRadius: 10, color: "white" }}
+            style={{ width: "80%", marginTop: "5%", textAlign: "center", borderColor: "gold", borderWidth: 1, borderRadius: 10, color: "white" }}
             onChangeText={(destAddress) =>
               this.setState({ destAddress })
             }
@@ -283,7 +283,7 @@ async _makeCustomHercWallet(){
             selectionColor={'gold'}
           />
           <TextInput
-            style={{ width: "80%", marginTop: "10%", textAlign: "center", borderColor: "gold", borderWidth: 1, borderRadius: 10, color: "white" }}
+            style={{ width: "80%", marginTop: "5%", textAlign: "center", borderColor: "gold", borderWidth: 1, borderRadius: 10, color: "white" }}
             onChangeText={(sendAmount) =>
               this.setState({ sendAmount })
             }
@@ -298,6 +298,15 @@ async _makeCustomHercWallet(){
             onPress={() => this._onPressSend()}>
             <Text style={{ backgroundColor: "green", width: 100, lineHeight: 30, height: 30, borderRadius: 5, color: "white", textAlign: "center", justifyContent: "center", alignContent: "center" }}>Send</Text>
           </TouchableHighlight>
+
+          <View
+            style={{
+              marginTop: '10%',
+              borderBottomColor: 'white',
+              borderBottomWidth: 1,
+              width: '100%'
+            }}
+          />
 
           <View style={{ marginTop: "10%", alignContent: "center", alignItems: "center", margin: 5}}>
             <QRCode size={140} value="{this.state.ethereumAddress}" />
