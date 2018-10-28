@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TextInput, Modal, View, Image, Button, TouchableHighlight, Alert, Clipboard } from 'react-native';
+import { StyleSheet, Text, TextInput, Modal, View, Image, Button, TouchableHighlight, ScrollView, Alert, Clipboard } from 'react-native';
 import React from 'react';
 import styles from '../assets/styles';
 import { NewButton } from 'react-native-button';
@@ -24,6 +24,7 @@ class Wallet extends React.Component {
       balance: "",
       ethereumAddress: "",
       destAddress: "",
+      sendAmount: "",
     }
   }
 
@@ -81,22 +82,26 @@ async _makeCustomHercWallet(){
     })
     .catch(err => {console.error(err)})
 }
+
   async _onPressSend() {
     const wallet = this.props.wallet
     let destAddress = this.state.destAddress
-    console.log(this.state)
+    let sendAmountInEth = new BigNumber(this.state.sendAmount)
     if (!destAddress) Alert.alert("Missing Destination Address");
+    if (!sendAmountInEth) Alert.alert("Invalid Send Amount");
+    let sendAmountInWei = sendAmountInEth.times(1e18).toString()
+    console.log(sendAmountInWei, "chance in wei")
     const abcSpendInfo = {
       networkFeeOption: 'standard',
       currencyCode: 'ETH',
       metadata: {
-        name: 'Transfer From Herc Wallet to Logan',
+        name: 'Transfer From Herc Wallet',
         category: 'Transfer:Wallet:College Fund'
       },
       spendTargets: [
         {
           publicAddress: destAddress,
-          nativeAmount: '10000000000000' // 1.2 ETH
+          nativeAmount: sendAmountInWei
         }
       ]
     }
@@ -180,6 +185,7 @@ async _makeCustomHercWallet(){
     return (
       <View style={styles.container}>
         <View style={[styles.containerCenter, { paddingTop: 25 }]}>
+          <ScrollView>
           {/* <View style={[styles.containerCenter, { paddingTop: 25 }]}> */}
           <View style={localStyles.balanceContainer}>
 
@@ -255,7 +261,16 @@ async _makeCustomHercWallet(){
                 <Text>Hide Modal</Text>
               </TouchableHighlight>
             </View>
-          </Modal> */}
+          </Modal>
+          // <TouchableHighlight
+          //   style={{ marginTop: 10 }}
+          //   onPress={() => this._makeCustomHercWallet()}>
+          //   <Text style={{ color: "white", marginTop: 10 }}>
+          //     makeCustomTronWallet
+          //   </Text>
+          //   </TouchableHighlight>
+
+*/}
           </View>
           <TextInput
             style={{ width: "80%", marginTop: "10%", textAlign: "center", borderColor: "gold", borderWidth: 1, borderRadius: 10, color: "white" }}
@@ -268,13 +283,17 @@ async _makeCustomHercWallet(){
             underlineColorAndroid='transparent'
             selectionColor={'gold'}
           />
-          <TouchableHighlight
-            style={{ marginTop: 10 }}
-            onPress={() => this._makeCustomHercWallet()}>
-            <Text style={{ color: "white", marginTop: 10 }}>
-              makeCustomTronWallet
-            </Text>
-            </TouchableHighlight>
+          <TextInput
+            style={{ width: "80%", marginTop: "5%", textAlign: "center", borderColor: "gold", borderWidth: 1, borderRadius: 10, color: "white" }}
+            onChangeText={(sendAmount) =>
+              this.setState({ sendAmount })
+            }
+            placeholderTextColor="silver"
+              placeholder="Amount(ETH)"
+            underlineColorAndroid='transparent'
+            selectionColor={'gold'}
+          />
+
           <TouchableHighlight
             style={{ marginTop: 10 }}
             onPress={() => this._onPressSend()}>
@@ -291,7 +310,17 @@ async _makeCustomHercWallet(){
                 Copy
               </Text>
             </TouchableHighlight>
+            <TouchableHighlight onPress={() => {
+              Linking.openURL("https://purchase.herc.one/");
+            }}>
+              <View>
+                <Text style={{ marginTop: "30%", color: "white", textAlign: "center", justifyContent: "center", alignContent: "center" }}>
+                  Top Up HERCs
+                </Text>
+              </View>
+            </TouchableHighlight>
           </View>
+          </ScrollView>
         </View>
       </View>
     );
