@@ -167,6 +167,17 @@ class TransRev extends Component {
     }
 }
 
+const mapStateToProps = (state) => ({
+    transInfo: state.AssetReducers.selectedAsset.trans.header,
+    transDat: state.AssetReducers.selectedAsset.trans.data,
+    // price: state.dataReducer.prices.list[0].pricePerHercForFCT
+})
+const mapDispatchToProps = (dispatch) => ({
+    sendTrans: (transPrice) => dispatch(sendTrans(transPrice))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(TransRev);
+
 const localStyles = StyleSheet.create({
     transactionReviewContainer: {
         marginTop: 10,
@@ -290,13 +301,4 @@ const localStyles = StyleSheet.create({
     }
 });
 
-const mapStateToProps = (state) => ({
-    transInfo: state.AssetReducers.trans.header,
-    transDat: state.AssetReducers.trans.data,
-    // price: state.dataReducer.prices.list[0].pricePerHercForFCT
-})
-const mapDispatchToProps = (dispatch) => ({
-    sendTrans: (transPrice) => dispatch(sendTrans(transPrice))
-})
 
-export default connect(mapStateToProps, mapDispatchToProps)(TransRev);
