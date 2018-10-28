@@ -32,7 +32,7 @@ import PreDigi from "../screens/PreDigiView";
 import PreHipr from "../screens/PreHIPR";
 import SpaceScreen from "../screens/SpaceScreen";
 import Splash1 from "../screens/Splash1";
-import Splash2 from "../screens/Splash2_julie";
+import Splash2 from "../screens/Splash2";
 import Splash3 from "../screens/Splash3";
 import Tee from "../screens/Tee";
 import TransAssetList from "../screens/TransAssetList";
