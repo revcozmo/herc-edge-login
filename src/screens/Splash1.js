@@ -67,7 +67,7 @@ class Splash1 extends Component {
   static navigationOptions = ({ navigation }) => ({
     headerTitle:
       <View style={headerStyles.header__container}>
-       
+
         <View style={headerStyles.header__container__centeredBox}>
           <View style={headerStyles.header__image__box}>
             <Image
@@ -118,9 +118,11 @@ class Splash1 extends Component {
 
   _onPress = asset => {
     const { navigate } = this.props.navigation;
-
     this.props.selectAsset(asset);
-    this.props.getAssetDef(asset.ipfsHash);
+    if (asset.ipfsHash) {
+      this.props.getAssetDef(asset.ipfsHash);
+    }
+    else { this.props.getAssetDef(asset.hashes.ipfsHash) }
 
 
     navigate("Splash2", { logo: asset.Logo, name: asset.Name });

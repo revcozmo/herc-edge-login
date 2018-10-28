@@ -3,7 +3,12 @@ import {
     ADD_DOC,
     ADD_METRICS,
     ADD_PHOTO,
-    CONFIRM_ASSET,
+    SETTING_HEADER,
+    SETTING_HEADER_ERROR,
+    CONFIRM_STARTED,
+    GOT_IPFS,
+    GOT_FACT,
+    CONFIRM_ASSET_COMPLETE,
     DELETE_ASSET,
     GET_HERC_ID,
     GET_ORIGIN_TRANS,
@@ -35,6 +40,7 @@ import {
     WEB_SERVER_API_CSV
 } from "../components/settings"
 
+
 //synchronous
 // let assets = [];
 // rootRef.child('assets').on('value', (snapshot) => {
@@ -54,12 +60,10 @@ import {
 
 
 const INITIAL_STATE = {
-    assetFetching: false,
-    assetFetched: false,
-    assetFetchError: false,
-    assetDefFetching: false,
-    assetDefFetched: false,
-    assetDefFetchError: false,
+    dataFlags: {
+        confirmStarted: false,
+        confAssetComplete: false,
+    }
 };
 
 
@@ -76,22 +80,24 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
 
         case GETTING_ASSET_DEF:
             return {
-                assetDefFetching: true
+                dataFlags: {
+                    assetDefFetching: true
+                }
             }
-
         case GOT_ASSET_DEF:
 
             console.log(action, "action in GOT_ASSET_DEF REDUCER")
 
             return Object.assign({}, state, {
-                assetDefFetching: false,
-                assetDefFetched: true,
-                selectedAsset:
+                ...state,
+                dataFlags: {
+                    assetDefFetching: false,
+                    assetDefFetched: true,
+                }, selectedAsset:
                 {
                     ...state.selectedAsset,
-                    hercId: action.ipfsDef.hercId,
                     ipfsDef: action.ipfsDef
-                },
+                }
             })
 
         case ASSET_DEF_ERROR:
@@ -101,10 +107,13 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
             }
 
         case SELECT_ASSET:
+
             return Object.assign({}, state, {
                 ...state,
-                assetFetching: false,
-                assetFetched: true,
+                dataFlags: {
+                    assetFetching: false,
+                    assetFetched: true,
+                },
                 selectedAsset: action.selectAsset
             })
 
@@ -115,12 +124,22 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
 
             return Object.assign({}, state, {
                 ...state,
-                trans
+                dataFlags: {
+                    transStarted: true
+                },
+                selectedAsset: {
+                    ...state.selectAsset,
+                    trans
+
+                }
             })
 
         case SEND_TRANS:
             return Object.assign({}, state, {
                 ...state,
+                dataFlags: {
+                    sendingTrans: true
+                },
                 trans: {
                     ...state.trans,
                     ...state.trans.header,
@@ -205,11 +224,80 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
                 newAsset
             })
 
-        case CONFIRM_ASSET:
+
+
+        case SETTING_HEADER:
+            return Object.assign({}, state, {
+                ...state,
+                dataFlags: {
+                    ...state.dataFlags,
+                    headerSet: true
+                }
+            })
+
+        case SETTING_HEADER_ERROR:
+            return Object.assign({}, state, {
+                ...state,
+                dataFlags: {
+                    ...state.dataFlags,
+                    error: {
+                        type: action.type,
+                        error
+                    }
+                }
+            })
+
+        case CONFIRM_STARTED:
+            return {
+                ...state,
+                dataFlags: {
+                    ...state.dataFlags,
+                    confirmStarted: true,
+
+                }
+            }
+
+
+        case GOT_IPFS:
+            return {
+                ...state,
+                dataFlags: {
+                    ...state.dataFlags,
+                    gotIpfs: true,
+                },
+                newAsset: {
+                    ...state,
+                    newAsset: {
+                        ...state.newAsset,
+                        ipfsHash: action.ipfsHash
+
+                    }
+                }
+            }
+        case GOT_FACT:
+            return {
+                ...state,
+                dataFlags: {
+                    ...state.dataFlags,
+                    gotIpfs: true,
+                },
+                newAsset: {
+                    ...state.newAsset,
+                    chainId: action.chainId
+                }
+            }
+
+        case CONFIRM_ASSET_COMPLETE:
             const asset = action.newAsset;
 
             return Object.assign({}, state, {
-                state: INITIAL_STATE,
+                ...state,
+                dataFlags: {
+                    ...state.dataFlags,
+                    confirmStarted: false,
+                    confAssetComplete: true
+                }
+
             })
 
         case SET_SET:

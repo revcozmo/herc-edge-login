@@ -1,23 +1,29 @@
 import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, View, Image, ScrollView, TextInput, TouchableHighlight, Alert, Button } from 'react-native';
+import { Modal, Platform, StyleSheet, Text, View, Image, ScrollView, TextInput, TouchableHighlight, Alert, Button, ActivityIndicator } from 'react-native';
 import submit from "../components/buttons/submit.png";
 import logo from "../assets/round.png";
 import { connect } from "react-redux";
 import styles from "../assets/styles";
 import hercPillar from "../assets/hercLogoPillar.png";
-import { incHercId, confirmAsset } from "../actions/AssetActions"
+// import Loader from "../components/Loader"
+import { incHercId, confirmAssetStarted, confirmAssetComplete, settingHeader, settingHeaderError } from "../actions/AssetActions"
 
 import firebase from "../constants/Firebase";
 
 class NewAssetConfirm extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            loading: false,
+            confirmComplete: false,
+        }
     }
-    state = {};
+
+
     static navigationOptions = ({ navigation }) => {
         return {
             headerTitleStyle:
-            { justifyContent: "space-around" },
+                { justifyContent: "space-around" },
             headerTitle: (
                 <View style={localStyles.headerField}>
                     <Image
@@ -30,9 +36,44 @@ class NewAssetConfirm extends Component {
         }
     }
 
+    componentDidMount() {
+        this._getOrgName(this.props.edgeAccount)
+        this.setState({
+            hercId: this.props.hercId
+        })
+        // if (this.props.dataFlags.confirmStarted) {
+        //     this.setState({ loading: true })
+        // }
+    }
+    componentWillMount() {
+        // debugger
+        console.log(this.props.dataFlags, "chance repeat")
+        if (this.props.dataFlags.confAssetComplete) {
+            this.setState({ confirmComplete: true })
+            //   this.props.navigation.navigate('MenuOptions')
+        }
+    }
+    _getOrgName(edgeName) {
+        var organization_name;
+
+        var rootRef = firebase.database().ref('idology');
+
+        rootRef.child(edgeName)
+            .child('organizationName')
+            .once('value')
+            .then(snapshot => {
+                organization_name = snapshot.toJSON();
+            }).then(() => {
+
+                console.log(organization_name, 'dddddddddddddddddddddddddddddddd');
+                this.setState({
+                    orgName: organization_name
+                });
+            })
+    }
 
     async uploadImageAsync(uri) {
-
+        const { navigate } = this.props.navigation;
         let newAsset = this.props.newAsset;
         const response = await fetch(uri);
         const blob = await response.blob();
@@ -58,28 +99,59 @@ class NewAssetConfirm extends Component {
         });
 
         fbAsset = {
+            hercId: this.props.hercId,
             Name: newAsset.Name,
             Logo: downloadURL,
+            registeredUnder: this.state.orgName
         }
 
-      console.log(ipfsAsset, fbAsset, "right before the send chance")
+        console.log(ipfsAsset, fbAsset, "right before the send chance")
 
-      this.props.confirmAsset(fbAsset)
-      this.props.incHercId(this.props.hercId);
-      this.props.navigation.navigate('MenuOptions');
+        this.props.settingHeader(fbAsset);
+        this.props.confirmAssetStarted(ipfsAsset);
+        this.props.incHercId(this.props.hercId);
+        // navigate('ConfirmConf');
     }
 
     _onPressSubmit() {
-        let hercId = this.props.hercId;
         const { navigate } = this.props.navigation;
+        let newAsset = this.props.newAsset;
+        let hercId = this.state.hercId;
+        let edgeAccount = this.props.edgeAccount;
+        let fbAssetHdr, ipfsAsset;
+
         if (this.props.newAsset.Logo) {
             this.uploadImageAsync(this.props.newAsset.Logo.uri)
         } else {
-            this.props.confirmAsset(this.props.newAsset);
-            navigate('MenuOptions');
+            fbAssetHdr = {
+                Name: newAsset.Name,
+                hercId: this.props.hercId,
+                registeredUnder: this.state.orgName
+
+            }
+            ipfsAsset = Object.assign({}, {
+                Name: newAsset.Name,
+                url: newAsset.Url || "no url",
+                CoreProps: newAsset.CoreProps,
+                hercId: hercId,
+                registeredUnder: this.state.orgName
+            });
+            this.props.settingHeader(fbAssetHdr);
+            this.props.confirmAssetStarted(ipfsAsset);
+            this.props.incHercId(this.props.hercId)
+            // navigate('ConfirmConf');
         }
     }
+    _closeModal = () => {
+      this.props.confirmAssetComplete();
+    }
 
+    _goToMenu = () => {
+        const { navigate } = this.props.navigation;
+        this._closeModal();
+        navigate('MenuOptions');
+
+    }
     render() {
         const { navigate } = this.props.navigation;
         let price = this.state.fctPrice;
@@ -115,10 +187,12 @@ class NewAssetConfirm extends Component {
         } else { list = (<Text style={styles.label}>No Properties</Text>) }
 
 
+        
 
         return (
             <View style={styles.container}>
                 <View style={styles.containerCenter}>
+
                     <Text style={styles.assetHeaderLabel}>{Name}</Text>
                     {Logo}
                     <Text style={styles.assetHeaderLabel}>{Url}</Text>
@@ -139,7 +213,34 @@ class NewAssetConfirm extends Component {
                     </View>
 
                 </View>
+                <Modal
+                    transparent={false}
+                    animationType={'none'}
+                    visible={this.props.dataFlags.confirmStarted}
+                    onRequestClose={() => { console.log("modal closed") }}
+                >
+                    <View style={styles.modalBackground}>
+                        <View style={styles.activityIndicatorWrapper}>
+                            <ActivityIndicator
+                                animating={this.state.loading} size="large" color="#091141" />
+
+                            {this.props.dataFlags.confAssetComplete &&
+                                <Button
+                                    title={'BackToMenu'}
+                                    onPress={() => navigate('MenuOptions')}
+                                    style={localStyles.modalButton}>Menu</Button>
+                            }
+                            <Button
+                                title={'Close Modal'}
+                                onPress={this._closeModal}
+                                style={localStyles.modalButton}>Menu</Button>
+
+                        </View>
+                    </View>
+                </Modal>
             </View>
+
+
 
         )
     }
@@ -149,12 +250,19 @@ class NewAssetConfirm extends Component {
 const mapStateToProps = (state) => ({
     newAsset: state.AssetReducers.newAsset,
     hercId: state.AssetReducers.hercId,
-    edgeAccount: state.AssetReducers.edge_account
+    edgeAccount: state.WalletActReducers.edge_account,
+    dataFlags: state.AssetReducers.dataFlags
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    confirmAsset: (asset) =>
-        dispatch(confirmAsset(asset)),
+    settingHeader: (fbHead) => {
+        dispatch(settingHeader(fbHead))
+    },
+    confirmAssetStarted: (asset) =>
+        dispatch(confirmAssetStarted(asset)),
+    confirmAssetComplete: () => 
+        dispatch(confirmAssetComplete()),
+    
     incHercId: (hercid) =>
         dispatch(incHercId(hercid))
 })
@@ -256,5 +364,31 @@ const localStyles = StyleSheet.create({
         fontSize: 20,
         fontWeight: "600",
         color: "yellow"
+    },
+    modalBackground: {
+        flex: 1,
+        alignItems: 'center',
+        flexDirection: 'column',
+        justifyContent: 'space-around',
+        backgroundColor: '#00000040'
+
+    },
+    activityIndicatorWrapper: {
+        backgroundColor: '#FFFFFF',
+        height: 100,
+        width: 100,
+        borderRadius: 7,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-around'
+    },
+    modalButton: {
+        color: 'white',
+        fontSize: 40,
+        height: 50,
+        width: 105,
+        marginTop: 100
     }
+
 })
+

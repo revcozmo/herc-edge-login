@@ -94,6 +94,7 @@ class Splash3 extends Component {
     StatusBar.setBarStyle("dark-content", true);
   }
   render() {
+    console.log(this.state, 'state', this.props, 'props')
     const { navigate } = this.props.navigation;
     let locationImage =
       this.props.transHeader.tXLocation === "recipient" ? recipient : originator;
@@ -145,9 +146,9 @@ class Splash3 extends Component {
 
 const mapStateToProps = state => ({
   logo: state.AssetReducers.selectedAsset.Logo,
-  transHeader: state.AssetReducers.trans.header,
-  hercId: state.AssetReducers.trans.header.hercId,
-  data: state.AssetReducers.trans.data
+  transHeader: state.AssetReducers.selectedAsset.trans.header,
+  hercId: state.AssetReducers.selectedAsset.hercId,
+  data: state.AssetReducers.selected.trans.data
 });
 
 export default connect(mapStateToProps)(Splash3);
