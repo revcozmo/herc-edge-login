@@ -7,7 +7,7 @@ import styles from "../assets/styles";
 import hercPillar from "../assets/hercLogoPillar.png";
 // import Loader from "../components/Loader"
 import { incHercId, confirmAssetStarted, confirmAssetComplete, settingHeader, settingHeaderError } from "../actions/AssetActions"
-
+import modalStyle from "../assets/confModalStyles";
 import firebase from "../constants/Firebase";
 
 class NewAssetConfirm extends Component {
@@ -227,28 +227,30 @@ class NewAssetConfirm extends Component {
                     visible={this.state.modalVisible}
                     onRequestClose={() => { console.log("modal closed") }}
                 >
-                    <View style={localstyles.modalBackground}>
+                <View style={modalStyle.container}>
+                    <View style={modalStyle.modalBackground}>
 
 
-                        <View style={localstyles.activityIndicatorWrapper}>
+                        <View style={modalStyle.activityIndicatorWrapper}>
                             <ActivityIndicator
                                 animating={this.props.dataFlags.confirmStarted} size="large" color="#091141" />
                         </View>
 
                             {this.props.dataFlags.confAssetComplete &&
                                 <View>
-                            <Text style={localStyles.wordsText}>Your Transaction Has Completed!</Text>
+                            <Text style={modalStyle.wordsText}>Your Transaction Has Completed!</Text>
                                 <Button
                                     title={'BackToMenu'}
                                     onPress={() => navigate('MenuOptions')}
-                                    style={localStyles.modalButton}>Menu</Button>
+                                    style={modalStyle.modalButton}>Menu</Button>
                             </View>
                             }
                             <Button
                                 title={'Close Modal'}
                                 onPress={() => this._changeModalVisibility(false)}
-                                style={localStyles.modalButton}>Menu</Button>
+                                style={modalStyle.modalButton}>Menu</Button>
 
+                    </View>
                     </View>
                 </Modal>
             </View>
@@ -378,30 +380,7 @@ const localStyles = StyleSheet.create({
         fontWeight: "600",
         color: "yellow"
     },
-    modalBackground: {
-        // flex: 1,
-        alignItems: 'center',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        backgroundColor: '#00000040'
-
-    },
-    activityIndicatorWrapper: {
-        backgroundColor: '#FFFFFF',
-        height: 100,
-        width: 100,
-        borderRadius: 7,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-around'
-    },
-    modalButton: {
-        color: 'white',
-        fontSize: 40,
-        height: 50,
-        width: 105,
-        margin: 10
-    }
+   
 
 })
 

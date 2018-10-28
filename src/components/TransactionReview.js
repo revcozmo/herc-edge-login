@@ -8,6 +8,7 @@ import { sendTrans } from "../actions/AssetActions";
 import fee from "../assets/hercLogoPillar.png";
 import newOriginator from "./buttons/originatorButton.png";
 import newRecipient from "./buttons/recipientButton.png";
+import modalStyle from "../assets/confModalStyles";
 YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTImageLoader', 'Setting a timer for a long period of time']);
 
 //TODO: Fix the image review and create the price reducers with Julie.
@@ -16,16 +17,26 @@ class TransRev extends Component {
 
     constructor(props) {
         super(props);
+        this.state ={
+            modalVisible: false,
+            loading: false,
+        }
     }
     componentDidMount = () => {
         // this.getPricesFromApi();
         // TODO: this API needs to be updated
     }
 
+    _changeModalVisibility = (visible) => {
+        this.setState({
+            modalVisible: visible
+        })
+    }
+
     _sendTrans(price) {
         const { navigate } = this.props.navigate;
         this.props.sendTrans(price);
-        this.props.navigate('MenuOptions');
+        // this.props.navigate('MenuOptions');
 
     }
     _getPrices = () => {
@@ -159,6 +170,39 @@ class TransRev extends Component {
                     <Image style={localStyles.hercPillarIcon} source={fee} />
                     <Text style={localStyles.teePrice}>{this._getPrices().toFixed(18)}</Text>
                 </View>
+                <Modal
+                    transparent={false}
+                    animationType={'none'}
+                    visible={this.state.modalVisible}
+                    onRequestClose={() => { console.log("modal closed") }}
+                >
+                <View style={modalStyle.container}>
+                    <View style={modalStyle.modalBackground}>
+
+
+                        <View style={modalStyle.activityIndicatorWrapper}>
+                            <ActivityIndicator
+                                animating={this.props.dataFlags.confirmStarted} size="large" color="#091141" />
+                        </View>
+
+                            {this.props.dataFlags.confAssetComplete &&
+                                <View>
+                            <Text style={modalStyle.wordsText}>Your Transaction Has Completed!</Text>
+                                <Button
+                                    title={'BackToMenu'}
+                                    onPress={() => navigate('MenuOptions')}
+                                    style={modalStyle.modalButton}>Menu</Button>
+                            </View>
+                            }
+                            <Button
+                                title={'Close Modal'}
+                                onPress={() => this._changeModalVisibility(false)}
+                                style={modalStyle.modalButton}>Menu</Button>
+
+                    </View>
+                    </View>
+                </Modal>
+           
             </View>
 
             
@@ -170,6 +214,7 @@ class TransRev extends Component {
 const mapStateToProps = (state) => ({
     transInfo: state.AssetReducers.selectedAsset.trans.header,
     transDat: state.AssetReducers.selectedAsset.trans.data,
+    dataFlags: state.AssetReducers.dataFlags
     // price: state.dataReducer.prices.list[0].pricePerHercForFCT
 })
 const mapDispatchToProps = (dispatch) => ({
