@@ -48,10 +48,10 @@ export default class TxSwiper extends Component {
         {/* <Image style={styles.assetLocationLabel} source={locationImage} /> */}
         {/* <Text style={styles.revPropVal}>{this.props.hercId}</Text> */}
         {/* {dTime} */}
-          <Text style={styles.transRevName}>{header.tXLocation}</Text>
-          {imageHash && <Text style={styles.text}>Image StorJ Hash:{imageHash}</Text>}
-          {metricsHash && <Text style={styles.text}>Metrics IPFS Hash: {metricsHash}</Text>}
-          {documentHash && <Text style={styles.text}>Document IPFS Hash:{documentHash}</Text>}
+        <Text style={styles.transRevName}>{header.tXLocation}</Text>
+        {imageHash && <Text style={styles.text}>Image StorJ Hash:{imageHash}</Text>}
+        {metricsHash && <Text style={styles.text}>Metrics IPFS Hash: {metricsHash}</Text>}
+        {documentHash && <Text style={styles.text}>Document IPFS Hash:{documentHash}</Text>}
         <View style={styles.transPropField}>
         </View>
         {/* {ediT} */}
@@ -92,6 +92,51 @@ export default class TxSwiper extends Component {
   swipeLeft = () => {
     this.swiper.swipeLeft()
   };
+
+  makeMessage = (cardData) => {
+    // console.log(cardData, "data");
+    let time = cardData.dTime;
+    let location = cardData.tXLocation.toUpperCase() + " ";
+    let properties = cardData.properties ? Object.keys(cardData.properties).length + " Properties;\n" : "";
+    let images = cardData.images ? cardData.images.length + " Image(s);\n" : "";
+    let documents = cardData.documents ? cardData.documents.length + " Document(s);\n" : "";
+    let price = "Hercs: " + cardData.price + ";\n";
+    let sig = "Sent from TestHerc v.0.2.9"
+    let edit = "";
+    let password = cardData.password ? cardData.password : "No password";
+    if (cardData.ediT) {
+      edit = "EDI-T Value: " + cardData.ediT.value;
+
+    }
+
+    let title = this.props.assetName + " " + location + " Transaction @ " + time + ";";
+    let message = title + "\n" +
+      properties + edit + images + documents + price + password + " " + sig;
+    console.log(title, "title", message, "message")
+    return [title, message];
+
+
+  }
+
+
+  sharing = (data) => {
+    console.log("sharing is caring", this.makeMessage(data));
+    let shareTitle = this.makeMessage(data);
+    console.log(shareTitle[0], "sharetitle", "sharingmessage" + shareTitle[1]);
+    Share.share({
+      message: shareTitle[1],
+      title: shareTitle[0]
+    },
+      {// Android only:
+        dialogTitle: shareTitle[0],
+        // iOS only:
+        excludedActivityTypes: [
+          'com.apple.UIKit.activity.PostToTwitter'
+        ]
+
+
+      })
+  }
 
   render() {
     console.log(this.state.cards, 'cards in swiper')

@@ -227,17 +227,22 @@ class NewAssetConfirm extends Component {
                     visible={this.state.modalVisible}
                     onRequestClose={() => { console.log("modal closed") }}
                 >
-                    <View style={styles.modalBackground}>
-                        <View style={styles.activityIndicatorWrapper}>
+                    <View style={localstyles.modalBackground}>
+
+
+                        <View style={localstyles.activityIndicatorWrapper}>
                             <ActivityIndicator
                                 animating={this.props.dataFlags.confirmStarted} size="large" color="#091141" />
                         </View>
 
                             {this.props.dataFlags.confAssetComplete &&
+                                <View>
+                            <Text style={localStyles.wordsText}>Your Transaction Has Completed!</Text>
                                 <Button
                                     title={'BackToMenu'}
                                     onPress={() => navigate('MenuOptions')}
                                     style={localStyles.modalButton}>Menu</Button>
+                            </View>
                             }
                             <Button
                                 title={'Close Modal'}
@@ -374,10 +379,10 @@ const localStyles = StyleSheet.create({
         color: "yellow"
     },
     modalBackground: {
-        flex: 1,
+        // flex: 1,
         alignItems: 'center',
         flexDirection: 'column',
-        justifyContent: 'space-around',
+        justifyContent: 'center',
         backgroundColor: '#00000040'
 
     },
@@ -395,7 +400,7 @@ const localStyles = StyleSheet.create({
         fontSize: 40,
         height: 50,
         width: 105,
-        marginTop: 100
+        margin: 10
     }
 
 })
