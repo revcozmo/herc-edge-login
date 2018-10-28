@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TextInput, Modal, View, Image, Button, TouchableHighlight, ScrollView, Alert, Clipboard } from 'react-native';
+import { StyleSheet, Text, TextInput, Modal, View, Image, Button, TouchableHighlight, ScrollView, Alert, Clipboard, Linking } from 'react-native';
 import React from 'react';
 import styles from '../assets/styles';
 import { NewButton } from 'react-native-button';
