@@ -32,7 +32,7 @@ import PreDigi from "../screens/PreDigiView";
 import PreHipr from "../screens/PreHIPR";
 import SpaceScreen from "../screens/SpaceScreen";
 import Splash1 from "../screens/Splash1";
-import Splash2 from "../screens/Splash2";
+import Splash2 from "../screens/Splash2_julie";
 import Splash3 from "../screens/Splash3";
 import Tee from "../screens/Tee";
 import TransAssetList from "../screens/TransAssetList";
@@ -48,10 +48,7 @@ import DrawerIcon from "../assets/icons/drawerIcon.png";
 
 let headerStyles = StyleSheet.create({
     header__container: {
-        // borderColor: "green",
-        // borderWidth: 3,
         display: "flex",
-        // resizeMode: "contain",
         height: 80,
         alignSelf: "center",
         flex: 1,
@@ -59,35 +56,25 @@ let headerStyles = StyleSheet.create({
         alignItems: "center",
         marginTop: 40,
         paddingBottom: 20
-
     },
     header__container__centeredBox: {
-        // borderColor: "purple",
-        // borderWidth: 3,
         height: "100%",
         alignItems: "center",
         flexDirection: 'row'
     },
     header__text__box: {
-        // borderColor: "blue",
-        // borderWidth: 3,
         height: "100%",
         marginBottom: 5,
         marginLeft: 12,
-
     },
     header__image__box: {
-        // borderColor: "yellow",
-        // borderWidth: 3,
         height: "100%",
         borderRadius: 100
-        // width: 50
     },
     assetHeaderLogo: {
         height: 35,
         width: 35,
         borderRadius: 50,
-        // resizeMode: "contain",
     },
     headerText: {
         fontFamily: "dinPro",
@@ -97,7 +84,6 @@ let headerStyles = StyleSheet.create({
         color: "black",
         textAlign: "center",
         marginTop: 2,
-        // paddingTop: 5
     },
 })
 
