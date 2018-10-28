@@ -39,10 +39,7 @@ export class Settings extends Component {
   }
 
   componentDidMount() {
-    console.log(this.props)
-    // let getFromStore = store.getState();
-    // let userName = getFromStore.AssetReducers.edge_account
-    // this.setState({userName: userName})
+
   }
 
   onLogOut = () => {
@@ -208,7 +205,7 @@ export class Settings extends Component {
               </TouchableHighlight>
             </View>
             <TouchableHighlight onPress={() => {
-              Linking.openURL("https://discord.gg/J4a9MY");
+              Linking.openURL("https://discord.gg/ntWZ53W");
             }}>
               <View style={localStyles.block}>
                 <Image style={localStyles.block__icon} source={discordIcon} />
@@ -234,7 +231,7 @@ export class Settings extends Component {
             <View style={localStyles.divider}>
               <TouchableHighlight
                 onPress={() => {
-                  Linking.openURL("https://purchase.herc.one/");
+                  Linking.openURL("https://purchase.herc.one");
                 }}
               >
                 <View style={localStyles.block}>
@@ -244,8 +241,7 @@ export class Settings extends Component {
                   />
                   <View style={localStyles.block__textBlock}>
                     <Text style={localStyles.title__Text}>
-                      {" "}
-                      Contribute to the TGE{" "}
+                      Top up HERCs
                     </Text>
                   </View>
                 </View>
@@ -254,7 +250,7 @@ export class Settings extends Component {
             <View style={localStyles.divider}>
               <TouchableHighlight
                 onPress={() => {
-                  Linking.openURL("https://herc.one/privacy");
+                  Linking.openURL("https://herc.one/policy");
                 }}
               >
                 <View style={localStyles.block}>
