@@ -160,16 +160,14 @@ export function addAsset(newAsset) {
 
 export function confirmAsset(assetForIPFS) {
   let asset = assetForIPFS;
-  console.log(asset, "chance in confirmAsset")
   let username = store.getState().WalletActReducers.edge_account
 
   rootRef.child('idology').child(username).once('value').then(snapshot => {
-      console.log(snapshot.val(), "chance snapshot")
       var organization_name = snapshot.val().organizationName || asset.Name;
       var dataObject = { key: 'asset', data: asset }
       axios.post(WEB_SERVER_API_IPFS_ADD, JSON.stringify(dataObject))
           .then(response => {
-              console.log("1 ipfsHash: ", response)
+              console.log("1/3 ipfsHash: ", response)
               var ipfsHash = response.data.hash
               return ipfsHash
           })
@@ -181,7 +179,7 @@ export function confirmAsset(assetForIPFS) {
 
               axios.post(WEB_SERVER_API_FACTOM_CHAIN_ADD, dataObject)
                   .then(response => {
-                      console.log("2 web server factom response: ", response)
+                      console.log("2/3 web server factom response: ", response)
                       var chainId = response.data
                       return chainId
                   })
@@ -190,7 +188,7 @@ export function confirmAsset(assetForIPFS) {
                       if (asset.Logo) {
                           dataObject = Object.assign(dataObject, { Logo: asset.Logo })
                       }
-                      console.log("3 going into firebase: ", dataObject)
+                      console.log("3/3 going into firebase: ", dataObject)
                       rootRef.child('assets').child(asset.Name).set(dataObject)
                   })
                   .catch(err => { console.log(err) })
@@ -231,7 +229,6 @@ export function sendTrans(trans) {
   let header = transObject.header; //tXlocation, hercId, price, name
   let data = transObject.data; //documents, images, properties, dTime
   let keys = Object.keys(data) //[ 'dTime', 'documents', 'images', 'properties' ]
-  console.log(keys, "chance keys")
   let promiseArray = []
 
   //Checks if documents, metrics, images and EDIT was added
@@ -256,8 +253,6 @@ export function sendTrans(trans) {
       }
   })
 
-  console.log(promiseArray, "chance promiseArray")
-
   let chainId = store.getState().AssetReducers.selectedAsset.chainId
 
   Promise.all(promiseArray)
@@ -266,14 +261,13 @@ export function sendTrans(trans) {
           // TODO: add error handling for undefined results
           var hashlist = results.map(result => { return result.data })
           var factomEntry = { hash: hashlist, chainId: chainId, assetInfo: 'SampleAssetInfo' } // TODO: make assetInfo = organizationName
-          console.log(factomEntry, "chance factomEntry")
           axios.post(WEB_SERVER_API_FACTOM_ENTRY_ADD, JSON.stringify(factomEntry))
               .then(response => { //response.data = entryHash
                   var dataObject = {}
                   hashlist.map(hash => dataObject[hash.key] = hash.hash)
                   var firebaseHeader = Object.assign({}, header, { factomEntry: response.data })
                   rootRef.child('assets').child(firebaseHeader.name).child('transactions').child(dTime).set({ data: dataObject, header: firebaseHeader })
-                  console.log("....finished writing to firebase.")
+                  console.log("3/3 ....finished writing to firebase.")
               })
               .catch(err => { console.log(err) })
       })

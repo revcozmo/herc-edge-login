@@ -62,8 +62,6 @@ class NewAssetConfirm extends Component {
             Logo: downloadURL,
         }
 
-      console.log(ipfsAsset, fbAsset, "right before the send chance")
-
       this.props.confirmAsset(fbAsset)
       this.props.incHercId(this.props.hercId);
       this.props.navigation.navigate('MenuOptions');

@@ -90,7 +90,6 @@ async _makeCustomHercWallet(){
     if (!destAddress) Alert.alert("Missing Destination Address");
     if (!sendAmountInEth) Alert.alert("Invalid Send Amount");
     let sendAmountInWei = sendAmountInEth.times(1e18).toString()
-    console.log(sendAmountInWei, "chance in wei")
     const abcSpendInfo = {
       networkFeeOption: 'standard',
       currencyCode: 'ETH',
