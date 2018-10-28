@@ -14,6 +14,7 @@ class NewAssetConfirm extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            modalVisible: false,
             loading: false,
             confirmComplete: false,
         }
@@ -45,14 +46,22 @@ class NewAssetConfirm extends Component {
         //     this.setState({ loading: true })
         // }
     }
-    componentWillMount() {
-        // debugger
-        console.log(this.props.dataFlags, "chance repeat")
-        if (this.props.dataFlags.confAssetComplete) {
-            this.setState({ confirmComplete: true })
-            //   this.props.navigation.navigate('MenuOptions')
-        }
+    // componentWillMount() {
+    //     // debugger
+    //     console.log(this.props.dataFlags, "chance repeat")
+    //     if (this.props.dataFlags.confAssetComplete) {
+    //         this.setState({ confirmComplete: true })
+    //         //   this.props.navigation.navigate('MenuOptions')
+    //     }
+    // }
+
+    _changeModalVisibility = (visible) => {
+        this.setState({
+            modalVisible: visible
+        })
     }
+
+
     _getOrgName(edgeName) {
         var organization_name;
 
@@ -114,6 +123,7 @@ class NewAssetConfirm extends Component {
     }
 
     _onPressSubmit() {
+        this._changeModalVisibility(true);
         const { navigate } = this.props.navigation;
         let newAsset = this.props.newAsset;
         let hercId = this.state.hercId;
@@ -142,9 +152,7 @@ class NewAssetConfirm extends Component {
             // navigate('ConfirmConf');
         }
     }
-    _closeModal = () => {
-      this.props.confirmAssetComplete();
-    }
+   
 
     _goToMenu = () => {
         const { navigate } = this.props.navigation;
@@ -216,13 +224,14 @@ class NewAssetConfirm extends Component {
                 <Modal
                     transparent={false}
                     animationType={'none'}
-                    visible={this.props.dataFlags.confirmStarted}
+                    visible={this.state.modalVisible}
                     onRequestClose={() => { console.log("modal closed") }}
                 >
                     <View style={styles.modalBackground}>
                         <View style={styles.activityIndicatorWrapper}>
                             <ActivityIndicator
-                                animating={this.state.loading} size="large" color="#091141" />
+                                animating={this.props.dataFlags.confirmStarted} size="large" color="#091141" />
+                        </View>
 
                             {this.props.dataFlags.confAssetComplete &&
                                 <Button
@@ -232,10 +241,9 @@ class NewAssetConfirm extends Component {
                             }
                             <Button
                                 title={'Close Modal'}
-                                onPress={this._closeModal}
+                                onPress={() => this._changeModalVisibility(false)}
                                 style={localStyles.modalButton}>Menu</Button>
 
-                        </View>
                     </View>
                 </Modal>
             </View>

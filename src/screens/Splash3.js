@@ -148,7 +148,7 @@ const mapStateToProps = state => ({
   logo: state.AssetReducers.selectedAsset.Logo,
   transHeader: state.AssetReducers.selectedAsset.trans.header,
   hercId: state.AssetReducers.selectedAsset.hercId,
-  data: state.AssetReducers.selected.trans.data
+  data: state.AssetReducers.selectedAsset.trans.data
 });
 
 export default connect(mapStateToProps)(Splash3);
