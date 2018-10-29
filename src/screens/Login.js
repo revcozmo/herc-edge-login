@@ -92,7 +92,7 @@ class Login extends Component {
         }).then(async wallet => {
           //customToken & enable
             // var tokenHerc = {
-            //   currencyName: 'Hercules',
+            //   currencyName: 'HERC',
             //   contractAddress: '0xf230b790e05390fc8295f4d3f60332c93bed42e2',
             //   currencyCode: 'HERC',
             //   multiplier: '1000000000000000000'
