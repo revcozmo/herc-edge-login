@@ -154,8 +154,6 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => ({
     edge_account: state.AssetReducers.edge_account,
-    ethereumAddress: state.AssetReducers.getEthAddress,
-    wallet: state.AssetReducers.wallet
 });
 
 const mapDispatchToProps = (dispatch) => ({
