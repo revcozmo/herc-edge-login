@@ -107,7 +107,7 @@ class Splash2 extends Component {
     if (place === 'Originator') {
       trans = {
         header: {
-          hercId: this.state.asset.hercId || 22,
+          hercId: this.props.hercId ,
           password: this.state.password,
           name: this.props.asset.Name,
           tXLocation: place,
