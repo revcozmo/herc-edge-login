@@ -46,23 +46,16 @@ class Wallet extends React.Component {
         console.log(trxReceiveAdd)
       }
     });
-
-
-    ////  this makes the token in "customTokens"
-    //   var tokenTrx = {
-    //     currencyName: 'Tron',
-    //     contractAddress: '0xf230b790e05390fc8295f4d3f60332c93bed42e2',
-    //     currencyCode: 'TRX',
-    //     multiplier: '1000000000000000000'
-    //   };
-
-    //  let trxWallet = await this.props.wallet.addCustomToken(tokenTrx); ////trxwallet is undefined
-
-    //  console.log(trxWallet, "somthingwalletlike?")
-    // this._getTotUs(this.props.balance);
   }
 
 async _makeCustomHercWallet(){
+  // create a regular wllet
+  // this.props.account.createCurrencyWallet('wallet:ethereum', {
+  //   name: 'Chances Wallet',
+  //   fiatCurrencyCode: 'iso:USD'
+  // })
+
+  //enable TRX in current wallet
   var tokenTrx = {
     currencyName: 'Tron',
     contractAddress: '0xf230b790e05390fc8295f4d3f60332c93bed42e2',
@@ -73,14 +66,7 @@ async _makeCustomHercWallet(){
     tokens: [ "TRX", "TRON" ]
   }
   this.props.wallet.addCustomToken(tokenTrx)
-    .then(wallet => {
-        wallet.enableToken(customTokens)
-        return wallet
-    })
-    .then(wallet => {
-      console.log(wallet)
-    })
-    .catch(err => {console.error(err)})
+  this.props.wallet.enableToken(customTokens)
 }
 
   async _onPressSend() {
@@ -260,15 +246,17 @@ async _makeCustomHercWallet(){
               </TouchableHighlight>
             </View>
           </Modal>
-          // <TouchableHighlight
-          //   style={{ marginTop: 10 }}
-          //   onPress={() => this._makeCustomHercWallet()}>
-          //   <Text style={{ color: "white", marginTop: 10 }}>
-          //     makeCustomTronWallet
-          //   </Text>
-          //   </TouchableHighlight>
+
+          <TouchableHighlight
+            style={{ marginTop: 10 }}
+            onPress={() => this._makeCustomHercWallet()}>
+            <Text style={{ color: "white", marginTop: 10 }}>
+              makeCustomTronWallet
+            </Text>
+          </TouchableHighlight>
 
 */}
+
           </View>
           <TextInput
             style={{ width: "80%", marginTop: "5%", textAlign: "center", borderColor: "gold", borderWidth: 1, borderRadius: 10, color: "white" }}
@@ -342,6 +330,7 @@ const mapStateToProps = state => ({
   availableWallets: state.WalletActReducers.walletTypes,
   wallet: state.WalletActReducers.wallet,
   balanceInWei: state.WalletActReducers.wallet.balances[state.WalletActReducers.wallet.currencyInfo.currencyCode],
+  account: state.WalletActReducers.account,
   // originalBalance: state.WalletActReducers.origBalance,
   // currentWallet: state.WalletActReducers.wallet,
   // ownedWallets: state.WalletReducers.wallets
