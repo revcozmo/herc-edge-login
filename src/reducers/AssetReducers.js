@@ -122,64 +122,6 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
                 selectedAsset: action.selectAsset
             })
 
-
-        case START_TRANS:
-            let trans = action.data;
-            console.log(state.selectedAsset.Name, "selectedAssetName in START_TRANS reducer")
-
-            return Object.assign({}, state, {
-                ...state,
-                transDataFlags: {
-                    transStarted: true
-                },
-                selectedAsset: {
-                    ...state.selectAsset,
-                    trans
-
-                }
-            })
-
-        case SEND_TRANS:
-            return Object.assign({}, state, {
-                ...state,
-                transDataFlags: {
-                    sendingTrans: true
-                },
-
-            })
-
-        // case TRANS_SENDING:
-        //     return Object.assign({}, state, {
-        //         ...state,
-        //         transDataFlags: {
-        //             ...state.transDataFlags,
-        //             transStarted: true
-        //         }
-        //     })
-
-
-        case TRANS_COMPLETE:
-            // let trans = action.data;
-            return Object.assign({}, state, {
-                ...state,
-                transDataFlags: {
-                    ...state.transDataFlags,
-                    confTransComplete: true,
-                },
-                selectedAsset: {
-                    ...state.selectedAsset,
-                    trans: {
-                        ...state.selectedAsset.trans,
-                        ...state.selectedAsset.trans.header,
-                        data: {
-                            ...state.selectedAsset.trans.data
-                        }
-                    }
-                }
-            })
-
-
-
         case GOT_HERC_ID:
             let hercId = action.hercId;
             console.log(hercId, action, "herc id stuff")
@@ -197,6 +139,49 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
                 hercId
             });
 
+        case START_TRANS:
+            let trans = action.data;
+            console.log(state.selectedAsset.Name, "selectedAssetName in START_TRANS reducer")
+
+            return Object.assign({}, state, {
+                ...state,
+                transDataFlags: {
+                    ...state.transDataFlags,
+                    transSet: true
+                },
+                selectedAsset: {
+                    ...state.selectedAsset,
+                    trans
+
+                }
+            })
+
+        case SEND_TRANS:
+            return Object.assign({}, state, {
+                ...state,
+                transDataFlags: {
+                    transStarted: true
+                },
+
+            })
+
+        case TRANS_COMPLETE:
+            // let trans = action.data;
+            return Object.assign({}, state, {
+                ...state,
+                transDataFlags: {
+                    ...state.transDataFlags,
+                    confTransComplete: true,
+                },
+                selectedAsset: {
+                    ...state.selectedAsset,
+                    trans: {
+                        ...state.selectedAsset.trans,
+                    }
+                }
+            }
+            )
+
         case ADD_PHOTO:
             let image = {
                 image: action.data,
@@ -204,14 +189,19 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
                 uri: action.uri
             };
             console.log('adding photo');
-            let images = [...state.trans.data.images, image];
+
+            let images = [...state.selectedAsset.trans.data.images, image];
             return Object.assign({}, state, {
                 ...state,
-                trans: {
-                    ...state.trans,
-                    data: {
-                        ...state.trans.data,
-                        images
+
+                selectedAsset: {
+                    ...state.selectedAsset,
+                    trans: {
+                        ...state.selectedAsset.trans,
+                        data: {
+                            ...state.selectedAsset.trans.data,
+                            images
+                        }
                     }
                 }
             })
@@ -220,14 +210,17 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
         case ADD_DOC:
             let doc = action.document;
             console.log('adding doc', doc);
-            let documents = [...state.trans.data.documents, doc];
+            let documents = [...state.selectedAsset.trans.data.documents, doc];
+            // let documents = [...state.selectedAsset.trans.data.documents, doc];
             return Object.assign({}, state, {
                 ...state,
-                trans: {
-                    ...state.trans,
-                    data: {
-                        ...state.trans.data,
-                        documents
+                selectedAsset: {
+                    trans: {
+                        ...state.selectedAsset.trans,
+                        data: {
+                            ...state.selectedAsset.trans.data,
+                            documents
+                        }
                     }
                 }
             })
@@ -237,15 +230,39 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
             console.log(properties, "updating attributes in reducers");
             return Object.assign({}, state, {
                 ...state,
-                trans: {
-                    ...state.trans,
-                    data: {
-                        ...state.trans.data,
-                        properties
+
+                selectedAsset: {
+                    ...state.selectedAsset,
+                    trans: {
+                        ...state.selectedAsset.trans,
+                        data: {
+                            ...state.selectedAsset.trans.data,
+                            properties
+                        }
+
                     }
                 }
             })
 
+        case SET_SET:
+            const ediT = action.item
+            console.log(ediT, 'setset');
+            return Object.assign({}, state, {
+                ...state,
+                selectedAsset: {
+                    ...state.selectedAsset,
+                    trans: {
+                        ...state.selectedAsset.trans,
+                        data: {
+                            ...state.selectedAsset.trans.data,
+                            ediT
+                        }
+                    }
+                }
+
+            })
+
+        ///// CONFIRM ASSETS REDUCERS /////
 
         case ADD_ASSET:
             const newAsset = action.newAsset;
@@ -331,19 +348,7 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
 
             })
 
-        case SET_SET:
-            const ediT = action.item
-            console.log(ediT, 'setset');
-            return Object.assign({}, state, {
-                ...state,
-                trans: {
-                    ...state.trans,
-                    data: {
-                        ...state.trans.data,
-                        ediT
-                    }
-                }
-            })
+
 
 
         case DELETE_ASSET:

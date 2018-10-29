@@ -7,6 +7,7 @@ import { StackNavigator } from 'react-navigation';
 import { connect } from "react-redux";
 import styles from "../assets/styles";
 import fee from "../assets/hercLogoPillar.png";
+import { addMetrics } from '../actions/AssetActions'
 {/* <Image style={styles.assetFee} source={fee} /> */ }
 
 
@@ -150,17 +151,18 @@ class Confirm extends Component {
 
 
 const mapStateToProps = (state) => ({
-  newMetrics: state.AssetReducers.trans.data.properties,
-  location: state.AssetReducers.trans.header.tXLocation,
+  newMetrics: state.AssetReducers.selectedAsset.trans.data.properties,
+  location: state.AssetReducers.selectedAsset.trans.header.tXLocation,
   logo: state.AssetReducers.selectedAsset.Logo,
-  name: state.AssetReducers.trans.header.name
+  name: state.AssetReducers.selectedAsset.Name
   // newProperties: state.AssetReducers.selectedAsset.newProperties
 
 
 });
+
 // const mapDispatchToProps = (dispatch) => ({
-//   commitAsset: (asset) =>
-//       dispatch(commitAsset(asset)
+//   addMetrics: (metrics) =>
+//       dispatch(addMetrics(metrics)
 //       )
 // })
 export default connect(mapStateToProps)(Confirm);

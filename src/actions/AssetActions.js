@@ -314,7 +314,8 @@ export function sendTrans(trans) {
     dispatch({ type: SEND_TRANS })
 
     let dTime = Date.now()
-    let transObject = store.getState().AssetReducers.trans
+    let transObject = store.getState().AssetReducers.selectedAsset.trans
+    // let transObject = state.AssetReducers.selectedAsset.trans;
     let header = transObject.header; //tXlocation, hercId, price, name
     let data = transObject.data; //documents, images, properties, dTime
     let keys = Object.keys(data) //[ 'dTime', 'documents', 'images', 'properties' ]
@@ -361,17 +362,18 @@ export function sendTrans(trans) {
             var firebaseHeader = Object.assign({}, header, { factomEntry: response.data })
             rootRef.child('assets').child(firebaseHeader.name).child('transactions').child(dTime).set({ data: dataObject, header: firebaseHeader })
             console.log("....finished writing to firebase.")
+            dispatch({type:TRANS_COMPLETE, data:trans})
           })
           .catch(err => { console.log(err) })
       })
       .catch(err => { console.log(err) })
+    }
 
-
-    return {
-      type: TRANS_COMPLETE,
-      data: trans
-    };
-  }
+  //   return {
+  //     type: TRANS_COMPLETE,
+  //     data: trans
+  //   };
+  // }
 
 }
 

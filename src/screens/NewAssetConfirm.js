@@ -104,7 +104,6 @@ class NewAssetConfirm extends Component {
             Name: newAsset.Name,
             CoreProps: newAsset.CoreProps,
             hercId: this.props.hercId,
-            date: Date.now()
         });
 
         fbAsset = {
@@ -152,7 +151,7 @@ class NewAssetConfirm extends Component {
             // navigate('ConfirmConf');
         }
     }
-   
+
 
     _goToMenu = () => {
         const { navigate } = this.props.navigation;
@@ -195,7 +194,7 @@ class NewAssetConfirm extends Component {
         } else { list = (<Text style={styles.label}>No Properties</Text>) }
 
 
-        
+
 
         return (
             <View style={styles.container}>
@@ -227,32 +226,32 @@ class NewAssetConfirm extends Component {
                     visible={this.state.modalVisible}
                     onRequestClose={() => { console.log("modal closed") }}
                 >
-                <View style={modalStyle.container}>
-                    <View style={modalStyle.modalBackground}>
-                 {!this.props.dataFlags.confirmAssetComplete  &&  
-                  <Text style={modalStyle.wordsText}>Your Asset Information Is Being Written To The Blockchain</Text>
-                  }
+                    <View style={modalStyle.container}>
+                        <View style={modalStyle.modalBackground}>
+                            {!this.props.dataFlags.confirmAssetComplete &&
+                                <Text style={modalStyle.wordsText}>Your Asset Information Is Being Written To The Blockchain</Text>
+                            }
 
-                        <View style={modalStyle.activityIndicatorWrapper}>
-                            <ActivityIndicator
-                                animating={this.props.dataFlags.confirmStarted} size="large" color="#091141" />
-                        </View>
+                            <View style={modalStyle.activityIndicatorWrapper}>
+                                <ActivityIndicator
+                                    animating={this.props.dataFlags.confirmStarted} size="large" color="#091141" />
+                            </View>
 
                             {this.props.dataFlags.confAssetComplete &&
                                 <View>
-                            <Text style={modalStyle.wordsText}>Your Transaction Has Completed!</Text>
-                                <Button
-                                    title={'BackToMenu'}
-                                    onPress={() => this._goToMenu()}
-                                    style={modalStyle.modalButton}>Menu</Button>
-                            </View>
+                                    <Text style={modalStyle.wordsText}>Your Transaction Has Completed!</Text>
+                                    <Button
+                                        title={'BackToMenu'}
+                                        onPress={() => this._goToMenu()}
+                                        style={modalStyle.modalButton}>Menu</Button>
+                                </View>
                             }
                             {/* <Button
                                 title={'Close Modal'}
                                 onPress={() => this._changeModalVisibility(false)}
                                 style={modalStyle.modalButton}>Menu</Button> */}
 
-                    </View>
+                        </View>
                     </View>
                 </Modal>
             </View>
@@ -277,9 +276,9 @@ const mapDispatchToProps = (dispatch) => ({
     },
     confirmAssetStarted: (asset) =>
         dispatch(confirmAssetStarted(asset)),
-    confirmAssetComplete: () => 
+    confirmAssetComplete: () =>
         dispatch(confirmAssetComplete()),
-    
+
     incHercId: (hercid) =>
         dispatch(incHercId(hercid))
 })
@@ -382,7 +381,7 @@ const localStyles = StyleSheet.create({
         fontWeight: "600",
         color: "yellow"
     },
-   
+
 
 })
 

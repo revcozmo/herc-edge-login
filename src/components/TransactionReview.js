@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, TextInput, View, Image, TouchableHighlight, Alert, ScrollView, YellowBox } from 'react-native';
+import { StyleSheet, Text, TextInput, View, Image, TouchableHighlight, Alert, ScrollView, YellowBox, Modal, ActivityIndicator, Button } from 'react-native';
 import { connect } from 'react-redux';
 import { StackNavigator } from 'react-navigation';
 import styles from '../assets/styles';
@@ -10,6 +10,7 @@ import newOriginator from "./buttons/originatorButton.png";
 import newRecipient from "./buttons/recipientButton.png";
 import modalStyle from "../assets/confModalStyles";
 YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTImageLoader', 'Setting a timer for a long period of time']);
+import store from "../store"
 
 //TODO: Fix the image review and create the price reducers with Julie.
 
@@ -17,7 +18,7 @@ class TransRev extends Component {
 
     constructor(props) {
         super(props);
-        this.state ={
+        this.state = {
             modalVisible: false,
             loading: false,
         }
@@ -36,6 +37,9 @@ class TransRev extends Component {
     _sendTrans(price) {
         const { navigate } = this.props.navigate;
         this.props.sendTrans(price);
+        this.setState({
+            modalVisible: true
+        })
         // this.props.navigate('MenuOptions');
 
     }
@@ -46,13 +50,13 @@ class TransRev extends Component {
         let imgPrice = 0;
         let docPrice = 0;
 
-        if (transDat.images[0]) {
-            imgPrice = (((transDat.images[0].size / 1024) * (.00000002)) / (.4))
+        if (transDat.images.size) {
+            imgPrice = (((transDat.images.size / 1024) * (.00000002)) / (.4))
             console.log(imgPrice, "imgPrice");
         };
 
-        if (transDat.documents[0]) {
-            docPrice = (transDat.documents[0].size * .000032) * .4
+        if (transDat.documents) {
+            docPrice = ((.000032) * .4)
         }
 
         if ((docPrice + imgPrice) !== 0) {
@@ -65,14 +69,14 @@ class TransRev extends Component {
     }
 
 
-    _hasImage = (transDat) => {
-        if (transDat.images[0]) {
-            let imgPrice = ((transDat.images[0].size / 1024) * (.00000002)) / (.4);
+    _hasImage = (transObj) => {
+        if (transObj.images[0]) {
+            let imgPrice = ((transObj.images.size / 1024) * (.00000002)) / (.4);
             return (
                 <View style={localStyles.imgContainer}>
                     <Text style={localStyles.transRevTime}>Images</Text>
-                    <Image style={localStyles.thumb} source={{ uri: transDat.images[0].image }} />
-                    <Text style={localStyles.revPropVal}>{(transDat.images[0].size / 1024).toFixed(3)} kb</Text>
+                    <Image style={localStyles.thumb} source={{ uri: transObj.images[0].image }} />
+                    <Text style={localStyles.revPropVal}>{(transObj.images.size / 1024).toFixed(3)} kb</Text>
                     <View style={localStyles.feeContainer}>
                         <Image style={localStyles.hercPillarIcon} source={fee} />
                         <Text style={localStyles.teePrice}>{imgPrice.toFixed(8)}</Text>
@@ -80,19 +84,18 @@ class TransRev extends Component {
                 </View>
             );
 
-            console.log(transInfo.price, "transprice plus imageprice", this.state.imgPrice)
         }
         return (<Text style={localStyles.revPropVal}>No Images</Text>)
     }
 
-    _hasDocuments = (transDat) => {
-        if (transDat.documents[0]) {
-            let docPrice = (transDat.documents[0].size * .000032) * .4;
+    _hasDocuments = (transObj) => {
+        if (transObj.documents[0]) {
+            let docPrice = (transObj.documents.size * .000032) * .4;
             return (
                 <View style={localStyles.docContainer}>
                     <Text style={localStyles.transRevTime}>Documents</Text>
-                    <Text style={localStyles.text}>{transDat.documents[0].name}</Text>
-                    <Text style={localStyles.text}>{(transDat.documents[0].size / 1024).toFixed(3)} kb</Text>
+                    <Text style={localStyles.text}>{transObj.documents.name}</Text>
+                    <Text style={localStyles.text}>{(transObj.documents.size / 1024).toFixed(3)} kb</Text>
                     <View style={localStyles.feeContainer}>
                         <Image style={localStyles.hercPillarIcon} source={fee} />
                         <Text style={localStyles.teePrice}>{docPrice.toFixed(8)}</Text>
@@ -105,13 +108,13 @@ class TransRev extends Component {
     }
 
 
-    _hasList = (transDat) => {
-        if (transDat.properties) {
-            list = Object.keys(transDat.properties).map((name, idx) => {
+    _hasList = (transObj) => {
+        if (transObj.properties) {
+            list = Object.keys(transObj.properties).map((name, idx) => {
                 return (
                     <View key={idx} style={localStyles.revPropField}>
                         <Text style={localStyles.transRevName}>{name}:</Text>
-                        <Text style={localStyles.revPropVal}>{transDat.properties[name]}</Text>
+                        <Text style={localStyles.revPropVal}>{transObj.properties[name]}</Text>
                     </View>
                 )
             });
@@ -125,10 +128,18 @@ class TransRev extends Component {
         return (<Text style={localStyles.revPropVal}>No Properties</Text>)
     }
 
+    _goToMenu = () => {
+        // const { navigate } = this.props.navigate;
+        this._changeModalVisibility(false);
+        this.props.navigate('MenuOptions');
+
+    }
+
     render() {
-        let transInfo = this.props.transInfo;
+        let trans = store.getState().AssetReducers.selectedAsset.trans;
+        let transInfo = trans.header;
         // let fctPrice = this.state ? this.state.fctPrice : "";
-        let transDat = this.props.transDat;
+        let transDat = trans.data;
         console.log(transInfo, 'transinfo in transreviewrender', transInfo.price, 'transdata')
         let locationImage = this.props.transInfo.tXLocation === 'recipient' ? newRecipient : newOriginator;
         let list, edit;
@@ -176,36 +187,38 @@ class TransRev extends Component {
                     visible={this.state.modalVisible}
                     onRequestClose={() => { console.log("modal closed") }}
                 >
-                <View style={modalStyle.container}>
-                    <View style={modalStyle.modalBackground}>
+                    <View style={modalStyle.container}>
+                        <View style={modalStyle.modalBackground}>
+                            {!this.props.transDataFlags.confTransComplete &&
 
-
-                        <View style={modalStyle.activityIndicatorWrapper}>
-                            <ActivityIndicator
-                                animating={this.props.dataFlags.confirmStarted} size="large" color="#091141" />
-                        </View>
-
-                            {this.props.dataFlags.confAssetComplete &&
-                                <View>
-                            <Text style={modalStyle.wordsText}>Your Transaction Has Completed!</Text>
-                                <Button
-                                    title={'BackToMenu'}
-                                    onPress={() => navigate('MenuOptions')}
-                                    style={modalStyle.modalButton}>Menu</Button>
+                                <Text style={modalStyle.wordsText}>Your Transaction Information Is Being Written To The Blockchain</Text>
+                            }
+                            <View style={modalStyle.activityIndicatorWrapper}>
+                                <ActivityIndicator
+                                    animating={!this.props.transDataFlags.confTransComplete} size="large" color="#091141" />
                             </View>
+
+                            {this.props.transDataFlags.confTransComplete &&
+                                <View>
+                                    <Text style={modalStyle.wordsText}>Your Transaction Has Completed!</Text>
+                                    <Button
+                                        title={'BackToMenu'}
+                                        onPress={() => this._goToMenu()}
+                                        style={modalStyle.modalButton}>Menu</Button>
+                                </View>
                             }
                             <Button
                                 title={'Close Modal'}
                                 onPress={() => this._changeModalVisibility(false)}
                                 style={modalStyle.modalButton}>Menu</Button>
 
-                    </View>
+                        </View>
                     </View>
                 </Modal>
-           
+
             </View>
 
-            
+
 
         )
     }
@@ -214,7 +227,7 @@ class TransRev extends Component {
 const mapStateToProps = (state) => ({
     transInfo: state.AssetReducers.selectedAsset.trans.header,
     transDat: state.AssetReducers.selectedAsset.trans.data,
-    dataFlags: state.AssetReducers.transDataFlags
+    transDataFlags: state.AssetReducers.transDataFlags
     // price: state.dataReducer.prices.list[0].pricePerHercForFCT
 })
 const mapDispatchToProps = (dispatch) => ({
