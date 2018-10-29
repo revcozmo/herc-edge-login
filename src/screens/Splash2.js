@@ -363,19 +363,18 @@ export default connect(mapStateToProps, mapDispatchToProps)(Splash2);
 const localStyles = StyleSheet.create({
 
   passwordFieldContainer: {
-    height: "28%",
+    height: "30%",
     width: "88%",
     justifyContent: "center",
     backgroundColor: "#123C4A",
     marginTop: 17,
-    paddingTop: 17,
-    paddingBottom: 5
+    paddingBottom: 20,
   },
   passwordTextInput: {
     fontSize: 20,
     textAlign: "center",
     height: 30,
-    justifyContent: "center"
+    justifyContent: "center",
   },
   passwordTextInputView: {
     backgroundColor: "white",
@@ -383,41 +382,21 @@ const localStyles = StyleSheet.create({
     alignItems: "center",
     width: "90%",
     alignSelf: "center",
-    marginTop: 4
+    marginTop: 4,
   },
   passwordLabel: {
     color: "white",
     fontSize: 18,
     textAlign: "center",
-    margin: 5
+    margin: 5,
+    paddingTop:20,
   },
-  // passwordFieldContainer: {
-  //   height: 140,
-  //   width: "88%",
-  //   justifyContent: "center",
-  //   backgroundColor: "#123C4A",
-  //   marginTop: 20,
-  //   paddingTop: 5,
-  //   paddingBottom: 5
-  // },
-  // passwordTextInput: {
-  //   fontSize: 20,
-  //   textAlign: "center",
-  //   height: 30,
-  //   justifyContent: "center"
-  // },
-
-  // passwordLabel: {
-  //   color: "white",
-  //   fontSize: 18,
-  //   textAlign: "center",
-  //   margin: 5
-  // },
   buttonField: {
     flexDirection: "row",
     justifyContent: "space-around",
     padding: 5,
-    margin: 5
+    margin: 5,
+    paddingBottom:20
   },
   button: {
     height: 40,

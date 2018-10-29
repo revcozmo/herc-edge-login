@@ -161,42 +161,52 @@ export function addAsset(newAsset) {
 export function confirmAsset(assetForIPFS) {
   let asset = assetForIPFS;
   let username = store.getState().WalletActReducers.edge_account
+  let organization_name = store.getState().WalletActReducers.organizationName
 
-  rootRef.child('idology').child(username).once('value').then(snapshot => {
-      var organization_name = snapshot.val().organizationName || asset.Name;
-      var dataObject = { key: 'asset', data: asset }
-      axios.post(WEB_SERVER_API_IPFS_ADD, JSON.stringify(dataObject))
-          .then(response => {
-              console.log("1/3 ipfsHash: ", response)
-              var ipfsHash = response.data.hash
-              return ipfsHash
-          })
-          .then(ipfsHash => {
+  var dataObject = { key: 'asset', data: asset }
 
-              /* This part creates a new factom chain */
+  console.log(dataObject, 'chance debug') //data only has only has LOGO and NAME
 
-              var dataObject = JSON.stringify({ ipfsHash: ipfsHash, organizationName: organization_name })
+  let token = store.getState().WalletActReducers.auth_token
 
-              axios.post(WEB_SERVER_API_FACTOM_CHAIN_ADD, dataObject)
-                  .then(response => {
-                      console.log("2/3 web server factom response: ", response)
-                      var chainId = response.data
-                      return chainId
-                  })
-                  .then(chainId => {
-                      let dataObject = Object.assign({}, { chainId: chainId, ipfsHash: ipfsHash, Name: asset.Name })
-                      if (asset.Logo) {
-                          dataObject = Object.assign(dataObject, { Logo: asset.Logo })
-                      }
-                      console.log("3/3 going into firebase: ", dataObject)
-                      rootRef.child('assets').child(asset.Name).set(dataObject)
-                  })
-                  .catch(err => { console.log(err) })
-          })
-          .catch(err => {
-              console.log("Error confirming assets in IPFS: ", err)
-          })
-  })
+  console.log(token, 'chance debug')
+
+  axios.defaults.headers.common = {
+    'Authorization': token,
+    'Content-Type': 'application/x-www-form-urlencoded'
+  };
+
+  axios.post(WEB_SERVER_API_IPFS_ADD, JSON.stringify(dataObject))
+      .then(response => {
+          console.log("1/3 ipfsHash: ", response)
+          var ipfsHash = response.data.hash
+          return ipfsHash
+      })
+      // .then(ipfsHash => {
+      //
+      //     /* This part creates a new factom chain */
+      //
+      //     var dataObject = JSON.stringify({ ipfsHash: ipfsHash, organizationName: organization_name })
+      //
+      //     axios.post(WEB_SERVER_API_FACTOM_CHAIN_ADD, dataObject)
+      //         .then(response => {
+      //             console.log("2/3 web server factom response: ", response)
+      //             var chainId = response.data
+      //             return chainId
+      //         })
+      //         .then(chainId => {
+      //             let dataObject = Object.assign({}, { chainId: chainId, ipfsHash: ipfsHash, Name: asset.Name })
+      //             if (asset.Logo) {
+      //                 dataObject = Object.assign(dataObject, { Logo: asset.Logo })
+      //             }
+      //             console.log("3/3 going into firebase: ", dataObject)
+      //             rootRef.child('assets').child(asset.Name).set(dataObject)
+      //         })
+      //         .catch(err => { console.log(err) })
+      // })
+      .catch(err => {
+          console.log("Error confirming assets in IPFS: ", err)
+      })
 
   return {
     type: CONFIRM_ASSET,
