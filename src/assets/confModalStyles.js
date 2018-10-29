@@ -5,12 +5,12 @@ module.exports = StyleSheet.create({
 
 container: {
     flex: 1,
-    backgroundColor: "#ffffff",
+    // backgroundColor: "#000040",
     alignItems: "center",
     justifyContent: "center"
   },
 modalBackground: {
-    // flex: 1,
+    flex: 1,
     alignItems: 'center',
     flexDirection: 'column',
     justifyContent: 'center',
@@ -20,7 +20,7 @@ modalBackground: {
 
 },
 activityIndicatorWrapper: {
-    backgroundColor: '#FFFFFF',
+    // backgroundColor: '#FFFFFF',
     height: 100,
     width: 100,
     borderRadius: 7,
@@ -29,11 +29,22 @@ activityIndicatorWrapper: {
     justifyContent: 'space-around'
 },
 modalButton: {
-    color: 'white',
-    fontSize: 40,
-    height: 50,
-    width: 105,
-    margin: 10
+  margin: 10,
+  justifyContent: 'center',
+  alignSelf: 'center',
+  borderRadius:2,
+  borderWidth: 2,
+},
+wordsText:{
+  textAlign: 'center',
+},
+closeButtonContainer:{
+  flexDirection:'row',
+  justifyContent:'flex-end',
+  width: '80%',
+},
+closeButton:{
+  padding:15
 }
 
 })

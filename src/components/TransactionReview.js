@@ -191,6 +191,13 @@ class TransRev extends Component {
                 >
                     <View style={modalStyle.container}>
                         <View style={modalStyle.modalBackground}>
+                          <View style={modalStyle.closeButtonContainer}>
+                              <TouchableHighlight
+                                style={modalStyle.closeButton}
+                                onPress={() => this._changeModalVisibility(false)}>
+                              <Text style={{ margin: 5, fontSize: 30, color: '#00000070'} }>X</Text>
+                              </TouchableHighlight>
+                          </View>
                             {!this.props.transDataFlags.confTransComplete &&
 
                                 <Text style={modalStyle.wordsText}>Your Transaction Information Is Being Written To The Blockchain</Text>
@@ -203,16 +210,13 @@ class TransRev extends Component {
                             {this.props.transDataFlags.confTransComplete &&
                                 <View>
                                     <Text style={modalStyle.wordsText}>Your Transaction Has Completed!</Text>
-                                    <Button
-                                        title={'BackToMenu'}
-                                        onPress={() => this._goToMenu()}
-                                        style={modalStyle.modalButton}>Menu</Button>
+                                    <TouchableHighlight
+                                      style={modalStyle.modalButton}
+                                      onPress={() => this._goToMenu()}>
+                                    <Text style={{ margin: 5} }>Back to Menu</Text>
+                                    </TouchableHighlight>
                                 </View>
                             }
-                            <Button
-                                title={'Close Modal'}
-                                onPress={() => this._changeModalVisibility(false)}
-                                style={modalStyle.modalButton}>Menu</Button>
 
                         </View>
                     </View>
