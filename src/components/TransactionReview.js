@@ -37,10 +37,11 @@ class TransRev extends Component {
     _sendTrans() {
         const { navigate } = this.props.navigate;
         this.props.sendTrans(this._getPrices());
-        this.setState({
-            modalVisible: true
-        })
-        // this.props.navigate('MenuOptions');
+
+        // this.setState({
+        //     modalVisible: true
+        // })
+        this.props.navigate('ConfirmConf', {transType: 'transaction'});
 
     }
     _getPrices = () => {
@@ -131,6 +132,7 @@ class TransRev extends Component {
     _goToMenu = () => {
         // const { navigate } = this.props.navigate;
         this._changeModalVisibility(false);
+        Timer
         this.props.navigate('MenuOptions');
 
     }
@@ -183,7 +185,7 @@ class TransRev extends Component {
                 </View>
 
 
-                <Modal
+                {/* <Modal
                     transparent={false}
                     animationType={'none'}
                     visible={this.state.modalVisible}
@@ -216,7 +218,7 @@ class TransRev extends Component {
 
                         </View>
                     </View>
-                </Modal>
+                </Modal> */}
 
             </View>
 

@@ -29,6 +29,7 @@ import {
   SEND_TRANS,
   TRANS_COMPLETE,
   SET_SET,
+  CLEAR_STATE,
 } from "./types";
 
 import axios from 'axios';
@@ -45,6 +46,13 @@ import {
   WEB_SERVER_API_STORJ_UPLOAD,
   WEB_SERVER_API_CSV
 } from "../components/settings"
+
+export function clearState() {
+  return{
+    type: CLEAR_STATE,
+  }
+}
+
 
 export function getHercId() {
   return dispatch => {

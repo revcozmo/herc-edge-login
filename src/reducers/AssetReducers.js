@@ -26,6 +26,7 @@ import {
     SET_SET,
     START_TRANS,
     TRANS_COMPLETE,
+    CLEAR_STATE,
 } from '../actions/types';
 import axios from 'axios';
 import store from "../store";
@@ -74,6 +75,18 @@ const INITIAL_STATE = {
 
 const AssetReducers = (state = INITIAL_STATE, action) => {
     switch (action.type) {
+
+        case CLEAR_STATE: 
+        return Object.assign({}, {
+            dataFlags: {
+                confirmStarted: false,
+                confAssetComplete: false,
+            },
+            transDataFlags: {
+                transStarted: false,
+                confTransComplete: false,
+            }
+        })
 
         case GOT_LIST_ASSETS:
             console.log(action, " GOT_LIST_ASSETS Action")

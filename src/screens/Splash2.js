@@ -295,7 +295,7 @@ class Splash2 extends Component {
               <Text style={[localStyles.passwordLabel, { marginTop: 5 }]}>
                 Confirm{" "}
                 <Text style={{ color: "#F3C736" }}>
-                  {this.state.location}
+                  Recipient
                   {"\n"}
                 </Text>
               </Text>

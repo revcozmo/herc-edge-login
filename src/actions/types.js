@@ -1,5 +1,7 @@
 
 
+export const CLEAR_STATE = 'clearState';
+
 ///// HERC ID TYPES  /////
 
 export const GET_HERC_ID = 'getHercId';
