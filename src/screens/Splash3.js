@@ -109,7 +109,7 @@ class Splash3 extends Component {
           <ScrollView contentContainerStyle={styles.scrollView}>
 
             <Text style={localStyles.originatorText}>{this.props.transHeader.tXLocation}</Text>
-            <Text style={localStyles.hercIdText}>HERCid: {this.props.hercId}</Text>
+            <Text style={localStyles.hercIdText}>HERCid: {hercId}</Text>
             <TouchableHighlight
               style={{ marginTop: 8 }}
               onPress={() =>

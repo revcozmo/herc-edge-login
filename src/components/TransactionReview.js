@@ -34,9 +34,9 @@ class TransRev extends Component {
         })
     }
 
-    _sendTrans(price) {
+    _sendTrans() {
         const { navigate } = this.props.navigate;
-        this.props.sendTrans(price);
+        this.props.sendTrans(this._getPrices());
         this.setState({
             modalVisible: true
         })
