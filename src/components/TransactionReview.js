@@ -52,7 +52,7 @@ class TransRev extends Component {
         let docPrice = 0;
 
         if (transDat.images[0].size) {
-            imgPrice = (((transDat.images.size / 1024) * (.00000002)) / (.4))
+            imgPrice = (((transDat.images[0].size / 1024) * (.00000002)) / (.4))
             console.log(imgPrice, "imgPrice");
         };
 
