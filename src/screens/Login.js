@@ -98,8 +98,6 @@ class Login extends Component {
             this.props.getWallet(wallet)
             wallet.addCustomToken(tokenHerc)
             wallet.enableTokens(customTokens)
-              .then(response => {console.log(response, "chance 1")})
-              .catch(err => {console.log(err, "chance 2")})
             this.setState({wallet})
             return wallet
           })
@@ -113,8 +111,6 @@ class Login extends Component {
           this.props.getWallet(wallet)
           wallet.addCustomToken(tokenHerc)
           wallet.enableTokens(customTokens)
-            .then(response => {console.log(response, "chance 1")})
-            .catch(err => {console.log(err, "chance 2")})
           this.setState({ wallet })
           this.setState({walletId: wallet.id})
         })
