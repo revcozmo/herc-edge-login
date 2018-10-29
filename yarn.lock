@@ -6580,6 +6580,14 @@ react-proxy@^1.1.7:
     lodash "^4.6.1"
     react-deep-force-update "^1.0.0"
 
+react-qr-code@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/react-qr-code/-/react-qr-code-0.1.2.tgz#3e8172aa5296ff37be82e45408c90d70517681fe"
+  integrity sha1-PoFyqlKW/ze+guRUCMkNcFF2gf4=
+  dependencies:
+    prop-types "^15.5.10"
+    qr.js "0.0.0"
+
 react-redux@^5.0.7:
   version "5.1.0"
   resolved "https://registry.yarnpkg.com/react-redux/-/react-redux-5.1.0.tgz#948b1e2686473d1999092bcfb32d0dc43d33f667"

@@ -39,29 +39,22 @@ export class Settings extends Component {
   }
 
   componentDidMount() {
-    console.log(this.props)
-    // let getFromStore = store.getState();
-    // let userName = getFromStore.AssetReducers.edge_account
-    // this.setState({userName: userName})
+
   }
 
   onLogOut = () => {
+    firebase.auth().signOut().then(function() {
+      // Sign-out successful.
+      console.log("Firebase Sign-out successful.")
+    }).catch(err => {
+      console.log(err)
+      // An error happened.
+    })
 
-    console.log(this.props)
-    // firebase.auth().signOut().then(function() {
-    //   // Sign-out successful.
-    //   console.log("Firebase Sign-out successful.")
-    // }).catch(function(error) {
-    //   // An error happened.
-    // })
-
-    // this.props.account.logout(function() {
-    //  console.log('hooray im out!')
-    // })
-
-
-    // console.log(this.props)
-    // this.props.navigation.navigate('Login');
+    this.props.account.logout(function() {
+     console.log('hooray im out!')
+    })
+    this.props.navigation.navigate('Login');
   };
 
 
@@ -212,7 +205,7 @@ export class Settings extends Component {
               </TouchableHighlight>
             </View>
             <TouchableHighlight onPress={() => {
-              Linking.openURL("https://discord.gg/J4a9MY");
+              Linking.openURL("https://discord.gg/ntWZ53W");
             }}>
               <View style={localStyles.block}>
                 <Image style={localStyles.block__icon} source={discordIcon} />
@@ -238,7 +231,7 @@ export class Settings extends Component {
             <View style={localStyles.divider}>
               <TouchableHighlight
                 onPress={() => {
-                  Linking.openURL("https://purchase.herc.one/");
+                  Linking.openURL("https://purchase.herc.one");
                 }}
               >
                 <View style={localStyles.block}>
@@ -248,8 +241,7 @@ export class Settings extends Component {
                   />
                   <View style={localStyles.block__textBlock}>
                     <Text style={localStyles.title__Text}>
-                      {" "}
-                      Contribute to the TGE{" "}
+                      Top up HERCs
                     </Text>
                   </View>
                 </View>
@@ -258,7 +250,7 @@ export class Settings extends Component {
             <View style={localStyles.divider}>
               <TouchableHighlight
                 onPress={() => {
-                  Linking.openURL("https://herc.one/privacy");
+                  Linking.openURL("https://herc.one/policy");
                 }}
               >
                 <View style={localStyles.block}>

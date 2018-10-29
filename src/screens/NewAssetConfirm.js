@@ -86,6 +86,7 @@ class NewAssetConfirm extends Component {
         let newAsset = this.props.newAsset;
         const response = await fetch(uri);
         const blob = await response.blob();
+
         let logoLocation = firebase.storage().ref('assets')
             .child(this.props.edgeAccount)
             .child(newAsset.Name)
@@ -104,7 +105,6 @@ class NewAssetConfirm extends Component {
             Name: newAsset.Name,
             CoreProps: newAsset.CoreProps,
             hercId: this.props.hercId,
-            date: Date.now()
         });
 
         fbAsset = {
@@ -114,12 +114,18 @@ class NewAssetConfirm extends Component {
             registeredUnder: this.state.orgName
         }
 
+<<<<<<< HEAD
         console.log(ipfsAsset, fbAsset, "right before the send chance")
 
         this.props.settingHeader(fbAsset);
         this.props.confirmAssetStarted(ipfsAsset);
         this.props.incHercId(this.props.hercId);
         // navigate('ConfirmConf');
+=======
+      this.props.confirmAsset(ipfsAsset)
+      this.props.incHercId(this.props.hercId);
+      this.props.navigation.navigate('MenuOptions');
+>>>>>>> master
     }
 
     _onPressSubmit() {
@@ -217,7 +223,7 @@ class NewAssetConfirm extends Component {
 
                     <View style={localStyles.newAssetFeeContainer}>
                         <Image style={localStyles.assetFeePillarLogo} source={hercPillar} />
-                        <Text style={localStyles.assetFeePrice}>10,000</Text>
+                        <Text style={localStyles.assetFeePrice}>1,000</Text>
                     </View>
 
                 </View>
@@ -267,8 +273,12 @@ class NewAssetConfirm extends Component {
 const mapStateToProps = (state) => ({
     newAsset: state.AssetReducers.newAsset,
     hercId: state.AssetReducers.hercId,
+<<<<<<< HEAD
     edgeAccount: state.WalletActReducers.edge_account,
     dataFlags: state.AssetReducers.dataFlags
+=======
+    edgeAccount: state.WalletActReducers.edge_account
+>>>>>>> master
 });
 
 const mapDispatchToProps = (dispatch) => ({

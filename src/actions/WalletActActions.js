@@ -4,6 +4,7 @@ import {
     GET_USERNAME,
     GET_ETH_ADDRESS,
     GET_ORGANIZATION,
+    GETTING_ORGANIZATION,
     GET_WALLET,
     GET_BALANCE,
     DEBIT_TRANS,
@@ -12,6 +13,9 @@ import {
     ADD_WALLET,
 }
     from './types';
+import store from "../store";
+import firebase from "../constants/Firebase";
+const rootRef = firebase.database().ref();
 
 export function authToken(token) {
     return {
@@ -40,12 +44,22 @@ export function getEthAddress(ethereumAddress) {
     ethereumAddress
   };
 }
+export function gettingOrganization(organizationName){
+  return {
+      type: GETTING_ORGANIZATION,
+      organizationName
+  }
+}
 
-export function getOrganization(organizationName) {
-    return {
-        type: GET_ORGANIZATION,
-        organizationName
-    }
+export function getOrganization() {
+  return dispatch => {
+    let username = store.getState().WalletActReducers.edge_account;
+    let organizationName;
+    rootRef.child('idology').child(username).once('value').then(snapshot => {
+      organizationName = snapshot.val().organizationName;
+      dispatch(gettingOrganization(organizationName))
+    })
+  }
 }
 
 export function getWallet(wallet) {
