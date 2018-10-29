@@ -170,6 +170,8 @@ class TransRev extends Component {
                     <Image style={localStyles.hercPillarIcon} source={fee} />
                     <Text style={localStyles.teePrice}>{this._getPrices().toFixed(18)}</Text>
                 </View>
+
+
                 <Modal
                     transparent={false}
                     animationType={'none'}

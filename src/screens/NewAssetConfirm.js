@@ -114,18 +114,12 @@ class NewAssetConfirm extends Component {
             registeredUnder: this.state.orgName
         }
 
-<<<<<<< HEAD
         console.log(ipfsAsset, fbAsset, "right before the send chance")
 
         this.props.settingHeader(fbAsset);
         this.props.confirmAssetStarted(ipfsAsset);
         this.props.incHercId(this.props.hercId);
         // navigate('ConfirmConf');
-=======
-      this.props.confirmAsset(ipfsAsset)
-      this.props.incHercId(this.props.hercId);
-      this.props.navigation.navigate('MenuOptions');
->>>>>>> master
     }
 
     _onPressSubmit() {
@@ -158,7 +152,7 @@ class NewAssetConfirm extends Component {
             // navigate('ConfirmConf');
         }
     }
-   
+
 
     _goToMenu = () => {
         const { navigate } = this.props.navigation;
@@ -201,7 +195,7 @@ class NewAssetConfirm extends Component {
         } else { list = (<Text style={styles.label}>No Properties</Text>) }
 
 
-        
+
 
         return (
             <View style={styles.container}>
@@ -273,12 +267,8 @@ class NewAssetConfirm extends Component {
 const mapStateToProps = (state) => ({
     newAsset: state.AssetReducers.newAsset,
     hercId: state.AssetReducers.hercId,
-<<<<<<< HEAD
     edgeAccount: state.WalletActReducers.edge_account,
     dataFlags: state.AssetReducers.dataFlags
-=======
-    edgeAccount: state.WalletActReducers.edge_account
->>>>>>> master
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -287,9 +277,9 @@ const mapDispatchToProps = (dispatch) => ({
     },
     confirmAssetStarted: (asset) =>
         dispatch(confirmAssetStarted(asset)),
-    confirmAssetComplete: () => 
+    confirmAssetComplete: () =>
         dispatch(confirmAssetComplete()),
-    
+
     incHercId: (hercid) =>
         dispatch(incHercId(hercid))
 })
@@ -392,7 +382,6 @@ const localStyles = StyleSheet.create({
         fontWeight: "600",
         color: "yellow"
     },
-   
+
 
 })
-
