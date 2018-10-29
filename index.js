@@ -3,4 +3,4 @@ import './global.js'
 import App from './src/App';
 import { AppRegistry } from 'react-native';
 
-AppRegistry.registerComponent('hercules', () => App);
+AppRegistry.registerComponent('HERC', () => App);

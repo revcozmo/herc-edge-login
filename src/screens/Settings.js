@@ -167,7 +167,7 @@ export class Settings extends Component {
             <View style={localStyles.divider}>
               <TouchableHighlight
                 onPress={() => {
-                  Linking.openURL("https://twitter.com/HERC_Hercules");
+                  Linking.openURL("https://twitter.com/HERC_HERC");
                 }}
               >
                 <View style={localStyles.block}>

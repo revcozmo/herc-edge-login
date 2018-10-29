@@ -1,4 +1,4 @@
-package com.hercules;
+package com.HERC;
 
 import android.app.Application;
 
