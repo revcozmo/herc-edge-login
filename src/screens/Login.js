@@ -47,14 +47,14 @@ class Login extends Component {
   onLogin = (error = null, account) => {
     console.log('ar: OnLogin error', error)
     console.log('ar: OnLogin account', account)
-    let tokenTrx = { // TODO: update this to HERC in prod
-      currencyName: 'Tron',
-      contractAddress: '0xf230b790e05390fc8295f4d3f60332c93bed42e2',
-      currencyCode: 'TRX',
+    let tokenHerc = { // TODO: update this to HERC in prod
+      currencyName: 'Hercules', // 0x6251583e7d997df3604bc73b9779196e94a090ce
+      contractAddress: '0x6251583e7D997DF3604bc73B9779196e94A090Ce',
+      currencyCode: 'HERC',
       multiplier: '1000000000000000000'
     };
     let customTokens = { // TODO: update this to HERC in prod
-      tokens: [ "TRX", "TRON" ]
+      tokens: [ "HERC", "Hercules" ]
     }
     if (!this.state.account) {
       this.setState({account})
@@ -89,11 +89,17 @@ class Login extends Component {
       if (walletInfo) {
         this.setState({walletId: walletInfo.id})
         account.waitForCurrencyWallet(walletInfo.id)
-          .then(wallet => {
-            wallet.addCustomToken(tokenTrx) // TODO: update this to HERC in prod
-            wallet.enableToken(customTokens) // TODO: update this to HERC in prod
+          .then(async wallet => {
+
+            const tokens = await wallet.getEnabledTokens()
+            console.log(tokens,'chance enabled tokens') // => ['WINGS', 'REP']
+
             this.props.getEthAddress(wallet.keys.ethereumAddress)
-            this.props.getWallet(wallet)
+            await this.props.getWallet(wallet)
+            await wallet.addCustomToken(tokenHerc)
+            await wallet.enableToken(customTokens)
+              .then(response => {console.log(response, "chance 1")})
+              .catch(err => {console.log(err, "chance 2")})
             this.setState({wallet})
             return wallet
           })
@@ -102,11 +108,13 @@ class Login extends Component {
           name: 'My First Wallet',
           fiatCurrencyCode: 'iso:USD'
         }).then(async wallet => {
-          // TODO: uncomment this in prod
-          wallet.addCustomToken(tokenTrx) // TODO: update this to HERC in prod
-          wallet.enableToken(customTokens) // TODO: update this to HERC in prod
+
           this.props.getEthAddress(wallet.keys.ethereumAddress)
-          this.props.getWallet(wallet)
+          await this.props.getWallet(wallet)
+          await wallet.addCustomToken(tokenHerc)
+          await wallet.enableToken(customTokens)
+            .then(response => {console.log(response, "chance 1")})
+            .catch(err => {console.log(err, "chance 2")})
           this.setState({ wallet })
           this.setState({walletId: wallet.id})
         })
