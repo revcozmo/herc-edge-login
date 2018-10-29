@@ -116,7 +116,7 @@ async _makeCustomHercWallet(){
   writeToClipboard = async () => {
     console.log(this.props)
     await Clipboard.setString(this.state.ethereumAddress);
-    Alert.alert(this.state.ethereumAddress + '\n Copied to Clipboard!');
+    Alert.alert('Copied to Clipboard!', this.state.ethereumAddress);
   };
 
 
