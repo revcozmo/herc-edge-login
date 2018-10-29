@@ -35,7 +35,7 @@ YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTIm
 class MenuOptions extends Component {
 
     componentDidMount() {
-        this.props.clearState();
+        // this.props.clearState();
         this.props.getHercId();
         this.props.getAssets(this.props.username);
         this.props.getOrganization();

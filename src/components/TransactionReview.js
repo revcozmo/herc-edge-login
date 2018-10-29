@@ -51,12 +51,12 @@ class TransRev extends Component {
         let imgPrice = 0;
         let docPrice = 0;
 
-        if (transDat.images.size) {
+        if (transDat.images[0].size) {
             imgPrice = (((transDat.images.size / 1024) * (.00000002)) / (.4))
             console.log(imgPrice, "imgPrice");
         };
 
-        if (transDat.documents) {
+        if (transDat.documents[0]) {
             docPrice = ((.000032) * .4)
         }
 
@@ -185,7 +185,7 @@ class TransRev extends Component {
                 </View>
 
 
-                {/* <Modal
+               <Modal
                     transparent={false}
                     animationType={'none'}
                     visible={this.state.modalVisible}
@@ -222,7 +222,7 @@ class TransRev extends Component {
 
                         </View>
                     </View>
-                </Modal> */}
+                </Modal>
 
             </View>
 
