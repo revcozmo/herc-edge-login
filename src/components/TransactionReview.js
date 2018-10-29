@@ -90,12 +90,12 @@ class TransRev extends Component {
 
     _hasDocuments = (transObj) => {
         if (transObj.documents[0]) {
-            let docPrice = (transObj.documents.size * .000032) * .4;
+            let docPrice = (transObj.documents[0].size * .000032) * .4;
             return (
                 <View style={localStyles.docContainer}>
                     <Text style={localStyles.transRevTime}>Documents</Text>
-                    <Text style={localStyles.text}>{transObj.documents.name}</Text>
-                    <Text style={localStyles.text}>{(transObj.documents.size / 1024).toFixed(3)} kb</Text>
+                    <Text style={localStyles.text}>{transObj.documents[0].name}</Text>
+                    <Text style={localStyles.text}>{(transObj.documents[0].size / 1024).toFixed(3)} kb</Text>
                     <View style={localStyles.feeContainer}>
                         <Image style={localStyles.hercPillarIcon} source={fee} />
                         <Text style={localStyles.teePrice}>{docPrice.toFixed(8)}</Text>
