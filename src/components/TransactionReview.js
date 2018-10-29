@@ -91,12 +91,12 @@ class TransRev extends Component {
 
     _hasDocuments = (transObj) => {
         if (transObj.documents[0]) {
-            let docPrice = (transObj.documents.size * .000032) * .4;
+            let docPrice = (transObj.documents[0].size * .000032) * .4;
             return (
                 <View style={localStyles.docContainer}>
                     <Text style={localStyles.transRevTime}>Documents</Text>
-                    <Text style={localStyles.text}>{transObj.documents.name}</Text>
-                    <Text style={localStyles.text}>{(transObj.documents.size / 1024).toFixed(3)} kb</Text>
+                    <Text style={localStyles.text}>{transObj.documents[0].name}</Text>
+                    <Text style={localStyles.text}>{(transObj.documents[0].size / 1024).toFixed(3)} kb</Text>
                     <View style={localStyles.feeContainer}>
                         <Image style={localStyles.hercPillarIcon} source={fee} />
                         <Text style={localStyles.teePrice}>{docPrice.toFixed(8)}</Text>
@@ -193,6 +193,13 @@ class TransRev extends Component {
                 >
                     <View style={modalStyle.container}>
                         <View style={modalStyle.modalBackground}>
+                          <View style={modalStyle.closeButtonContainer}>
+                              <TouchableHighlight
+                                style={modalStyle.closeButton}
+                                onPress={() => this._changeModalVisibility(false)}>
+                              <Text style={{ margin: 5, fontSize: 30, color: '#00000070'} }>X</Text>
+                              </TouchableHighlight>
+                          </View>
                             {!this.props.transDataFlags.confTransComplete &&
 
                                 <Text style={modalStyle.wordsText}>Your Transaction Information Is Being Written To The Blockchain</Text>
@@ -205,16 +212,13 @@ class TransRev extends Component {
                             {this.props.transDataFlags.confTransComplete &&
                                 <View>
                                     <Text style={modalStyle.wordsText}>Your Transaction Has Completed!</Text>
-                                    <Button
-                                        title={'BackToMenu'}
-                                        onPress={() => this._goToMenu()}
-                                        style={modalStyle.modalButton}>Menu</Button>
+                                    <TouchableHighlight
+                                      style={modalStyle.modalButton}
+                                      onPress={() => this._goToMenu()}>
+                                    <Text style={{ margin: 5} }>Back to Menu</Text>
+                                    </TouchableHighlight>
                                 </View>
                             }
-                            <Button
-                                title={'Close Modal'}
-                                onPress={() => this._changeModalVisibility(false)}
-                                style={modalStyle.modalButton}>Menu</Button>
 
                         </View>
                     </View>

@@ -47,6 +47,7 @@ import styles from "../assets/styles";
 import DrawerIcon from "../assets/icons/drawerIcon.png";
 
 
+
 let headerStyles = StyleSheet.create({
     header__container: {
         display: "flex",
@@ -120,7 +121,7 @@ const MainNavigator = StackNavigator({ //this will be "createStackNavigator" aft
     QRCapture2: { screen: QRCapture2 },
     Wallet: { screen: Wallet },
     Settings: { screen: Settings },
-    Camera: { screen: Camera }
+    Camera: { screen: Camera },
 
 }, {
         initialRouteName: 'Login',

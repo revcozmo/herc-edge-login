@@ -237,6 +237,7 @@ export function confirmAssetStarted(assetForIPFS) {
               // rootRef.child('assets').child(asset.Name).child('chainId').set(dataObject.chainId);
 
               dispatch({ type: CONFIRM_ASSET_COMPLETE });
+              dispatch(getAssets())
             }).catch(error => dispatch(factomError(error)))
 
         })
