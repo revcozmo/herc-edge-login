@@ -14,7 +14,6 @@ const ETH_STATE =
 }
 
 const EthReducers = (ethState = ETH_STATE, action) => {
-    console.log("ETh reducer")
     switch (action.type) {
 
         case FETCHING_DATA:

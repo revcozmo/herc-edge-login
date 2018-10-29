@@ -36,6 +36,7 @@ class NewAssetConfirm extends Component {
         let newAsset = this.props.newAsset;
         const response = await fetch(uri);
         const blob = await response.blob();
+
         let logoLocation = firebase.storage().ref('assets')
             .child(this.props.edgeAccount)
             .child(newAsset.Name)
@@ -54,17 +55,15 @@ class NewAssetConfirm extends Component {
             Name: newAsset.Name,
             CoreProps: newAsset.CoreProps,
             hercId: this.props.hercId,
-            date: Date.now()
         });
 
         fbAsset = {
+            hercId: this.props.hercId,
             Name: newAsset.Name,
             Logo: downloadURL,
         }
 
-      console.log(ipfsAsset, fbAsset, "right before the send chance")
-
-      this.props.confirmAsset(fbAsset)
+      this.props.confirmAsset(ipfsAsset)
       this.props.incHercId(this.props.hercId);
       this.props.navigation.navigate('MenuOptions');
     }
@@ -149,7 +148,7 @@ class NewAssetConfirm extends Component {
 const mapStateToProps = (state) => ({
     newAsset: state.AssetReducers.newAsset,
     hercId: state.AssetReducers.hercId,
-    edgeAccount: state.AssetReducers.edge_account
+    edgeAccount: state.WalletActReducers.edge_account
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, Alert, Text, TouchableOpacity } from 'react-native';
-import { getOrganization } from "../actions/WalletActActions";
 import Loader from '../components/loader';
 import { YellowBox } from 'react-native';
 import { connect } from "react-redux";
@@ -115,7 +114,6 @@ class IdologyForm extends Component {
   handleSubmit = () => {
     this.setState({loading: true})
     const value = this._form.getValue();
-    this.props.getOrganization(value.organizationName);
     let formBody = [];
     for (let property in value) {
         let encodedKey = encodeURIComponent(property);
@@ -183,8 +181,6 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    getOrganization: (organizationName) =>
-        dispatch(getOrganization(organizationName)),
     sendIdology: (idologyForm) =>
       dispatch(sendIdology(idologyForm)),
 })
