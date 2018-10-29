@@ -95,9 +95,9 @@ class Login extends Component {
             console.log(tokens,'chance enabled tokens') // => ['WINGS', 'REP']
 
             this.props.getEthAddress(wallet.keys.ethereumAddress)
-            await this.props.getWallet(wallet)
-            await wallet.addCustomToken(tokenHerc)
-            await wallet.enableToken(customTokens)
+            this.props.getWallet(wallet)
+            wallet.addCustomToken(tokenHerc)
+            wallet.enableTokens(customTokens)
               .then(response => {console.log(response, "chance 1")})
               .catch(err => {console.log(err, "chance 2")})
             this.setState({wallet})
@@ -110,9 +110,9 @@ class Login extends Component {
         }).then(async wallet => {
 
           this.props.getEthAddress(wallet.keys.ethereumAddress)
-          await this.props.getWallet(wallet)
-          await wallet.addCustomToken(tokenHerc)
-          await wallet.enableToken(customTokens)
+          this.props.getWallet(wallet)
+          wallet.addCustomToken(tokenHerc)
+          wallet.enableTokens(customTokens)
             .then(response => {console.log(response, "chance 1")})
             .catch(err => {console.log(err, "chance 2")})
           this.setState({ wallet })

@@ -33,17 +33,15 @@ class Wallet extends React.Component {
   });
 
   componentDidMount = () => {
-
     this.setState({ ethereumAddress: this.props.ethereumAddress })
-
-    console.log(this.setState({ balance: this.props.wallet.getBalance(this.props.currencyCode) }));
+    this.setState({ balance: this.props.wallet.getBalance(this.props.currencyCode) });
     console.log(this.props, 'props');
-    let options = { currencyCode: 'TRX' };
 
+    let options = { currencyCode: 'TRX' };
     const trxReceiveAdd = this.props.wallet.getReceiveAddress(options, function (error, trxRecieveAdd) {
 
       if (!error) {
-        console.log(trxReceiveAdd)
+        console.log(trxReceiveAdd, "get receive address for TRX")
       }
     });
   }
@@ -56,7 +54,7 @@ async _makeCustomHercWallet(){
   // })
 
   //enable TRX in current wallet
-  var tokenTrx = {
+  var tokenHerc = {
     currencyName: 'Tron',
     contractAddress: '0xf230b790e05390fc8295f4d3f60332c93bed42e2',
     currencyCode: 'TRX',
@@ -65,7 +63,7 @@ async _makeCustomHercWallet(){
   const customTokens = {
     tokens: [ "TRX", "TRON" ]
   }
-  this.props.wallet.addCustomToken(tokenTrx)
+  this.props.wallet.addCustomToken(tokenHerc)
   this.props.wallet.enableToken(customTokens)
 }
 
@@ -78,7 +76,7 @@ async _makeCustomHercWallet(){
     let sendAmountInWei = sendAmountInEth.times(1e18).toString()
     const abcSpendInfo = {
       networkFeeOption: 'standard',
-      currencyCode: 'ETH',
+      currencyCode: 'HERC',
       metadata: {
         name: 'Transfer From Herc Wallet',
         category: 'Transfer:Wallet:College Fund'
@@ -90,19 +88,27 @@ async _makeCustomHercWallet(){
         }
       ]
     }
-    let abcTransaction = await wallet.makeSpend(abcSpendInfo)
+    // catch error for "ErrorInsufficientFunds"
+    let abcTransaction = await this.props.wallet.makeSpend(abcSpendInfo)
     await wallet.signTx(abcTransaction)
     await wallet.broadcastTx(abcTransaction)
     await wallet.saveTx(abcTransaction)
 
     console.log("Sent transaction with ID = " + abcTransaction.txid)
-    Alert.alert("Transaction ID: " + abcTransaction.txid)
+    Alert.alert(
+      'Transaction ID',
+      abcTransaction.txid,
+      [
+        {text: 'Copy', onPress: () => this.writeToClipboard(abcTransaction.txid), style: 'cancel'},
+        {text: 'OK', onPress: () => console.log('OK Pressed')},
+      ],
+      { cancelable: false }
+    )
   }
 
-  writeToClipboard = async () => {
-    console.log(this.props)
-    await Clipboard.setString(this.state.ethereumAddress);
-    Alert.alert('Copied to Clipboard!', this.state.ethereumAddress);
+  writeToClipboard = async (data) => {
+    await Clipboard.setString(data);
+    Alert.alert('Copied to Clipboard!', data);
   };
 
 
@@ -302,7 +308,8 @@ async _makeCustomHercWallet(){
             <Text style={{ color: "white", marginTop: 10 }}>
               {this.state.ethereumAddress}
             </Text>
-            <TouchableHighlight onPress={this.writeToClipboard}>
+            <TouchableHighlight onPress={() => {this.writeToClipboard(this.state.ethereumAddress)}
+            }>
               <Text style={{ marginTop: 10, backgroundColor: "#4c99ed", width: 100, lineHeight: 30, height: 30, borderRadius: 5, color: "white", textAlign: "center", justifyContent: "center", alignContent: "center" }}>
                 Copy
               </Text>
