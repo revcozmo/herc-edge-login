@@ -85,34 +85,29 @@ class Login extends Component {
             this.setState({wallet})
             return wallet
           })
-          // .then(async wallet =>{
-            // const destWallet = '0xf9f22fbec78f9578de711cc2ac3d030dddb15f73'
-            // const abcSpendInfo = {
-            //   networkFeeOption: 'standard',
-            //   currencyCode: 'ETH',
-            //   metadata: {
-            //     name: 'Transfer From Herc Wallet to Logan',
-            //     category: 'Transfer:Wallet:College Fund'
-            //   },
-            //   spendTargets: [
-            //     {
-            //       publicAddress: destWallet,
-            //       nativeAmount: '10000000000000' // 1.2 ETH
-            //     }
-            //   ]
-            // }
-            // let abcTransaction = await wallet.makeSpend(abcSpendInfo)
-            // await wallet.signTx(abcTransaction)
-            // await wallet.broadcastTx(abcTransaction)
-            // await wallet.saveTx(abcTransaction)
-            //
-            // console.log("Sent transaction with ID = " + abcTransaction.txid)
-          // })
       } else {
         account.createCurrencyWallet('wallet:ethereum', {
           name: 'My First Wallet',
           fiatCurrencyCode: 'iso:USD'
-        }).then(wallet => {
+        }).then(async wallet => {
+          //customToken & enable
+            // var tokenHerc = {
+            //   currencyName: 'Hercules',
+            //   contractAddress: '0xf230b790e05390fc8295f4d3f60332c93bed42e2',
+            //   currencyCode: 'HERC',
+            //   multiplier: '1000000000000000000'
+            // };
+          var tokenTrx = {
+            currencyName: 'Tron',
+            contractAddress: '0xf230b790e05390fc8295f4d3f60332c93bed42e2',
+            currencyCode: 'TRX',
+            multiplier: '1000000000000000000'
+          };
+          let customWallet = await wallet.addCustomToken(tokenTrx)
+          const customTokens = {
+            tokens: [ "TRX", "TRON" ]
+          }
+          customWallet.enableToken(customTokens)
           this.props.getEthAddress(wallet.keys.ethereumAddress)
           this.props.getWallet(wallet)
           this.setState({ wallet })

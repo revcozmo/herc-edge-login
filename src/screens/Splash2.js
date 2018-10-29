@@ -107,6 +107,7 @@ class Splash2 extends Component {
     if (place === 'Originator') {
       trans = {
         header: {
+          hercId: this.state.asset.hercId || 22,
           password: this.state.password,
           name: this.props.asset.Name,
           tXLocation: place,
@@ -131,6 +132,7 @@ class Splash2 extends Component {
       trans = {
         header: {
           // password: this.state.password,
+          hercId: this.props.asset.hercId,
           name: this.props.asset.Name,
           tXLocation: place,
           price: 0.000125, //this is the bare starter price i'm going with which is (128b / 1024) x 0.001
@@ -240,6 +242,7 @@ class Splash2 extends Component {
 
       <View style={styles.container}>
         <View style={styles.containerCenter}>
+          <Text style={{ fontSize: 15, marginTop: '10%', color: "#F3C736" }}>Where are you along the Supply Chain? </Text>
           <TouchableHighlight
             style={{ marginTop: 50 }}
             onPress={() => this._getPlace("Originator")}
@@ -360,19 +363,18 @@ export default connect(mapStateToProps, mapDispatchToProps)(Splash2);
 const localStyles = StyleSheet.create({
 
   passwordFieldContainer: {
-    height: "28%",
+    height: "30%",
     width: "88%",
     justifyContent: "center",
     backgroundColor: "#123C4A",
     marginTop: 17,
-    paddingTop: 17,
-    paddingBottom: 5
+    paddingBottom: 20,
   },
   passwordTextInput: {
     fontSize: 20,
     textAlign: "center",
     height: 30,
-    justifyContent: "center"
+    justifyContent: "center",
   },
   passwordTextInputView: {
     backgroundColor: "white",
@@ -380,41 +382,21 @@ const localStyles = StyleSheet.create({
     alignItems: "center",
     width: "90%",
     alignSelf: "center",
-    marginTop: 4
+    marginTop: 4,
   },
   passwordLabel: {
     color: "white",
     fontSize: 18,
     textAlign: "center",
-    margin: 5
+    margin: 5,
+    paddingTop:20,
   },
-  // passwordFieldContainer: {
-  //   height: 140,
-  //   width: "88%",
-  //   justifyContent: "center",
-  //   backgroundColor: "#123C4A",
-  //   marginTop: 20,
-  //   paddingTop: 5,
-  //   paddingBottom: 5
-  // },
-  // passwordTextInput: {
-  //   fontSize: 20,
-  //   textAlign: "center",
-  //   height: 30,
-  //   justifyContent: "center"
-  // },
-
-  // passwordLabel: {
-  //   color: "white",
-  //   fontSize: 18,
-  //   textAlign: "center",
-  //   margin: 5
-  // },
   buttonField: {
     flexDirection: "row",
     justifyContent: "space-around",
     padding: 5,
-    margin: 5
+    margin: 5,
+    paddingBottom:20
   },
   button: {
     height: 40,

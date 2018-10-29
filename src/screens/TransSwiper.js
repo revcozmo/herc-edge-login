@@ -9,7 +9,7 @@ class TransSwiper extends Component {
     static navigationOptions = ({ navigation }) => {
         const { params } = navigation.state;
         let headerStyles = StyleSheet.create({
-            header__container: {
+          header__container: {
               display: "flex",
               height: 80,
               alignSelf: "center",
@@ -18,27 +18,27 @@ class TransSwiper extends Component {
               alignItems: "center",
               marginTop: 40,
               paddingBottom: 20
-            },
-            header__container__centeredBox: {
+          },
+          header__container__centeredBox: {
               height: "100%",
               alignItems: "center",
               flexDirection: 'row'
-            },
-            header__text__box: {
+          },
+          header__text__box: {
               height: "100%",
               marginBottom: 5,
               marginLeft: 12,
-            },
-            header__image__box: {
+          },
+          header__image__box: {
               height: "100%",
               borderRadius: 100
-            },
-            assetHeaderLogo: {
+          },
+          assetHeaderLogo: {
               height: 35,
               width: 35,
               borderRadius: 50,
-            },
-            headerText: {
+          },
+          headerText: {
               fontFamily: "dinPro",
               fontSize: 26,
               alignSelf: "center",
@@ -46,25 +46,25 @@ class TransSwiper extends Component {
               color: "black",
               textAlign: "center",
               marginTop: 2,
-            },
-          })
+          },
+      })
 
         return {
             headerTitle: (
-                <View style={headerStyles.header__container}>
-                <View style={headerStyles.header__container__centeredBox}>
-                  <View style={headerStyles.header__image__box}>
-                    {/* <TouchableHighlight style={{justifyContent: "center"}} onPress={() => navigation.navigate("MenuOptions")}>
-                   </TouchableHighlight> */}
-                    <Image
-                      style={headerStyles.assetHeaderLogo}
-                      source={{ uri: params.logo }}
-                    />
+              <View style={headerStyles.header__container}>
+                <TouchableHighlight style={{ justifyContent: "center" }} onPress={() => navigation.navigate("MenuOptions")}>
+                  <View style={headerStyles.header__container__centeredBox}>
+                    <View style={headerStyles.header__image__box}>
+                      <Image
+                        style={headerStyles.assetHeaderLogo}
+                        source={{ uri: params.logo }}
+                      />
+                    </View>
+                    <View style={headerStyles.header__text__box}>
+                      <Text style={headerStyles.headerText}>{params.name}</Text>
+                    </View>
                   </View>
-                  <View style={headerStyles.header__text__box}>
-                    <Text style={headerStyles.headerText}>{params.name}</Text>
-                  </View>
-                </View>
+                </TouchableHighlight>
               </View>
             ),
         };

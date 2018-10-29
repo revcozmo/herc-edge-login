@@ -86,6 +86,7 @@ class NewAssetConfirm extends Component {
         let newAsset = this.props.newAsset;
         const response = await fetch(uri);
         const blob = await response.blob();
+
         let logoLocation = firebase.storage().ref('assets')
             .child(this.props.edgeAccount)
             .child(newAsset.Name)
@@ -216,7 +217,7 @@ class NewAssetConfirm extends Component {
 
                     <View style={localStyles.newAssetFeeContainer}>
                         <Image style={localStyles.assetFeePillarLogo} source={hercPillar} />
-                        <Text style={localStyles.assetFeePrice}>10,000</Text>
+                        <Text style={localStyles.assetFeePrice}>1,000</Text>
                     </View>
 
                 </View>

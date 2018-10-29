@@ -344,9 +344,7 @@ export function sendTrans(trans) {
       }
     })
 
-    console.log(promiseArray, "chance promiseArray")
-
-    let chainId = store.getState().AssetReducers.selectedAsset.chainId
+  let chainId = store.getState().AssetReducers.selectedAsset.chainId
 
     Promise.all(promiseArray)
       .then(results => {

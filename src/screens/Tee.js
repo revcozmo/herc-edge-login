@@ -178,8 +178,6 @@ class Tee extends Component {
       });
       if (this.state.Name && this.state.CoreProps) {
 
-        console.log(newAsset, "chance debugging: newAsset in Tee")
-
         this.props.addAsset(newAsset);
         navigate("NewAssetConfirm");
       }
