@@ -57,25 +57,32 @@ class InputMan extends Component {
 
             headerTitle: (
 
-              <View style={headerStyles.header__container}>
-                <TouchableHighlight style={{ justifyContent: "center" }} onPress={() => navigation.navigate("MenuOptions")}>
-                  <View style={headerStyles.header__container__centeredBox}>
-                    <View style={headerStyles.header__image__box}>
-                      <Image
-                        style={headerStyles.assetHeaderLogo}
-                        source={{ uri: params.logo }}
-                      />
+                <View style={headerStyles.header__container}>
+                  <TouchableHighlight style={{ justifyContent: "center" }} onPress={() => navigation.navigate("MenuOptions")}>
+                    <View style={headerStyles.header__container__centeredBox}>
+                      <View style={headerStyles.header__image__box}>
+                        <Image
+                          style={headerStyles.assetHeaderLogo}
+                          source={{ uri: params.logo }}
+                        />
+                      </View>
+                      <View style={headerStyles.header__text__box}>
+                        <Text style={headerStyles.headerText}>{params.name}</Text>
+                      </View>
                     </View>
-                    <View style={headerStyles.header__text__box}>
-                      <Text style={headerStyles.headerText}>{params.name}</Text>
-                    </View>
-                  </View>
-                </TouchableHighlight>
-              </View>
-
-            )
-        }
-    }
+                  </TouchableHighlight>
+                </View>
+              ),
+              headerTitleStyle: {
+                height: 50,
+                width: 200,
+                alignSelf: "center",
+                justifyContent: "center",
+                flexDirection: "row",
+                marginLeft: 20
+              },
+            };
+          };
     constructor(props) {
         super(props);
         this.state = {};
@@ -90,7 +97,7 @@ class InputMan extends Component {
     }
     render() {
 
-        let locationImage = this.props.location === 'originator' ? originator : recipient;
+        let locationImage = this.props.location === 'Originator' ? originator : recipient;
         let logo = this.props.logo;
 
         let list = Object.keys(this.props.coreProps).map((propName, idx) => {

@@ -9,6 +9,7 @@ import {
   GOT_IPFS,
   IPFS_ERROR,
   GOT_FACT,
+  FACTOM_ERROR,
   CONFIRM_ASSET_COMPLETE,
   DELETE_ASSET,
   GET_ASSETS,
@@ -24,11 +25,12 @@ import {
   GOT_LIST_ASSETS,
   INC_HERC_ID,
   SELECT_ASSET,
-  SEND_TRANS,
-  SET_SET,
   START_TRANS,
-  FACTOM_ERROR
+  SEND_TRANS,
+  TRANS_COMPLETE,
+  SET_SET,
 } from "./types";
+
 import axios from 'axios';
 import store from "../store";
 import firebase from "../constants/Firebase";
@@ -308,139 +310,149 @@ export function startTrans(trans) {
 
 export function sendTrans(trans) {
   // TODO: charge payment. trans = 0.000125
-  let dTime = Date.now()
-  let transObject = store.getState().AssetReducers.selectedAsset.trans
-  let header = transObject.header; //tXlocation, hercId, price, name
-  let data = transObject.data; //documents, images, properties, dTime
-  let keys = Object.keys(data) //[ 'dTime', 'documents', 'images', 'properties' ]
-  let promiseArray = []
+  return dispatch => {
+    dispatch({ type: SEND_TRANS })
 
-  //Checks if documents, metrics, images and EDIT was added
-  keys.forEach(key => {
-    if (Object.keys(data[key]).length != 0 && data[key].constructor === Object) {
-      var dataObject = Object.assign({}, { key: key }, { data: data[key] }) // {key: 'properties', data: data[key]}
-      promiseArray.push(
-        axios.post(WEB_SERVER_API_IPFS_ADD, JSON.stringify(dataObject))
-          .then(response => { return response }) // {key: 'properties', hash: 'QmU1D1eAeSLC5Dt4wVRR'}
+    let dTime = Date.now()
+    let transObject = store.getState().AssetReducers.selectedAsset.trans
+    // let transObject = state.AssetReducers.selectedAsset.trans;
+    let header = transObject.header; //tXlocation, hercId, price, name
+    let data = transObject.data; //documents, images, properties, dTime
+    let keys = Object.keys(data) //[ 'dTime', 'documents', 'images', 'properties' ]
+    console.log(keys, "chance keys")
+    let promiseArray = []
+
+    //Checks if documents, metrics, images and EDIT was added
+    keys.forEach(key => {
+      if (Object.keys(data[key]).length != 0 && data[key].constructor === Object) {
+        var dataObject = Object.assign({}, { key: key }, { data: data[key] }) // {key: 'properties', data: data[key]}
+        promiseArray.push(
+          axios.post(WEB_SERVER_API_IPFS_ADD, JSON.stringify(dataObject))
+            .then(response => { return response }) // {key: 'properties', hash: 'QmU1D1eAeSLC5Dt4wVRR'}
+            .catch(error => { console.log(error) }))
+      } else if (data[key].constructor === Array && data[key][0].image) {
+        var base64 = data[key][0].image
+        var dataObject = Object.assign({}, { key: key }, { data: encodeURIComponent(base64) })
+        promiseArray.push(axios.post(WEB_SERVER_API_STORJ_UPLOAD, JSON.stringify(dataObject))
+          .then(response => { return response }) // {key: 'images', hash: 'QmU1D1eAeSLC5Dt4wVRR'}
           .catch(error => { console.log(error) }))
-    } else if (data[key].constructor === Array && data[key][0].image) {
-      var base64 = data[key][0].image
-      var dataObject = Object.assign({}, { key: key }, { data: encodeURIComponent(base64) })
-      promiseArray.push(axios.post(WEB_SERVER_API_STORJ_UPLOAD, JSON.stringify(dataObject))
-        .then(response => { return response }) // {key: 'images', hash: 'QmU1D1eAeSLC5Dt4wVRR'}
-        .catch(error => { console.log(error) }))
-    } else if (data[key].constructor === Array && data[key][0].type === "text/comma-separated-values") {
-      var dataObject = Object.assign({}, { "key": key }, { "data": encodeURIComponent(data[key][0].content) })
-      promiseArray.push(axios.post(WEB_SERVER_API_CSV, JSON.stringify(dataObject))
-        .then(response => { return response })
-        .catch(error => { console.log(error) }))
-    }
-  })
+      } else if (data[key].constructor === Array && data[key][0].type === "text/comma-separated-values") {
+        var dataObject = Object.assign({}, { "key": key }, { "data": encodeURIComponent(data[key][0].content) })
+        promiseArray.push(axios.post(WEB_SERVER_API_CSV, JSON.stringify(dataObject))
+          .then(response => { return response })
+          .catch(error => { console.log(error) }))
+      }
+    })
 
   let chainId = store.getState().AssetReducers.selectedAsset.chainId
 
-  Promise.all(promiseArray)
+    Promise.all(promiseArray)
       .then(results => {
-          // results = [{key: 'properties', hash: 'QmU1D1eAeSLC5Dt4wVRR'}, {key: 'images', hash: 'QmU1D1eAeSLC5Dt4wVRR'}]
-          // TODO: add error handling for undefined results
-          var hashlist = results.map(result => { return result.data })
-          var factomEntry = { hash: hashlist, chainId: chainId, assetInfo: 'SampleAssetInfo' } // TODO: make assetInfo = organizationName
-          axios.post(WEB_SERVER_API_FACTOM_ENTRY_ADD, JSON.stringify(factomEntry))
-              .then(response => { //response.data = entryHash
-                  var dataObject = {}
-                  hashlist.map(hash => dataObject[hash.key] = hash.hash)
-                  var firebaseHeader = Object.assign({}, header, { factomEntry: response.data })
-                  rootRef.child('assets').child(firebaseHeader.name).child('transactions').child(dTime).set({ data: dataObject, header: firebaseHeader })
-                  console.log("3/3 ....finished writing to firebase.")
-              })
-              .catch(err => { console.log(err) })
+        // results = [{key: 'properties', hash: 'QmU1D1eAeSLC5Dt4wVRR'}, {key: 'images', hash: 'QmU1D1eAeSLC5Dt4wVRR'}]
+        // TODO: add error handling for undefined results
+        var hashlist = results.map(result => { return result.data })
+        var factomEntry = { hash: hashlist, chainId: chainId, assetInfo: 'SampleAssetInfo' } // TODO: make assetInfo = organizationName
+        console.log(factomEntry, "chance factomEntry")
+        axios.post(WEB_SERVER_API_FACTOM_ENTRY_ADD, JSON.stringify(factomEntry))
+          .then(response => { //response.data = entryHash
+            var dataObject = {}
+            hashlist.map(hash => dataObject[hash.key] = hash.hash)
+            var firebaseHeader = Object.assign({}, header, { factomEntry: response.data })
+            rootRef.child('assets').child(firebaseHeader.name).child('transactions').child(dTime).set({ data: dataObject, header: firebaseHeader })
+            console.log("....finished writing to firebase.")
+            dispatch({type:TRANS_COMPLETE, data:trans})
+          })
+          .catch(err => { console.log(err) })
       })
       .catch(err => { console.log(err) })
-
-
-  return {
-    type: SEND_TRANS,
-    data: trans
-  };
-}
-
-export function addMetrics(newMetrics) {
-  return {
-    type: ADD_METRICS,
-    data: newMetrics
-  };
-}
-
-export function addPhoto(imgObj) {
-  return {
-    type: ADD_PHOTO,
-    data: imgObj.image,
-    size: imgObj.size,
-    uri: imgObj.uri
-  };
-}
-
-export function addDoc(doc) {
-  let document = doc;
-  return {
-    type: ADD_DOC,
-    document
-  };
-}
-
-export function setSet(item) {
-  return {
-    type: SET_SET,
-    item
-  };
-}
-
-export function getTrans(assetKey) {
-  return dispatch => {
-    dispatch({
-      type: GET_TRANS
-    });
-
-    console.log("getTrans action");
-    let assetTrans = [];
-    rootRef
-      .child("assets/" + assetKey + "/transactions")
-      .once("value")
-      .then(snapshot => {
-        snapshot.forEach(trans => {
-          console.log("object in getTrans!");
-          assetTrans.push({
-            data: trans.toJSON().data
-          });
-        });
-      })
-      .then(() => dispatch(gotAssetTrans(assetTrans)));
-  };
-}
-
-export function gotAssetTrans(assetTrans) {
-  let transactions = assetTrans;
-  console.log("got the transactions list");
-  return {
-    type: GOT_ASSET_TRANS,
-    transactions
-  };
-}
-
-export function getOriginTrans(trans) {
-  console.log(trans, "INSIDE get Origin");
-  return (
-    {
-      type: GET_ORIGIN_TRANS,
-      trans
     }
-  )
+
+  //   return {
+  //     type: TRANS_COMPLETE,
+  //     data: trans
+  //   };
+  // }
+
 }
 
-export function getQRData(data) {
-  console.log(data, "this is actions getQRData");
-  return {
-    type: GET_QR_DATA,
-    data
+
+  export function addMetrics(newMetrics) {
+    return {
+      type: ADD_METRICS,
+      data: newMetrics
+    };
   }
-}
+
+  export function addPhoto(imgObj) {
+    return {
+      type: ADD_PHOTO,
+      data: imgObj.image,
+      size: imgObj.size,
+      uri: imgObj.uri
+    };
+  }
+
+  export function addDoc(doc) {
+    let document = doc;
+    return {
+      type: ADD_DOC,
+      document
+    };
+  }
+
+  export function setSet(item) {
+    return {
+      type: SET_SET,
+      item
+    };
+  }
+
+  export function getTrans(assetKey) {
+    return dispatch => {
+      dispatch({
+        type: GET_TRANS
+      });
+
+      console.log("getTrans action");
+      let assetTrans = [];
+      rootRef
+        .child("assets/" + assetKey + "/transactions")
+        .once("value")
+        .then(snapshot => {
+          snapshot.forEach(trans => {
+            console.log("object in getTrans!");
+            assetTrans.push({
+              data: trans.toJSON().data
+            });
+          });
+        })
+        .then(() => dispatch(gotAssetTrans(assetTrans)));
+    };
+  }
+
+  export function gotAssetTrans(assetTrans) {
+    let transactions = assetTrans;
+    console.log("got the transactions list");
+    return {
+      type: GOT_ASSET_TRANS,
+      transactions
+    };
+  }
+
+  export function getOriginTrans(trans) {
+    console.log(trans, "INSIDE get Origin");
+    return (
+      {
+        type: GET_ORIGIN_TRANS,
+        trans
+      }
+    )
+  }
+
+  export function getQRData(data) {
+    console.log(data, "this is actions getQRData");
+    return {
+      type: GET_QR_DATA,
+      data
+    }
+  }

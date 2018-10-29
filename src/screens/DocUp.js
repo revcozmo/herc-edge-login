@@ -160,6 +160,22 @@ class DocUp extends Component {
   }
 }
 
+const mapStateToProps = (state) => ({
+  transInfo: state.AssetReducers.selectedAsset.trans.header,
+  logo: state.AssetReducers.selectedAsset.Logo,
+  name: state.AssetReducers.selectedAsset.Name
+
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  addDoc: (doc) =>
+    dispatch(addDoc(doc)),
+
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(DocUp);
+
+
 const localStyles = StyleSheet.create({
   submitButton: {
     height: 40,
@@ -221,17 +237,4 @@ const localStyles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = (state) => ({
-  transInfo: state.AssetReducers.selectedAsset.trans.header,
-  logo: state.AssetReducers.selectedAsset.Logo,
-  name: state.AssetReducers.selectedAsset.Name
 
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  addDoc: (doc) =>
-    dispatch(addDoc(doc)),
-
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(DocUp);

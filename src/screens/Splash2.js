@@ -107,8 +107,8 @@ class Splash2 extends Component {
     if (place === 'Originator') {
       trans = {
         header: {
-          // password: this.state.password,
-          hercId: this.props.asset.hercId,
+          hercId: this.state.asset.hercId || 22,
+          password: this.state.password,
           name: this.props.asset.Name,
           tXLocation: place,
           price: 0.000125, //this is the bare starter price i'm going with which is (128b / 1024) x 0.001

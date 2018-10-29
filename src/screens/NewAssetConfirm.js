@@ -156,7 +156,7 @@ class NewAssetConfirm extends Component {
 
     _goToMenu = () => {
         const { navigate } = this.props.navigation;
-        this._closeModal();
+        this._changeModalVisibility(false);
         navigate('MenuOptions');
 
     }
@@ -227,32 +227,32 @@ class NewAssetConfirm extends Component {
                     visible={this.state.modalVisible}
                     onRequestClose={() => { console.log("modal closed") }}
                 >
-                <View style={modalStyle.container}>
-                    <View style={modalStyle.modalBackground}>
+                    <View style={modalStyle.container}>
+                        <View style={modalStyle.modalBackground}>
+                            {!this.props.dataFlags.confirmAssetComplete &&
+                                <Text style={modalStyle.wordsText}>Your Asset Information Is Being Written To The Blockchain</Text>
+                            }
 
-
-                        <View style={modalStyle.activityIndicatorWrapper}>
-                            <ActivityIndicator
-                                animating={this.props.dataFlags.confirmStarted} size="large" color="#091141" />
-                        </View>
+                            <View style={modalStyle.activityIndicatorWrapper}>
+                                <ActivityIndicator
+                                    animating={this.props.dataFlags.confirmStarted} size="large" color="#091141" />
+                            </View>
 
                             {this.props.dataFlags.confAssetComplete &&
                                 <View>
-                            <Text style={modalStyle.wordsText}>Your Transaction Has Completed!</Text>
-                                <Button
-                                    title={'BackToMenu'}
-                                    onPress={() => {
-                                        this._changeModalVisibility(false) && navigate('MenuOptions')
-                                        }}
-                                    style={modalStyle.modalButton}>Menu</Button>
-                            </View>
+                                    <Text style={modalStyle.wordsText}>Your Transaction Has Completed!</Text>
+                                    <Button
+                                        title={'BackToMenu'}
+                                        onPress={() => this._goToMenu()}
+                                        style={modalStyle.modalButton}>Menu</Button>
+                                </View>
                             }
                             {/* <Button
                                 title={'Close Modal'}
                                 onPress={() => this._changeModalVisibility(false)}
                                 style={modalStyle.modalButton}>Menu</Button> */}
 
-                    </View>
+                        </View>
                     </View>
                 </Modal>
             </View>
