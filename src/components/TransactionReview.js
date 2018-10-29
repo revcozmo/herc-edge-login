@@ -71,12 +71,12 @@ class TransRev extends Component {
 
     _hasImage = (transObj) => {
         if (transObj.images[0]) {
-            let imgPrice = ((transObj.images.size / 1024) * (.00000002)) / (.4);
+            let imgPrice = ((transObj.images[0].size / 1024) * (.00000002)) / (.4);
             return (
                 <View style={localStyles.imgContainer}>
                     <Text style={localStyles.transRevTime}>Images</Text>
                     <Image style={localStyles.thumb} source={{ uri: transObj.images[0].image }} />
-                    <Text style={localStyles.revPropVal}>{(transObj.images.size / 1024).toFixed(3)} kb</Text>
+                    <Text style={localStyles.revPropVal}>{(transObj.images[0].size / 1024).toFixed(3)} kb</Text>
                     <View style={localStyles.feeContainer}>
                         <Image style={localStyles.hercPillarIcon} source={fee} />
                         <Text style={localStyles.teePrice}>{imgPrice.toFixed(8)}</Text>

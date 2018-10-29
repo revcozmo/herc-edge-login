@@ -344,7 +344,7 @@ export function sendTrans(trans) {
       }
     })
 
-  let chainId = store.getState().AssetReducers.selectedAsset.chainId
+  let chainId = store.getState().AssetReducers.selectedAsset.hashes.chainId;
 
     Promise.all(promiseArray)
       .then(results => {
