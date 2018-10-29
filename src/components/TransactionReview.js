@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, TextInput, View, Image, TouchableHighlight, Alert, ScrollView, YellowBox } from 'react-native';
+import { StyleSheet, Text, TextInput, View, Image, Linking, TouchableHighlight, Alert, ScrollView, YellowBox } from 'react-native';
 import { connect } from 'react-redux';
 import { StackNavigator } from 'react-navigation';
 import styles from '../assets/styles';
@@ -16,17 +16,50 @@ class TransRev extends Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+          balance: null
+        }
     }
     componentDidMount = () => {
         // this.getPricesFromApi();
         // TODO: this API needs to be updated
+
+        this.setState({balance: this.props.wallet.getBalance({ currencyCode: "HERC" }) })
     }
+
+  _onPressSubmit(price){
+    Alert.alert(
+      'Payment Amount:'+ price.toString() +'HERC',
+      'Balance:', this.state.balance.toString(), 'HERC' ,
+      [
+        {text: 'No', onPress: () => console.log('No Pressed'), style: 'cancel'},
+        {text: 'Yes', onPress: () => this._checkBalance(price)},
+      ],
+      { cancelable: false }
+    )
+  }
+
+  _checkBalance(price){
+    if (!this.state.balance) {return}
+    if (balance - price < 0){ // TODO: use big numbers to make these numbers safe
+      Alert.alert(
+        'Insufficient Funds',
+        'Balance:', this.state.balance, 'HERC' ,
+        [
+          {text: 'Top Up Hercs', onPress: () => Linking.openURL("https://purchase.herc.one/"), style: 'cancel'},
+          {text: 'Ok', onPress: () => console.log('OK Pressed')},
+        ],
+        { cancelable: false }
+      )
+    } else{
+      _sendTrans(price)
+    }
+  }
 
     _sendTrans(price) {
         const { navigate } = this.props.navigate;
         this.props.sendTrans(price);
         this.props.navigate('MenuOptions');
-
     }
     _getPrices = () => {
 
@@ -152,7 +185,7 @@ class TransRev extends Component {
 
                 {this._hasList(transDat)}
 
-                <TouchableHighlight style={{ margin: 10 }} onPress={() => this._sendTrans(transPrice)}>
+                <TouchableHighlight style={{ margin: 10 }} onPress={() => this._onPressSubmit(transPrice)}>
                     <Image source={submit} style={localStyles.submitButton} />
                 </TouchableHighlight>
                 <View style={localStyles.feeContainer}>
@@ -291,6 +324,7 @@ const localStyles = StyleSheet.create({
 const mapStateToProps = (state) => ({
     transInfo: state.AssetReducers.trans.header,
     transDat: state.AssetReducers.trans.data,
+    wallet: state.WalletActReducers.wallet
     // price: state.dataReducer.prices.list[0].pricePerHercForFCT
 })
 const mapDispatchToProps = (dispatch) => ({

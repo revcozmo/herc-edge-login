@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, View, Image, ScrollView, TextInput, TouchableHighlight, Alert, Button } from 'react-native';
+import { Platform, StyleSheet, Text, View, Image, ScrollView, TextInput, Linking, TouchableHighlight, Alert, Button } from 'react-native';
 import submit from "../components/buttons/submit.png";
 import logo from "../assets/round.png";
 import { connect } from "react-redux";
@@ -12,6 +12,9 @@ import firebase from "../constants/Firebase";
 class NewAssetConfirm extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+          balance: ''
+        }
     }
     state = {};
     static navigationOptions = ({ navigation }) => {
@@ -67,16 +70,53 @@ class NewAssetConfirm extends Component {
       this.props.incHercId(this.props.hercId);
       this.props.navigation.navigate('MenuOptions');
     }
+    _sendNewAsset(){
+      if (this.props.newAsset.Logo) {
+          this.uploadImageAsync(this.props.newAsset.Logo.uri)
+      } else {
+          this.props.confirmAsset(this.props.newAsset);
+          navigate('MenuOptions');
+      }
+    }
+
+    _checkBalance(balance){
+      // balance is an int
+      if (balance - 1000 < 0){
+        Alert.alert(
+          'Insufficient Funds',
+          'Balance:', this.state.balance, 'HERC' ,
+          [
+            {text: 'Top Up Hercs', onPress: () => Linking.openURL("https://purchase.herc.one/"), style: 'cancel'},
+            {text: 'Ok', onPress: () => console.log('OK Pressed')},
+          ],
+          { cancelable: false }
+        )
+      } else{
+        _sendNewAsset()
+      }
+    }
 
     _onPressSubmit() {
         let hercId = this.props.hercId;
         const { navigate } = this.props.navigation;
-        if (this.props.newAsset.Logo) {
-            this.uploadImageAsync(this.props.newAsset.Logo.uri)
-        } else {
-            this.props.confirmAsset(this.props.newAsset);
-            navigate('MenuOptions');
-        }
+        let balance = this.props.wallet.getBalance({ currencyCode: "HERC" })
+        this.setState({ balance: balance.toString() }, () => { console.log(this.state.balance, 'chance herc balance')})
+        console.log(' 1000 herc chance payment amount') // TODO: convert 1000 herc to 10^18 digits
+/*
+        if balance is > 1000 herc then alert payment authorization modal else insufficient funds modal.(2)
+        OR
+        always show the alert with balance. with the option of yes or no (1)
+*/
+
+        Alert.alert(
+          'Payment Amount: 1,000 HERC',
+          'Balance:', balance.toString(), 'HERC' ,
+          [
+            {text: 'No', onPress: () => console.log('No Pressed'), style: 'cancel'},
+            {text: 'Yes', onPress: () => this._checkBalance(balance)},
+          ],
+          { cancelable: false }
+        )
     }
 
     render() {
@@ -148,7 +188,8 @@ class NewAssetConfirm extends Component {
 const mapStateToProps = (state) => ({
     newAsset: state.AssetReducers.newAsset,
     hercId: state.AssetReducers.hercId,
-    edgeAccount: state.WalletActReducers.edge_account
+    edgeAccount: state.WalletActReducers.edge_account,
+    wallet: state.WalletActReducers.wallet
 });
 
 const mapDispatchToProps = (dispatch) => ({
