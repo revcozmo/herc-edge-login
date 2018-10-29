@@ -235,6 +235,7 @@ export function startTrans(trans) {
 export function sendTrans(trans) {
   // TODO: charge payment. trans = 0.000125
   let dTime = Date.now()
+  let organizationName = store.getState().WalletActReducers.organizationName
   let transObject = store.getState().AssetReducers.trans
   let header = transObject.header; //tXlocation, hercId, price, name
   let data = transObject.data; //documents, images, properties, dTime
@@ -270,7 +271,7 @@ export function sendTrans(trans) {
           // results = [{key: 'properties', hash: 'QmU1D1eAeSLC5Dt4wVRR'}, {key: 'images', hash: 'QmU1D1eAeSLC5Dt4wVRR'}]
           // TODO: add error handling for undefined results
           var hashlist = results.map(result => { return result.data })
-          var factomEntry = { hash: hashlist, chainId: chainId, assetInfo: 'SampleAssetInfo' } // TODO: make assetInfo = organizationName
+          var factomEntry = { hash: hashlist, chainId: chainId, assetInfo: organizationName }
           axios.post(WEB_SERVER_API_FACTOM_ENTRY_ADD, JSON.stringify(factomEntry))
               .then(response => { //response.data = entryHash
                   var dataObject = {}
