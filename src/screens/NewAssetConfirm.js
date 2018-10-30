@@ -81,10 +81,11 @@ class NewAssetConfirm extends Component {
 
     _checkBalance(balance){
       // balance is an int
-      if (balance - 1000 < 0){
+      console.log(balance, typeof(balance))
+      if (balance - 1000 > 0){ //todo change back to <
         Alert.alert(
           'Insufficient Funds',
-          'Balance:', this.state.balance, 'HERC' ,
+          'Balance:'+ this.state.balance + ' HERC' ,
           [
             {text: 'Top Up Hercs', onPress: () => Linking.openURL("https://purchase.herc.one/"), style: 'cancel'},
             {text: 'Ok', onPress: () => console.log('OK Pressed')},
@@ -92,7 +93,7 @@ class NewAssetConfirm extends Component {
           { cancelable: false }
         )
       } else{
-        _sendNewAsset()
+        this._sendNewAsset()
       }
     }
 
@@ -102,18 +103,14 @@ class NewAssetConfirm extends Component {
         let balance = this.props.wallet.getBalance({ currencyCode: "HERC" })
         this.setState({ balance: balance.toString() }, () => { console.log(this.state.balance, 'chance herc balance')})
         console.log(' 1000 herc chance payment amount') // TODO: convert 1000 herc to 10^18 digits
-/*
-        if balance is > 1000 herc then alert payment authorization modal else insufficient funds modal.(2)
-        OR
-        always show the alert with balance. with the option of yes or no (1)
-*/
 
         Alert.alert(
-          'Payment Amount: 1,000 HERC',
-          'Balance:', balance.toString(), 'HERC' ,
+          'Payment Amount: 1000 HERC',
+          'Balance:'+ balance.toString()+ ' HERC' ,
+          'Do You Authorize This Transaction?',
           [
             {text: 'No', onPress: () => console.log('No Pressed'), style: 'cancel'},
-            {text: 'Yes', onPress: () => this._checkBalance(balance)},
+            {text: 'Yes', onPress: () => {this._checkBalance(balance)} },
           ],
           { cancelable: false }
         )
