@@ -109,19 +109,22 @@ class DocUp extends Component {
     DocumentPicker.show({
       filetype: [DocumentPickerUtil.allFiles()],
     }, (error, res) => {
-      if (error) Alert.alert("Something Went Wrong! Error: " + error);
-      if (res.type != "text/comma-separated-values") Alert.alert("This filetype is not supported. Please upload a CSV file. ");
-      // Android
-      RNFS.readFile(res.uri, 'utf8')
-      .then(contents => {
-        this.setState({
-          uri: res.uri,
-          name: res.fileName,
-          size: res.fileSize,
-          type: res.type,
-          content: contents
-        });
-      })
+      //this if(res) allows user to use native android back button to exit docpicker
+      if(res){
+        if (error) Alert.alert("Something Went Wrong! Error: " + error);
+        if (res.type != "text/comma-separated-values") Alert.alert("This filetype is not supported. Please upload a CSV file. ");
+        // Android
+        RNFS.readFile(res.uri, 'utf8')
+        .then(contents => {
+          this.setState({
+            uri: res.uri,
+            name: res.fileName,
+            size: res.fileSize,
+            type: res.type,
+            content: contents
+          });
+        })
+      }
     });
   }
 
