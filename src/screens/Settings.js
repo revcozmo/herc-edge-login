@@ -43,7 +43,7 @@ export class Settings extends Component {
   }
 
   onLogOut = () => {
-    firebase.auth().signOut().then(function() {
+    firebase.auth().signOut().then(function () {
       // Sign-out successful.
       console.log("Firebase Sign-out successful.")
     }).catch(err => {
@@ -51,8 +51,8 @@ export class Settings extends Component {
       // An error happened.
     })
 
-    this.props.account.logout(function() {
-     console.log('hooray im out!')
+    this.props.account.logout(function () {
+      console.log('hooray im out!')
     })
     this.props.navigation.navigate('Login');
   };
@@ -158,8 +158,7 @@ export class Settings extends Component {
                 <View style={localStyles.block__textBlock}>
                   <Text style={localStyles.title__Text}> Network </Text>
                   <Text style={localStyles.subInfo__Text}>
-                    {" "}
-                    Ropsten (Test){" "}
+                    Mainnet
                   </Text>
                 </View>
               </View>
@@ -387,13 +386,13 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   getAccount: (account) =>
-  dispatch(getAccount(account)),
+    dispatch(getAccount(account)),
   getUsername: (edge_account) =>
-  dispatch(getUsername(edge_account)),
+    dispatch(getUsername(edge_account)),
   fetchAssets: () => dispatch(fetchAssets()),
   getHercId: () => dispatch(getHercId()),
   signOut: () => dispatch(signOut()),
-   fetchData: () => dispatch(fetchData())
+  fetchData: () => dispatch(fetchData())
 });
 export default connect(
   mapStateToProps,
