@@ -41,7 +41,7 @@ class TransRev extends Component {
     )
   }
 
-  _checkBalance(price){
+  async _checkBalance(price){
     if (!this.state.balance) {return}
     if (balance - price < 0){ // TODO: use big numbers to make these numbers safe
       Alert.alert(

@@ -7,6 +7,7 @@ import styles from "../assets/styles";
 import hercPillar from "../assets/hercLogoPillar.png";
 import { incHercId, confirmAsset } from "../actions/AssetActions"
 import { TOKEN_ADDRESS } from "../components/settings"
+import BigNumber from 'bignumber.js';
 
 import firebase from "../constants/Firebase";
 
@@ -81,20 +82,24 @@ class NewAssetConfirm extends Component {
       }
     }
 
-    _checkBalance(balance){
-      // balance is an int
-      console.log(balance, typeof(balance))
-      if (balance - 1000 > 0){ //todo change back to <
+    async _checkBalance(balance){
+      // balance is an string
+      let price = new BigNumber(1000)
+      price.times(1e-18).toString()
+      console.log(parseInt(balance) - price, "chance how much you have left") // TODO: convert to bigNumber
+
+      if (balance - 1000 < 0){
         Alert.alert(
           'Insufficient Funds',
-          'Balance:'+ this.state.balance + ' HERC' ,
+          'Current Balance:'+ this.state.balance + ' HERC' ,
           [
             {text: 'Top Up Hercs', onPress: () => Linking.openURL("https://purchase.herc.one/"), style: 'cancel'},
             {text: 'Ok', onPress: () => console.log('OK Pressed')},
           ],
-          { cancelable: false }
+          { cancelable: true }
         )
       } else {
+        debugger;
         const abcSpendInfo = {
           networkFeeOption: 'standard',
           currencyCode: 'HERC',
@@ -105,7 +110,7 @@ class NewAssetConfirm extends Component {
           spendTargets: [
             {
               publicAddress: TOKEN_ADDRESS,
-              nativeAmount: price
+              nativeAmount: "1000" // TODO: convert to bigNumber
             }
           ]
         }
@@ -125,12 +130,10 @@ class NewAssetConfirm extends Component {
         const { navigate } = this.props.navigation;
         let balance = this.props.wallet.getBalance({ currencyCode: "HERC" })
         this.setState({ balance: balance.toString() }, () => { console.log(this.state.balance, 'chance herc balance')})
-        console.log(' 1000 herc chance payment amount') // TODO: convert 1000 herc to 10^18 digits
 
         Alert.alert(
           'Payment Amount: 1000 HERC',
-          'Balance:'+ balance.toString()+ ' HERC' ,
-          'Do You Authorize This Transaction?',
+          'Current Balance: \n'+ balance.toString()+ ' HERC \n Do You Authorize This Transaction?' ,
           [
             {text: 'No', onPress: () => console.log('No Pressed'), style: 'cancel'},
             {text: 'Yes', onPress: () => {this._checkBalance(balance)} },
