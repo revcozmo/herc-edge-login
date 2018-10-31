@@ -1,8 +1,8 @@
 {
-  "name": "hercules",
+  "name": "HERC",
   "version": "1.0.0",
   "private": true,
-  "description": "Hercules: Decentralized Supply Chain Application",
+  "description": "HERC: Decentralized Supply Chain Application",
   "homepage": "https://herc.one",
   "license": "SEE LICENSE IN LICENSE",
   "repository": {

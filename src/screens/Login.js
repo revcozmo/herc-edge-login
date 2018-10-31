@@ -47,8 +47,18 @@ class Login extends Component {
   onLogin = (error = null, account) => {
     console.log('ar: OnLogin error', error)
     console.log('ar: OnLogin account', account)
+    let tokenHerc = { // TODO: update this to HERC in prod
+      currencyName: 'Hercules', // 0x6251583e7d997df3604bc73b9779196e94a090ce
+      contractAddress: '0x6251583e7D997DF3604bc73B9779196e94A090Ce',
+      currencyCode: 'HERC',
+      multiplier: '1000000000000000000'
+    };
+    let customTokens = { // TODO: update this to HERC in prod
+      tokens: [ "HERC", "Hercules" ]
+    }
     if (!this.state.account) {
       this.setState({account})
+      // TODO: check if they have hercs in account
       this.props.getAccount(account);
       this.props.getUsername(account.username);
       axios.get(WEB_SERVER_API_TOKEN + account.username)
@@ -79,9 +89,15 @@ class Login extends Component {
       if (walletInfo) {
         this.setState({walletId: walletInfo.id})
         account.waitForCurrencyWallet(walletInfo.id)
-          .then(wallet => {
+          .then(async wallet => {
+
+            const tokens = await wallet.getEnabledTokens()
+            console.log(tokens,'chance enabled tokens') // => ['WINGS', 'REP']
+
             this.props.getEthAddress(wallet.keys.ethereumAddress)
             this.props.getWallet(wallet)
+            wallet.addCustomToken(tokenHerc)
+            wallet.enableTokens(customTokens)
             this.setState({wallet})
             return wallet
           })
@@ -90,26 +106,11 @@ class Login extends Component {
           name: 'My First Wallet',
           fiatCurrencyCode: 'iso:USD'
         }).then(async wallet => {
-          //customToken & enable
-            // var tokenHerc = {
-            //   currencyName: 'Hercules',
-            //   contractAddress: '0xf230b790e05390fc8295f4d3f60332c93bed42e2',
-            //   currencyCode: 'HERC',
-            //   multiplier: '1000000000000000000'
-            // };
-          var tokenTrx = {
-            currencyName: 'Tron',
-            contractAddress: '0xf230b790e05390fc8295f4d3f60332c93bed42e2',
-            currencyCode: 'TRX',
-            multiplier: '1000000000000000000'
-          };
-          let customWallet = await wallet.addCustomToken(tokenTrx)
-          const customTokens = {
-            tokens: [ "TRX", "TRON" ]
-          }
-          customWallet.enableToken(customTokens)
+
           this.props.getEthAddress(wallet.keys.ethereumAddress)
           this.props.getWallet(wallet)
+          wallet.addCustomToken(tokenHerc)
+          wallet.enableTokens(customTokens)
           this.setState({ wallet })
           this.setState({walletId: wallet.id})
         })
