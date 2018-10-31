@@ -8,6 +8,7 @@ import { sendTrans } from "../actions/AssetActions";
 import fee from "../assets/hercLogoPillar.png";
 import newOriginator from "./buttons/originatorButton.png";
 import newRecipient from "./buttons/recipientButton.png";
+import { TOKEN_ADDRESS } from "../components/settings"
 YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTImageLoader', 'Setting a timer for a long period of time']);
 
 //TODO: Fix the image review and create the price reducers with Julie.
@@ -17,7 +18,8 @@ class TransRev extends Component {
     constructor(props) {
         super(props);
         this.state = {
-          balance: null
+          balance: null,
+          transactionId: null,
         }
     }
     componentDidMount = () => {
@@ -51,8 +53,30 @@ class TransRev extends Component {
         ],
         { cancelable: false }
       )
-    } else{
-      _sendTrans(price)
+    } else {
+      console.log(TOKEN_ADDRESS, 'chance sees token_address')
+      const abcSpendInfo = {
+        networkFeeOption: 'standard',
+        currencyCode: 'HERC',
+        metadata: {
+          name: 'Transfer From Herc Wallet',
+          category: 'Transfer:Wallet:College Fund'
+        },
+        spendTargets: [
+          {
+            publicAddress: TOKEN_ADDRESS,
+            nativeAmount: price
+          }
+        ]
+      }
+      // catch error for "ErrorInsufficientFunds"
+      let abcTransaction = await this.props.wallet.makeSpend(abcSpendInfo)
+      await wallet.signTx(abcTransaction)
+      await wallet.broadcastTx(abcTransaction)
+      await wallet.saveTx(abcTransaction)
+
+      console.log("Sent transaction with ID = " + abcTransaction.txid)
+      this.setState({ transactionId: abcTransaction.id }, this._sendTrans(price))
     }
   }
 

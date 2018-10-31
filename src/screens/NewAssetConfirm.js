@@ -6,6 +6,7 @@ import { connect } from "react-redux";
 import styles from "../assets/styles";
 import hercPillar from "../assets/hercLogoPillar.png";
 import { incHercId, confirmAsset } from "../actions/AssetActions"
+import { TOKEN_ADDRESS } from "../components/settings"
 
 import firebase from "../constants/Firebase";
 
@@ -13,7 +14,8 @@ class NewAssetConfirm extends Component {
     constructor(props) {
         super(props);
         this.state = {
-          balance: ''
+          balance: '',
+          transactionId: null
         }
     }
     state = {};
@@ -92,8 +94,29 @@ class NewAssetConfirm extends Component {
           ],
           { cancelable: false }
         )
-      } else{
-        this._sendNewAsset()
+      } else {
+        const abcSpendInfo = {
+          networkFeeOption: 'standard',
+          currencyCode: 'HERC',
+          metadata: {
+            name: 'Transfer From Herc Wallet',
+            category: 'Transfer:Wallet:College Fund'
+          },
+          spendTargets: [
+            {
+              publicAddress: TOKEN_ADDRESS,
+              nativeAmount: price
+            }
+          ]
+        }
+        // catch error for "ErrorInsufficientFunds"
+        let abcTransaction = await this.props.wallet.makeSpend(abcSpendInfo)
+        await wallet.signTx(abcTransaction)
+        await wallet.broadcastTx(abcTransaction)
+        await wallet.saveTx(abcTransaction)
+
+        console.log("Sent transaction with ID = " + abcTransaction.txid)
+        this.setState({ transactionId: abcTransaction.id }, this._sendNewAsset())
       }
     }
 

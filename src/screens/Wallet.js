@@ -74,6 +74,7 @@ async _makeCustomHercWallet(){
     if (!destAddress) Alert.alert("Missing Destination Address");
     if (!sendAmountInEth) Alert.alert("Invalid Send Amount");
     let sendAmountInWei = sendAmountInEth.times(1e18).toString()
+
     const abcSpendInfo = {
       networkFeeOption: 'standard',
       currencyCode: 'HERC',
@@ -93,6 +94,7 @@ async _makeCustomHercWallet(){
     await wallet.signTx(abcTransaction)
     await wallet.broadcastTx(abcTransaction)
     await wallet.saveTx(abcTransaction)
+    // TODO: after successful transaction, reset state.
 
     console.log("Sent transaction with ID = " + abcTransaction.txid)
     Alert.alert(
