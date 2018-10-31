@@ -78,6 +78,7 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
 
         case CLEAR_STATE: 
         return Object.assign({}, {
+            ...state,
             dataFlags: {
                 confirmStarted: false,
                 confAssetComplete: false,
@@ -162,11 +163,8 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
                     ...state.transDataFlags,
                     transSet: true
                 },
-                selectedAsset: {
-                    ...state.selectedAsset,
                     trans
 
-                }
             })
 
         case SEND_TRANS:
@@ -186,17 +184,15 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
                     ...state.transDataFlags,
                     confTransComplete: true,
                 },
-                selectedAsset: {
-                    ...state.selectedAsset,
+              
                     trans: {
-                        ...state.selectedAsset.trans,
-                    }
+                        ...state.trans,
                 }
             }
             )
 
         case ADD_PHOTO:
-            let image = {
+            let images = {
                 image: action.data,
                 size: action.size,
                 uri: action.uri
@@ -207,15 +203,13 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
             return Object.assign({}, state, {
                 ...state,
 
-                selectedAsset: {
-                    ...state.selectedAsset,
+             
                     trans: {
-                        ...state.selectedAsset.trans,
+                        ...state.trans,
                         data: {
-                            ...state.selectedAsset.trans.data,
+                            ...state.trans.data,
                             images
                         }
-                    }
                 }
             })
 
@@ -229,9 +223,9 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
                 ...state,
                 selectedAsset: {
                     trans: {
-                        ...state.selectedAsset.trans,
+                        ...state.trans,
                         data: {
-                            ...state.selectedAsset.trans.data,
+                            ...state.trans.data,
                             documents
                         }
                     }
@@ -244,16 +238,13 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
             return Object.assign({}, state, {
                 ...state,
 
-                selectedAsset: {
-                    ...state.selectedAsset,
                     trans: {
-                        ...state.selectedAsset.trans,
+                        ...state.trans,
                         data: {
-                            ...state.selectedAsset.trans.data,
+                            ...state.trans.data,
                             properties
                         }
 
-                    }
                 }
             })
 
@@ -262,15 +253,13 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
             console.log(ediT, 'setset');
             return Object.assign({}, state, {
                 ...state,
-                selectedAsset: {
-                    ...state.selectedAsset,
+             ...state.trans,
                     trans: {
-                        ...state.selectedAsset.trans,
+                        ...state.trans,
                         data: {
-                            ...state.selectedAsset.trans.data,
+                            ...state.trans.data,
                             ediT
                         }
-                    }
                 }
 
             })
@@ -327,13 +316,10 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
                     gotIpfs: true,
                 },
                 newAsset: {
-                    ...state,
-                    newAsset: {
                         ...state.newAsset,
                         ipfsHash: action.ipfsHash
 
                     }
-                }
             }
         case GOT_FACT:
             return {

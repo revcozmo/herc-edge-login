@@ -15,7 +15,7 @@ import Anthem from "../screens/Anthem";
 import BlockScanner from "../screens/BlockScanner";
 import Camera from "../screens/Camera";
 import Confirm from "../screens/Confirm";
-import ConfirmConf from "../screens/ConfirmConf";
+// import ConfirmConf from "../screens/ConfirmConf";
 import Create from "../screens/Create";
 import Digi from "../screens/DigiViewer";
 import DocUp from "../screens/DocUp";
@@ -113,7 +113,7 @@ const MainNavigator = StackNavigator({ //this will be "createStackNavigator" aft
     DocUp: { screen: DocUp },
     Confirm: { screen: Confirm },
     NewAssetConfirm: { screen: NewAssetConfirm },
-    ConfirmConf: { screen: ConfirmConf },
+    // ConfirmConf: { screen: ConfirmConf },
     EdiT: { screen: EdiT },
     PreDigi: { screen: PreDigi },
     SpaceScreen: { screen: SpaceScreen },
