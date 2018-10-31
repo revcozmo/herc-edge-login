@@ -38,10 +38,10 @@ class TransRev extends Component {
         const { navigate } = this.props.navigate;
         this.props.sendTrans(this._getPrices());
 
-        // this.setState({
-        //     modalVisible: true
-        // })
-        this.props.navigate('ConfirmConf', {transType: 'transaction'});
+        this.setState({
+            modalVisible: true
+        })
+        // this.props.navigate('ConfirmConf', {transType: 'transaction'});
 
     }
     _getPrices = () => {
@@ -71,7 +71,7 @@ class TransRev extends Component {
 
 
     _hasImage = (transObj) => {
-        if (transObj.images) {
+        if (transObj.images.size) {
             let imgPrice = ((transObj.images.size / 1024) * (.00000002)) / (.4);
             return (
                 <View style={localStyles.imgContainer}>
@@ -90,7 +90,7 @@ class TransRev extends Component {
     }
 
     _hasDocuments = (transObj) => {
-        if (transObj.documents) {
+        if (transObj.documents.size) {
             let docPrice = (transObj.documents.size * .000032) * .4;
             return (
                 <View style={localStyles.docContainer}>
@@ -138,7 +138,7 @@ class TransRev extends Component {
     }
 
     render() {
-        let trans = store.getState().AssetReducers.selectedAsset.trans;
+        let trans = store.getState().AssetReducers.trans;
         let transInfo = trans.header;
         // let fctPrice = this.state ? this.state.fctPrice : "";
         let transDat = trans.data;
@@ -233,8 +233,8 @@ class TransRev extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    transInfo: state.AssetReducers.selectedAsset.trans.header,
-    transDat: state.AssetReducers.selectedAsset.trans.data,
+    transInfo: state.AssetReducers.trans.header,
+    transDat: state.AssetReducers.trans.data,
     transDataFlags: state.AssetReducers.transDataFlags
     // price: state.dataReducer.prices.list.pricePerHercForFCT
 })

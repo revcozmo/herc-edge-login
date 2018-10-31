@@ -199,7 +199,7 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
             };
             console.log('adding photo');
 
-            let images = [...state.selectedAsset.trans.data.images, image];
+            // let images = [...state.selectedAsset.trans.data.images, image];
             return Object.assign({}, state, {
                 ...state,
 
@@ -215,9 +215,9 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
 
 
         case ADD_DOC:
-            let doc = action.document;
+            let documents = action.document;
             console.log('adding doc', doc);
-            let documents = [...state.selectedAsset.trans.data.documents, doc];
+            // let documents = [...state.selectedAsset.trans.data.documents, doc];
             // let documents = [...state.selectedAsset.trans.data.documents, doc];
             return Object.assign({}, state, {
                 ...state,

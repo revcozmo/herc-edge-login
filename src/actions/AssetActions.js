@@ -323,7 +323,7 @@ export function sendTrans(transPrice) {
     dispatch({ type: SEND_TRANS })
 
     let dTime = Date.now()
-    let transObject = store.getState().AssetReducers.selectedAsset.trans
+    let transObject = store.getState().AssetReducers.trans
 
     // let transObject = state.AssetReducers.selectedAsset.trans;
     let header = Object.assign({},transObject.header, {
@@ -345,14 +345,14 @@ export function sendTrans(transPrice) {
           axios.post(WEB_SERVER_API_IPFS_ADD, JSON.stringify(dataObject))
             .then(response => { return response }) // {key: 'properties', hash: 'QmU1D1eAeSLC5Dt4wVRR'}
             .catch(error => { console.log(error) }))
-      } else if (data[key].constructor === Array && data[key][0].image) {
-        var base64 = data[key][0].image
+      } else if (data[key].constructor === Array && data[key].image) {
+        var base64 = data[key].image
         var dataObject = Object.assign({}, { key: key }, { data: encodeURIComponent(base64) })
         promiseArray.push(axios.post(WEB_SERVER_API_STORJ_UPLOAD, JSON.stringify(dataObject))
           .then(response => { return response }) // {key: 'images', hash: 'QmU1D1eAeSLC5Dt4wVRR'}
           .catch(error => { console.log(error) }))
-      } else if (data[key].constructor === Array && data[key][0].type === "text/comma-separated-values") {
-        var dataObject = Object.assign({}, { "key": key }, { "data": encodeURIComponent(data[key][0].content) })
+      } else if (data[key].constructor === Array && data[key].type === "text/comma-separated-values") {
+        var dataObject = Object.assign({}, { "key": key }, { "data": encodeURIComponent(data[key].content) })
         promiseArray.push(axios.post(WEB_SERVER_API_CSV, JSON.stringify(dataObject))
           .then(response => { return response })
           .catch(error => { console.log(error) }))

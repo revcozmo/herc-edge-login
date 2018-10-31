@@ -151,8 +151,8 @@ class Confirm extends Component {
 
 
 const mapStateToProps = (state) => ({
-  newMetrics: state.AssetReducers.selectedAsset.trans.data.properties,
-  location: state.AssetReducers.selectedAsset.trans.header.tXLocation,
+  newMetrics: state.AssetReducers.trans.data.properties,
+  location: state.AssetReducers.trans.header.tXLocation,
   logo: state.AssetReducers.selectedAsset.Logo,
   name: state.AssetReducers.selectedAsset.Name
   // newProperties: state.AssetReducers.selectedAsset.newProperties

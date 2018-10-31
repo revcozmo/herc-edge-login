@@ -164,7 +164,7 @@ class DocUp extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  transInfo: state.AssetReducers.selectedAsset.trans.header,
+  transInfo: state.AssetReducers.trans.header,
   logo: state.AssetReducers.selectedAsset.Logo,
   name: state.AssetReducers.selectedAsset.Name
 
