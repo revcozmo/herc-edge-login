@@ -106,6 +106,7 @@ class TransRev extends Component {
       this.setState({
           modalVisible: true
       })
+    }
 
 
     _getPrices = () => {
@@ -296,18 +297,6 @@ class TransRev extends Component {
     }
 }
 
-const mapStateToProps = (state) => ({
-    transInfo: state.AssetReducers.trans.header,
-    transDat: state.AssetReducers.trans.data,
-    transDataFlags: state.AssetReducers.transDataFlags
-    // price: state.dataReducer.prices.list.pricePerHercForFCT
-})
-const mapDispatchToProps = (dispatch) => ({
-    sendTrans: (transPrice) => dispatch(sendTrans(transPrice))
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(TransRev);
-
 const localStyles = StyleSheet.create({
     transactionReviewContainer: {
         marginTop: 10,
@@ -431,12 +420,14 @@ const localStyles = StyleSheet.create({
     }
 });
 
+
 const mapStateToProps = (state) => ({
     transInfo: state.AssetReducers.trans.header,
     transDat: state.AssetReducers.trans.data,
-    wallet: state.WalletActReducers.wallet
-    // price: state.dataReducer.prices.list[0].pricePerHercForFCT
+    transDataFlags: state.AssetReducers.transDataFlags
+    // price: state.dataReducer.prices.list.pricePerHercForFCT
 })
+
 const mapDispatchToProps = (dispatch) => ({
     sendTrans: (transPrice) => dispatch(sendTrans(transPrice))
 })
