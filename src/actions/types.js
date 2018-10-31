@@ -1,5 +1,7 @@
 
 
+export const CLEAR_STATE = 'clearState';
+
 ///// HERC ID TYPES  /////
 
 export const GET_HERC_ID = 'getHercId';
@@ -19,12 +21,21 @@ export const ASSET_DEF_ERROR = 'assetDefError';
 
 export const SELECT_ASSET = 'selectAsset';
 export const ADD_ASSET = 'addAsset';
-export const CONFIRM_ASSET = 'confirmAsset';
 export const DELETE_ASSET = 'deleteAsset';
 
 
-///// TRANSACTION TYPES /////
+///// ASSET CONFIRMATION TYPES /////
+export const SETTING_HEADER = 'settingHeader';
+export const SETTING_HEADER_ERROR = 'settingHeaderError';
+export const CONFIRM_STARTED = 'confirmStarted';
+export const CONFIRM_ASSET_COMPLETE = 'confrimAssetComplete'
+export const CONFIRM_ASSET_ERROR = 'confirmAssetError';
+export const GOT_IPFS = 'gotIpfs';
+export const IPFS_ERROR = 'ipfsError';
+export const GOT_FACT = 'gotFact';
+export const FACTOM_ERROR = 'factomError'; 
 
+///// TRANSACTION TYPES /////
 export const START_TRANS = 'startTrans';
 export const SEND_TRANS = 'sendTrans';
 export const ADD_PHOTO = 'addPhoto';
@@ -33,7 +44,7 @@ export const SET_SET = 'setSet';
 export const ADD_METRICS = 'addMetrics';
 export const GET_TRANS = 'getTrans';
 export const GOT_ASSET_TRANS = 'gotAssetTrans';
-
+export const TRANS_COMPLETE = 'transComplete';
 
 ///// WALLET TYPES /////
 

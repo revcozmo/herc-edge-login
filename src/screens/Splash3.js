@@ -94,6 +94,7 @@ class Splash3 extends Component {
     StatusBar.setBarStyle("dark-content", true);
   }
   render() {
+    console.log(this.state, 'state', this.props, 'props')
     const { navigate } = this.props.navigation;
     let locationImage =
       this.props.transHeader.tXLocation === "recipient" ? recipient : originator;
@@ -108,7 +109,7 @@ class Splash3 extends Component {
           <ScrollView contentContainerStyle={styles.scrollView}>
 
             <Text style={localStyles.originatorText}>{this.props.transHeader.tXLocation}</Text>
-            <Text style={localStyles.hercIdText}>HERCid: {this.props.hercId}</Text>
+            <Text style={localStyles.hercIdText}>HERCid: {hercId}</Text>
             <TouchableHighlight
               style={{ marginTop: 8 }}
               onPress={() =>
@@ -144,10 +145,10 @@ class Splash3 extends Component {
 }
 
 const mapStateToProps = state => ({
-  logo: state.AssetReducers.selectedAsset.Logo,
-  transHeader: state.AssetReducers.trans.header,
-  hercId: state.AssetReducers.trans.header.hercId,
-  data: state.AssetReducers.trans.data
+  logo: state.AssetReducers.selectedAsset.Logo || {},
+  transHeader: state.AssetReducers.trans.header || {},
+  data: state.AssetReducers.trans.data || null,
+  hercId: state.AssetReducers.selectedAsset.hercId || null,
 });
 
 export default connect(mapStateToProps)(Splash3);

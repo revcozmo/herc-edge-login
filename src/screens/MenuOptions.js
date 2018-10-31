@@ -22,7 +22,7 @@ import profileButton from "../components/buttons/profileButton.png"
 
 import styles from "../assets/styles";
 import { connect } from "react-redux";
-import { getHercId, getAssets } from "../actions/AssetActions";
+import { getHercId, getAssets, clearState } from "../actions/AssetActions";
 import { getOrganization } from "../actions/WalletActActions";
 import store from "../store";
 import Wallet from "./Wallet";
@@ -35,6 +35,7 @@ YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTIm
 class MenuOptions extends Component {
 
     componentDidMount() {
+        // this.props.clearState();
         this.props.getHercId();
         this.props.getAssets(this.props.username);
         this.props.getOrganization();
@@ -95,7 +96,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
     getHercId: () => dispatch(getHercId()),
     getAssets: (name) => dispatch(getAssets(name)),
-    getOrganization: () => dispatch(getOrganization())
+    getOrganization: () => dispatch(getOrganization()),
+    clearState: () => dispatch(clearState())
 });
 
 export default connect( mapStateToProps, mapDispatchToProps )(MenuOptions);

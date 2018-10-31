@@ -3,7 +3,12 @@ import {
     ADD_DOC,
     ADD_METRICS,
     ADD_PHOTO,
-    CONFIRM_ASSET,
+    SETTING_HEADER,
+    SETTING_HEADER_ERROR,
+    CONFIRM_STARTED,
+    GOT_IPFS,
+    GOT_FACT,
+    CONFIRM_ASSET_COMPLETE,
     DELETE_ASSET,
     GET_HERC_ID,
     GET_ORIGIN_TRANS,
@@ -20,6 +25,8 @@ import {
     SEND_TRANS,
     SET_SET,
     START_TRANS,
+    TRANS_COMPLETE,
+    CLEAR_STATE,
 } from '../actions/types';
 import axios from 'axios';
 import store from "../store";
@@ -34,6 +41,7 @@ import {
     WEB_SERVER_API_STORJ_UPLOAD,
     WEB_SERVER_API_CSV
 } from "../components/settings"
+
 
 //synchronous
 // let assets = [];
@@ -54,17 +62,32 @@ import {
 
 
 const INITIAL_STATE = {
-    assetFetching: false,
-    assetFetched: false,
-    assetFetchError: false,
-    assetDefFetching: false,
-    assetDefFetched: false,
-    assetDefFetchError: false,
-};
+    dataFlags: {
+        confirmStarted: false,
+        confAssetComplete: false,
+    },
+    transDataFlags: {
+        transStarted: false,
+        confTransComplete: false,
+    }
+}
 
 
 const AssetReducers = (state = INITIAL_STATE, action) => {
     switch (action.type) {
+
+        case CLEAR_STATE: 
+        return Object.assign({}, {
+            ...state,
+            dataFlags: {
+                confirmStarted: false,
+                confAssetComplete: false,
+            },
+            transDataFlags: {
+                transStarted: false,
+                confTransComplete: false,
+            }
+        })
 
         case GOT_LIST_ASSETS:
             console.log(action, " GOT_LIST_ASSETS Action")
@@ -76,22 +99,24 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
 
         case GETTING_ASSET_DEF:
             return {
-                assetDefFetching: true
+                dataFlags: {
+                    assetDefFetching: true
+                }
             }
-
         case GOT_ASSET_DEF:
 
             console.log(action, "action in GOT_ASSET_DEF REDUCER")
 
             return Object.assign({}, state, {
-                assetDefFetching: false,
-                assetDefFetched: true,
-                selectedAsset:
+                ...state,
+                dataFlags: {
+                    assetDefFetching: false,
+                    assetDefFetched: true,
+                }, selectedAsset:
                 {
                     ...state.selectedAsset,
-                    hercId: action.ipfsDef.hercId,
                     ipfsDef: action.ipfsDef
-                },
+                }
             })
 
         case ASSET_DEF_ERROR:
@@ -101,33 +126,14 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
             }
 
         case SELECT_ASSET:
+
             return Object.assign({}, state, {
                 ...state,
-                assetFetching: false,
-                assetFetched: true,
+                dataFlags: {
+                    assetFetching: false,
+                    assetFetched: true,
+                },
                 selectedAsset: action.selectAsset
-            })
-
-
-        case START_TRANS:
-            let trans = action.data;
-            console.log(state.selectedAsset.Name, "selectedAssetName in START_TRANS reducer")
-
-            return Object.assign({}, state, {
-                ...state,
-                trans
-            })
-
-        case SEND_TRANS:
-            return Object.assign({}, state, {
-                ...state,
-                trans: {
-                    ...state.trans,
-                    ...state.trans.header,
-                    data: {
-                        ...state.trans.data
-                    }
-                }
             })
 
         case GOT_HERC_ID:
@@ -147,37 +153,81 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
                 hercId
             });
 
+        case START_TRANS:
+            let trans = action.data;
+            console.log(state.selectedAsset.Name, "selectedAssetName in START_TRANS reducer")
+
+            return Object.assign({}, state, {
+                ...state,
+                transDataFlags: {
+                    ...state.transDataFlags,
+                    transSet: true
+                },
+                    trans
+
+            })
+
+        case SEND_TRANS:
+            return Object.assign({}, state, {
+                ...state,
+                transDataFlags: {
+                    transStarted: true
+                },
+
+            })
+
+        case TRANS_COMPLETE:
+            // let trans = action.data;
+            return Object.assign({}, state, {
+                ...state,
+                transDataFlags: {
+                    ...state.transDataFlags,
+                    confTransComplete: true,
+                },
+              
+                    trans: {
+                        ...state.trans,
+                }
+            }
+            )
+
         case ADD_PHOTO:
-            let image = {
+            let images = {
                 image: action.data,
                 size: action.size,
                 uri: action.uri
             };
             console.log('adding photo');
-            let images = [...state.trans.data.images, image];
+
+            // let images = [...state.selectedAsset.trans.data.images, image];
             return Object.assign({}, state, {
                 ...state,
-                trans: {
-                    ...state.trans,
-                    data: {
-                        ...state.trans.data,
-                        images
-                    }
+
+             
+                    trans: {
+                        ...state.trans,
+                        data: {
+                            ...state.trans.data,
+                            images
+                        }
                 }
             })
 
 
         case ADD_DOC:
-            let doc = action.document;
+            let documents = action.document;
             console.log('adding doc', doc);
-            let documents = [...state.trans.data.documents, doc];
+            // let documents = [...state.selectedAsset.trans.data.documents, doc];
+            // let documents = [...state.selectedAsset.trans.data.documents, doc];
             return Object.assign({}, state, {
                 ...state,
-                trans: {
-                    ...state.trans,
-                    data: {
-                        ...state.trans.data,
-                        documents
+                selectedAsset: {
+                    trans: {
+                        ...state.trans,
+                        data: {
+                            ...state.trans.data,
+                            documents
+                        }
                     }
                 }
             })
@@ -187,15 +237,34 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
             console.log(properties, "updating attributes in reducers");
             return Object.assign({}, state, {
                 ...state,
-                trans: {
-                    ...state.trans,
-                    data: {
-                        ...state.trans.data,
-                        properties
-                    }
+
+                    trans: {
+                        ...state.trans,
+                        data: {
+                            ...state.trans.data,
+                            properties
+                        }
+
                 }
             })
 
+        case SET_SET:
+            const ediT = action.item
+            console.log(ediT, 'setset');
+            return Object.assign({}, state, {
+                ...state,
+             ...state.trans,
+                    trans: {
+                        ...state.trans,
+                        data: {
+                            ...state.trans.data,
+                            ediT
+                        }
+                }
+
+            })
+
+        ///// CONFIRM ASSETS REDUCERS /////
 
         case ADD_ASSET:
             const newAsset = action.newAsset;
@@ -205,26 +274,80 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
                 newAsset
             })
 
-        case CONFIRM_ASSET:
-            const asset = action.newAsset;
 
-            return Object.assign({}, state, {
-                state: INITIAL_STATE,
-            })
 
-        case SET_SET:
-            const ediT = action.item
-            console.log(ediT, 'setset');
+        case SETTING_HEADER:
             return Object.assign({}, state, {
                 ...state,
-                trans: {
-                    ...state.trans,
-                    data: {
-                        ...state.trans.data,
-                        ediT
+                dataFlags: {
+                    ...state.dataFlags,
+                    headerSet: true
+                }
+            })
+
+        case SETTING_HEADER_ERROR:
+            return Object.assign({}, state, {
+                ...state,
+                dataFlags: {
+                    ...state.dataFlags,
+                    error: {
+                        type: action.type,
+                        error
                     }
                 }
             })
+
+        case CONFIRM_STARTED:
+            return {
+                ...state,
+                dataFlags: {
+                    ...state.dataFlags,
+                    confirmStarted: true,
+
+                }
+            }
+
+
+        case GOT_IPFS:
+            return {
+                ...state,
+                dataFlags: {
+                    ...state.dataFlags,
+                    gotIpfs: true,
+                },
+                newAsset: {
+                        ...state.newAsset,
+                        ipfsHash: action.ipfsHash
+
+                    }
+            }
+        case GOT_FACT:
+            return {
+                ...state,
+                dataFlags: {
+                    ...state.dataFlags,
+                    gotIpfs: true,
+                },
+                newAsset: {
+                    ...state.newAsset,
+                    chainId: action.chainId
+                }
+            }
+
+        case CONFIRM_ASSET_COMPLETE:
+            const asset = action.newAsset;
+
+            return Object.assign({}, state, {
+                ...state,
+                dataFlags: {
+                    ...state.dataFlags,
+                    confirmStarted: false,
+                    confAssetComplete: true
+                }
+
+            })
+
+
 
 
         case DELETE_ASSET:

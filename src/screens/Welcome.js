@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { StyleSheet, Text, TextInput, View, Image, TouchableHighlight, Alert } from 'react-native';
+import { StyleSheet, Button, Text, TextInput, ActivityIndicator, Modal, View, Image, TouchableHighlight, Alert } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 // import welcome from "../assets/welcome.png";
 import Button from 'react-native-button';
@@ -9,7 +9,7 @@ export default class Welcome extends Component {
   static navigationOptions = ({ navigation }) => {
  return{
    header: null
-  }
+    }
   }
   constructor(props) {
     super(props);

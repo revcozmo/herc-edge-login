@@ -1,29 +1,34 @@
 import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, View, Image, ScrollView, TextInput, Linking, TouchableHighlight, Alert, Button } from 'react-native';
+import { Modal, Platform, StyleSheet, Text, View, Image, ScrollView, TextInput, TouchableHighlight, Alert, Button, ActivityIndicator } from 'react-native';
 import submit from "../components/buttons/submit.png";
 import logo from "../assets/round.png";
 import { connect } from "react-redux";
 import styles from "../assets/styles";
 import hercPillar from "../assets/hercLogoPillar.png";
-import { incHercId, confirmAsset } from "../actions/AssetActions"
+// import Loader from "../components/Loader"
+import { incHercId, confirmAssetStarted, confirmAssetComplete, settingHeader, settingHeaderError } from "../actions/AssetActions"
+import modalStyle from "../assets/confModalStyles";
 import { TOKEN_ADDRESS } from "../components/settings"
 import BigNumber from 'bignumber.js';
-
 import firebase from "../constants/Firebase";
 
 class NewAssetConfirm extends Component {
     constructor(props) {
         super(props);
         this.state = {
-          balance: '',
-          transactionId: null
+            modalVisible: false,
+            loading: false,
+            confirmComplete: false,
+            balance: '',
+            transactionId: null
         }
     }
-    state = {};
+
+
     static navigationOptions = ({ navigation }) => {
         return {
             headerTitleStyle:
-            { justifyContent: "space-around" },
+                { justifyContent: "space-around" },
             headerTitle: (
                 <View style={localStyles.headerField}>
                     <Image
@@ -36,13 +41,54 @@ class NewAssetConfirm extends Component {
         }
     }
 
-    componentDidMount(){
-      let balance = new BigNumber(this.props.wallet.getBalance({ currencyCode: "HERC" }))
-      this.setState({ balance: balance.times(1e-18).toFixed(18) }, () => { console.log(this.state.balance, 'chance herc balance')})
+    componentDidMount() {
+        this._getOrgName(this.props.edgeAccount)
+        let balance = new BigNumber(this.props.wallet.getBalance({ currencyCode: "HERC" }))
+        this.setState({ balance: balance.times(1e-18).toFixed(18) }, () => { console.log(this.state.balance, 'chance herc balance')})
+        this.setState({
+            hercId: this.props.hercId
+        })
+        // if (this.props.dataFlags.confirmStarted) {
+        //     this.setState({ loading: true })
+        // }
+    }
+    // componentWillMount() {
+    //     // debugger
+    //     console.log(this.props.dataFlags, "chance repeat")
+    //     if (this.props.dataFlags.confAssetComplete) {
+    //         this.setState({ confirmComplete: true })
+    //         //   this.props.navigation.navigate('MenuOptions')
+    //     }
+    // }
+
+    _changeModalVisibility = (visible) => {
+        this.setState({
+            modalVisible: visible
+        })
+    }
+
+
+    _getOrgName(edgeName) {
+        var organization_name;
+
+        var rootRef = firebase.database().ref('idology');
+
+        rootRef.child(edgeName)
+            .child('organizationName')
+            .once('value')
+            .then(snapshot => {
+                organization_name = snapshot.toJSON();
+            }).then(() => {
+
+                console.log(organization_name, 'dddddddddddddddddddddddddddddddd');
+                this.setState({
+                    orgName: organization_name
+                });
+            })
     }
 
     async uploadImageAsync(uri) {
-
+        const { navigate } = this.props.navigation;
         let newAsset = this.props.newAsset;
         const response = await fetch(uri);
         const blob = await response.blob();
@@ -71,11 +117,15 @@ class NewAssetConfirm extends Component {
             hercId: this.props.hercId,
             Name: newAsset.Name,
             Logo: downloadURL,
+            registeredUnder: this.state.orgName
         }
 
-      this.props.confirmAsset(ipfsAsset)
-      this.props.incHercId(this.props.hercId);
-      this.props.navigation.navigate('MenuOptions');
+        console.log(ipfsAsset, fbAsset, "right before the send chance")
+
+        this.props.settingHeader(fbAsset);
+        this.props.confirmAssetStarted(ipfsAsset);
+        this.props.incHercId(this.props.hercId);
+        // navigate('ConfirmConf');
     }
     _sendNewAsset(){
       if (this.props.newAsset.Logo) {
@@ -104,7 +154,7 @@ class NewAssetConfirm extends Component {
           { cancelable: true }
         )
       } else {
-        debugger;
+        this._changeModalVisibility(true);
         const abcSpendInfo = {
           networkFeeOption: 'standard',
           currencyCode: 'HERC',
@@ -120,7 +170,8 @@ class NewAssetConfirm extends Component {
           ]
         }
         // catch error for "ErrorInsufficientFunds"
-        let abcTransaction = await this.props.wallet.makeSpend(abcSpendInfo)
+        let wallet = this.props.wallet
+        let abcTransaction = await wallet.makeSpend(abcSpendInfo)
         await wallet.signTx(abcTransaction)
         await wallet.broadcastTx(abcTransaction)
         await wallet.saveTx(abcTransaction)
@@ -131,8 +182,6 @@ class NewAssetConfirm extends Component {
     }
 
     _onPressSubmit() {
-        let hercId = this.props.hercId;
-        const { navigate } = this.props.navigation;
 
         Alert.alert(
           'Payment Amount: 1000 HERC',
@@ -145,6 +194,13 @@ class NewAssetConfirm extends Component {
         )
     }
 
+
+    _goToMenu = () => {
+        const { navigate } = this.props.navigation;
+        this._changeModalVisibility(false);
+        navigate('MenuOptions');
+
+    }
     render() {
         const { navigate } = this.props.navigation;
         let price = this.state.fctPrice;
@@ -181,9 +237,11 @@ class NewAssetConfirm extends Component {
 
 
 
+
         return (
             <View style={styles.container}>
                 <View style={styles.containerCenter}>
+
                     <Text style={styles.assetHeaderLabel}>{Name}</Text>
                     {Logo}
                     <Text style={styles.assetHeaderLabel}>{Url}</Text>
@@ -204,7 +262,47 @@ class NewAssetConfirm extends Component {
                     </View>
 
                 </View>
+                <Modal
+                    transparent={false}
+                    animationType={'none'}
+                    visible={this.state.modalVisible}
+                    onRequestClose={() => { console.log("modal closed") }}
+                >
+                    <View style={modalStyle.container}>
+                        <View style={modalStyle.modalBackground}>
+                        <View style={modalStyle.closeButtonContainer}>
+                            <TouchableHighlight
+                              style={modalStyle.closeButton}
+                              onPress={() => this._changeModalVisibility(false)}>
+                            <Text style={{ margin: 5, fontSize: 30, color: '#00000070'} }>X</Text>
+                            </TouchableHighlight>
+                        </View>
+                            {!this.props.dataFlags.confirmAssetComplete &&
+                                <Text style={modalStyle.wordsText}>Your Asset Information Is Being Written To The Blockchain</Text>
+                            }
+
+                            <View style={modalStyle.activityIndicatorWrapper}>
+                                <ActivityIndicator
+                                    animating={this.props.dataFlags.confirmStarted} size="large" color="#091141" />
+                            </View>
+
+                            {this.props.dataFlags.confAssetComplete &&
+                                <View>
+                                    <Text style={modalStyle.wordsText}>Your Transaction Has Completed!</Text>
+                                    <TouchableHighlight
+                                      style={modalStyle.modalButton}
+                                      onPress={() => this._goToMenu()}>
+                                    <Text style={{ margin: 5} }>Back to Menu</Text>
+                                    </TouchableHighlight>
+                                </View>
+                            }
+
+                        </View>
+                    </View>
+                </Modal>
             </View>
+
+
 
         )
     }
@@ -215,12 +313,19 @@ const mapStateToProps = (state) => ({
     newAsset: state.AssetReducers.newAsset,
     hercId: state.AssetReducers.hercId,
     edgeAccount: state.WalletActReducers.edge_account,
-    wallet: state.WalletActReducers.wallet
+    wallet: state.WalletActReducers.wallet,
+    dataFlags: state.AssetReducers.dataFlags
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    confirmAsset: (asset) =>
-        dispatch(confirmAsset(asset)),
+    settingHeader: (fbHead) => {
+        dispatch(settingHeader(fbHead))
+    },
+    confirmAssetStarted: (asset) =>
+        dispatch(confirmAssetStarted(asset)),
+    confirmAssetComplete: () =>
+        dispatch(confirmAssetComplete()),
+
     incHercId: (hercid) =>
         dispatch(incHercId(hercid))
 })
@@ -322,5 +427,7 @@ const localStyles = StyleSheet.create({
         fontSize: 20,
         fontWeight: "600",
         color: "yellow"
-    }
+    },
+
+
 })

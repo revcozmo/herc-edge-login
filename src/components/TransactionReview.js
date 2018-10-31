@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, TextInput, View, Image, Linking, TouchableHighlight, Alert, ScrollView, YellowBox } from 'react-native';
+import { StyleSheet, Text, TextInput, View, Image, TouchableHighlight, Alert, ScrollView, YellowBox, Modal, ActivityIndicator, Button } from 'react-native';
 import { connect } from 'react-redux';
 import { StackNavigator } from 'react-navigation';
 import styles from '../assets/styles';
@@ -8,9 +8,11 @@ import { sendTrans } from "../actions/AssetActions";
 import fee from "../assets/hercLogoPillar.png";
 import newOriginator from "./buttons/originatorButton.png";
 import newRecipient from "./buttons/recipientButton.png";
+import modalStyle from "../assets/confModalStyles";
 import { TOKEN_ADDRESS } from "../components/settings"
 import BigNumber from 'bignumber.js';
 YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTImageLoader', 'Setting a timer for a long period of time']);
+import store from "../store"
 
 //TODO: Fix the image review and create the price reducers with Julie.
 
@@ -19,8 +21,10 @@ class TransRev extends Component {
     constructor(props) {
         super(props);
         this.state = {
-          balance: null,
-          transactionId: null,
+            modalVisible: false,
+            loading: false,
+            balance: null,
+            transactionId: null,
         }
     }
     componentDidMount = () => {
@@ -30,23 +34,23 @@ class TransRev extends Component {
         this.setState({ balance: balance.times(1e-18).toFixed(18) }, () => { console.log(this.state.balance, 'chance herc balance')})
     }
 
-  _onPressSubmit(price){
+  _onPressSubmit(){
     Alert.alert(
-      'Payment Amount:'+ price.toString() +'HERC',
-      'Current Balance:', this.state.balance, 'HERC \n Do you authorize this payment?' ,
+      'Payment Amount: '+ this._getPrices().toString() +' HERC',
+      'Current Balance: '+ this.state.balance+ ' HERC \n Do you authorize this payment?' ,
       [
         {text: 'No', onPress: () => console.log('No Pressed'), style: 'cancel'},
-        {text: 'Yes', onPress: () => this._checkBalance(price)},
+        {text: 'Yes', onPress: () => this._checkBalance() },
       ],
       { cancelable: false }
     )
   }
 
-  async _checkBalance(price){
+  async _checkBalance(){
     if (!this.state.balance) {return}
 
-    let convertingPrice = new BigNumber(price) // don't have to times 1e18 because its already hercs
-
+    let convertingPrice = new BigNumber(this._getPrices()) // don't have to times 1e18 because its already hercs
+    console.log(convertingPrice.toString(), 'chance checkig that this is te correct string')
     let balance = new BigNumber(this.state.balance)
     let newbalance = balance.minus(convertingPrice)
 
@@ -56,7 +60,7 @@ class TransRev extends Component {
     if (newbalance.isNegative()){
       Alert.alert(
         'Insufficient Funds',
-        'Balance:', this.state.balance, 'HERC' ,
+        'Balance: '+ this.state.balance+ ' HERC' ,
         [
           {text: 'Top Up Hercs', onPress: () => Linking.openURL("https://purchase.herc.one/"), style: 'cancel'},
           {text: 'Ok', onPress: () => console.log('OK Pressed')},
@@ -64,7 +68,7 @@ class TransRev extends Component {
         { cancelable: true }
       )
     } else {
-      debugger;
+      this.setState({ modalVisible: true })
       const abcSpendInfo = {
         networkFeeOption: 'standard',
         currencyCode: 'HERC',
@@ -75,26 +79,33 @@ class TransRev extends Component {
         spendTargets: [
           {
             publicAddress: TOKEN_ADDRESS,
-            nativeAmount: price
+            nativeAmount: convertingPrice.toString()
           }
         ]
       }
       // catch error for "ErrorInsufficientFunds"
-      let abcTransaction = await this.props.wallet.makeSpend(abcSpendInfo)
+      let wallet = this.props.wallet
+      let abcTransaction = await wallet.makeSpend(abcSpendInfo)
       await wallet.signTx(abcTransaction)
       await wallet.broadcastTx(abcTransaction)
       await wallet.saveTx(abcTransaction)
 
       console.log("Sent transaction with ID = " + abcTransaction.txid)
-      this.setState({ transactionId: abcTransaction.id }, this._sendTrans(price))
+      this.setState({ transactionId: abcTransaction.id }, this._sendTrans())
     }
   }
 
-    _sendTrans(price) {
-        const { navigate } = this.props.navigate;
-        this.props.sendTrans(price);
-        this.props.navigate('MenuOptions');
+  _changeModalVisibility = (visible) => {
+      this.setState({
+          modalVisible: visible
+      })
+  }
+
+  _sendTrans() {
+    this.props.sendTrans(this._getPrices())
     }
+
+
     _getPrices = () => {
 
         let transDat = this.props.transDat;
@@ -102,13 +113,13 @@ class TransRev extends Component {
         let imgPrice = 0;
         let docPrice = 0;
 
-        if (transDat.images[0]) {
-            imgPrice = (((transDat.images[0].size / 1024) * (.00000002)) / (.4))
+        if (transDat.images.size) {
+            imgPrice = (((transDat.images.size / 1024) * (.00000002)) / (.4))
             console.log(imgPrice, "imgPrice");
         };
 
-        if (transDat.documents[0]) {
-            docPrice = (transDat.documents[0].size * .000032) * .4
+        if (transDat.documents) {
+            docPrice = ((.000032) * .4)
         }
 
         if ((docPrice + imgPrice) !== 0) {
@@ -121,14 +132,14 @@ class TransRev extends Component {
     }
 
 
-    _hasImage = (transDat) => {
-        if (transDat.images[0]) {
-            let imgPrice = ((transDat.images[0].size / 1024) * (.00000002)) / (.4);
+    _hasImage = (transObj) => {
+        if (transObj.images.size) {
+            let imgPrice = ((transObj.images.size / 1024) * (.00000002)) / (.4);
             return (
                 <View style={localStyles.imgContainer}>
                     <Text style={localStyles.transRevTime}>Images</Text>
-                    <Image style={localStyles.thumb} source={{ uri: transDat.images[0].image }} />
-                    <Text style={localStyles.revPropVal}>{(transDat.images[0].size / 1024).toFixed(3)} kb</Text>
+                    <Image style={localStyles.thumb} source={{ uri: transObj.images.image }} />
+                    <Text style={localStyles.revPropVal}>{(transObj.images.size / 1024).toFixed(3)} kb</Text>
                     <View style={localStyles.feeContainer}>
                         <Image style={localStyles.hercPillarIcon} source={fee} />
                         <Text style={localStyles.teePrice}>{imgPrice.toFixed(8)}</Text>
@@ -136,19 +147,18 @@ class TransRev extends Component {
                 </View>
             );
 
-            console.log(transInfo.price, "transprice plus imageprice", this.state.imgPrice)
         }
         return (<Text style={localStyles.revPropVal}>No Images</Text>)
     }
 
-    _hasDocuments = (transDat) => {
-        if (transDat.documents[0]) {
-            let docPrice = (transDat.documents[0].size * .000032) * .4;
+    _hasDocuments = (transObj) => {
+        if (transObj.documents.size) {
+            let docPrice = (transObj.documents.size * .000032) * .4;
             return (
                 <View style={localStyles.docContainer}>
                     <Text style={localStyles.transRevTime}>Documents</Text>
-                    <Text style={localStyles.text}>{transDat.documents[0].name}</Text>
-                    <Text style={localStyles.text}>{(transDat.documents[0].size / 1024).toFixed(3)} kb</Text>
+                    <Text style={localStyles.text}>{transObj.documents.name}</Text>
+                    <Text style={localStyles.text}>{(transObj.documents.size / 1024).toFixed(3)} kb</Text>
                     <View style={localStyles.feeContainer}>
                         <Image style={localStyles.hercPillarIcon} source={fee} />
                         <Text style={localStyles.teePrice}>{docPrice.toFixed(8)}</Text>
@@ -161,13 +171,13 @@ class TransRev extends Component {
     }
 
 
-    _hasList = (transDat) => {
-        if (transDat.properties) {
-            list = Object.keys(transDat.properties).map((name, idx) => {
+    _hasList = (transObj) => {
+        if (transObj.properties) {
+            list = Object.keys(transObj.properties).map((name, idx) => {
                 return (
                     <View key={idx} style={localStyles.revPropField}>
                         <Text style={localStyles.transRevName}>{name}:</Text>
-                        <Text style={localStyles.revPropVal}>{transDat.properties[name]}</Text>
+                        <Text style={localStyles.revPropVal}>{transObj.properties[name]}</Text>
                     </View>
                 )
             });
@@ -181,10 +191,19 @@ class TransRev extends Component {
         return (<Text style={localStyles.revPropVal}>No Properties</Text>)
     }
 
+    _goToMenu = () => {
+        // const { navigate } = this.props.navigate;
+        this._changeModalVisibility(false);
+
+        this.props.navigate('MenuOptions');
+
+    }
+
     render() {
-        let transInfo = this.props.transInfo;
+        let trans = store.getState().AssetReducers.trans;
+        let transInfo = trans.header;
         // let fctPrice = this.state ? this.state.fctPrice : "";
-        let transDat = this.props.transDat;
+        let transDat = trans.data;
         console.log(transInfo, 'transinfo in transreviewrender', transInfo.price, 'transdata')
         let locationImage = this.props.transInfo.tXLocation === 'recipient' ? newRecipient : newOriginator;
         let list, edit;
@@ -226,7 +245,50 @@ class TransRev extends Component {
                     <Image style={localStyles.hercPillarIcon} source={fee} />
                     <Text style={localStyles.teePrice}>{this._getPrices().toFixed(18)}</Text>
                 </View>
+
+
+               <Modal
+                    transparent={false}
+                    animationType={'none'}
+                    visible={this.state.modalVisible}
+                    onRequestClose={() => { console.log("modal closed") }}
+                >
+                    <View style={modalStyle.container}>
+                        <View style={modalStyle.modalBackground}>
+                          <View style={modalStyle.closeButtonContainer}>
+                              <TouchableHighlight
+                                style={modalStyle.closeButton}
+                                onPress={() => this._changeModalVisibility(false)}>
+                              <Text style={{ margin: 5, fontSize: 30, color: '#00000070'} }>X</Text>
+                              </TouchableHighlight>
+                          </View>
+                            {!this.props.transDataFlags.confTransComplete &&
+
+                                <Text style={modalStyle.wordsText}>Your Transaction Information Is Being Written To The Blockchain</Text>
+                            }
+                            <View style={modalStyle.activityIndicatorWrapper}>
+                                <ActivityIndicator
+                                    animating={!this.props.transDataFlags.confTransComplete} size="large" color="#091141" />
+                            </View>
+
+                            {this.props.transDataFlags.confTransComplete &&
+                                <View>
+                                    <Text style={modalStyle.wordsText}>Your Transaction Has Completed!</Text>
+                                    <TouchableHighlight
+                                      style={modalStyle.modalButton}
+                                      onPress={() => this._goToMenu()}>
+                                    <Text style={{ margin: 5} }>Back to Menu</Text>
+                                    </TouchableHighlight>
+                                </View>
+                            }
+
+                        </View>
+                    </View>
+                </Modal>
+
             </View>
+
+
 
         )
     }
@@ -355,12 +417,15 @@ const localStyles = StyleSheet.create({
     }
 });
 
+
 const mapStateToProps = (state) => ({
     transInfo: state.AssetReducers.trans.header,
     transDat: state.AssetReducers.trans.data,
+    transDataFlags: state.AssetReducers.transDataFlags,
     wallet: state.WalletActReducers.wallet
-    // price: state.dataReducer.prices.list[0].pricePerHercForFCT
+    // price: state.dataReducer.prices.list.pricePerHercForFCT
 })
+
 const mapDispatchToProps = (dispatch) => ({
     sendTrans: (transPrice) => dispatch(sendTrans(transPrice))
 })

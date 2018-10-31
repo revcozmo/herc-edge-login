@@ -119,7 +119,6 @@ class Splash1 extends Component {
 
   _onPress = asset => {
     const { navigate } = this.props.navigation;
-
     this.props.selectAsset(asset);
     if (asset.ipfsHash) {
       this.props.getAssetDef(asset.ipfsHash);

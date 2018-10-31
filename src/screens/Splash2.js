@@ -107,8 +107,8 @@ class Splash2 extends Component {
     if (place === 'Originator') {
       trans = {
         header: {
-          // password: this.state.password,
-          hercId: this.props.asset.hercId,
+          hercId: this.props.asset.hercId ,
+          password: this.state.password,
           name: this.props.asset.Name,
           tXLocation: place,
           price: 0.000125, //this is the bare starter price i'm going with which is (128b / 1024) x 0.001
@@ -295,7 +295,7 @@ class Splash2 extends Component {
               <Text style={[localStyles.passwordLabel, { marginTop: 5 }]}>
                 Confirm{" "}
                 <Text style={{ color: "#F3C736" }}>
-                  {this.state.location}
+                  Recipient
                   {"\n"}
                 </Text>
               </Text>
