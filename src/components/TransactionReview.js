@@ -26,14 +26,14 @@ class TransRev extends Component {
     componentDidMount = () => {
         // this.getPricesFromApi();
         // TODO: this API needs to be updated
-
-        this.setState({balance: this.props.wallet.getBalance({ currencyCode: "HERC" }) })
+        let balance = new BigNumber(this.props.wallet.getBalance({ currencyCode: "HERC" }))
+        this.setState({ balance: balance.times(1e-18).toFixed(18) }, () => { console.log(this.state.balance, 'chance herc balance')})
     }
 
   _onPressSubmit(price){
     Alert.alert(
       'Payment Amount:'+ price.toString() +'HERC',
-      'Current Balance:', this.state.balance.toString(), 'HERC \n Do you authorize this payment?' ,
+      'Current Balance:', this.state.balance, 'HERC \n Do you authorize this payment?' ,
       [
         {text: 'No', onPress: () => console.log('No Pressed'), style: 'cancel'},
         {text: 'Yes', onPress: () => this._checkBalance(price)},
@@ -47,8 +47,8 @@ class TransRev extends Component {
 
     let convertingPrice = new BigNumber(price) // don't have to times 1e18 because its already hercs
 
-    let convertingBalance = new BigNumber(this.state.balance)
-    let newbalance = convertingBalance.minus(convertingPrice)
+    let balance = new BigNumber(this.state.balance)
+    let newbalance = balance.minus(convertingPrice)
 
     console.log('do you have enough?', newbalance.isPositive())
 

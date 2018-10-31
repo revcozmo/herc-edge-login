@@ -36,6 +36,10 @@ class NewAssetConfirm extends Component {
         }
     }
 
+    componentDidMount(){
+      let balance = new BigNumber(this.props.wallet.getBalance({ currencyCode: "HERC" }))
+      this.setState({ balance: balance.times(1e-18).toFixed(18) }, () => { console.log(this.state.balance, 'chance herc balance')})
+    }
 
     async uploadImageAsync(uri) {
 
@@ -82,12 +86,10 @@ class NewAssetConfirm extends Component {
       }
     }
 
-    async _checkBalance(balance){
-      let convertingPrice = new BigNumber(1000)
-      let price = convertingPrice.times(1e18)
-
-      let convertingBalance = new BigNumber(balance)
-      let newbalance = convertingBalance.minus(price)
+    async _checkBalance(){
+      let price = new BigNumber(1000)
+      let balance = new BigNumber(this.state.balance)
+      let newbalance = balance.minus(price)
 
       console.log('do you have enough?', newbalance.isPositive())
 
@@ -131,15 +133,13 @@ class NewAssetConfirm extends Component {
     _onPressSubmit() {
         let hercId = this.props.hercId;
         const { navigate } = this.props.navigation;
-        let balance = this.props.wallet.getBalance({ currencyCode: "HERC" })
-        this.setState({ balance: balance.toString() }, () => { console.log(this.state.balance, 'chance herc balance')})
 
         Alert.alert(
           'Payment Amount: 1000 HERC',
-          'Current Balance: \n'+ balance.toString()+ ' HERC \n Do You Authorize This Transaction?' ,
+          'Current Balance: \n'+ this.state.balance+ ' HERC \n Do You Authorize This Transaction?' ,
           [
             {text: 'No', onPress: () => console.log('No Pressed'), style: 'cancel'},
-            {text: 'Yes', onPress: () => {this._checkBalance(balance)} },
+            {text: 'Yes', onPress: () => {this._checkBalance()} },
           ],
           { cancelable: false }
         )

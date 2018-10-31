@@ -22,9 +22,8 @@ componentDidMount() {
   let convertingPrice = new BigNumber(1000)
   let price = convertingPrice.times(1e18)
   let balance = new BigNumber("9980000000000000000")
-  let newbalance = balance.minus(price)
-  console.log(newbalance.toString(), 'whats left')
-  console.log('do you have enough? if true, its negative', newbalance.isNegative())
+  console.log("balance: ", balance.times(1e-18).toFixed(18))
+  console.log("1balance: ", balance.precision(18).shiftedBy(-18).toString())
 }
 
   _onPinPress(){

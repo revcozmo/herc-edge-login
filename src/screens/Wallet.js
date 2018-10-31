@@ -34,7 +34,8 @@ class Wallet extends React.Component {
 
   componentDidMount = () => {
     this.setState({ ethereumAddress: this.props.ethereumAddress })
-    this.setState({ balance: this.props.wallet.getBalance(this.props.currencyCode) });
+    let balance = new BigNumber(this.props.wallet.getBalance({currencyCode: "HERC"}))
+    this.setState({ balance: balance.times(1e-18).toFixed(18)} );
     console.log(this.props, 'props');
 
     let options = { currencyCode: 'TRX' };
@@ -130,7 +131,7 @@ async _makeCustomHercWallet(){
       })
       : this.setState({
         currentDenom: 'wei',
-        balance: this.props.wallet.getBalance(this.props.currencyCode)
+        balance: this.props.wallet.getBalance({currencyCode: 'HERC'})
       });
   }
 
