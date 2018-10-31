@@ -154,7 +154,7 @@ class NewAssetConfirm extends Component {
           { cancelable: true }
         )
       } else {
-        debugger;
+        this._changeModalVisibility(true);
         const abcSpendInfo = {
           networkFeeOption: 'standard',
           currencyCode: 'HERC',
@@ -181,8 +181,7 @@ class NewAssetConfirm extends Component {
     }
 
     _onPressSubmit() {
-        this._changeModalVisibility(true);
-        
+
         Alert.alert(
           'Payment Amount: 1000 HERC',
           'Current Balance: \n'+ this.state.balance+ ' HERC \n Do You Authorize This Transaction?' ,
