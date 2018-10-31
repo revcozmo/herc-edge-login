@@ -170,7 +170,8 @@ class NewAssetConfirm extends Component {
           ]
         }
         // catch error for "ErrorInsufficientFunds"
-        let abcTransaction = await this.props.wallet.makeSpend(abcSpendInfo)
+        let wallet = this.props.wallet
+        let abcTransaction = await wallet.makeSpend(abcSpendInfo)
         await wallet.signTx(abcTransaction)
         await wallet.broadcastTx(abcTransaction)
         await wallet.saveTx(abcTransaction)

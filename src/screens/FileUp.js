@@ -57,23 +57,21 @@ class FileUp extends Component {
 
     return {
       headerTitle:
-        <View style={headerStyles.header__container}>
+      <View style={headerStyles.header__container}>
+        <TouchableHighlight style={{ justifyContent: "center" }} onPress={() => navigation.navigate("MenuOptions")}>
           <View style={headerStyles.header__container__centeredBox}>
             <View style={headerStyles.header__image__box}>
-              <TouchableHighlight style={{justifyContent: "center"}} onPress={() => navigation.navigate("MenuOptions")}>
-                <View>
-                  <Image
-                    style={headerStyles.assetHeaderLogo}
-                    source={{ uri: params.logo }}
-                  />
-                  <View style={headerStyles.header__text__box}>
-                    <Text style={headerStyles.headerText}>{params.name}</Text>
-                  </View>
-                </View>
-            </TouchableHighlight>
+              <Image
+                style={headerStyles.assetHeaderLogo}
+                source={{ uri: params.logo }}
+              />
+            </View>
+            <View style={headerStyles.header__text__box}>
+              <Text style={headerStyles.headerText}>{params.name}</Text>
             </View>
           </View>
-        </View>,
+        </TouchableHighlight>
+      </View>,
 
       headerTitleStyle: {
         textAlign: 'center',

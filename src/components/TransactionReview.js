@@ -34,23 +34,23 @@ class TransRev extends Component {
         this.setState({ balance: balance.times(1e-18).toFixed(18) }, () => { console.log(this.state.balance, 'chance herc balance')})
     }
 
-  _onPressSubmit(price){
+  _onPressSubmit(){
     Alert.alert(
-      'Payment Amount:'+ price.toString() +'HERC',
-      'Current Balance:', this.state.balance, 'HERC \n Do you authorize this payment?' ,
+      'Payment Amount: '+ this._getPrices().toString() +' HERC',
+      'Current Balance: '+ this.state.balance+ ' HERC \n Do you authorize this payment?' ,
       [
         {text: 'No', onPress: () => console.log('No Pressed'), style: 'cancel'},
-        {text: 'Yes', onPress: () => this._checkBalance(price)},
+        {text: 'Yes', onPress: () => this._checkBalance() },
       ],
       { cancelable: false }
     )
   }
 
-  async _checkBalance(price){
+  async _checkBalance(){
     if (!this.state.balance) {return}
 
-    let convertingPrice = new BigNumber(price) // don't have to times 1e18 because its already hercs
-
+    let convertingPrice = new BigNumber(this._getPrices()) // don't have to times 1e18 because its already hercs
+    console.log(convertingPrice.toString(), 'chance checkig that this is te correct string')
     let balance = new BigNumber(this.state.balance)
     let newbalance = balance.minus(convertingPrice)
 
@@ -60,7 +60,7 @@ class TransRev extends Component {
     if (newbalance.isNegative()){
       Alert.alert(
         'Insufficient Funds',
-        'Balance:', this.state.balance, 'HERC' ,
+        'Balance: '+ this.state.balance+ ' HERC' ,
         [
           {text: 'Top Up Hercs', onPress: () => Linking.openURL("https://purchase.herc.one/"), style: 'cancel'},
           {text: 'Ok', onPress: () => console.log('OK Pressed')},
@@ -68,7 +68,7 @@ class TransRev extends Component {
         { cancelable: true }
       )
     } else {
-      debugger;
+      this.setState({ modalVisible: true })
       const abcSpendInfo = {
         networkFeeOption: 'standard',
         currencyCode: 'HERC',
@@ -79,20 +79,22 @@ class TransRev extends Component {
         spendTargets: [
           {
             publicAddress: TOKEN_ADDRESS,
-            nativeAmount: price
+            nativeAmount: convertingPrice.toString()
           }
         ]
       }
       // catch error for "ErrorInsufficientFunds"
-      let abcTransaction = await this.props.wallet.makeSpend(abcSpendInfo)
+      let wallet = this.props.wallet
+      let abcTransaction = await wallet.makeSpend(abcSpendInfo)
       await wallet.signTx(abcTransaction)
       await wallet.broadcastTx(abcTransaction)
       await wallet.saveTx(abcTransaction)
 
       console.log("Sent transaction with ID = " + abcTransaction.txid)
-      this.setState({ transactionId: abcTransaction.id }, this._sendTrans(price))
+      this.setState({ transactionId: abcTransaction.id }, this._sendTrans())
     }
   }
+
   _changeModalVisibility = (visible) => {
       this.setState({
           modalVisible: visible
@@ -100,12 +102,7 @@ class TransRev extends Component {
   }
 
   _sendTrans() {
-      const { navigate } = this.props.navigate;
-      this.props.sendTrans(this._getPrices());
-//TODO: check sendTrans (price)
-      this.setState({
-          modalVisible: true
-      })
+    this.props.sendTrans(this._getPrices())
     }
 
 
@@ -424,7 +421,8 @@ const localStyles = StyleSheet.create({
 const mapStateToProps = (state) => ({
     transInfo: state.AssetReducers.trans.header,
     transDat: state.AssetReducers.trans.data,
-    transDataFlags: state.AssetReducers.transDataFlags
+    transDataFlags: state.AssetReducers.transDataFlags,
+    wallet: state.WalletActReducers.wallet
     // price: state.dataReducer.prices.list.pricePerHercForFCT
 })
 

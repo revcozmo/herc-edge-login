@@ -331,7 +331,6 @@ export function sendTrans(transPrice) {
       price: transPrice
     }); //tXlocation, hercId, price, name
 
-    debugger
     let data = transObject.data; //documents, images, properties, dTime
     let keys = Object.keys(data) //[ 'dTime', 'documents', 'images', 'properties' ]
     console.log(keys, "chance keys")
