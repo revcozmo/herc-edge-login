@@ -53,9 +53,9 @@ class Login extends Component {
       currencyCode: 'HERC',
       multiplier: '1000000000000000000'
     };
-    let customTokens = { // TODO: update this to HERC in prod
-      tokens: [ "HERC", "Hercules" ]
-    }
+    let customHercTokens = { // TODO: update this to HERC in prod
+      tokens: [ "HERC", "HERCULES" ]
+    };
     if (!this.state.account) {
       this.setState({account})
       // TODO: check if they have hercs in account
@@ -65,9 +65,7 @@ class Login extends Component {
         .then( response => {
           let token = response.data
           this.props.authToken(token)
-          firebase.auth().signInWithCustomToken(token)
-            .then( user_login => { console.log(user_login, "firebase userlogin") })
-            .catch( error => { console.log(error) })
+          firebase.auth().signInWithCustomToken(token).catch( error => { console.log(error) })
           axios.defaults.headers.common = {
             'Authorization': token,
             'Content-Type': 'application/x-www-form-urlencoded'
@@ -97,7 +95,7 @@ class Login extends Component {
             this.props.getEthAddress(wallet.keys.ethereumAddress)
             this.props.getWallet(wallet)
             wallet.addCustomToken(tokenHerc)
-            wallet.enableTokens(customTokens)
+            wallet.enableTokens(customHercTokens).catch(err => {console.log(err, "chance enable token err")})
             this.setState({wallet})
             return wallet
           })
@@ -110,7 +108,7 @@ class Login extends Component {
           this.props.getEthAddress(wallet.keys.ethereumAddress)
           this.props.getWallet(wallet)
           wallet.addCustomToken(tokenHerc)
-          wallet.enableTokens(customTokens)
+          wallet.enableTokens(customHercTokens).catch(err => {console.log(err, "chance enable token err")})
           this.setState({ wallet })
           this.setState({walletId: wallet.id})
         })
@@ -154,8 +152,6 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => ({
     edge_account: state.AssetReducers.edge_account,
-    ethereumAddress: state.AssetReducers.getEthAddress,
-    wallet: state.AssetReducers.wallet
 });
 
 const mapDispatchToProps = (dispatch) => ({

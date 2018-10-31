@@ -8,6 +8,8 @@ import hercPillar from "../assets/hercLogoPillar.png";
 // import Loader from "../components/Loader"
 import { incHercId, confirmAssetStarted, confirmAssetComplete, settingHeader, settingHeaderError } from "../actions/AssetActions"
 import modalStyle from "../assets/confModalStyles";
+import { TOKEN_ADDRESS } from "../components/settings"
+import BigNumber from 'bignumber.js';
 import firebase from "../constants/Firebase";
 
 class NewAssetConfirm extends Component {
@@ -17,6 +19,8 @@ class NewAssetConfirm extends Component {
             modalVisible: false,
             loading: false,
             confirmComplete: false,
+            balance: '',
+            transactionId: null
         }
     }
 
@@ -39,6 +43,8 @@ class NewAssetConfirm extends Component {
 
     componentDidMount() {
         this._getOrgName(this.props.edgeAccount)
+        let balance = new BigNumber(this.props.wallet.getBalance({ currencyCode: "HERC" }))
+        this.setState({ balance: balance.times(1e-18).toFixed(18) }, () => { console.log(this.state.balance, 'chance herc balance')})
         this.setState({
             hercId: this.props.hercId
         })
@@ -121,36 +127,71 @@ class NewAssetConfirm extends Component {
         this.props.incHercId(this.props.hercId);
         // navigate('ConfirmConf');
     }
+    _sendNewAsset(){
+      if (this.props.newAsset.Logo) {
+          this.uploadImageAsync(this.props.newAsset.Logo.uri)
+      } else {
+          this.props.confirmAsset(this.props.newAsset);
+          navigate('MenuOptions');
+      }
+    }
+
+    async _checkBalance(){
+      let price = new BigNumber(1000)
+      let balance = new BigNumber(this.state.balance)
+      let newbalance = balance.minus(price)
+
+      console.log('do you have enough?', newbalance.isPositive())
+
+      if (newbalance.isNegative()){
+        Alert.alert(
+          'Insufficient Funds',
+          'Current Balance:'+ this.state.balance + ' HERC' ,
+          [
+            {text: 'Top Up Hercs', onPress: () => Linking.openURL("https://purchase.herc.one/"), style: 'cancel'},
+            {text: 'Ok', onPress: () => console.log('OK Pressed')},
+          ],
+          { cancelable: true }
+        )
+      } else {
+        debugger;
+        const abcSpendInfo = {
+          networkFeeOption: 'standard',
+          currencyCode: 'HERC',
+          metadata: {
+            name: 'Transfer From Herc Wallet',
+            category: 'Transfer:Wallet:College Fund'
+          },
+          spendTargets: [
+            {
+              publicAddress: TOKEN_ADDRESS,
+              nativeAmount: price
+            }
+          ]
+        }
+        // catch error for "ErrorInsufficientFunds"
+        let abcTransaction = await this.props.wallet.makeSpend(abcSpendInfo)
+        await wallet.signTx(abcTransaction)
+        await wallet.broadcastTx(abcTransaction)
+        await wallet.saveTx(abcTransaction)
+
+        console.log("Sent transaction with ID = " + abcTransaction.txid)
+        this.setState({ transactionId: abcTransaction.id }, this._sendNewAsset())
+      }
+    }
 
     _onPressSubmit() {
         this._changeModalVisibility(true);
-        const { navigate } = this.props.navigation;
-        let newAsset = this.props.newAsset;
-        let hercId = this.state.hercId;
-        let edgeAccount = this.props.edgeAccount;
-        let fbAssetHdr, ipfsAsset;
-
-        if (this.props.newAsset.Logo) {
-            this.uploadImageAsync(this.props.newAsset.Logo.uri)
-        } else {
-            fbAssetHdr = {
-                Name: newAsset.Name,
-                hercId: this.props.hercId,
-                registeredUnder: this.state.orgName
-
-            }
-            ipfsAsset = Object.assign({}, {
-                Name: newAsset.Name,
-                url: newAsset.Url || "no url",
-                CoreProps: newAsset.CoreProps,
-                hercId: hercId,
-                registeredUnder: this.state.orgName
-            });
-            this.props.settingHeader(fbAssetHdr);
-            this.props.confirmAssetStarted(ipfsAsset);
-            this.props.incHercId(this.props.hercId)
-            // navigate('ConfirmConf');
-        }
+        
+        Alert.alert(
+          'Payment Amount: 1000 HERC',
+          'Current Balance: \n'+ this.state.balance+ ' HERC \n Do You Authorize This Transaction?' ,
+          [
+            {text: 'No', onPress: () => console.log('No Pressed'), style: 'cancel'},
+            {text: 'Yes', onPress: () => {this._checkBalance()} },
+          ],
+          { cancelable: false }
+        )
     }
 
 
@@ -272,6 +313,7 @@ const mapStateToProps = (state) => ({
     newAsset: state.AssetReducers.newAsset,
     hercId: state.AssetReducers.hercId,
     edgeAccount: state.WalletActReducers.edge_account,
+    wallet: state.WalletActReducers.wallet,
     dataFlags: state.AssetReducers.dataFlags
 });
 

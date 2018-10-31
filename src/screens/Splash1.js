@@ -116,6 +116,7 @@ class Splash1 extends Component {
     return list;
   }
 
+
   _onPress = asset => {
     const { navigate } = this.props.navigation;
     this.props.selectAsset(asset);

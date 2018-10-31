@@ -46,8 +46,6 @@ import QRCapture2 from "../screens/QRCapture2";
 import styles from "../assets/styles";
 import DrawerIcon from "../assets/icons/drawerIcon.png";
 
-
-
 let headerStyles = StyleSheet.create({
     header__container: {
         display: "flex",

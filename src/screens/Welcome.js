@@ -2,8 +2,8 @@ import React, {Component} from 'react';
 import { StyleSheet, Button, Text, TextInput, ActivityIndicator, Modal, View, Image, TouchableHighlight, Alert } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 // import welcome from "../assets/welcome.png";
-// import Button from 'react-native-button';
-import modalStyle from "../assets/confModalStyles";
+import Button from 'react-native-button';
+import BigNumber from 'bignumber.js';
 
 export default class Welcome extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -18,12 +18,26 @@ export default class Welcome extends Component {
     }
   }
 
+componentDidMount() {
+  let convertingPrice = new BigNumber(1000)
+  let price = convertingPrice.times(1e18)
+  let balance = new BigNumber("9980000000000000000")
+  console.log("balance: ", balance.times(1e-18).toFixed(18))
+  console.log("1balance: ", balance.precision(18).shiftedBy(-18).toString())
+}
 
   _onPinPress(){
     const { navigate } = this.props.navigation;
+  //   console.log(this.state.pin);
+  //  if(!this.state.pin === 7362){
+  //    Alert.alert("Wrong Pin!");
+  //  }
      navigate('MenuOptions');
+
   }
   render(){
+    // Alert.alert('Welcome to the HERC Demo!');
+
 
     const { navigate } = this.props.navigation;
     return(
@@ -31,44 +45,17 @@ export default class Welcome extends Component {
 
           <View style={styles.menu}>
 
-          <Modal
-              transparent={false}
-              animationType={'none'}
-              visible={true}
-              onRequestClose={() => { console.log("modal closed") }}
-          >
-              <View style={modalStyle.container}>
-                  <View style={modalStyle.modalBackground}>
-                    <View style={modalStyle.closeButtonContainer}>
-                        <TouchableHighlight
-                          style={modalStyle.closeButton}
-                          onPress={() => this._changeModalVisibility(false)}>
-                        <Text style={{ margin: 5, fontSize: 30, color: '#00000070'} }>X</Text>
-                        </TouchableHighlight>
-                    </View>
-                    <Text style={modalStyle.wordsText}>Your Transaction Information Is Being Written To The Blockchain</Text>
-                      <View style={modalStyle.activityIndicatorWrapper}>
-                          <ActivityIndicator
-                              animating={true}
-                              size="large" color="#091141" />
-                      </View>
+            {/* <TextInput onChangeText={(pin) => this.setState({pin})} placeholder="PIN" underlineColorAndroid='transparent' style={styles.input}/>
+         */}
+            {/* <TouchableHighlight style={styles.welcomeBtn} onPress={() => this._onPinPress()}>
+              <Image
+                  style={styles.button}
+                  source={welcome}
+                />
+            </TouchableHighlight>
+          </View> */}
 
-                      <View>
-                          <Text style={modalStyle.wordsText}>Your Transaction Has Completed!</Text>
-
-                            <TouchableHighlight
-                              style={modalStyle.modalButton}
-                              onPress={() => this._goToMenu()}>
-                            <Text style={{ margin: 5} }>Back to Menu</Text>
-                            </TouchableHighlight>
-                      </View>
-
-
-                  </View>
-              </View>
-          </Modal>
-
-            {/* <Button onPress={() => navigate('MenuOptions')} style={{color: 'white', fontSize: 40, height: 50, width: 205, marginTop: 100}}>ENTER</Button> */}
+            <Button onPress={() => navigate('MenuOptions')} style={{color: 'white', fontSize: 40, height: 50, width: 205, marginTop: 100}}>ENTER</Button>
         </View>
       </View>
 
