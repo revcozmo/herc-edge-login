@@ -154,7 +154,7 @@ class NewAssetConfirm extends Component {
           { cancelable: true }
         )
       } else {
-        debugger;
+        this._changeModalVisibility(true);
         const abcSpendInfo = {
           networkFeeOption: 'standard',
           currencyCode: 'HERC',
@@ -170,7 +170,8 @@ class NewAssetConfirm extends Component {
           ]
         }
         // catch error for "ErrorInsufficientFunds"
-        let abcTransaction = await this.props.wallet.makeSpend(abcSpendInfo)
+        let wallet = this.props.wallet
+        let abcTransaction = await wallet.makeSpend(abcSpendInfo)
         await wallet.signTx(abcTransaction)
         await wallet.broadcastTx(abcTransaction)
         await wallet.saveTx(abcTransaction)
@@ -181,8 +182,7 @@ class NewAssetConfirm extends Component {
     }
 
     _onPressSubmit() {
-        this._changeModalVisibility(true);
-        
+
         Alert.alert(
           'Payment Amount: 1000 HERC',
           'Current Balance: \n'+ this.state.balance+ ' HERC \n Do You Authorize This Transaction?' ,
