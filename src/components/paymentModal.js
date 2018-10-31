@@ -2,11 +2,10 @@ import React, { Component } from 'react';
 import {
   StyleSheet,
   View,
-  Modal,
-  ActivityIndicator
+  Modal
 } from 'react-native';
 
-const Loader = props => {
+const PaymentModal = props => {
   const {
     loading,
     ...attributes
@@ -48,4 +47,18 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Loader;
+const mapStateToProps = (state) => ({
+    account: state.WalletActReducers.account,
+    ethereumAddress: state.WalletActReducers.ethereumAddress,
+    wallet: state.WalletActReducers.wallet
+});
+
+const mapDispatchToProps = (dispatch) => ({
+    getEthAddress: (ethereumAddress) =>
+      dispatch(getEthAddress(ethereumAddress)),
+    getWallet: (wallet) =>
+      dispatch(getWallet(wallet)),
+    getAccount: (account) =>
+      dispatch(getAccount(account))
+})
+export default connect(mapStateToProps, mapDispatchToProps)(PaymentModal);

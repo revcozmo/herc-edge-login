@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, TextInput, View, Image, TouchableHighlight, Alert, ScrollView, YellowBox } from 'react-native';
+import { StyleSheet, Text, TextInput, View, Image, Linking, TouchableHighlight, Alert, ScrollView, YellowBox } from 'react-native';
 import { connect } from 'react-redux';
 import { StackNavigator } from 'react-navigation';
 import styles from '../assets/styles';
@@ -8,6 +8,8 @@ import { sendTrans } from "../actions/AssetActions";
 import fee from "../assets/hercLogoPillar.png";
 import newOriginator from "./buttons/originatorButton.png";
 import newRecipient from "./buttons/recipientButton.png";
+import { TOKEN_ADDRESS } from "../components/settings"
+import BigNumber from 'bignumber.js';
 YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTImageLoader', 'Setting a timer for a long period of time']);
 
 //TODO: Fix the image review and create the price reducers with Julie.
@@ -16,17 +18,82 @@ class TransRev extends Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+          balance: null,
+          transactionId: null,
+        }
     }
     componentDidMount = () => {
         // this.getPricesFromApi();
         // TODO: this API needs to be updated
+        let balance = new BigNumber(this.props.wallet.getBalance({ currencyCode: "HERC" }))
+        this.setState({ balance: balance.times(1e-18).toFixed(18) }, () => { console.log(this.state.balance, 'chance herc balance')})
     }
+
+  _onPressSubmit(price){
+    Alert.alert(
+      'Payment Amount:'+ price.toString() +'HERC',
+      'Current Balance:', this.state.balance, 'HERC \n Do you authorize this payment?' ,
+      [
+        {text: 'No', onPress: () => console.log('No Pressed'), style: 'cancel'},
+        {text: 'Yes', onPress: () => this._checkBalance(price)},
+      ],
+      { cancelable: false }
+    )
+  }
+
+  async _checkBalance(price){
+    if (!this.state.balance) {return}
+
+    let convertingPrice = new BigNumber(price) // don't have to times 1e18 because its already hercs
+
+    let balance = new BigNumber(this.state.balance)
+    let newbalance = balance.minus(convertingPrice)
+
+    console.log('do you have enough?', newbalance.isPositive())
+
+
+    if (newbalance.isNegative()){
+      Alert.alert(
+        'Insufficient Funds',
+        'Balance:', this.state.balance, 'HERC' ,
+        [
+          {text: 'Top Up Hercs', onPress: () => Linking.openURL("https://purchase.herc.one/"), style: 'cancel'},
+          {text: 'Ok', onPress: () => console.log('OK Pressed')},
+        ],
+        { cancelable: true }
+      )
+    } else {
+      debugger;
+      const abcSpendInfo = {
+        networkFeeOption: 'standard',
+        currencyCode: 'HERC',
+        metadata: {
+          name: 'Transfer From Herc Wallet',
+          category: 'Transfer:Wallet:College Fund'
+        },
+        spendTargets: [
+          {
+            publicAddress: TOKEN_ADDRESS,
+            nativeAmount: price
+          }
+        ]
+      }
+      // catch error for "ErrorInsufficientFunds"
+      let abcTransaction = await this.props.wallet.makeSpend(abcSpendInfo)
+      await wallet.signTx(abcTransaction)
+      await wallet.broadcastTx(abcTransaction)
+      await wallet.saveTx(abcTransaction)
+
+      console.log("Sent transaction with ID = " + abcTransaction.txid)
+      this.setState({ transactionId: abcTransaction.id }, this._sendTrans(price))
+    }
+  }
 
     _sendTrans(price) {
         const { navigate } = this.props.navigate;
         this.props.sendTrans(price);
         this.props.navigate('MenuOptions');
-
     }
     _getPrices = () => {
 
@@ -152,7 +219,7 @@ class TransRev extends Component {
 
                 {this._hasList(transDat)}
 
-                <TouchableHighlight style={{ margin: 10 }} onPress={() => this._sendTrans(transPrice)}>
+                <TouchableHighlight style={{ margin: 10 }} onPress={() => this._onPressSubmit(transPrice)}>
                     <Image source={submit} style={localStyles.submitButton} />
                 </TouchableHighlight>
                 <View style={localStyles.feeContainer}>
@@ -291,6 +358,7 @@ const localStyles = StyleSheet.create({
 const mapStateToProps = (state) => ({
     transInfo: state.AssetReducers.trans.header,
     transDat: state.AssetReducers.trans.data,
+    wallet: state.WalletActReducers.wallet
     // price: state.dataReducer.prices.list[0].pricePerHercForFCT
 })
 const mapDispatchToProps = (dispatch) => ({

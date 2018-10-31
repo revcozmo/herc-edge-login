@@ -34,7 +34,8 @@ class Wallet extends React.Component {
 
   componentDidMount = () => {
     this.setState({ ethereumAddress: this.props.ethereumAddress })
-    this.setState({ balance: this.props.wallet.getBalance(this.props.currencyCode) });
+    let balance = new BigNumber(this.props.wallet.getBalance({currencyCode: "HERC"}))
+    this.setState({ balance: balance.times(1e-18).toFixed(18)} );
     console.log(this.props, 'props');
 
     let options = { currencyCode: 'TRX' };
@@ -74,6 +75,7 @@ async _makeCustomHercWallet(){
     if (!destAddress) Alert.alert("Missing Destination Address");
     if (!sendAmountInEth) Alert.alert("Invalid Send Amount");
     let sendAmountInWei = sendAmountInEth.times(1e18).toString()
+
     const abcSpendInfo = {
       networkFeeOption: 'standard',
       currencyCode: 'HERC',
@@ -93,6 +95,7 @@ async _makeCustomHercWallet(){
     await wallet.signTx(abcTransaction)
     await wallet.broadcastTx(abcTransaction)
     await wallet.saveTx(abcTransaction)
+    // TODO: after successful transaction, reset state.
 
     console.log("Sent transaction with ID = " + abcTransaction.txid)
     Alert.alert(
@@ -128,7 +131,7 @@ async _makeCustomHercWallet(){
       })
       : this.setState({
         currentDenom: 'wei',
-        balance: this.props.wallet.getBalance(this.props.currencyCode)
+        balance: this.props.wallet.getBalance({currencyCode: 'HERC'})
       });
   }
 
