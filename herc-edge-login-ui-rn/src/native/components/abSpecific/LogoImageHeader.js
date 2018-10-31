@@ -1,7 +1,8 @@
 // @flow
 
 import React, { Component } from 'react'
-import { Image, View } from 'react-native'
+import { Image, View, StyleSheet } from 'react-native'
+import hercLogo from './hercLogoBreak.png'
 
 import * as Assets from '../../assets/'
 
@@ -18,10 +19,17 @@ class LogoImageHeader extends Component<Props> {
     }
     return (
       <View style={this.props.style.container}>
-        <Image source={src} style={this.props.style.image} />
+        <Image source={hercLogo} style={localStyles.logo} />
       </View>
     )
   }
 }
+
+const localStyles = StyleSheet.create({
+  logo: {
+    resizeMode: "contain",
+    width: "50%"
+  }
+})
 
 export { LogoImageHeader }
