@@ -9,6 +9,7 @@ import fee from "../assets/hercLogoPillar.png";
 import newOriginator from "./buttons/originatorButton.png";
 import newRecipient from "./buttons/recipientButton.png";
 import { TOKEN_ADDRESS } from "../components/settings"
+import BigNumber from 'bignumber.js';
 YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTImageLoader', 'Setting a timer for a long period of time']);
 
 //TODO: Fix the image review and create the price reducers with Julie.
@@ -32,7 +33,7 @@ class TransRev extends Component {
   _onPressSubmit(price){
     Alert.alert(
       'Payment Amount:'+ price.toString() +'HERC',
-      'Balance:', this.state.balance.toString(), 'HERC' ,
+      'Current Balance:', this.state.balance.toString(), 'HERC \n Do you authorize this payment?' ,
       [
         {text: 'No', onPress: () => console.log('No Pressed'), style: 'cancel'},
         {text: 'Yes', onPress: () => this._checkBalance(price)},
@@ -43,7 +44,16 @@ class TransRev extends Component {
 
   async _checkBalance(price){
     if (!this.state.balance) {return}
-    if (balance - price < 0){ // TODO: use big numbers to make these numbers safe
+
+    let convertingPrice = new BigNumber(price) // don't have to times 1e18 because its already hercs
+
+    let convertingBalance = new BigNumber(this.state.balance)
+    let newbalance = convertingBalance.minus(convertingPrice)
+
+    console.log('do you have enough?', newbalance.isPositive())
+
+
+    if (newbalance.isNegative()){
       Alert.alert(
         'Insufficient Funds',
         'Balance:', this.state.balance, 'HERC' ,
@@ -51,10 +61,10 @@ class TransRev extends Component {
           {text: 'Top Up Hercs', onPress: () => Linking.openURL("https://purchase.herc.one/"), style: 'cancel'},
           {text: 'Ok', onPress: () => console.log('OK Pressed')},
         ],
-        { cancelable: false }
+        { cancelable: true }
       )
     } else {
-      console.log(TOKEN_ADDRESS, 'chance sees token_address')
+      debugger;
       const abcSpendInfo = {
         networkFeeOption: 'standard',
         currencyCode: 'HERC',

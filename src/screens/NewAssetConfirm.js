@@ -83,12 +83,15 @@ class NewAssetConfirm extends Component {
     }
 
     async _checkBalance(balance){
-      // balance is an string
-      let price = new BigNumber(1000)
-      price.times(1e-18).toString()
-      console.log(parseInt(balance) - price, "chance how much you have left") // TODO: convert to bigNumber
+      let convertingPrice = new BigNumber(1000)
+      let price = convertingPrice.times(1e18)
 
-      if (balance - 1000 < 0){
+      let convertingBalance = new BigNumber(balance)
+      let newbalance = convertingBalance.minus(price)
+
+      console.log('do you have enough?', newbalance.isPositive())
+
+      if (newbalance.isNegative()){
         Alert.alert(
           'Insufficient Funds',
           'Current Balance:'+ this.state.balance + ' HERC' ,
@@ -110,7 +113,7 @@ class NewAssetConfirm extends Component {
           spendTargets: [
             {
               publicAddress: TOKEN_ADDRESS,
-              nativeAmount: "1000" // TODO: convert to bigNumber
+              nativeAmount: price
             }
           ]
         }
