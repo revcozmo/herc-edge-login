@@ -19,6 +19,7 @@ HERC is:
 - Functional to specific params
 - React Native based with web3 functionality for audit
 - Helping Eradicate Rackateering and Colussion by providing transparency, data integrity, and chain of custody throughout a supplychain
+- Found on Mainnet at : 0x6251583e7d997df3604bc73b9779196e94a090ce
 ------------
 
 
@@ -125,3 +126,17 @@ https://github.com/jhen0409/react-native-debugger/releases
 
 ## Missing License Errors
 APK files require license agreements. If you get an error telling you to accept their agreements first, in your terminal run "$ANDROID_HOME/tools/bin/sdkmanager --licenses". You must accept all their agreements. You will now see your license files under ~/Library/Android/sdk/licenses.
+
+### Contributing	
+
+HERC protocol is an open source and community based project to which the core development team highly encourages fellow developers to build improvements and scale the future of the platform.  
+To report bugs within the HERC smart contracts or unit tests, please create an issue in this repository. 
+
+## HIPS
+Parlimentary or Significant changes to HERC protocol's smart contracts, architecture, message format or functionality should be proposed in the 
+[HERC Improvement Proposals (HIPS)](https://github.com/hercone/hips) repository. Follow the contribution guidelines provided therein :) 
+
+### Coding Conventions
+As we have found from other projects such as 0x and other Ethereum based platforms we use a custom set of [TSLint](https://palantir.github.io/tslint/) rules to enforce our coding conventions. 
+
+In order to see style violation erros, install a tsliner for your text editor. e.g Atom's [atom-typescript](https://atom.io/packages/atom-typescript)
