@@ -78,7 +78,7 @@ module.exports = StyleSheet.create({
     height: 40,
     margin: 10,
     resizeMode: "contain",
-    borderRadius: 2,
+    // borderRadius: 2,
   },
   menuItemField: {
     display: "flex",
