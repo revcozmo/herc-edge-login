@@ -81,7 +81,7 @@ class MenuOptions extends Component {
                     </TouchableHighlight> */}
 
                     <Text style={{ color: "#f3c736", alignSelf: "flex-end", fontSize: 8 }}>
-                        V.0.2.9
+                        V.0.9.1
                     </Text>
                 </View>
             </View>
