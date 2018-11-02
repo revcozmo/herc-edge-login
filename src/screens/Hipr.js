@@ -32,7 +32,7 @@ export default class Hipr extends Component {
   render() {
     return (
       <WebView
-        source={{ uri: 'https://hipr.one/validate.html' }}
+        source={{ uri: 'https://hipr.one/index.html' }}
         style={{ margin: 0, padding: 0, flex: 1, width: '100%' }}
       />
     );
