@@ -60,7 +60,7 @@ export default class TxSwiper extends Component {
           <Text style={styles.text}>Factom Chain:{factomChain}</Text>
           <Text style={styles.text}>Factom Entry:{factomEntry}</Text>
 
-          <TouchableHighlight style={{ justifyContent: "center" }} onPress={() => this._goToWebView({factomChain:factomChain, factomEntry:factomEntry}) }>
+          <TouchableHighlight style={{ width: 300, justifyContent: "center", height: 50, paddingBottom:10, paddingTop:10, marginTop:10, marginBottom:10}} onPress={() => this._goToWebView({factomChain:factomChain, factomEntry:factomEntry}) }>
             <Text style={{fontSize:20, backgroundColor: 'white', textAlign: 'center'}}>View Factom Entry</Text>
           </TouchableHighlight>
 
