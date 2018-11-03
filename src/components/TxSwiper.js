@@ -1,16 +1,18 @@
 import React, { Component } from 'react';
 import Swiper from 'react-native-deck-swiper';
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { Image, StyleSheet, TouchableHighlight, Text, View } from 'react-native';
 import Button from 'react-native-button';
 import originator from "./buttons/originatorButton.png";
 import recipient from "./buttons/recipientButton.png";
+import { WebViewComponent } from "../components/WebViewComponent"
+import { StackNavigator } from 'react-navigation';
 
-// import styles from '../assets/styles';
 export default class TxSwiper extends Component {
   constructor(props) {
     super(props)
     this.state = {
       cards: this.props.cards,
+      hashes: this.props.hashes,
       swipedAllCards: false,
       swipeDirection: '',
       isSwipingBack: false,
@@ -18,22 +20,28 @@ export default class TxSwiper extends Component {
     }
   }
 
-
-
+  _goToWebView = data => {
+    this.props.navigation.navigate("WebViewComponent", {data: data});
+  }
 
   renderCard = card => {
-    let factomEntry
+    console.log(card,'chance cards')
+    console.log(hashes, 'chance hashes')
+    let hashes = this.state.hashes
+    let factomChain = hashes.chainId;
+    let corePropsHash = hashes.ipfsHash;
+    let factomEntry = card.header.factomEntry
     let data = card.data;
     let header = card.header;
-    let locationImage = header.tXLocation === 'recipient' ? recipient : originator;
-    let price = card.header.price;
-    let metricsHash, ediT, documentHash, imageHash;
+    let metricsHash, ediTHash, documentHash, imageHash;
 
+    if(data.hasOwnProperty('ediT')) {
+      ediTHash = data.ediT;
+    }
 
-    // if(data.hasOwnProperty('documents')) {
-    // docNum = data.documents.length
-    // docHash = <Text style={styles.text}>Document IPFS Hash:{data.documents}</Text>;
-    // }    
+    if(data.hasOwnProperty('documents')) {
+      documentHash = data.documents;
+    }
 
     if (data.hasOwnProperty('images')) {
       imageHash = data.images;
@@ -45,20 +53,24 @@ export default class TxSwiper extends Component {
 
     return (
       <View key={card.key} style={styles.card}>
-        {/* <Image style={styles.assetLocationLabel} source={locationImage} /> */}
-        {/* <Text style={styles.revPropVal}>{this.props.hercId}</Text> */}
-        {/* {dTime} */}
+        <Text style={styles.revPropVal}>{header.hercId}</Text>
+        <Text style={styles.transRevName}>{header.dTime}</Text>
         <Text style={styles.transRevName}>{header.tXLocation}</Text>
-        {imageHash && <Text style={styles.text}>Image StorJ Hash:{imageHash}</Text>}
-        {metricsHash && <Text style={styles.text}>Metrics IPFS Hash: {metricsHash}</Text>}
-        {documentHash && <Text style={styles.text}>Document IPFS Hash:{documentHash}</Text>}
-        <View style={styles.transPropField}>
+        <View style={{margin: 10}}>
+          <Text style={styles.text}>Factom Chain:{factomChain}</Text>
+          <Text style={styles.text}>Factom Entry:{factomEntry}</Text>
+
+          <TouchableHighlight style={{ justifyContent: "center" }} onPress={() => this._goToWebView({factomChain:factomChain, factomEntry:factomEntry}) }>
+            <Text style={{fontSize:20, backgroundColor: 'white', textAlign: 'center'}}>View Factom Entry</Text>
+          </TouchableHighlight>
+
+          {corePropsHash && <Text style={styles.text}>Core Properties:{corePropsHash}</Text>}
+          {imageHash && <Text style={styles.text}>Image StorJ:{imageHash}</Text>}
+          {metricsHash && <Text style={styles.text}>Metrics IPFS: {metricsHash}</Text>}
+          {documentHash && <Text style={styles.text}>Document IPFS:{documentHash}</Text>}
+          {ediTHash && <Text style={styles.text}>EDI-T IPFS:{ediTHash}</Text>}
+          <Text style={styles.text}>Price: {header.price}</Text>
         </View>
-        {/* {ediT} */}
-        {/* {docHash}
-        {imageHash}
-        {metricHash} */}
-        {/* {price} */}
       </View>
     )
   };
@@ -235,9 +247,6 @@ export default class TxSwiper extends Component {
     )
   }
 }
-// const mapStateToProps = (state) => {
-//   cards: Object.values(state.AssetReducers.selectedAsset.transactions)
-// }
 const styles = StyleSheet.create({
   container: {
     // flex: 1,

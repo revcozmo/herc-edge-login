@@ -5,14 +5,12 @@ import backArrow from "../assets/icons/blueBackArrow.png";
 import profilePic from "../assets/icons/darker_profileIcon.png";
 
 
-////// TODO: Status bar height needs to be sorted
 export default class Hipr extends Component {
 
   static navigationOptions = ({ navigation }) => ({
     headerStyle: {
       height: Platform.OS === 'android' ? 80 + 23 : 105,
       backgroundColor: '#091141',
-
     },
     headerTitle: <Image style={{
       height: 150,
@@ -47,7 +45,6 @@ const localStyles = StyleSheet.create({
     paddingLeft: 5,
     flexDirection: 'row'
   },
-
   backArrow: {
     width: 25,
     height: 20

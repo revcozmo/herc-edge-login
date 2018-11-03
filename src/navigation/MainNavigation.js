@@ -38,6 +38,7 @@ import Splash3 from "../screens/Splash3";
 import Tee from "../screens/Tee";
 import TransAssetList from "../screens/TransAssetList";
 import TransSwiper from "../screens/TransSwiper";
+import TxSwiper from "../components/TxSwiper";
 import Wallet from "../screens/Wallet";
 import Settings from "../screens/Settings";
 import roundImage from "../assets/round.png"
@@ -45,6 +46,7 @@ import QRCapture from "../screens/QRCapture";
 import QRCapture2 from "../screens/QRCapture2";
 import styles from "../assets/styles";
 import DrawerIcon from "../assets/icons/drawerIcon.png";
+import WebViewComponent from "../components/WebViewComponent";
 
 let headerStyles = StyleSheet.create({
     header__container: {
@@ -120,6 +122,8 @@ const MainNavigator = StackNavigator({ //this will be "createStackNavigator" aft
     Wallet: { screen: Wallet },
     Settings: { screen: Settings },
     Camera: { screen: Camera },
+    WebViewComponent: { screen: WebViewComponent },
+    TxSwiper: { screen: TxSwiper },
 
 }, {
         initialRouteName: 'Login',

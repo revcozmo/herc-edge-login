@@ -14,8 +14,6 @@ import BigNumber from 'bignumber.js';
 YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTImageLoader', 'Setting a timer for a long period of time']);
 import store from "../store"
 
-//TODO: Fix the image review and create the price reducers with Julie.
-
 class TransRev extends Component {
 
     constructor(props) {
@@ -28,8 +26,6 @@ class TransRev extends Component {
         }
     }
     componentDidMount = () => {
-        // this.getPricesFromApi();
-        // TODO: this API needs to be updated
         let balance = new BigNumber(this.props.wallet.getBalance({ currencyCode: "HERC" }))
         this.setState({ balance: balance.times(1e-18).toFixed(18) }, () => { console.log(this.state.balance, 'chance herc balance')})
     }
