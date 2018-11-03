@@ -324,6 +324,7 @@ export function sendTrans(transPrice) {
 
     let dTime = Date.now()
     let transObject = store.getState().AssetReducers.trans
+    let organizationName = store.getState().WalletActReducers.organizationName
 
     // let transObject = state.AssetReducers.selectedAsset.trans;
     let header = Object.assign({},transObject.header, {
@@ -365,7 +366,7 @@ export function sendTrans(transPrice) {
         // results = [{key: 'properties', hash: 'QmU1D1eAeSLC5Dt4wVRR'}, {key: 'images', hash: 'QmU1D1eAeSLC5Dt4wVRR'}]
         // TODO: add error handling for undefined results
         var hashlist = results.map(result => { return result.data })
-        var factomEntry = { hash: hashlist, chainId: chainId, assetInfo: 'SampleAssetInfo' } // TODO: make assetInfo = organizationName
+        var factomEntry = { hash: hashlist, chainId: chainId, assetInfo: organizationName }
         console.log(factomEntry, "chance factomEntry")
         axios.post(WEB_SERVER_API_FACTOM_ENTRY_ADD, JSON.stringify(factomEntry))
           .then(response => { //response.data = entryHash
