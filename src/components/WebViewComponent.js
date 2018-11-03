@@ -13,14 +13,19 @@ export default class WebViewComponent extends Component {
       }
   }
   componentDidMount(){
-    let data = this.props.navigation.getParam('data')
   }
 
+
   render() {
-    // let url = this.state.url
+    let data = this.props.navigation.getParam('data')
+    console.log(data, 'chance data')
+    let url;
+    if (data.factomChain){
+      url = "https://explorer.factom.com/chains/" + data.factomChain +"/entries/" + data.factomEntry
+    }
     return (
       <WebView
-        source={{ uri: 'https://hipr.one/index.html' }}
+        source={{ uri: url }}
         style={{ margin: 0, padding: 0, flex: 1, width: '100%' }}
       />
     )
