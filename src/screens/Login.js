@@ -45,7 +45,6 @@ class Login extends Component {
   }
 
   onLogin = (error = null, account) => {
-    // debugger
     console.log('ar: OnLogin error', error)
     console.log('ar: OnLogin account', account)
     let tokenHerc = { // TODO: update this to HERC in prod
@@ -54,9 +53,8 @@ class Login extends Component {
       currencyCode: 'HERC',
       multiplier: '1000000000000000000'
     };
-    let customHercTokens = { // TODO: update this to HERC in prod
-      tokens: ["HERC"]
-    };
+    let customHercTokens = ["HERC"];
+
     if (!this.state.account) {
       this.setState({ account })
       // TODO: check if they have hercs in account
@@ -83,40 +81,33 @@ class Login extends Component {
         .catch(err => { console.log(err) })
     }
     if (!this.state.walletId) {
-      let tokens; 
-      debugger;
       // Check if there is a wallet, if not create it
       let walletInfo = account.getFirstWalletInfo('wallet:ethereum')
       if (walletInfo) {
-        this.setState({ walletId: walletInfo.id })
+        this.setState({walletId: walletInfo.id})
         account.waitForCurrencyWallet(walletInfo.id)
           .then(async wallet => {
-            
-            wallet.addCustomToken(tokenHerc)
-            .then(wallet.enableTokens(customHercTokens)
-            .then(
-              
-                wallet.getEnabledTokens()
-                .then(tokensArray => token = tokenArray)
-                .then(console.log(token, 'here in the churn'))
 
-            ))
-            .catch(err => { console.log(err, "chance adding token err") });
-            
-            
-            // console.log(tokens, 'chance enabled tokens') // => ['WINGS', 'REP']
-            
+            wallet.watch('balances', (newBalances) => console.log({newBalances}));
+
+            const tokens = await wallet.getEnabledTokens()
+            console.log(tokens,'chance enabled tokens') // => ['WINGS', 'REP']
+
             this.props.getEthAddress(wallet.keys.ethereumAddress)
             this.props.getWallet(wallet)
-            // await wallet.enableTokens(customHercTokens).catch(err => { console.log(err, "chance enable token err") })
-            await delay(3000);
-            // const tokens = await wallet.getEnabledTokens();
-            console.log(wallet, 'wallet in Login');
-            this.setState({ wallet })
+            debugger;
+            wallet.addCustomToken(tokenHerc)
+            wallet.enableTokens(customHercTokens).catch(err => {console.log(err, "chance enable token err")})
+            console.log({balancesBefore: wallet.balances});
+            await delay(10000);
+            console.log({balancesAfter: wallet.balances});
+            debugger;
+            this.setState({wallet})
             return wallet
           })
+        }
       }
-    } else {
+     else {
       account.createCurrencyWallet('wallet:ethereum', {
         name: 'My First Wallet',
         fiatCurrencyCode: 'iso:USD'

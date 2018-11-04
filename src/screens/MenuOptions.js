@@ -35,12 +35,13 @@ YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTIm
 class MenuOptions extends Component {
 
    async componentDidMount() {
+       debugger;
         // this.props.clearState();
         this.props.getHercId();
         this.props.getAssets(this.props.username);
         this.props.getOrganization();
-        let tokens = await this.props.wallet.getEnabledTokens();
-         console.log(tokens, "in menu options");
+        // let tokens = await this.props.wallet.getEnabledTokens();
+        //  console.log(tokens, "in menu options");
     }
 
     render() {
