@@ -45,6 +45,7 @@ class Login extends Component {
 }
 
   onLogin = (error = null, account) => {
+    debugger
     console.log('ar: OnLogin error', error)
     console.log('ar: OnLogin account', account)
     let tokenHerc = { // TODO: update this to HERC in prod
@@ -88,17 +89,18 @@ class Login extends Component {
         this.setState({walletId: walletInfo.id})
         account.waitForCurrencyWallet(walletInfo.id)
           .then(async wallet => {
-
-            const tokens = await wallet.getEnabledTokens()
+           await wallet.addCustomToken(tokenHerc);
+           await wallet.enableTokens(customHercTokens)
+          }).catch(err => {console.log(err, "chance enable token err")})
+            
+            const tokens = wallet.getEnabledTokens().catch(error => console.log(error))
             console.log(tokens,'chance enabled tokens') // => ['WINGS', 'REP']
 
             this.props.getEthAddress(wallet.keys.ethereumAddress)
             this.props.getWallet(wallet)
-           await wallet.enableTokens(customHercTokens).catch(err => {console.log(err, "chance enable token err")})
-          await  wallet.addCustomToken(tokenHerc)
             this.setState({wallet})
             return wallet
-          })
+          }
       } else {
         account.createCurrencyWallet('wallet:ethereum', {
           name: 'My First Wallet',
@@ -107,14 +109,14 @@ class Login extends Component {
 
           this.props.getEthAddress(wallet.keys.ethereumAddress)
           this.props.getWallet(wallet)
-         await wallet.enableTokens(customHercTokens).catch(err => {console.log(err, "chance enable token err")})
-         await wallet.addCustomToken(tokenHerc)
+          wallet.addCustomToken(tokenHerc)
+          wallet.enableTokens(customHercTokens).catch(err => {console.log(err, "chance enable token err")})
           this.setState({ wallet })
           this.setState({walletId: wallet.id})
         })
       }
     }
-  }
+  
 
   renderLoginApp = () => {
     if (this.state.context && !this.state.account) {
