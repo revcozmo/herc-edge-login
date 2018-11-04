@@ -94,8 +94,8 @@ class Login extends Component {
 
             this.props.getEthAddress(wallet.keys.ethereumAddress)
             this.props.getWallet(wallet)
-            wallet.addCustomToken(tokenHerc)
-            wallet.enableTokens(customHercTokens).catch(err => {console.log(err, "chance enable token err")})
+           await wallet.enableTokens(customHercTokens).catch(err => {console.log(err, "chance enable token err")})
+          await  wallet.addCustomToken(tokenHerc)
             this.setState({wallet})
             return wallet
           })
@@ -107,8 +107,8 @@ class Login extends Component {
 
           this.props.getEthAddress(wallet.keys.ethereumAddress)
           this.props.getWallet(wallet)
-          wallet.addCustomToken(tokenHerc)
-          wallet.enableTokens(customHercTokens).catch(err => {console.log(err, "chance enable token err")})
+         await wallet.enableTokens(customHercTokens).catch(err => {console.log(err, "chance enable token err")})
+         await wallet.addCustomToken(tokenHerc)
           this.setState({ wallet })
           this.setState({walletId: wallet.id})
         })
