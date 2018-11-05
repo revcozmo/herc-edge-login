@@ -91,7 +91,7 @@ export function hercAdded() {
 export function hercEnabled() {
     console.log('HercEnabled');
     return {
-        type: HERC_ADDED,
+        type: HERC_ENABLED,
         hercEnabled: true
     }
 }
