@@ -35,18 +35,23 @@ class Wallet extends React.Component {
     headerTitle: <View style={localStyles.headerBox}><Text style={localStyles.headerText}>Wallets</Text></View>,
   });
 
-  componentDidMount = () => {
-    this.props.wallet.getEnabledTokens().then(
-      response => {
-        this.setState({ 
-        availableTokens: response,
-        displayWallet: response[0],
-      }, () => console.log(this.state)) 
-      }
-    )
+   componentDidMount = async () => {
+    let tokens = await this.props.wallet.getEnabledTokens();
+    let balance = await this.props.wallet.getBalance();
 
-    this.setState({ ethereumAddress: this.props.ethereumAddress })
-    this._updateWallet();
+console.log(tokens, balance, 'didmount in wallet.js')
+
+console.log(this.props.wallet.balances[tokens[0]]);
+console.log(this.props.wallet.balances[tokens[1]]);
+        // this.setState({
+        //   availableTokens: response,
+        //   displayWallet: response[0],
+        // }, () => console.log(this.state))
+    //   }
+    // )
+
+    // this.setState({ ethereumAddress: this.props.ethereumAddress })
+    // this._updateWallet();
   }
 
   _updateWallet = () => {
@@ -311,10 +316,10 @@ class Wallet extends React.Component {
 
 const mapStateToProps = state => ({
   ethereumAddress: state.WalletActReducers.ethereumAddress,
-  currencyCode: state.WalletActReducers.wallet.currencyInfo.currencyCode,
+  // currencyCode: state.WalletActReducers.wallet.currencyInfo.currencyCode,
   availableWallets: state.WalletActReducers.walletTypes,
   wallet: state.WalletActReducers.wallet,
-  balanceInWei: state.WalletActReducers.wallet.balances[state.WalletActReducers.wallet.currencyInfo.currencyCode],
+  // balanceInWei: state.WalletActReducers.wallet.balances[state.WalletActReducers.wallet.currencyInfo.currencyCode],
   account: state.WalletActReducers.account,
   // originalBalance: state.WalletActReducers.origBalance,
   // currentWallet: state.WalletActReducers.wallet,

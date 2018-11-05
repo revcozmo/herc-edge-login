@@ -68,6 +68,7 @@ export function getHercId() {
 }
 
 export function gotHercId(hercId) {
+  console.log("got the herc ID")
   return {
     type: GOT_HERC_ID,
     hercId: hercId
