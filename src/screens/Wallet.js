@@ -38,15 +38,14 @@ class Wallet extends React.Component {
   componentDidMount = () => {
     this.props.wallet.getEnabledTokens().then(
       response => {
-        this.setState({ 
-        availableTokens: response,
-        displayWallet: response[0],
-      }, () => console.log(this.state)) 
+        this.setState({
+          availableTokens: response,
+          displayWallet: response[0],
+        })
       }
-    )
+    ).then(() => this._updateWallet())
 
     this.setState({ ethereumAddress: this.props.ethereumAddress })
-    this._updateWallet();
   }
 
   _updateWallet = () => {
@@ -130,7 +129,7 @@ class Wallet extends React.Component {
     });
 
     return (
-      <View>
+      <View style={{ marginBottom: '5%', }}>
         <RadioForm
           formHorizontal={true}
           labelColor={'silver'}
@@ -143,7 +142,6 @@ class Wallet extends React.Component {
       </View>
     )
   }
-
 
   render() {
 
@@ -243,7 +241,7 @@ class Wallet extends React.Component {
 
             </View>
             <TextInput
-              style={{ width: "80%", marginTop: "5%", textAlign: "center", borderColor: "gold", borderWidth: 1, borderRadius: 10, color: "white" }}
+              style={{ width: "80%", marginTop: "10%", textAlign: "center", borderColor: "gold", borderWidth: 1, borderRadius: 10, color: "white" }}
               onChangeText={(destAddress) =>
                 this.setState({ destAddress })
               }
@@ -279,28 +277,33 @@ class Wallet extends React.Component {
               }}
             />
 
-            <View style={{ marginTop: "10%", alignContent: "center", alignItems: "center", margin: 5 }}>
-              <View style={{ borderWidth: 10, borderColor: 'white' }}>
+            <View style={{ marginTop: "5%", alignContent: "center", alignItems: "center", margin: 5 }}>
+              <Text style={{ color: "white", fontSize: 18, }}>
+                RECEIVE
+            </Text>
+              <View style={{ borderWidth: 10, borderColor: 'white', marginTop: "5%" }}>
                 <QRCode size={140} value={this.state.ethereumAddress} />
               </View>
               <Text style={{ color: "white", marginTop: 10 }}>
                 {this.state.ethereumAddress}
               </Text>
-              <TouchableHighlight onPress={() => { this.writeToClipboard(this.state.ethereumAddress) }
-              }>
-                <Text style={{ marginTop: 10, backgroundColor: "#4c99ed", width: 100, lineHeight: 30, height: 30, borderRadius: 5, color: "white", textAlign: "center", justifyContent: "center", alignContent: "center" }}>
-                  Copy
-              </Text>
-              </TouchableHighlight>
-              <TouchableHighlight onPress={() => {
-                Linking.openURL("https://purchase.herc.one/");
-              }}>
-                <View>
-                  <Text style={{ marginTop: "30%", color: "white", textAlign: "center", justifyContent: "center", alignContent: "center" }}>
-                    Top Up HERCs
-                </Text>
-                </View>
-              </TouchableHighlight>
+              <View style={{marginTop:'5%'}}>
+                <TouchableHighlight onPress={() => { this.writeToClipboard(this.state.ethereumAddress) }
+                }>
+                  <Text style={{ marginTop: 10, backgroundColor: "#4c99ed", width: 100, lineHeight: 30, height: 30, borderRadius: 5, color: "white", textAlign: "center", justifyContent: "center", alignContent: "center" }}>
+                    Copy
+                  </Text>
+                </TouchableHighlight>
+                <TouchableHighlight onPress={() => {
+                  Linking.openURL("https://purchase.herc.one/");
+                }}>
+                  <View>
+                    <Text style={{ marginTop: "30%", color: "white", textAlign: "center", justifyContent: "center", alignContent: "center" }}>
+                      Top Up HERCs
+                    </Text>
+                  </View>
+                </TouchableHighlight>
+              </View>
             </View>
           </View>
         </View>
@@ -390,6 +393,7 @@ const localStyles = StyleSheet.create({
     flex: 1
   },
   headerText: {
+    color: 'black',
     textAlign: "center",
     alignSelf: "center",
     fontSize: 26,
