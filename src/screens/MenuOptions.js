@@ -34,13 +34,17 @@ YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTIm
 
 class MenuOptions extends Component {
 
-   async componentDidMount() {
+    async componentDidMount() {
+        console.log("in MenuOptions", this.state, 'state')
+        //    console.log(web3.currentProvider.isTrust, "are we trusting?")
+        //    debugger;
         // this.props.clearState();
         this.props.getHercId();
         this.props.getAssets(this.props.username);
         this.props.getOrganization();
-        let tokens = await this.props.wallet.getEnabledTokens();
-         console.log(tokens, "in menu options");
+        console.log(this.props.wallet, 'wallet')
+        // let tokens = await this.props.wallet.getEnabledTokens();
+        //  console.log(tokens, "in menu options");
     }
 
     render() {
@@ -56,7 +60,7 @@ class MenuOptions extends Component {
                         </TouchableHighlight>
                     </View>
                     <TouchableHighlight style={localStyles.touchableHighlight}
-                    onPress={() => navigate("Splash1")}>
+                        onPress={() => navigate("Splash1")}>
                         <Image style={localStyles.menuButton} source={supplyChain} />
                     </TouchableHighlight>
 
@@ -68,12 +72,12 @@ class MenuOptions extends Component {
                     <TouchableHighlight style={localStyles.touchableHighlight} onPress={() => navigate("PreHipr")}>
                         <Image style={localStyles.menuButton} source={hiprBtn} />
                     </TouchableHighlight>
+                    {/* {this.props.wallet && */}
 
-
-                    <TouchableHighlight style={localStyles.touchableHighlight} onPress={() => navigate("Wallet")}>
-                        <Image style={localStyles.menuButton} source={wallet} />
-                    </TouchableHighlight>
-
+                        <TouchableHighlight style={localStyles.touchableHighlight} onPress={() => navigate("Wallet")}>
+                            <Image style={localStyles.menuButton} source={wallet} />
+                        </TouchableHighlight>
+                   {/* } */}
                     {/*                    <TouchableHighlight style={localStyles.touchableHighlight} onPress={() => navigate("Profile")}>
                         <Image style={localStyles.menuButton} source={profileButton} />
                     </TouchableHighlight> */}
@@ -93,7 +97,7 @@ class MenuOptions extends Component {
 
 const mapStateToProps = state => ({
     username: state.AssetReducers.edge_account,
-    wallet: state.WalletActReducers.wallet
+    // wallet: state.WalletActReducers.wallet
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -103,7 +107,7 @@ const mapDispatchToProps = dispatch => ({
     clearState: () => dispatch(clearState())
 });
 
-export default connect( mapStateToProps, mapDispatchToProps )(MenuOptions);
+export default connect(mapStateToProps, mapDispatchToProps)(MenuOptions);
 
 const localStyles = StyleSheet.create({
     touchableHighlight: {

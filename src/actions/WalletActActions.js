@@ -7,6 +7,9 @@ import {
     GETTING_ORGANIZATION,
     GET_WALLET,
     GET_BALANCE,
+    UPDATE_BALANCES,
+    HERC_ADDED,
+    HERC_ENABLED,
     DEBIT_TRANS,
     DELETE_WALLET,
     SWITCH_WALLET,
@@ -37,6 +40,13 @@ export function getUsername(edge_account) {
     edge_account
   };
 }
+
+export function updateBalances(newBalances) {
+    return {
+      type: UPDATE_BALANCES,
+      newBalances
+    };
+  }
 
 export function getEthAddress(ethereumAddress) {
   return {
@@ -69,6 +79,24 @@ export function getWallet(wallet) {
         wallet
     }
 }
+
+export function hercAdded() {
+    console.log('HercAdded');
+    return {
+        type: HERC_ADDED,
+        hercAdded: true
+    }
+}
+
+export function hercEnabled() {
+    console.log('HercEnabled');
+    return {
+        type: HERC_ENABLED,
+        hercEnabled: true
+    }
+}
+
+
 
 export function getBalance() {
     console.log('getting balance action')

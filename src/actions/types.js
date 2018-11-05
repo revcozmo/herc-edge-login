@@ -52,6 +52,9 @@ export const GET_ETH_ADDRESS = 'getEthAddress';
 export const GET_USERNAME = 'getUsername';
 export const GET_WALLET = 'getWallet';
 export const GET_ACCOUNT = 'getAccount';
+export const UPDATE_BALANCES = 'upadateBalances';
+export const HERC_ADDED = 'hercAdded';
+export const HERC_ENABLED = 'hercEnabled';
 
 ///// ACCOUNT TYPES /////
 export const AUTH_TOKEN = 'authToken';

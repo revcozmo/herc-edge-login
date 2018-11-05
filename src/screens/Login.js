@@ -11,7 +11,7 @@ import { YellowBox } from 'react-native';
 import { connect } from "react-redux";
 import axios from 'axios';
 import { ethereumCurrencyPluginFactory } from 'edge-currency-ethereum';
-import { getUsername, getAccount, authToken, getEthAddress, getWallet } from "../actions/WalletActActions";
+import { getUsername, getAccount, authToken, getEthAddress, getWallet, updateBalances, hercAdded, hercEnabled } from "../actions/WalletActActions";
 import { WEB_SERVER_API_TOKEN, WEB_SERVER_API_IDOLOGY_CHECK } from "../components/settings";
 import { makeEdgeContext } from 'edge-core-js';
 import { EDGE_API_KEY } from '../components/settings.js'
@@ -45,18 +45,16 @@ class Login extends Component {
   }
 
   onLogin = (error = null, account) => {
-    // debugger
     console.log('ar: OnLogin error', error)
     console.log('ar: OnLogin account', account)
     let tokenHerc = { // TODO: update this to HERC in prod
+      currencyCode: 'HERC',
       currencyName: 'Hercules', // 0x6251583e7d997df3604bc73b9779196e94a090ce
       contractAddress: '0x6251583e7D997DF3604bc73B9779196e94A090Ce',
-      currencyCode: 'HERC',
       multiplier: '1000000000000000000'
     };
-    let customHercTokens = { // TODO: update this to HERC in prod
-      tokens: ["HERC"]
-    };
+    let customHercToken = ['HERC'];
+
     if (!this.state.account) {
       this.setState({ account })
       // TODO: check if they have hercs in account
@@ -83,57 +81,96 @@ class Login extends Component {
         .catch(err => { console.log(err) })
     }
     if (!this.state.walletId) {
-      let tokens; 
-      debugger;
+
       // Check if there is a wallet, if not create it
-      let walletInfo = account.getFirstWalletInfo('wallet:ethereum')
+      let walletInfo = account.getFirstWalletInfo('wallet:ethereum');
       if (walletInfo) {
         this.setState({ walletId: walletInfo.id })
+        console.log("inLogin with an exisiting account")
         account.waitForCurrencyWallet(walletInfo.id)
           .then(async wallet => {
-            
-            wallet.addCustomToken(tokenHerc)
-            .then(wallet.enableTokens(customHercTokens)
-            .then(
-              
-                wallet.getEnabledTokens()
-                .then(tokensArray => token = tokenArray)
-                .then(console.log(token, 'here in the churn'))
-
-            ))
-            .catch(err => { console.log(err, "chance adding token err") });
-            
-            
-            // console.log(tokens, 'chance enabled tokens') // => ['WINGS', 'REP']
-            
-            this.props.getEthAddress(wallet.keys.ethereumAddress)
+            wallet.watch('balances', (newBalances) => this.props.updateBalances({ newBalances }));
+            console.log("in the walletInfo conditional", wallet)
             this.props.getWallet(wallet)
-            // await wallet.enableTokens(customHercTokens).catch(err => { console.log(err, "chance enable token err") })
-            await delay(3000);
-            // const tokens = await wallet.getEnabledTokens();
-            console.log(wallet, 'wallet in Login');
+            this.props.getEthAddress(wallet.keys.ethereumAddress)
             this.setState({ wallet })
-            return wallet
+
+
+            const tokens = await wallet.getEnabledTokens()
+            console.log(tokens, 'chance enabled tokens The First one') // => ['WINGS', 'REP']
+            if (!tokens.includes(tokenHerc.currencyCode)) {
+              try {
+                console.log("rightBefore the Add")
+                await wallet.addCustomToken(tokenHerc)
+                this.props.hercAdded();
+                console.log("rightAFTER the Add")
+              }
+              catch (e) {
+                console.log('In AddingToken')
+                console.log(e)
+              }
+
+              try {
+
+                console.log("rightBefore the Enable")
+                await wallet.enableTokens(customHercToken)
+                this.props.hercEnabled()
+                console.log("rightAfter the Enable")
+              }
+
+              catch (e) {
+                console.log("enablingHelp!")
+                console.log(e)
+              }
+
+              // debugger
+
+              console.log(tokens, 'chance enabled tokens The second one') // => ['WINGS', 'REP']
+            }
+            console.log(this.state, this.props, 'seeing if navigation was the culprit')
+            // if(this.state.idCheck){
+            //   navigate('MenuOptions')
+            // }
+            // debugger;
+            // wallet.addCustomToken(tokenHerc)
+            // wallet.enableTokens(customHercTokens).catch(err => {console.log(err, "chance enable token err")})
+            // console.log({balancesBefore: wallet.balances});
+            // await delay(10000);
+            // console.log({balancesAfter: wallet.balances});
+            // debugger;
+            // return wallet
           })
       }
-    } else {
+    }
+
+    else {
       account.createCurrencyWallet('wallet:ethereum', {
         name: 'My First Wallet',
         fiatCurrencyCode: 'iso:USD'
       }).then(async wallet => {
+        // debugger
+        console.log("creation of wallet, probably after herc was uninstalled")
+
+        wallet.watch('balances', (newBalances) => this.props.updateBalances({ newBalances }));
+
+
+        this.setState({ walletId: wallet.id })
 
         this.props.getEthAddress(wallet.keys.ethereumAddress)
+
+        await wallet.addCustomToken(tokenHerc);
+        await wallet.enableTokens(customHercToken);
+
+        console.log(wallet, 'wallet in creating')
         this.props.getWallet(wallet)
-        wallet.addCustomToken(tokenHerc)
-        wallet.enableTokens(customHercTokens).catch(err => { console.log(err, "chance enable token err") })
         this.setState({ wallet })
-        this.setState({ walletId: wallet.id })
       })
     }
   }
 
 
   renderLoginApp = () => {
+
     if (this.state.context && !this.state.account) {
       return (
         <LoginScreen
@@ -145,8 +182,10 @@ class Login extends Component {
     }
     return <Text style={styles.welcome}>Loading</Text>;
   };
+  goMenuOptions = () => this.props.navigation.navigate('MenuOptions');
 
   render() {
+    { if (this.state.idCheck) { this.goMenuOptions } }
     return (
       <View style={styles.container}>{this.renderLoginApp()}</View>
     );
@@ -181,6 +220,12 @@ const mapDispatchToProps = (dispatch) => ({
   getWallet: (wallet) =>
     dispatch(getWallet(wallet)),
   getAccount: (account) =>
-    dispatch(getAccount(account))
+    dispatch(getAccount(account)),
+  updateBalances: (newBal) =>
+    dispatch(updateBalances(newBal)),
+  hercAdded: () =>
+    dispatch(hercAdded()),
+  hercEnabled: () =>
+    dispatch(hercEnabled())
 })
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

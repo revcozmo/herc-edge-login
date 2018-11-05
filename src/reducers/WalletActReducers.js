@@ -5,14 +5,20 @@ import {
     GETTING_ORGANIZATION,
     GET_WALLET,
     GET_BALANCE,
+    HERC_ADDED,
+    HERC_ENABLED,
     DEBIT_TRANS,
+    UPDATE_BALANCES,
     DELETE_WALLET,
     SWITCH_WALLET,
     ADD_WALLET,
     GET_USERNAME
 } from '../actions/types'
 
-const INITIAL_STATE = {}
+const INITIAL_STATE = {
+    hercAdded: false,
+    hercEnabled: false
+}
 
 
 export default function WalletReducer(state = INITIAL_STATE, action) {
@@ -63,15 +69,39 @@ export default function WalletReducer(state = INITIAL_STATE, action) {
                 wallet
             })
 
-        case DEBIT_TRANS:
-            console.log('DEBIT_TRANS: updating balance', action.hercAmount);
-            let newBalance = (state.currentBalance - action.hercAmount);
-            console.log(newBalance, 'newBalance');
+        case UPDATE_BALANCES:
+            console.log('UPDATEBALANCES: getting balance', action.newBalances);
             return {
                 ...state,
-                currentBalance: newBalance,
-                balance: newBalance
+                testBalance:
+                    action.newBalances
+
             }
+
+            case HERC_ADDED:
+            console.log('hercAdded redux')
+            return{
+                ...state,
+                hercAdded: action.hercAdded
+            }
+
+
+            case HERC_ENABLED:
+            console.log('hercEnabled redux')
+            return{
+                ...state,
+                hercEnabled: action.hercEnabled
+            }
+
+        // case DEBIT_TRANS:
+        //     console.log('DEBIT_TRANS: updating balance', action.hercAmount);
+        //     let newBalance = (state.currentBalance - action.hercAmount);
+        //     console.log(newBalance, 'newBalance');
+        //     return {
+        //         ...state,
+        //         currentBalance: newBalance,
+        //         balance: newBalance
+        //     }
 
         case GET_BALANCE:
             console.log('GET_BALANCE: getting balance', state);

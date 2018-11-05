@@ -155,6 +155,18 @@ android {
       preDexLibraries = false
       javaMaxHeapSize "4g"
     }
+
+packagingOptions {
+      pickFirst 'lib/x86/libc++_shared.so'
+      pickFirst 'lib/armeabi-v7a/libc++_shared.so'
+    }
+
+}
+
+configurations.all {
+    resolutionStrategy {
+        force 'org.webkit:android-jsc:r225067'
+    }
 }
 
 dependencies {

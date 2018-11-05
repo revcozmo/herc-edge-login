@@ -2,11 +2,23 @@
 
 buildscript {
     repositories {
+        mavenLocal()
         jcenter()
         google()
+        // maven {
+        //     // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
+        //     url "$rootDir/../node_modules/react-native/android"
+        // }
+
+        //  maven {
+        //    // Local Maven repo containing AARs with JSC library built for Android
+        //    url "$rootDir/../node_modules/jsc-android/dist"
+        // }
     }
+    
     dependencies {
         classpath 'com.android.tools.build:gradle:3.1.3'
+        // implementation 'com.github.TrustWallet:trust-web3-provider:0.2.1'
         // classpath 'com.google.gms:google-services:4.0.1'
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -22,5 +34,12 @@ allprojects {
             // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
             url "$rootDir/../node_modules/react-native/android"
         }
+        maven {
+           // Local Maven repo containing AARs with JSC library built for Android
+           url "$rootDir/../node_modules/jsc-android/dist"
+        }
+
+        // maven { url "https://jitpack.io" }
+
     }
 }
