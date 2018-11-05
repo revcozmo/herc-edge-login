@@ -74,7 +74,7 @@ class Login extends Component {
           axios.get(WEB_SERVER_API_IDOLOGY_CHECK)
             .then(response => {
               const { navigate } = this.props.navigation;
-              response.data.status == "true" ? navigate('MenuOptions') : navigate('Identity');
+              response.data.status == "true" ? this.setState({ idCheck: true }) : navigate('Identity');
             })
             .catch(err => { console.log(err) })
         })

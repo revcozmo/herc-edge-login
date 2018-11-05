@@ -169,6 +169,12 @@ configurations.all {
     }
 }
 
+configurations.all {
+    resolutionStrategy {
+        force 'org.webkit:android-jsc:r216113'
+    }
+}
+
 dependencies {
     compile project(':react-native-device-info')
     compile project(':react-native-linear-gradient')
