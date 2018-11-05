@@ -74,7 +74,7 @@ class Login extends Component {
           axios.get(WEB_SERVER_API_IDOLOGY_CHECK)
             .then(response => {
               const { navigate } = this.props.navigation;
-              response.data.status == "true" ? this.setState({idCheck: true}) : navigate('Identity');
+              response.data.status == "true" ? this.setState({ idCheck: true }) : navigate('Identity');
             })
             .catch(err => { console.log(err) })
         })
@@ -99,9 +99,31 @@ class Login extends Component {
             const tokens = await wallet.getEnabledTokens()
             console.log(tokens, 'chance enabled tokens The First one') // => ['WINGS', 'REP']
             if (!tokens.includes(tokenHerc.currencyCode)) {
-              await wallet.addCustomToken(tokenHerc).then(this.props.hercAdded());
-              debugger
-              await wallet.enableTokens(customHercToken).then(this.props.hercEnabled());
+              try {
+                console.log("rightBefore the Add")
+                await wallet.addCustomToken(tokenHerc)
+                this.props.hercAdded();
+                console.log("rightAFTER the Add")
+              }
+              catch (e) {
+                console.log('In AddingToken')
+                console.log(e)
+              }
+
+              try {
+
+                console.log("rightBefore the Enable")
+                await wallet.enableTokens(customHercToken)
+                this.props.hercEnabled()
+                console.log("rightAfter the Enable")
+              }
+
+              catch (e) {
+                console.log("enablingHelp!")
+                console.log(e)
+              }
+
+              // debugger
 
               console.log(tokens, 'chance enabled tokens The second one') // => ['WINGS', 'REP']
             }
@@ -160,10 +182,10 @@ class Login extends Component {
     }
     return <Text style={styles.welcome}>Loading</Text>;
   };
- goMenuOptions = () => this.props.navigation.navigate('MenuOptions');
+  goMenuOptions = () => this.props.navigation.navigate('MenuOptions');
 
   render() {
-    {if(this.state.idCheck){this.goMenuOptions}}
+    { if (this.state.idCheck) { this.goMenuOptions } }
     return (
       <View style={styles.container}>{this.renderLoginApp()}</View>
     );
