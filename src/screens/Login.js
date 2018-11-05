@@ -48,9 +48,9 @@ class Login extends Component {
     console.log('ar: OnLogin error', error)
     console.log('ar: OnLogin account', account)
     let tokenHerc = { // TODO: update this to HERC in prod
+      currencyCode: 'HERC',
       currencyName: 'Hercules', // 0x6251583e7d997df3604bc73b9779196e94a090ce
       contractAddress: '0x6251583e7D997DF3604bc73B9779196e94A090Ce',
-      currencyCode: 'HERC',
       multiplier: '1000000000000000000'
     };
     let customHercToken = ['HERC'];
