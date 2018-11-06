@@ -20,6 +20,7 @@
     ]
   },
   "dependencies": {
+    "jsc-android": "225067.x.x",
     "@firebase/app-types": "^0.1.2",
     "@firebase/database-types": "^0.2.0",
     "axios": "^0.18.0",

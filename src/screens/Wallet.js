@@ -26,6 +26,8 @@ class Wallet extends React.Component {
       ethereumAddress: "",
       destAddress: "",
       sendAmount: "",
+      displayWallet: "",
+      availableTokens: [],
     }
   }
 
@@ -34,42 +36,22 @@ class Wallet extends React.Component {
   });
 
   componentDidMount = () => {
-    this.setState({ ethereumAddress: this.props.ethereumAddress })
-    this._updateWallet();
-    let options = { currencyCode: 'TRX' };
-    const trxReceiveAdd = this.props.wallet.getReceiveAddress(options, function (error, trxRecieveAdd) {
-
-      if (!error) {
-        console.log(trxReceiveAdd, "get receive address for TRX")
+    this.props.wallet.getEnabledTokens().then(
+      response => {
+        this.setState({
+          availableTokens: response,
+          displayWallet: response[0],
+        })
       }
-    });
+    ).then(() => this._updateWallet())
+
+    this.setState({ ethereumAddress: this.props.ethereumAddress })
   }
 
   _updateWallet = () => {
     let displayWallet = this.state.displayWallet;
     let balance = new BigNumber(this.props.wallet.getBalance({ currencyCode: displayWallet }));
-    this.setState({ balance: balance.times(1e-18).toFixed(18) });
-  }
-
-  async _makeCustomHercWallet() {
-    // create a regular wllet
-    // this.props.account.createCurrencyWallet('wallet:ethereum', {
-    //   name: 'Chances Wallet',
-    //   fiatCurrencyCode: 'iso:USD'
-    // })
-
-    //enable TRX in current wallet
-    var tokenHerc = {
-      currencyName: 'Tron',
-      contractAddress: '0xf230b790e05390fc8295f4d3f60332c93bed42e2',
-      currencyCode: 'TRX',
-      multiplier: '1000000000000000000'
-    };
-    const customTokens = {
-      tokens: ["TRX", "TRON"]
-    }
-    this.props.wallet.addCustomToken(tokenHerc)
-    this.props.wallet.enableToken(customTokens)
+    this.setState({ balance: balance.times(1e-18).toFixed(18) }, () => console.log(this.state));
   }
 
   async _onPressSend() {
@@ -118,13 +100,6 @@ class Wallet extends React.Component {
     Alert.alert('Copied to Clipboard!', data);
   };
 
-
-  // setModalVisible() {
-  //   console.log(this.state.modalVisible)
-  //   this.setState({ modalVisible: !this.state.modalVisible });
-  // }
-
-
   _changeBalanceDenom = () => {
     let converting = new BigNumber(this.state.balance);
 
@@ -139,37 +114,22 @@ class Wallet extends React.Component {
       });
   }
 
-
   _addWallet = (walObj) => {
     this.props.addWallet(walObj)
     console.log(this.state);
     this.setModalVisible();
   }
 
-  // _onPayment = (pay) => {
-  //   console.log(pay, 'onpayment');
-  //   this.props.debitTrans(pay);
-  // }
-
-
-  // _getTotUs = () => {
-  //   let hercs = this.props.currentBalance;
-  //   console.log(hercs, "hercs in getTotUs");
-  //   let totUs = (hercs * (.6)).toFixed(2);
-  //   console.log(totUs, " after conversion to dollars");
-  //   return (totUs)
-  // }
-
   _radioButtons = () => {
     let radio_props = [];
-    let walBal = this.props.wallet.balances;
-    let walletParamsArr = Object.keys(walBal);
-    let walletList = walletParamsArr.map((currentItem, currentIndex) => {
+    // let walBal = this.props.wallet.balances;
+    // let walletParamsArr = Object.keys(walBal);
+    let walletList = this.state.availableTokens.map((currentItem, currentIndex) => {
       radio_props.push({ label: currentItem, value: currentItem })
     });
 
     return (
-      <View>
+      <View style={{ marginBottom: '5%', }}>
         <RadioForm
           formHorizontal={true}
           labelColor={'silver'}
@@ -183,16 +143,8 @@ class Wallet extends React.Component {
     )
   }
 
-
   render() {
 
-
-    // console.log(this.state.currentDenom, this.state.balance, 'hopefully some good news')
-    // console.log(this.props.wallet.balances);
-
-    // let usValue = this._getTotUs();
-    // let wallets = this._getWallets();
-    // console.log(iconsArray.filter(coin => coin.currency === 'HERC'));
     // Method to render the currently selected coin's icon.
     // let currentCoin = iconsArray.filter(coin => coin.currency === this.props.currentWallet)
 
@@ -212,11 +164,9 @@ class Wallet extends React.Component {
                   <Image style={localStyles.icon} source={round} />
 
                   <Text style={localStyles.currencyValue}>{this.state.balance}</Text>
-                  {/* <Text style={localStyles.currencyValue}>{balance}</Text> */}
-                  {/* <Text style={localStyles.text}>{this.state.selectedCurrency}</Text> */}
+
                 </View>
 
-                {/* <Text style={localStyles.usdValue}>{usValue} USD</Text> */}
                 <View style={{ flexDirection: 'row', width: '60%', height: 50, justifyContent: 'space-around', alignItems: 'center' }}>
 
                   <Text style={localStyles.text} onPress={() => this._changeBalanceDenom()}>ChangetheDenom</Text>
@@ -291,7 +241,7 @@ class Wallet extends React.Component {
 
             </View>
             <TextInput
-              style={{ width: "80%", marginTop: "5%", textAlign: "center", borderColor: "gold", borderWidth: 1, borderRadius: 10, color: "white" }}
+              style={{ width: "80%", marginTop: "10%", textAlign: "center", borderColor: "gold", borderWidth: 1, borderRadius: 10, color: "white" }}
               onChangeText={(destAddress) =>
                 this.setState({ destAddress })
               }
@@ -327,28 +277,33 @@ class Wallet extends React.Component {
               }}
             />
 
-            <View style={{ marginTop: "10%", alignContent: "center", alignItems: "center", margin: 5 }}>
-              <View style={{ borderWidth: 10, borderColor: 'white' }}>
+            <View style={{ marginTop: "5%", alignContent: "center", alignItems: "center", margin: 5 }}>
+              <Text style={{ color: "white", fontSize: 18, }}>
+                RECEIVE
+            </Text>
+              <View style={{ borderWidth: 10, borderColor: 'white', marginTop: "5%" }}>
                 <QRCode size={140} value={this.state.ethereumAddress} />
               </View>
               <Text style={{ color: "white", marginTop: 10 }}>
                 {this.state.ethereumAddress}
               </Text>
-              <TouchableHighlight onPress={() => { this.writeToClipboard(this.state.ethereumAddress) }
-              }>
-                <Text style={{ marginTop: 10, backgroundColor: "#4c99ed", width: 100, lineHeight: 30, height: 30, borderRadius: 5, color: "white", textAlign: "center", justifyContent: "center", alignContent: "center" }}>
-                  Copy
-              </Text>
-              </TouchableHighlight>
-              <TouchableHighlight onPress={() => {
-                Linking.openURL("https://purchase.herc.one/");
-              }}>
-                <View>
-                  <Text style={{ marginTop: "30%", color: "white", textAlign: "center", justifyContent: "center", alignContent: "center" }}>
-                    Top Up HERCs
-                </Text>
-                </View>
-              </TouchableHighlight>
+              <View style={{marginTop:'5%'}}>
+                <TouchableHighlight onPress={() => { this.writeToClipboard(this.state.ethereumAddress) }
+                }>
+                  <Text style={{ marginTop: 10, backgroundColor: "#4c99ed", width: 100, lineHeight: 30, height: 30, borderRadius: 5, color: "white", textAlign: "center", justifyContent: "center", alignContent: "center" }}>
+                    Copy
+                  </Text>
+                </TouchableHighlight>
+                <TouchableHighlight onPress={() => {
+                  Linking.openURL("https://purchase.herc.one/");
+                }}>
+                  <View>
+                    <Text style={{ marginTop: "30%", color: "white", textAlign: "center", justifyContent: "center", alignContent: "center" }}>
+                      Top Up HERCs
+                    </Text>
+                  </View>
+                </TouchableHighlight>
+              </View>
             </View>
           </View>
         </View>
@@ -438,6 +393,7 @@ const localStyles = StyleSheet.create({
     flex: 1
   },
   headerText: {
+    color: 'black',
     textAlign: "center",
     alignSelf: "center",
     fontSize: 26,
