@@ -249,15 +249,12 @@ export default class TxSwiper extends Component {
 }
 const styles = StyleSheet.create({
   container: {
-    // flex: 1,
-
     width: '95%',
     height: '95%',
     justifyContent: 'center',
     alignItems: 'center'
   },
   card: {
-    //  flex: 1,
     height: '80%',
     width: '90%',
     borderRadius: 4,
@@ -267,7 +264,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#091141',
     alignSelf: 'center',
     alignContent: "center",
-    // left: 0,
     top: -2,
     alignItems: 'center',
     marginBottom: 10,
@@ -278,13 +274,11 @@ const styles = StyleSheet.create({
     fontSize: 14,
     backgroundColor: 'transparent',
     height: 17,
-    // width: 50
   },
   image: {
     resizeMode: 'cover',
     height: 100,
     width: 100,
-    // borderRadius: 50 / 2,
   },
   imgcontainer: {
     flex: 1,
@@ -299,7 +293,6 @@ const styles = StyleSheet.create({
     resizeMode: "contain",
     marginTop: 10,
     alignSelf: "center"
-    // marginRight: 10
   },
   done: {
     textAlign: 'center',
@@ -315,21 +308,13 @@ const styles = StyleSheet.create({
     fontFamily: 'dinPro',
   },
   transDocField: {
-
     height: 45,
     width: '100%',
-    // flexDirection: "row",
     justifyContent: "space-around",
-
     padding: 2,
     margin: 2,
-    // textAlign:'center',
-    // textAlignVertical: 'center',
-    // backgroundColor: '#021227',
     alignSelf: 'center',
     borderColor: '#F3c736',
-
-
   },
   transRevName: {
     fontFamily: 'dinPro',
@@ -338,7 +323,6 @@ const styles = StyleSheet.create({
     margin: 2,
     marginBottom: 5,
     textAlign: 'left'
-
   },
   transRevTime: {
     color: '#f3c736',
@@ -351,7 +335,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#f3c736',
     margin: 2,
-    // textAlign: 'right'
   },
   transPropField: {
     height: 20,
@@ -361,8 +344,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 2,
     margin: 2,
-    // textAlign:'center',
-    // textAlignVertical: 'center',
     backgroundColor: "#021227",
     alignSelf: "center"
   },
@@ -374,6 +355,5 @@ const styles = StyleSheet.create({
     margin: 3,
     borderColor: '#F3c736',
     height: 17,
-
   }
 })
