@@ -31,10 +31,10 @@ class TransRev extends Component {
     }
 
   _onPressSubmit(){
-    console.log(this._getPrices(), typeof(this._getPrices()), 'chance check prices') // need to subtract these two.
+    let total = this._getPrices() + 0.000032
     Alert.alert(
-      'Data Fee: '+ this._getPrices().toString() +' HERC \n Burn Amount: 0.000032 HERC',
-      'Total: '+ this.state.balance+ ' HERC \n Do you authorize this payment?' ,
+      'Data Fee: '+ this._getPrices().toString() +' HERC \nBurn Amount: 0.000032 HERC',
+      'Total: '+ total + ' HERC \n Do you authorize this payment?' ,
       [
         {text: 'No', onPress: () => console.log('No Pressed'), style: 'cancel'},
         {text: 'Yes', onPress: () => this._checkBalance() },
@@ -45,8 +45,8 @@ class TransRev extends Component {
 
   async _checkBalance(){
     if (!this.state.balance) {return}
-
-    let convertingPrice = new BigNumber(this._getPrices()) // don't have to times 1e18 because its already hercs
+    let total = this._getPrices() + 0.000032
+    let convertingPrice = new BigNumber(total) // don't have to times 1e18 because its already hercs
     let balance = new BigNumber(this.state.balance)
     let newbalance = balance.minus(convertingPrice)
 
