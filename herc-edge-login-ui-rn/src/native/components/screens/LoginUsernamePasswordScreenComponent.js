@@ -18,7 +18,7 @@ import {
 import * as Offsets from '../../constants'
 import { LogoImageHeader, UserListItem } from '../abSpecific'
 import hercLogo from '../../../../../../src/assets/hercLogoBreak.png';
-import { Image, TouchableOpacity, StyleSheet, TextInput } from 'react-native';
+import { Image, TouchableOpacity, StyleSheet, TextInput, TouchableHighlight } from 'react-native';
 import edgeLogo from "../../assets/edgeLogo/Edge_logo_L.png";
 
 type Props = {
@@ -194,7 +194,7 @@ export default class LoginUsernamePasswordScreenComponent extends Component<
     return (
       <TouchableWithoutFeedback onPress={this.noFocus}>
         <View style={this.style.featureBox}>
-          <Image source={hercLogo} style={{ height: 100, width: 250, alignSelf: "center"}} />
+          <Image source={hercLogo} style={{ resizeMode: "contain", height: 100, width: 250, alignSelf: "center", marginBottom: "10%" }} />
           {this.renderUsername(this.style)}
           <View style={this.style.shimTiny} />
           {/* <Text style={{color: "white"}}>Password</Text> */}
@@ -326,14 +326,14 @@ export default class LoginUsernamePasswordScreenComponent extends Component<
           upStyle={style.forgotButton.upStyle}
           upTextStyle={style.forgotButton.upTextStyle}
         />
-        <View style={style.shimTiny} />
+        <View style={{ margin: 10, borderColor: 'red', }} />
 
-        <TouchableOpacity
+        {/* <TouchableOpacity
           onPress={this.onStartLogin.bind(this)}
           style={localStyles.signInButton}
         >
           <Text style={{ color: "white", fontWeight: "bold" }}> SIGN IN </Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
 
         {/* <Button
           testID={'loginButton'}
@@ -346,7 +346,19 @@ export default class LoginUsernamePasswordScreenComponent extends Component<
           isThinking={this.state.loggingIn}
           doesThink
         /> */}
-        <View style={style.shimTiny} />
+        {/* <View style={style.shimTiny} /> */}
+
+
+        <View style={localStyles.touchableHighlight}>
+          <TouchableHighlight style={{ borderRadius: 2 }} onPress={this.onStartLogin.bind(this)}>
+            <View style={localStyles.menuItemField}>
+              <View style={localStyles.menuItemField__textBox}>
+                <Text style={localStyles.assetLabel}>Login</Text>
+              </View>
+            </View>
+          </TouchableHighlight>
+        </View>
+
         <Button
           testID={'createAccountButton'}
           onPress={this.onCreateAccount.bind(this)}
@@ -356,11 +368,12 @@ export default class LoginUsernamePasswordScreenComponent extends Component<
           upStyle={style.signupButton.upStyle}
           upTextStyle={style.signupButton.upTextStyle}
         />
-        <View style={{height: 100, marginTop: "20%"}}>
-        <Text style={{color: "white"}}>Secured By </Text>
-        <Image style={{resizeMode: "contain", margin: 10}} source={edgeLogo}/>
+
+        <View style={{ marginTop: "20%", borderColor: 'yellow', }}>
+          <Text style={{ color: "white" }}>Secured By </Text>
+          <Image style={{ resizeMode: "contain", borderColor: 'red', }} source={edgeLogo} />
         </View>
-        
+
       </View>
     )
   }
@@ -455,5 +468,44 @@ const localStyles = StyleSheet.create({
     padding: 10,
     marginTop: "10%",
     width: 150,
+  },
+  touchableHighlight: {
+    width: 200,
+    height: 60,
+    marginTop: 5,
+    marginBottom: 5,
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  menuButton: {
+    height: 60,
+    width: 200,
+    resizeMode: "contain",
+    // borderRadius: 2,
+  },
+  menuItemField: {
+    display: "flex",
+    width: 200,
+    height: 40,
+    backgroundColor: 'white',
+    borderRadius: 3,
+    alignItems: "center",
+    alignContent: "center",
+    justifyContent: "center",
+    margin: 15,
+    paddingLeft: 3,
+  },
+  menuItemField__textBox: {
+    flex: 1,
+    alignContent: "center",
+    justifyContent: "center"
+  },
+  assetLabel: {
+    color: "black",
+    alignSelf: "center",
+    textAlign: "center",
+    fontSize: 18,
+    fontWeight: "normal",
+    fontFamily: "dinPro"
   },
 })

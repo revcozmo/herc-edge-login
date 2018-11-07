@@ -50,7 +50,7 @@ class MenuOptions extends Component {
 
         return (
             <View style={styles.container}>
-                <View style={[styles.containerCenter, { paddingTop: 25 }]}>
+                <View style={[styles.containerCenter, { justifyContent: "space-around" }]}>
 
                     <View style={localStyles.touchableHighlight}>
                         <TouchableHighlight onPress={() => navigate("Create")}>
