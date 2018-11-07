@@ -3,6 +3,7 @@ import { StyleSheet } from "react-native";
 
 module.exports = StyleSheet.create({
   headerTitle: {
+    fontFamily: "dinPro",
     display: "flex",
     height: 70,
     width: "100%",
