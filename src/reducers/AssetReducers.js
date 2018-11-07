@@ -76,7 +76,7 @@ const INITIAL_STATE = {
 const AssetReducers = (state = INITIAL_STATE, action) => {
     switch (action.type) {
 
-        case CLEAR_STATE: 
+        case CLEAR_STATE:
         return Object.assign({}, {
             ...state,
             dataFlags: {
@@ -184,7 +184,7 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
                     ...state.transDataFlags,
                     confTransComplete: true,
                 },
-              
+
                     trans: {
                         ...state.trans,
                 }
@@ -203,7 +203,7 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
             return Object.assign({}, state, {
                 ...state,
 
-             
+
                     trans: {
                         ...state.trans,
                         data: {
@@ -216,7 +216,7 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
 
         case ADD_DOC:
             let documents = action.document;
-            console.log('adding doc', doc);
+            console.log('adding doc', documents);
             // let documents = [...state.selectedAsset.trans.data.documents, doc];
             // let documents = [...state.selectedAsset.trans.data.documents, doc];
             return Object.assign({}, state, {

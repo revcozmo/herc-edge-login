@@ -345,13 +345,13 @@ export function sendTrans(transPrice) {
           axios.post(WEB_SERVER_API_IPFS_ADD, JSON.stringify(dataObject))
             .then(response => { return response }) // {key: 'properties', hash: 'QmU1D1eAeSLC5Dt4wVRR'}
             .catch(error => { console.log(error) }))
-      } else if (data[key].constructor === Array && data[key].image) {
+      } else if (data[key].image) {
         var base64 = data[key].image
         var dataObject = Object.assign({}, { key: key }, { data: encodeURIComponent(base64) })
         promiseArray.push(axios.post(WEB_SERVER_API_STORJ_UPLOAD, JSON.stringify(dataObject))
           .then(response => { return response }) // {key: 'images', hash: 'QmU1D1eAeSLC5Dt4wVRR'}
           .catch(error => { console.log(error) }))
-      } else if (data[key].constructor === Array && data[key].type === "text/comma-separated-values") {
+      } else if (data[key].type === "text/comma-separated-values") {
         var dataObject = Object.assign({}, { "key": key }, { "data": encodeURIComponent(data[key].content) })
         promiseArray.push(axios.post(WEB_SERVER_API_CSV, JSON.stringify(dataObject))
           .then(response => { return response })
@@ -363,6 +363,7 @@ export function sendTrans(transPrice) {
 
     Promise.all(promiseArray)
       .then(results => {
+        console.log(results, 'send_trans result chance')
         // results = [{key: 'properties', hash: 'QmU1D1eAeSLC5Dt4wVRR'}, {key: 'images', hash: 'QmU1D1eAeSLC5Dt4wVRR'}]
         // TODO: add error handling for undefined results
         var hashlist = results.map(result => { return result.data })

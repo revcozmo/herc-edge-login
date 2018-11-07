@@ -31,7 +31,7 @@ class TransRev extends Component {
     }
 
   _onPressSubmit(){
-    let total = this._getPrices() + 0.000032
+    let total = parseFloat(this._getPrices()) + 0.000032
     Alert.alert(
       'Data Fee: '+ this._getPrices().toString() +' HERC \nBurn Amount: 0.000032 HERC',
       'Total: '+ total + ' HERC \n Do you authorize this payment?' ,
@@ -45,7 +45,7 @@ class TransRev extends Component {
 
   async _checkBalance(){
     if (!this.state.balance) {return}
-    let total = this._getPrices() + 0.000032
+    let total = parseFloat(this._getPrices()) + 0.000032
     let convertingPrice = new BigNumber(total) // don't have to times 1e18 because its already hercs
     let balance = new BigNumber(this.state.balance)
     let newbalance = balance.minus(convertingPrice)
@@ -122,8 +122,11 @@ class TransRev extends Component {
             price = (docPrice + imgPrice) + (.000032);
         }
 
+        let convertingPrice = new BigNumber(price)
+        let newPrice = convertingPrice.toFixed(6)
+
         return (
-            price
+          newPrice
         )
     }
 
@@ -138,7 +141,7 @@ class TransRev extends Component {
                     <Text style={localStyles.revPropVal}>{(transObj.images.size / 1024).toFixed(3)} kb</Text>
                     <View style={localStyles.feeContainer}>
                         <Image style={localStyles.hercPillarIcon} source={fee} />
-                        <Text style={localStyles.teePrice}>{imgPrice.toFixed(8)}</Text>
+                        <Text style={localStyles.teePrice}>{imgPrice.toFixed(6)}</Text>
                     </View>
                 </View>
             );
@@ -157,7 +160,7 @@ class TransRev extends Component {
                     <Text style={localStyles.text}>{(transObj.documents.size / 1024).toFixed(3)} kb</Text>
                     <View style={localStyles.feeContainer}>
                         <Image style={localStyles.hercPillarIcon} source={fee} />
-                        <Text style={localStyles.teePrice}>{docPrice.toFixed(8)}</Text>
+                        <Text style={localStyles.teePrice}>{docPrice.toFixed(6)}</Text>
                     </View>
                 </View>
             );
@@ -221,10 +224,6 @@ class TransRev extends Component {
 
             <View style={localStyles.transactionReviewContainer}>
                 <Text style={styles.transReview}>Transaction Review</Text>
-                <Text style={{ fontSize: 22, color: "blue", marginTop: 5 }}> {name}  </Text>
-                <Image style={localStyles.assetLocationLabel} source={locationImage} />
-
-                <Text style={localStyles.transRevTime}>{dTime}</Text>
 
                 {edit}
 
@@ -239,7 +238,7 @@ class TransRev extends Component {
                 </TouchableHighlight>
                 <View style={localStyles.feeContainer}>
                     <Image style={localStyles.hercPillarIcon} source={fee} />
-                    <Text style={localStyles.teePrice}>{this._getPrices().toFixed(6)}</Text>
+                    <Text style={localStyles.teePrice}>{this._getPrices()}</Text>
                 </View>
 
 
