@@ -45,19 +45,17 @@ class Login extends Component {
 }
 
   onLogin = async (error = null, account) => {
-    let tokenHerc = { // TODO: update this to HERC in prod
+    let tokenHerc = { 
       currencyName: 'Hercules', // 0x6251583e7d997df3604bc73b9779196e94a090ce
       contractAddress: '0x6251583e7D997DF3604bc73B9779196e94A090Ce',
       currencyCode: 'HERC',
       multiplier: '1000000000000000000'
     };
-    let customHercTokens = { // TODO: update this to HERC in prod
+    let customHercTokens = {
       tokens: [ "HERC", "HERCULES" ]
     };
     if (!this.state.account) {
-      console.log('***ran line 57****')
       this.setState({account})
-      // TODO: check if they have hercs in account
       this.props.getAccount(account);
       this.props.getUsername(account.username);
       axios.get(WEB_SERVER_API_TOKEN + account.username)
