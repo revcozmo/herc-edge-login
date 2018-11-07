@@ -36,6 +36,7 @@ class Wallet extends React.Component {
   });
 
   componentDidMount = () => {
+    console.log(this.props.watchBalance.newBalances, "chance check watchBalance")
     this.props.wallet.getEnabledTokens().then(
       response => {
         this.setState({
@@ -175,70 +176,6 @@ class Wallet extends React.Component {
                 </View>
               </View>
 
-              {/* <View style={localStyles.addWalletField}>
-          <TouchableHighlight onPress={() => this.setModalVisible()}>
-            <View>
-              <Text style={localStyles.text}>Add Wallet(pending)</Text>
-              <Image style={localStyles.icon} source={plus} />
-            </View>
-          </TouchableHighlight>
-
-        </View> */}
-              {/* <View style={{ alignItems: 'center', height: 200, width: 300, alignContent: 'center', justifyContent: 'space-around', backgroundColor: 'green' }}>
-
-          <Wallet coin={this.props.currentWallet} icon={round} />
-
-        </View> */}
-
-              {/* <Text style={localStyles.text}> Address: {this.state.monies[this.state.currency].address}</Text> */}
-
-              {/* <View style={{ flexDirection: 'row', alignItems: 'center', height: 200, width: 300, alignContent: 'center', justifyContent: 'space-around' }}>
-          <View style={{ height: 30, width: 100, backgroundColor: "yellow", borderRadius: 5, }}>
-            <Text style={localStyles.buttonText}>Send</Text>
-          </View>
-
-          <View style={{ height: 30, width: 100, backgroundColor: "green", borderRadius: 5, }}>
-            <TouchableHighlight onPress={() => this._onPayment(5)}>
-              <Text style={localStyles.buttonText}>Receive</Text>
-            </TouchableHighlight>
-          </View> */}
-
-              {/* <Modal
-            animationIn={'slideInLeft'}
-            animationOut={'slideOutRight'}
-            transparent={false}
-            visible={this.state.modalVisible}
-            onRequestClose={() => {
-              Alert.alert('Modal has been closed.');
-            }}>
-            <View style={styles.container}>
-              <Text style={localStyles.currencyValue}>Available Wallets</Text>
-              <View style={localStyles.walletsField}>
-                <Text style={localStyles.buttonText}>
-                  {this.props.balance}
-                </Text>
-                {wallets}
-              </View>
-
-              <TouchableHighlight
-                onPress={() => {
-                  this.setModalVisible();
-                }}>
-                <Text>Hide Modal</Text>
-              </TouchableHighlight>
-            </View>
-          </Modal>
-
-          <TouchableHighlight
-            style={{ marginTop: 10 }}
-            onPress={() => this._makeCustomHercWallet()}>
-            <Text style={{ color: "white", marginTop: 10 }}>
-              makeCustomTronWallet
-            </Text>
-          </TouchableHighlight>
-
-*/}
-
             </View>
             <TextInput
               style={{ width: "80%", marginTop: "10%", textAlign: "center", borderColor: "gold", borderWidth: 1, borderRadius: 10, color: "white" }}
@@ -319,6 +256,7 @@ const mapStateToProps = state => ({
   wallet: state.WalletActReducers.wallet,
   balanceInWei: state.WalletActReducers.wallet.balances[state.WalletActReducers.wallet.currencyInfo.currencyCode],
   account: state.WalletActReducers.account,
+  watchBalance: state.WalletActReducers.watchBalance
   // originalBalance: state.WalletActReducers.origBalance,
   // currentWallet: state.WalletActReducers.wallet,
   // ownedWallets: state.WalletReducers.wallets

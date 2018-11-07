@@ -33,7 +33,7 @@ export const CONFIRM_ASSET_ERROR = 'confirmAssetError';
 export const GOT_IPFS = 'gotIpfs';
 export const IPFS_ERROR = 'ipfsError';
 export const GOT_FACT = 'gotFact';
-export const FACTOM_ERROR = 'factomError'; 
+export const FACTOM_ERROR = 'factomError';
 
 ///// TRANSACTION TYPES /////
 export const START_TRANS = 'startTrans';
@@ -52,6 +52,7 @@ export const GET_ETH_ADDRESS = 'getEthAddress';
 export const GET_USERNAME = 'getUsername';
 export const GET_WALLET = 'getWallet';
 export const GET_ACCOUNT = 'getAccount';
+export const UPDATE_BALANCES = 'updateBalances';
 
 ///// ACCOUNT TYPES /////
 export const AUTH_TOKEN = 'authToken';

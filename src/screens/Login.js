@@ -11,7 +11,7 @@ import { YellowBox } from 'react-native';
 import { connect } from "react-redux";
 import axios from 'axios';
 import { ethereumCurrencyPluginFactory } from 'edge-currency-ethereum';
-import { getUsername, getAccount, authToken, getEthAddress, getWallet } from "../actions/WalletActActions";
+import { getUsername, getAccount, authToken, getEthAddress, getWallet, updateBalances } from "../actions/WalletActActions";
 import { WEB_SERVER_API_TOKEN, WEB_SERVER_API_IDOLOGY_CHECK } from "../components/settings";
 import { makeEdgeContext } from 'edge-core-js';
 import { EDGE_API_KEY } from '../components/settings.js'
@@ -76,18 +76,18 @@ class Login extends Component {
             const { navigate } = this.props.navigation;
             response.data.status == "true" ? navigate('MenuOptions') : navigate('Identity');
           })
-          // .catch( err => { console.log(err) })
+          .catch( err => { console.log(err) })
         })
-        // .catch ( err => { console.log(err) })
+        .catch ( err => { console.log(err) })
     }
     if (!this.state.walletId) {
-      console.log('*****ran line 83****')
       // Check if there is a wallet, if not create it
       let walletInfo = account.getFirstWalletInfo('wallet:ethereum')
       if (walletInfo) {
         this.setState({walletId: walletInfo.id})
         await account.waitForCurrencyWallet(walletInfo.id)
           .then(async wallet => {
+            wallet.watch('balances', (newBalances) => this.props.updateBalances(newBalances));
 
             console.log(wallet, "this is the wallet object")
 
@@ -102,11 +102,11 @@ class Login extends Component {
             return wallet
           })
       } else {
-        console.log("***ran line 101***")
         account.createCurrencyWallet('wallet:ethereum', {
           name: 'My First Wallet',
           fiatCurrencyCode: 'iso:USD'
         }).then(async wallet => {
+          wallet.watch('balances', (newBalances) => this.props.updateBalances({ newBalances }));
           this.props.getEthAddress(wallet.keys.ethereumAddress)
           this.props.getWallet(wallet)
           wallet.addCustomToken(tokenHerc)
@@ -166,6 +166,8 @@ const mapDispatchToProps = (dispatch) => ({
     getWallet: (wallet) =>
       dispatch(getWallet(wallet)),
     getAccount: (account) =>
-      dispatch(getAccount(account))
+      dispatch(getAccount(account)),
+    updateBalances: (newBalances) =>
+      dispatch(updateBalances(newBalances))
 })
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

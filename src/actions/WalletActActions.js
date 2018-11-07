@@ -5,6 +5,7 @@ import {
     GET_ETH_ADDRESS,
     GET_ORGANIZATION,
     GETTING_ORGANIZATION,
+    UPDATE_BALANCES,
     GET_WALLET,
     GET_BALANCE,
     DEBIT_TRANS,
@@ -44,6 +45,14 @@ export function getEthAddress(ethereumAddress) {
     ethereumAddress
   };
 }
+
+export function updateBalances(newBalances) {
+    return {
+      type: UPDATE_BALANCES,
+      newBalances
+    };
+  }
+  
 export function gettingOrganization(organizationName){
   return {
       type: GETTING_ORGANIZATION,
