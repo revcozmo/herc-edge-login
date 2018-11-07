@@ -110,11 +110,11 @@ class TransRev extends Component {
         let docPrice = 0;
 
         if (transDat.images.size) {
-            imgPrice = (((transDat.images.size / 1024) * (.00000002)) / (.4))
+            imgPrice = ((transDat.images.size / 1024) * .00000002) / .4
         };
 
         if (transDat.documents) {
-            docPrice = ((.000032) * .4)
+            docPrice = .000032
         }
 
         if ((docPrice + imgPrice) !== 0) {
