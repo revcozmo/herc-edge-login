@@ -33,6 +33,10 @@ YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTIm
 
 
 class MenuOptions extends Component {
+    static navigationOptions = ({ navigation }) => ({
+        headerLeft: <View style={styles.backArrow} ></View>
+    })
+
 
     componentDidMount() {
         // this.props.clearState();
