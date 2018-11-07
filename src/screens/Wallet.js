@@ -36,22 +36,18 @@ class Wallet extends React.Component {
   });
 
   componentDidMount = () => {
-    console.log(this.props.watchBalance.newBalances, "chance check watchBalance")
-    this.props.wallet.getEnabledTokens().then(
-      response => {
-        this.setState({
-          availableTokens: response,
-          displayWallet: response[0],
-        })
-      }
-    ).then(() => this._updateWallet())
+    let enabledTokens = Object.keys(this.props.watchBalance).reverse()
+    this.setState({
+      availableTokens: enabledTokens,
+      displayWallet: enabledTokens[0] // initiate with HERC wallet
+    }, () => this._updateWallet())
 
     this.setState({ ethereumAddress: this.props.ethereumAddress })
   }
 
   _updateWallet = () => {
     let displayWallet = this.state.displayWallet;
-    let balance = new BigNumber(this.props.wallet.getBalance({ currencyCode: displayWallet }));
+    let balance = new BigNumber(this.props.watchBalance[displayWallet]);
     this.setState({ balance: balance.times(1e-18).toFixed(18) }, () => console.log(this.state));
   }
 
@@ -128,6 +124,8 @@ class Wallet extends React.Component {
     let walletList = this.state.availableTokens.map((currentItem, currentIndex) => {
       radio_props.push({ label: currentItem, value: currentItem })
     });
+
+    console.log(radio_props, 'chance radio_props object, make herc first')
 
     return (
       <View style={{ marginBottom: '5%', }}>
