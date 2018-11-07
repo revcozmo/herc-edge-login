@@ -111,7 +111,6 @@ class TransRev extends Component {
 
         if (transDat.images.size) {
             imgPrice = (((transDat.images.size / 1024) * (.00000002)) / (.4))
-            console.log(imgPrice, "imgPrice");
         };
 
         if (transDat.documents) {
@@ -141,7 +140,7 @@ class TransRev extends Component {
                     <Text style={localStyles.revPropVal}>{(transObj.images.size / 1024).toFixed(3)} kb</Text>
                     <View style={localStyles.feeContainer}>
                         <Image style={localStyles.hercPillarIcon} source={fee} />
-                        <Text style={localStyles.teePrice}>{imgPrice.toFixed(6)}</Text>
+                        <Text style={localStyles.teePrice}>{imgPrice.toFixed(8)}</Text>
                     </View>
                 </View>
             );

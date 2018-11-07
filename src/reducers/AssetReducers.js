@@ -216,20 +216,16 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
 
         case ADD_DOC:
             let documents = action.document;
-            console.log('adding doc', documents);
-            // let documents = [...state.selectedAsset.trans.data.documents, doc];
             // let documents = [...state.selectedAsset.trans.data.documents, doc];
             return Object.assign({}, state, {
                 ...state,
-                selectedAsset: {
-                    trans: {
-                        ...state.trans,
-                        data: {
-                            ...state.trans.data,
-                            documents
-                        }
-                    }
-                }
+                  trans: {
+                      ...state.trans,
+                      data: {
+                          ...state.trans.data,
+                          documents
+                      }
+                  }
             })
 
         case ADD_METRICS:
