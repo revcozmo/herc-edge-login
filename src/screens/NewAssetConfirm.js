@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Modal, Platform, StyleSheet, Text, View, Image, ScrollView, TextInput, TouchableHighlight, Alert, Button, ActivityIndicator } from 'react-native';
+import { Modal, Platform, StyleSheet, Text, View, Image, ScrollView, TextInput, TouchableHighlight, Alert, Button, ActivityIndicator, Linking } from 'react-native';
 import submit from "../components/buttons/submit.png";
 import logo from "../assets/round.png";
 import { connect } from "react-redux";
