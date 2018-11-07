@@ -26,14 +26,15 @@ class TransRev extends Component {
         }
     }
     componentDidMount = () => {
-        let balance = new BigNumber(this.props.wallet.getBalance({ currencyCode: "HERC" }))
-        this.setState({ balance: balance.times(1e-18).toFixed(18) }, () => { console.log(this.state.balance, 'chance herc balance')})
+        let balance = new BigNumber(this.props.watchBalance["HERC"])
+        this.setState({ balance: balance.times(1e-18).toFixed(6) })
     }
 
   _onPressSubmit(){
+    console.log(this._getPrices(), typeof(this._getPrices()), 'chance check prices') // need to subtract these two.
     Alert.alert(
-      'Payment Amount: '+ this._getPrices().toString() +' HERC',
-      'Current Balance: '+ this.state.balance+ ' HERC \n Do you authorize this payment?' ,
+      'Data Fee: '+ this._getPrices().toString() +' HERC \n Burn Amount: 0.000032 HERC',
+      'Total: '+ this.state.balance+ ' HERC \n Do you authorize this payment?' ,
       [
         {text: 'No', onPress: () => console.log('No Pressed'), style: 'cancel'},
         {text: 'Yes', onPress: () => this._checkBalance() },
@@ -46,7 +47,6 @@ class TransRev extends Component {
     if (!this.state.balance) {return}
 
     let convertingPrice = new BigNumber(this._getPrices()) // don't have to times 1e18 because its already hercs
-    console.log(convertingPrice.toString(), 'chance checkig that this is te correct string')
     let balance = new BigNumber(this.state.balance)
     let newbalance = balance.minus(convertingPrice)
 
@@ -239,7 +239,7 @@ class TransRev extends Component {
                 </TouchableHighlight>
                 <View style={localStyles.feeContainer}>
                     <Image style={localStyles.hercPillarIcon} source={fee} />
-                    <Text style={localStyles.teePrice}>{this._getPrices().toFixed(18)}</Text>
+                    <Text style={localStyles.teePrice}>{this._getPrices().toFixed(6)}</Text>
                 </View>
 
 
@@ -418,7 +418,8 @@ const mapStateToProps = (state) => ({
     transInfo: state.AssetReducers.trans.header,
     transDat: state.AssetReducers.trans.data,
     transDataFlags: state.AssetReducers.transDataFlags,
-    wallet: state.WalletActReducers.wallet
+    wallet: state.WalletActReducers.wallet,
+    watchBalance: state.WalletActReducers.watchBalance
     // price: state.dataReducer.prices.list.pricePerHercForFCT
 })
 

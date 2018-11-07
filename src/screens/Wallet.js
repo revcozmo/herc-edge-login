@@ -48,7 +48,7 @@ class Wallet extends React.Component {
   _updateWallet = () => {
     let displayWallet = this.state.displayWallet;
     let balance = new BigNumber(this.props.watchBalance[displayWallet]);
-    this.setState({ balance: balance.times(1e-18).toFixed(18) }, () => console.log(this.state));
+    this.setState({ balance: balance.times(1e-18).toFixed(6) }, () => console.log(this.state));
   }
 
   async _onPressSend() {

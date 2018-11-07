@@ -43,8 +43,8 @@ class NewAssetConfirm extends Component {
 
     componentDidMount() {
         this._getOrgName(this.props.edgeAccount)
-        let balance = new BigNumber(this.props.wallet.getBalance({ currencyCode: "HERC" }))
-        this.setState({ balance: balance.times(1e-18).toFixed(18) }, () => { console.log(this.state.balance, 'chance herc balance')})
+        let balance = new BigNumber(this.props.watchBalance["HERC"])
+        this.setState({ balance: balance.times(1e-18).toFixed(6) })
         this.setState({
             hercId: this.props.hercId
         })
@@ -300,7 +300,8 @@ const mapStateToProps = (state) => ({
     hercId: state.AssetReducers.hercId,
     edgeAccount: state.WalletActReducers.edge_account,
     wallet: state.WalletActReducers.wallet,
-    dataFlags: state.AssetReducers.dataFlags
+    dataFlags: state.AssetReducers.dataFlags,
+    watchBalance: state.WalletActReducers.watchBalance
 });
 
 const mapDispatchToProps = (dispatch) => ({
