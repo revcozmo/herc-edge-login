@@ -125,8 +125,6 @@ class Wallet extends React.Component {
       radio_props.push({ label: currentItem, value: currentItem })
     });
 
-    console.log(radio_props, 'chance radio_props object, make herc first')
-
     return (
       <View style={{ marginBottom: '5%', }}>
         <RadioForm
