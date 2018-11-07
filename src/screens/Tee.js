@@ -219,6 +219,9 @@ class Tee extends Component {
             <View style={localStyles.assetMetricInputField}>
               <Text style={localStyles.text}>Asset URL</Text>
               <TextInput
+                autoCorrect={false}
+                spellCheck={false}
+                underlineColorAndroid='transparent'
                 style={localStyles.input}
                 onChangeText={Url => this.setState({ Url })}
                 placeholder="URL"
@@ -227,6 +230,9 @@ class Tee extends Component {
             <View style={localStyles.assetMetricInputField}>
               <Text style={localStyles.text}>Metric 1</Text>
               <TextInput
+                autoCorrect={false}
+                spellCheck={false}
+                underlineColorAndroid='transparent'
                 style={localStyles.input}
                 onChangeText={metric1 =>
                   this.setState({
@@ -239,6 +245,9 @@ class Tee extends Component {
             <View style={localStyles.assetMetricInputField}>
               <Text style={localStyles.text}>Metric 2</Text>
               <TextInput
+                autoCorrect={false}
+                spellCheck={false}
+                underlineColorAndroid='transparent'
                 style={localStyles.input}
                 onChangeText={metric2 =>
                   this.setState({
@@ -251,6 +260,9 @@ class Tee extends Component {
             <View style={localStyles.assetMetricInputField}>
               <Text style={localStyles.text}>Metric 3</Text>
               <TextInput
+                autoCorrect={false}
+                spellCheck={false}
+                underlineColorAndroid='transparent'
                 style={localStyles.input}
                 onChangeText={metric3 =>
                   this.setState({
@@ -263,6 +275,9 @@ class Tee extends Component {
             <View style={localStyles.assetMetricInputField}>
               <Text style={localStyles.text}>Metric 4</Text>
               <TextInput
+                autoCorrect={false}
+                spellCheck={false}
+                underlineColorAndroid='transparent'
                 style={localStyles.input}
                 onChangeText={metric4 =>
                   this.setState({
@@ -275,6 +290,9 @@ class Tee extends Component {
             <View style={localStyles.assetMetricInputField}>
               <Text style={localStyles.text}>Metric 5</Text>
               <TextInput
+                autoCorrect={false}
+                spellCheck={false}
+                underlineColorAndroid='transparent'
                 style={localStyles.input}
                 onChangeText={metric5 =>
                   this.setState({
@@ -287,6 +305,9 @@ class Tee extends Component {
             <View style={localStyles.assetMetricInputField}>
               <Text style={localStyles.text}>Metric 6</Text>
               <TextInput
+                autoCorrect={false}
+                spellCheck={false}
+                underlineColorAndroid='transparent'
                 style={localStyles.input}
                 onChangeText={metric6 =>
                   this.setState({
@@ -299,6 +320,9 @@ class Tee extends Component {
             <View style={localStyles.assetMetricInputField}>
               <Text style={localStyles.text}>Metric 7</Text>
               <TextInput
+                autoCorrect={false}
+                spellCheck={false}
+                underlineColorAndroid='transparent'
                 style={localStyles.input}
                 onChangeText={metric7 =>
                   this.setState({
@@ -311,6 +335,9 @@ class Tee extends Component {
             <View style={localStyles.assetMetricInputField}>
               <Text style={localStyles.text}>Metric 8</Text>
               <TextInput
+                autoCorrect={false}
+                spellCheck={false}
+                underlineColorAndroid='transparent'
                 style={localStyles.input}
                 onChangeText={metric8 =>
                   this.setState({
@@ -440,4 +467,4 @@ const mapDispatchToProps = dispatch => ({
   getHercId: () => dispatch(getHercId())
 });
 
-export default connect( mapStateToProps, mapDispatchToProps )(Tee);
+export default connect(mapStateToProps, mapDispatchToProps)(Tee);

@@ -85,17 +85,21 @@ export default class PreHIPR extends Component {
       <View style={styles.container}>
         <View style={[styles.containerCenter, { paddingTop: 59 }]}>
 
-          <TouchableHighlight onPress={() => this._toggleShow()}>
-            <Image source={info} style={localStyles.menuButton} />
-          </TouchableHighlight>
-
-          <TouchableHighlight onPress={() => navigate('HiprAssets')}>
-            <Image source={begin} style={localStyles.menuButton} />
-          </TouchableHighlight>
-          {this.state.info &&
           <View style={localStyles.copyContainer}>
-              <Text style={localStyles.copy}>{[hiprText]}</Text>
-            </View>}
+            <Text style={localStyles.copy}>{[hiprText]}</Text>
+          </View>
+
+          {/* <TouchableHighlight onPress={() => this._toggleShow()}>
+            <Image source={info} style={localStyles.menuButton} />
+          </TouchableHighlight> */}
+
+          <View style={{ paddingTop: "20%" }}>
+
+            <TouchableHighlight onPress={() => navigate('HiprAssets')}>
+              <Image source={begin} style={localStyles.menuButton} />
+            </TouchableHighlight>
+          </View>
+
         </View>
       </View>
 
@@ -139,8 +143,10 @@ const localStyles = StyleSheet.create({
     width: '90%',
   },
   copy: {
+    fontFamily: "dinPro",
+    textAlign: "center",
     fontSize: 18,
-    color: "yellow",
+    color: "silver",
     textAlign: "center"
   }
 })

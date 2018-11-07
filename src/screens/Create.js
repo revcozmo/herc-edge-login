@@ -83,25 +83,19 @@ export default class Create extends Component {
   render() {
     const { navigate } = this.props.navigation;
     return (
-
       <View style={styles.container}>
         <View style={[styles.containerCenter, { paddingTop: 59 }]}>
-
-          <TouchableHighlight onPress={() => this._toggleShow()}>
-            <Image source={info} style={localStyles.menuButton} />
-          </TouchableHighlight>
-
+          <Text style={localStyles.copy}>
+            Create a New Asset by defining its Name, URL, up to 8 Metrics,
+            and choosing a photo. This asset can be unique to either an
+            individual part or a batch of a specific item. Be as succinct
+            as possible as these asset metrics cannot be redefined later.
+          </Text>
+          <View style={{paddingTop: "20%"}}>
           <TouchableHighlight onPress={() => navigate('Tee')}>
             <Image source={begin} style={localStyles.menuButton} />
           </TouchableHighlight>
-          {this.state.info && <View style={localStyles.copyContainer}>
-            <Text style={localStyles.copy}>
-              Create a New Asset by defining its Name, URL, up to 8 Metrics,
-              and choosing a photo. This asset can be unique to either an
-              individual part or a batch of a specific item. Be as succinct
-              as possible as these asset metrics cannot be redefined later.
-              </Text>
-          </View>}
+          </View>
         </View>
       </View>
     )
@@ -119,9 +113,10 @@ const localStyles = StyleSheet.create({
   },
   copyContainer: {},
   copy: {
+    fontFamily: "dinPro",
     textAlign: "center",
-    fontSize: 20,
-    color: "white",
+    fontSize: 18,
+    color: "silver",
     textAlign: "center"
   }
 })
