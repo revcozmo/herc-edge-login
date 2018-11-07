@@ -22,7 +22,7 @@ componentDidMount() {
   let convertingPrice = new BigNumber(1000)
   let price = convertingPrice.times(1e18)
   let balance = new BigNumber("9980000000000000000")
-  console.log("balance: ", balance.times(1e-18).toFixed(18))
+  console.log("balance: ", balance.times(1e-18).toFixed(6))
   console.log("1balance: ", balance.precision(18).shiftedBy(-18).toString())
 }
 

@@ -36,23 +36,19 @@ class Wallet extends React.Component {
   });
 
   componentDidMount = () => {
-    this.props.wallet.getEnabledTokens().then(
-      response => {
-        this.setState({ 
-        availableTokens: response,
-        displayWallet: response[0],
-      }, () => console.log(this.state)) 
-      }
-    )
+    let enabledTokens = Object.keys(this.props.watchBalance).reverse()
+    this.setState({
+      availableTokens: enabledTokens,
+      displayWallet: enabledTokens[0] // initiate with HERC wallet
+    }, () => this._updateWallet())
 
     this.setState({ ethereumAddress: this.props.ethereumAddress })
-    this._updateWallet();
   }
 
   _updateWallet = () => {
     let displayWallet = this.state.displayWallet;
-    let balance = new BigNumber(this.props.wallet.getBalance({ currencyCode: displayWallet }));
-    this.setState({ balance: balance.times(1e-18).toFixed(18) }, () => console.log(this.state));
+    let balance = new BigNumber(this.props.watchBalance[displayWallet]);
+    this.setState({ balance: balance.times(1e-18).toFixed(6) }, () => console.log(this.state));
   }
 
   async _onPressSend() {
@@ -130,7 +126,7 @@ class Wallet extends React.Component {
     });
 
     return (
-      <View>
+      <View style={{ marginBottom: '5%', }}>
         <RadioForm
           formHorizontal={true}
           labelColor={'silver'}
@@ -143,7 +139,6 @@ class Wallet extends React.Component {
       </View>
     )
   }
-
 
   render() {
 
@@ -177,73 +172,9 @@ class Wallet extends React.Component {
                 </View>
               </View>
 
-              {/* <View style={localStyles.addWalletField}>
-          <TouchableHighlight onPress={() => this.setModalVisible()}>
-            <View>
-              <Text style={localStyles.text}>Add Wallet(pending)</Text>
-              <Image style={localStyles.icon} source={plus} />
-            </View>
-          </TouchableHighlight>
-
-        </View> */}
-              {/* <View style={{ alignItems: 'center', height: 200, width: 300, alignContent: 'center', justifyContent: 'space-around', backgroundColor: 'green' }}>
-
-          <Wallet coin={this.props.currentWallet} icon={round} />
-
-        </View> */}
-
-              {/* <Text style={localStyles.text}> Address: {this.state.monies[this.state.currency].address}</Text> */}
-
-              {/* <View style={{ flexDirection: 'row', alignItems: 'center', height: 200, width: 300, alignContent: 'center', justifyContent: 'space-around' }}>
-          <View style={{ height: 30, width: 100, backgroundColor: "yellow", borderRadius: 5, }}>
-            <Text style={localStyles.buttonText}>Send</Text>
-          </View>
-
-          <View style={{ height: 30, width: 100, backgroundColor: "green", borderRadius: 5, }}>
-            <TouchableHighlight onPress={() => this._onPayment(5)}>
-              <Text style={localStyles.buttonText}>Receive</Text>
-            </TouchableHighlight>
-          </View> */}
-
-              {/* <Modal
-            animationIn={'slideInLeft'}
-            animationOut={'slideOutRight'}
-            transparent={false}
-            visible={this.state.modalVisible}
-            onRequestClose={() => {
-              Alert.alert('Modal has been closed.');
-            }}>
-            <View style={styles.container}>
-              <Text style={localStyles.currencyValue}>Available Wallets</Text>
-              <View style={localStyles.walletsField}>
-                <Text style={localStyles.buttonText}>
-                  {this.props.balance}
-                </Text>
-                {wallets}
-              </View>
-
-              <TouchableHighlight
-                onPress={() => {
-                  this.setModalVisible();
-                }}>
-                <Text>Hide Modal</Text>
-              </TouchableHighlight>
-            </View>
-          </Modal>
-
-          <TouchableHighlight
-            style={{ marginTop: 10 }}
-            onPress={() => this._makeCustomHercWallet()}>
-            <Text style={{ color: "white", marginTop: 10 }}>
-              makeCustomTronWallet
-            </Text>
-          </TouchableHighlight>
-
-*/}
-
             </View>
             <TextInput
-              style={{ width: "80%", marginTop: "5%", textAlign: "center", borderColor: "gold", borderWidth: 1, borderRadius: 10, color: "white" }}
+              style={{ width: "80%", marginTop: "10%", textAlign: "center", borderColor: "gold", borderWidth: 1, borderRadius: 10, color: "white" }}
               onChangeText={(destAddress) =>
                 this.setState({ destAddress })
               }
@@ -279,28 +210,33 @@ class Wallet extends React.Component {
               }}
             />
 
-            <View style={{ marginTop: "10%", alignContent: "center", alignItems: "center", margin: 5 }}>
-              <View style={{ borderWidth: 10, borderColor: 'white' }}>
+            <View style={{ marginTop: "5%", alignContent: "center", alignItems: "center", margin: 5 }}>
+              <Text style={{ color: "white", fontSize: 18, }}>
+                RECEIVE
+            </Text>
+              <View style={{ borderWidth: 10, borderColor: 'white', marginTop: "5%" }}>
                 <QRCode size={140} value={this.state.ethereumAddress} />
               </View>
               <Text style={{ color: "white", marginTop: 10 }}>
                 {this.state.ethereumAddress}
               </Text>
-              <TouchableHighlight onPress={() => { this.writeToClipboard(this.state.ethereumAddress) }
-              }>
-                <Text style={{ marginTop: 10, backgroundColor: "#4c99ed", width: 100, lineHeight: 30, height: 30, borderRadius: 5, color: "white", textAlign: "center", justifyContent: "center", alignContent: "center" }}>
-                  Copy
-              </Text>
-              </TouchableHighlight>
-              <TouchableHighlight onPress={() => {
-                Linking.openURL("https://purchase.herc.one/");
-              }}>
-                <View>
-                  <Text style={{ marginTop: "30%", color: "white", textAlign: "center", justifyContent: "center", alignContent: "center" }}>
-                    Top Up HERCs
-                </Text>
-                </View>
-              </TouchableHighlight>
+              <View style={{marginTop:'5%'}}>
+                <TouchableHighlight onPress={() => { this.writeToClipboard(this.state.ethereumAddress) }
+                }>
+                  <Text style={{ marginTop: 10, backgroundColor: "#4c99ed", width: 100, lineHeight: 30, height: 30, borderRadius: 5, color: "white", textAlign: "center", justifyContent: "center", alignContent: "center" }}>
+                    Copy
+                  </Text>
+                </TouchableHighlight>
+                <TouchableHighlight onPress={() => {
+                  Linking.openURL("https://purchase.herc.one/");
+                }}>
+                  <View>
+                    <Text style={{ marginTop: "30%", color: "white", textAlign: "center", justifyContent: "center", alignContent: "center" }}>
+                      Top Up HERCs
+                    </Text>
+                  </View>
+                </TouchableHighlight>
+              </View>
             </View>
           </View>
         </View>
@@ -316,6 +252,7 @@ const mapStateToProps = state => ({
   wallet: state.WalletActReducers.wallet,
   balanceInWei: state.WalletActReducers.wallet.balances[state.WalletActReducers.wallet.currencyInfo.currencyCode],
   account: state.WalletActReducers.account,
+  watchBalance: state.WalletActReducers.watchBalance
   // originalBalance: state.WalletActReducers.origBalance,
   // currentWallet: state.WalletActReducers.wallet,
   // ownedWallets: state.WalletReducers.wallets
@@ -390,6 +327,7 @@ const localStyles = StyleSheet.create({
     flex: 1
   },
   headerText: {
+    color: 'black',
     textAlign: "center",
     alignSelf: "center",
     fontSize: 26,

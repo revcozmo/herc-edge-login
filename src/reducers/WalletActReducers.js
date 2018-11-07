@@ -5,6 +5,7 @@ import {
     GETTING_ORGANIZATION,
     GET_WALLET,
     GET_BALANCE,
+    UPDATE_BALANCES,
     DEBIT_TRANS,
     DELETE_WALLET,
     SWITCH_WALLET,
@@ -48,6 +49,13 @@ export default function WalletReducer(state = INITIAL_STATE, action) {
                 ...state,
                 organizationName: organizationName
             })
+
+        case UPDATE_BALANCES:
+             console.log('UPDATEBALANCES: getting balance', action.newBalances);
+             return {
+                 ...state,
+                 watchBalance: action.newBalances
+             }
 
         case GET_ETH_ADDRESS:
             let ethereumAddress = action.ethereumAddress;

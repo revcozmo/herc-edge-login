@@ -14,8 +14,6 @@ import BigNumber from 'bignumber.js';
 YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTImageLoader', 'Setting a timer for a long period of time']);
 import store from "../store"
 
-//TODO: Fix the image review and create the price reducers with Julie.
-
 class TransRev extends Component {
 
     constructor(props) {
@@ -28,16 +26,15 @@ class TransRev extends Component {
         }
     }
     componentDidMount = () => {
-        // this.getPricesFromApi();
-        // TODO: this API needs to be updated
-        let balance = new BigNumber(this.props.wallet.getBalance({ currencyCode: "HERC" }))
-        this.setState({ balance: balance.times(1e-18).toFixed(18) }, () => { console.log(this.state.balance, 'chance herc balance')})
+        let balance = new BigNumber(this.props.watchBalance["HERC"])
+        this.setState({ balance: balance.times(1e-18).toFixed(6) })
     }
 
   _onPressSubmit(){
+    let total = parseFloat(this._getPrices()) + 0.000032
     Alert.alert(
-      'Payment Amount: '+ this._getPrices().toString() +' HERC',
-      'Current Balance: '+ this.state.balance+ ' HERC \n Do you authorize this payment?' ,
+      'Data Fee: '+ this._getPrices().toString() +' HERC \nBurn Amount: 0.000032 HERC',
+      'Total: '+ total + ' HERC \n Do you authorize this payment?' ,
       [
         {text: 'No', onPress: () => console.log('No Pressed'), style: 'cancel'},
         {text: 'Yes', onPress: () => this._checkBalance() },
@@ -48,9 +45,8 @@ class TransRev extends Component {
 
   async _checkBalance(){
     if (!this.state.balance) {return}
-
-    let convertingPrice = new BigNumber(this._getPrices()) // don't have to times 1e18 because its already hercs
-    console.log(convertingPrice.toString(), 'chance checkig that this is te correct string')
+    let total = parseFloat(this._getPrices()) + 0.000032
+    let convertingPrice = new BigNumber(total) // don't have to times 1e18 because its already hercs
     let balance = new BigNumber(this.state.balance)
     let newbalance = balance.minus(convertingPrice)
 
@@ -126,8 +122,11 @@ class TransRev extends Component {
             price = (docPrice + imgPrice) + (.000032);
         }
 
+        let convertingPrice = new BigNumber(price)
+        let newPrice = convertingPrice.toFixed(6)
+
         return (
-            price
+          newPrice
         )
     }
 
@@ -142,7 +141,7 @@ class TransRev extends Component {
                     <Text style={localStyles.revPropVal}>{(transObj.images.size / 1024).toFixed(3)} kb</Text>
                     <View style={localStyles.feeContainer}>
                         <Image style={localStyles.hercPillarIcon} source={fee} />
-                        <Text style={localStyles.teePrice}>{imgPrice.toFixed(8)}</Text>
+                        <Text style={localStyles.teePrice}>{imgPrice.toFixed(6)}</Text>
                     </View>
                 </View>
             );
@@ -161,7 +160,7 @@ class TransRev extends Component {
                     <Text style={localStyles.text}>{(transObj.documents.size / 1024).toFixed(3)} kb</Text>
                     <View style={localStyles.feeContainer}>
                         <Image style={localStyles.hercPillarIcon} source={fee} />
-                        <Text style={localStyles.teePrice}>{docPrice.toFixed(8)}</Text>
+                        <Text style={localStyles.teePrice}>{docPrice.toFixed(6)}</Text>
                     </View>
                 </View>
             );
@@ -225,10 +224,6 @@ class TransRev extends Component {
 
             <View style={localStyles.transactionReviewContainer}>
                 <Text style={styles.transReview}>Transaction Review</Text>
-                <Text style={{ fontSize: 22, color: "blue", marginTop: 5 }}> {name}  </Text>
-                <Image style={localStyles.assetLocationLabel} source={locationImage} />
-
-                <Text style={localStyles.transRevTime}>{dTime}</Text>
 
                 {edit}
 
@@ -243,7 +238,7 @@ class TransRev extends Component {
                 </TouchableHighlight>
                 <View style={localStyles.feeContainer}>
                     <Image style={localStyles.hercPillarIcon} source={fee} />
-                    <Text style={localStyles.teePrice}>{this._getPrices().toFixed(18)}</Text>
+                    <Text style={localStyles.teePrice}>{this._getPrices()}</Text>
                 </View>
 
 
@@ -422,7 +417,8 @@ const mapStateToProps = (state) => ({
     transInfo: state.AssetReducers.trans.header,
     transDat: state.AssetReducers.trans.data,
     transDataFlags: state.AssetReducers.transDataFlags,
-    wallet: state.WalletActReducers.wallet
+    wallet: state.WalletActReducers.wallet,
+    watchBalance: state.WalletActReducers.watchBalance
     // price: state.dataReducer.prices.list.pricePerHercForFCT
 })
 

@@ -324,6 +324,7 @@ export function sendTrans(transPrice) {
 
     let dTime = Date.now()
     let transObject = store.getState().AssetReducers.trans
+    let organizationName = store.getState().WalletActReducers.organizationName
 
     // let transObject = state.AssetReducers.selectedAsset.trans;
     let header = Object.assign({},transObject.header, {
@@ -344,13 +345,13 @@ export function sendTrans(transPrice) {
           axios.post(WEB_SERVER_API_IPFS_ADD, JSON.stringify(dataObject))
             .then(response => { return response }) // {key: 'properties', hash: 'QmU1D1eAeSLC5Dt4wVRR'}
             .catch(error => { console.log(error) }))
-      } else if (data[key].constructor === Array && data[key].image) {
+      } else if (data[key].image) {
         var base64 = data[key].image
         var dataObject = Object.assign({}, { key: key }, { data: encodeURIComponent(base64) })
         promiseArray.push(axios.post(WEB_SERVER_API_STORJ_UPLOAD, JSON.stringify(dataObject))
           .then(response => { return response }) // {key: 'images', hash: 'QmU1D1eAeSLC5Dt4wVRR'}
           .catch(error => { console.log(error) }))
-      } else if (data[key].constructor === Array && data[key].type === "text/comma-separated-values") {
+      } else if (data[key].type === "text/comma-separated-values") {
         var dataObject = Object.assign({}, { "key": key }, { "data": encodeURIComponent(data[key].content) })
         promiseArray.push(axios.post(WEB_SERVER_API_CSV, JSON.stringify(dataObject))
           .then(response => { return response })
@@ -362,10 +363,11 @@ export function sendTrans(transPrice) {
 
     Promise.all(promiseArray)
       .then(results => {
+        console.log(results, 'send_trans result chance')
         // results = [{key: 'properties', hash: 'QmU1D1eAeSLC5Dt4wVRR'}, {key: 'images', hash: 'QmU1D1eAeSLC5Dt4wVRR'}]
         // TODO: add error handling for undefined results
         var hashlist = results.map(result => { return result.data })
-        var factomEntry = { hash: hashlist, chainId: chainId, assetInfo: 'SampleAssetInfo' } // TODO: make assetInfo = organizationName
+        var factomEntry = { hash: hashlist, chainId: chainId, assetInfo: organizationName }
         console.log(factomEntry, "chance factomEntry")
         axios.post(WEB_SERVER_API_FACTOM_ENTRY_ADD, JSON.stringify(factomEntry))
           .then(response => { //response.data = entryHash

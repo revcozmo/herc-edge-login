@@ -11,7 +11,7 @@ import { YellowBox } from 'react-native';
 import { connect } from "react-redux";
 import axios from 'axios';
 import { ethereumCurrencyPluginFactory } from 'edge-currency-ethereum';
-import { getUsername, getAccount, authToken, getEthAddress, getWallet } from "../actions/WalletActActions";
+import { getUsername, getAccount, authToken, getEthAddress, getWallet, updateBalances } from "../actions/WalletActActions";
 import { WEB_SERVER_API_TOKEN, WEB_SERVER_API_IDOLOGY_CHECK } from "../components/settings";
 import { makeEdgeContext } from 'edge-core-js';
 import { EDGE_API_KEY } from '../components/settings.js'
@@ -44,9 +44,7 @@ class Login extends Component {
   })
 }
 
-  onLogin = (error = null, account) => {
-    console.log('ar: OnLogin error', error)
-    console.log('ar: OnLogin account', account)
+  onLogin = async (error = null, account) => {
     let tokenHerc = { // TODO: update this to HERC in prod
       currencyName: 'Hercules', // 0x6251583e7d997df3604bc73b9779196e94a090ce
       contractAddress: '0x6251583e7D997DF3604bc73B9779196e94A090Ce',
@@ -57,6 +55,7 @@ class Login extends Component {
       tokens: [ "HERC", "HERCULES" ]
     };
     if (!this.state.account) {
+      console.log('***ran line 57****')
       this.setState({account})
       // TODO: check if they have hercs in account
       this.props.getAccount(account);
@@ -86,8 +85,11 @@ class Login extends Component {
       let walletInfo = account.getFirstWalletInfo('wallet:ethereum')
       if (walletInfo) {
         this.setState({walletId: walletInfo.id})
-        account.waitForCurrencyWallet(walletInfo.id)
+        await account.waitForCurrencyWallet(walletInfo.id)
           .then(async wallet => {
+            wallet.watch('balances', (newBalances) => this.props.updateBalances(newBalances));
+
+            console.log(wallet, "this is the wallet object")
 
             const tokens = await wallet.getEnabledTokens()
             console.log(tokens,'chance enabled tokens') // => ['WINGS', 'REP']
@@ -104,7 +106,7 @@ class Login extends Component {
           name: 'My First Wallet',
           fiatCurrencyCode: 'iso:USD'
         }).then(async wallet => {
-
+          wallet.watch('balances', (newBalances) => this.props.updateBalances({ newBalances }));
           this.props.getEthAddress(wallet.keys.ethereumAddress)
           this.props.getWallet(wallet)
           wallet.addCustomToken(tokenHerc)
@@ -164,6 +166,8 @@ const mapDispatchToProps = (dispatch) => ({
     getWallet: (wallet) =>
       dispatch(getWallet(wallet)),
     getAccount: (account) =>
-      dispatch(getAccount(account))
+      dispatch(getAccount(account)),
+    updateBalances: (newBalances) =>
+      dispatch(updateBalances(newBalances))
 })
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

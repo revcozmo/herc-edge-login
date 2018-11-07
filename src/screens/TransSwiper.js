@@ -76,7 +76,6 @@ class TransSwiper extends Component {
         }
     }
     componentDidMount() {
-        console.log(this.props.transactions, 'TransSwiper: Swiper Here');
         console.log(this.state.transactions, 'TransSwiper: state transactions')
 
     }
@@ -91,12 +90,18 @@ class TransSwiper extends Component {
     //     })
     // }
 
+    // _goToWebView = () => {
+    //   console.log('chance clicked webview')
+    //   console.log(this.props,'chance props')
+    //   this.props.navigation.navigate('Welcome');
+    // }
 
     render() {
-    let cards = this.state.transactions.map(x => x);
-        return (<Swiper cards={cards} />)}
-
-}
+      console.log(this.props.navigation, 'chance txswiper');
+      let hashes = this.props.asset.hashes
+      let cards = this.state.transactions.map(x => x);
+        return (<Swiper navigation={this.props.navigation} cards={cards} hashes={hashes}/>)}
+    }
 
 const mapStateToProps = (state) => ({
     asset: state.AssetReducers.selectedAsset

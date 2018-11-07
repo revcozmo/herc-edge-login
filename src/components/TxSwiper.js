@@ -1,16 +1,18 @@
 import React, { Component } from 'react';
 import Swiper from 'react-native-deck-swiper';
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { Image, StyleSheet, TouchableHighlight, Text, View } from 'react-native';
 import Button from 'react-native-button';
 import originator from "./buttons/originatorButton.png";
 import recipient from "./buttons/recipientButton.png";
+import { WebViewComponent } from "../components/WebViewComponent"
+import { StackNavigator } from 'react-navigation';
 
-// import styles from '../assets/styles';
 export default class TxSwiper extends Component {
   constructor(props) {
     super(props)
     this.state = {
       cards: this.props.cards,
+      hashes: this.props.hashes,
       swipedAllCards: false,
       swipeDirection: '',
       isSwipingBack: false,
@@ -18,22 +20,28 @@ export default class TxSwiper extends Component {
     }
   }
 
-
-
+  _goToWebView = data => {
+    this.props.navigation.navigate("WebViewComponent", {data: data});
+  }
 
   renderCard = card => {
-    let factomEntry
+    console.log(card,'chance cards')
+    console.log(hashes, 'chance hashes')
+    let hashes = this.state.hashes
+    let factomChain = hashes.chainId;
+    let corePropsHash = hashes.ipfsHash;
+    let factomEntry = card.header.factomEntry
     let data = card.data;
     let header = card.header;
-    let locationImage = header.tXLocation === 'recipient' ? recipient : originator;
-    let price = card.header.price;
-    let metricsHash, ediT, documentHash, imageHash;
+    let metricsHash, ediTHash, documentHash, imageHash;
 
+    if(data.hasOwnProperty('ediT')) {
+      ediTHash = data.ediT;
+    }
 
-    // if(data.hasOwnProperty('documents')) {
-    // docNum = data.documents.length
-    // docHash = <Text style={styles.text}>Document IPFS Hash:{data.documents}</Text>;
-    // }    
+    if(data.hasOwnProperty('documents')) {
+      documentHash = data.documents;
+    }
 
     if (data.hasOwnProperty('images')) {
       imageHash = data.images;
@@ -45,20 +53,24 @@ export default class TxSwiper extends Component {
 
     return (
       <View key={card.key} style={styles.card}>
-        {/* <Image style={styles.assetLocationLabel} source={locationImage} /> */}
-        {/* <Text style={styles.revPropVal}>{this.props.hercId}</Text> */}
-        {/* {dTime} */}
+        <Text style={styles.revPropVal}>{header.hercId}</Text>
+        <Text style={styles.transRevName}>{header.dTime}</Text>
         <Text style={styles.transRevName}>{header.tXLocation}</Text>
-        {imageHash && <Text style={styles.text}>Image StorJ Hash:{imageHash}</Text>}
-        {metricsHash && <Text style={styles.text}>Metrics IPFS Hash: {metricsHash}</Text>}
-        {documentHash && <Text style={styles.text}>Document IPFS Hash:{documentHash}</Text>}
-        <View style={styles.transPropField}>
+        <View style={{margin: 10}}>
+          <Text style={styles.text}>Factom Chain:{factomChain}</Text>
+          <Text style={styles.text}>Factom Entry:{factomEntry}</Text>
+
+          <TouchableHighlight style={{ width: 300, justifyContent: "center", height: 50, paddingBottom:10, paddingTop:10, marginTop:10, marginBottom:10}} onPress={() => this._goToWebView({factomChain:factomChain, factomEntry:factomEntry}) }>
+            <Text style={{fontSize:20, backgroundColor: 'white', textAlign: 'center'}}>View Factom Entry</Text>
+          </TouchableHighlight>
+
+          {corePropsHash && <Text style={styles.text}>Core Properties:{corePropsHash}</Text>}
+          {imageHash && <Text style={styles.text}>Image StorJ:{imageHash}</Text>}
+          {metricsHash && <Text style={styles.text}>Metrics IPFS: {metricsHash}</Text>}
+          {documentHash && <Text style={styles.text}>Document IPFS:{documentHash}</Text>}
+          {ediTHash && <Text style={styles.text}>EDI-T IPFS:{ediTHash}</Text>}
+          <Text style={styles.text}>Price: {header.price}</Text>
         </View>
-        {/* {ediT} */}
-        {/* {docHash}
-        {imageHash}
-        {metricHash} */}
-        {/* {price} */}
       </View>
     )
   };
@@ -235,20 +247,14 @@ export default class TxSwiper extends Component {
     )
   }
 }
-// const mapStateToProps = (state) => {
-//   cards: Object.values(state.AssetReducers.selectedAsset.transactions)
-// }
 const styles = StyleSheet.create({
   container: {
-    // flex: 1,
-
     width: '95%',
     height: '95%',
     justifyContent: 'center',
     alignItems: 'center'
   },
   card: {
-    //  flex: 1,
     height: '80%',
     width: '90%',
     borderRadius: 4,
@@ -258,7 +264,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#091141',
     alignSelf: 'center',
     alignContent: "center",
-    // left: 0,
     top: -2,
     alignItems: 'center',
     marginBottom: 10,
@@ -269,13 +274,11 @@ const styles = StyleSheet.create({
     fontSize: 14,
     backgroundColor: 'transparent',
     height: 17,
-    // width: 50
   },
   image: {
     resizeMode: 'cover',
     height: 100,
     width: 100,
-    // borderRadius: 50 / 2,
   },
   imgcontainer: {
     flex: 1,
@@ -290,7 +293,6 @@ const styles = StyleSheet.create({
     resizeMode: "contain",
     marginTop: 10,
     alignSelf: "center"
-    // marginRight: 10
   },
   done: {
     textAlign: 'center',
@@ -306,21 +308,13 @@ const styles = StyleSheet.create({
     fontFamily: 'dinPro',
   },
   transDocField: {
-
     height: 45,
     width: '100%',
-    // flexDirection: "row",
     justifyContent: "space-around",
-
     padding: 2,
     margin: 2,
-    // textAlign:'center',
-    // textAlignVertical: 'center',
-    // backgroundColor: '#021227',
     alignSelf: 'center',
     borderColor: '#F3c736',
-
-
   },
   transRevName: {
     fontFamily: 'dinPro',
@@ -329,7 +323,6 @@ const styles = StyleSheet.create({
     margin: 2,
     marginBottom: 5,
     textAlign: 'left'
-
   },
   transRevTime: {
     color: '#f3c736',
@@ -342,7 +335,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#f3c736',
     margin: 2,
-    // textAlign: 'right'
   },
   transPropField: {
     height: 20,
@@ -352,8 +344,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 2,
     margin: 2,
-    // textAlign:'center',
-    // textAlignVertical: 'center',
     backgroundColor: "#021227",
     alignSelf: "center"
   },
@@ -365,6 +355,5 @@ const styles = StyleSheet.create({
     margin: 3,
     borderColor: '#F3c736',
     height: 17,
-
   }
 })

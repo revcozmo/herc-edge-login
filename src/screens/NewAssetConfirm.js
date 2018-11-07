@@ -43,8 +43,8 @@ class NewAssetConfirm extends Component {
 
     componentDidMount() {
         this._getOrgName(this.props.edgeAccount)
-        let balance = new BigNumber(this.props.wallet.getBalance({ currencyCode: "HERC" }))
-        this.setState({ balance: balance.times(1e-18).toFixed(18) }, () => { console.log(this.state.balance, 'chance herc balance')})
+        let balance = new BigNumber(this.props.watchBalance["HERC"])
+        this.setState({ balance: balance.times(1e-18).toFixed(6) })
         this.setState({
             hercId: this.props.hercId
         })
@@ -128,6 +128,7 @@ class NewAssetConfirm extends Component {
         // navigate('ConfirmConf');
     }
     _sendNewAsset(){
+      this._changeModalVisibility(true);
       if (this.props.newAsset.Logo) {
           this.uploadImageAsync(this.props.newAsset.Logo.uri)
       } else {
@@ -154,38 +155,23 @@ class NewAssetConfirm extends Component {
           { cancelable: true }
         )
       } else {
-        this._changeModalVisibility(true);
-        const abcSpendInfo = {
-          networkFeeOption: 'standard',
-          currencyCode: 'HERC',
-          metadata: {
-            name: 'Transfer From Herc Wallet',
-            category: 'Transfer:Wallet:College Fund'
-          },
-          spendTargets: [
-            {
-              publicAddress: TOKEN_ADDRESS,
-              nativeAmount: price
-            }
-          ]
-        }
-        // catch error for "ErrorInsufficientFunds"
-        let wallet = this.props.wallet
-        let abcTransaction = await wallet.makeSpend(abcSpendInfo)
-        await wallet.signTx(abcTransaction)
-        await wallet.broadcastTx(abcTransaction)
-        await wallet.saveTx(abcTransaction)
-
-        console.log("Sent transaction with ID = " + abcTransaction.txid)
-        this.setState({ transactionId: abcTransaction.id }, this._sendNewAsset())
+        Alert.alert(
+          'You Meet the Minimum Balance!',
+          'Current Balance:'+ this.state.balance + ' HERC \n Do you wish to proceed?' ,
+          [
+            {text: 'Cancel', onPress: () => console.log('No Pressed'), style: 'cancel'},
+            {text: 'Yes, Make an Asset', onPress: () => this._sendNewAsset()},
+          ],
+          { cancelable: false }
+        )
       }
     }
 
     _onPressSubmit() {
 
         Alert.alert(
-          'Payment Amount: 1000 HERC',
-          'Current Balance: \n'+ this.state.balance+ ' HERC \n Do You Authorize This Transaction?' ,
+          'Minimum Balance Requirement: 1000 HERC',
+          'Current Balance: \n'+ this.state.balance+ ' HERC \n Do you wish to check if your balance meets the minimum requirement?' ,
           [
             {text: 'No', onPress: () => console.log('No Pressed'), style: 'cancel'},
             {text: 'Yes', onPress: () => {this._checkBalance()} },
@@ -314,7 +300,8 @@ const mapStateToProps = (state) => ({
     hercId: state.AssetReducers.hercId,
     edgeAccount: state.WalletActReducers.edge_account,
     wallet: state.WalletActReducers.wallet,
-    dataFlags: state.AssetReducers.dataFlags
+    dataFlags: state.AssetReducers.dataFlags,
+    watchBalance: state.WalletActReducers.watchBalance
 });
 
 const mapDispatchToProps = (dispatch) => ({
