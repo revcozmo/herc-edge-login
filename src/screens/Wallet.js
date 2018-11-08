@@ -24,6 +24,7 @@ class Wallet extends React.Component {
       currentDenom: 'wei',
       destAddress: "",
       sendAmount: "",
+      balance:"",
       displayWallet: "",
       availableTokens: [],
     }
@@ -33,22 +34,30 @@ class Wallet extends React.Component {
     headerTitle: <View style={localStyles.headerBox}><Text style={localStyles.headerText}>Wallets</Text></View>,
   });
 
-  componentDidMount = () => {
-    // TODO empty balances will have an undefined this.props.watchBalance. should use enabledTokens() instead.
-    let enabledTokens = Object.keys(this.props.watchBalance).reverse()
-    /*
+  componentDidMount = async () => {
+    console.log('chance 1')
 
-    */
-
-    this.setState({
-      availableTokens: enabledTokens,
-      displayWallet: enabledTokens[0], // initiate with HERC wallet
-    }, () => this._updateWallet());
+    if (!this.props.watchBalance){
+      let light = await this.props.wallet.getEnabledTokens()
+      let enabledTokens = light.reverse()
+      this.setState({
+        availableTokens: enabledTokens,
+        displayWallet: enabledTokens[0], // initiate with HERC wallet
+      }, () => this._updateWallet());
+    } else {
+      let enabledTokens = Object.keys(this.props.watchBalance).reverse()
+      this.setState({
+        availableTokens: enabledTokens,
+        displayWallet: enabledTokens[0], // initiate with HERC wallet
+      }, () => this._updateWallet());
+    }
   }
 
   _updateWallet = () => {
+    console.log('chance 2')
     let displayWallet = this.state.displayWallet;
-    let balance = new BigNumber(this.props.watchBalance[displayWallet]);
+    let balance;
+    this.props.watchBalance ? balance = new BigNumber(this.props.watchBalance[displayWallet]) : balance = new BigNumber("0")
     this.setState({ balance: balance.times(1e-18).toFixed(6) }, () => console.log(this.state));
     /*
     this setState is not necessary. dont need to change the state, just make it a big number.
