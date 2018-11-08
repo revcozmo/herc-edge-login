@@ -36,6 +36,7 @@ class Wallet extends React.Component {
   });
 
   componentDidMount = () => {
+    // TODO empty balances will have an undefined this.props.watchBalance. should use enabledTokens() instead.
     let enabledTokens = Object.keys(this.props.watchBalance).reverse()
     this.setState({
       availableTokens: enabledTokens,

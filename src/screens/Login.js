@@ -83,12 +83,13 @@ class Login extends Component {
       let walletInfo = account.getFirstWalletInfo('wallet:ethereum')
       if (walletInfo) {
         this.setState({walletId: walletInfo.id})
-        await account.waitForCurrencyWallet(walletInfo.id)
+        account.waitForCurrencyWallet(walletInfo.id)
           .then(async wallet => {
+
+            let light = await wallet.watch('balances')
+            console.log(light, 'chances light 1')
+
             wallet.watch('balances', (newBalances) => this.props.updateBalances(newBalances));
-
-            console.log(wallet, "this is the wallet object")
-
             const tokens = await wallet.getEnabledTokens()
             console.log(tokens,'chance enabled tokens') // => ['WINGS', 'REP']
 
@@ -104,6 +105,10 @@ class Login extends Component {
           name: 'My First Wallet',
           fiatCurrencyCode: 'iso:USD'
         }).then(async wallet => {
+
+          let light = wallet.watch('balances')
+          console.log(light, 'chances light 2')
+
           wallet.watch('balances', (newBalances) => this.props.updateBalances(newBalances));
           this.props.getEthAddress(wallet.keys.ethereumAddress)
           this.props.getWallet(wallet)
