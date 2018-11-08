@@ -51,7 +51,7 @@ export default function WalletReducer(state = INITIAL_STATE, action) {
             })
 
         case UPDATE_BALANCES:
-             console.log('UPDATEBALANCES: getting balance', action.newBalances);
+             console.log('UPDATEBALANCES: chance getting balance', action.newBalances);
              return {
                  ...state,
                  watchBalance: action.newBalances
