@@ -45,7 +45,7 @@ class Login extends Component {
 }
 
   onLogin = async (error = null, account) => {
-    let tokenHerc = { 
+    let tokenHerc = {
       currencyName: 'Hercules', // 0x6251583e7d997df3604bc73b9779196e94a090ce
       contractAddress: '0x6251583e7D997DF3604bc73B9779196e94A090Ce',
       currencyCode: 'HERC',
@@ -104,7 +104,7 @@ class Login extends Component {
           name: 'My First Wallet',
           fiatCurrencyCode: 'iso:USD'
         }).then(async wallet => {
-          wallet.watch('balances', (newBalances) => this.props.updateBalances({ newBalances }));
+          wallet.watch('balances', (newBalances) => this.props.updateBalances(newBalances));
           this.props.getEthAddress(wallet.keys.ethereumAddress)
           this.props.getWallet(wallet)
           wallet.addCustomToken(tokenHerc)
