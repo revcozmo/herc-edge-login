@@ -22,8 +22,6 @@ class Wallet extends React.Component {
     super(props)
     this.state = {
       currentDenom: 'wei',
-      balance: "",
-      ethereumAddress: "",
       destAddress: "",
       sendAmount: "",
       displayWallet: "",
@@ -38,18 +36,24 @@ class Wallet extends React.Component {
   componentDidMount = () => {
     // TODO empty balances will have an undefined this.props.watchBalance. should use enabledTokens() instead.
     let enabledTokens = Object.keys(this.props.watchBalance).reverse()
+    /*
+
+    */
+
     this.setState({
       availableTokens: enabledTokens,
-      displayWallet: enabledTokens[0] // initiate with HERC wallet
-    }, () => this._updateWallet())
-
-    this.setState({ ethereumAddress: this.props.ethereumAddress })
+      displayWallet: enabledTokens[0], // initiate with HERC wallet
+    }, () => this._updateWallet());
   }
 
   _updateWallet = () => {
     let displayWallet = this.state.displayWallet;
     let balance = new BigNumber(this.props.watchBalance[displayWallet]);
     this.setState({ balance: balance.times(1e-18).toFixed(6) }, () => console.log(this.state));
+    /*
+    this setState is not necessary. dont need to change the state, just make it a big number.
+    remove this.state.balance to read from a tempVariable
+    */
   }
 
   async _onPressSend() {
@@ -216,13 +220,13 @@ class Wallet extends React.Component {
                 RECEIVE
             </Text>
               <View style={{ borderWidth: 10, borderColor: 'white', marginTop: "5%" }}>
-                <QRCode size={140} value={this.state.ethereumAddress} />
+                <QRCode size={140} value={this.props.ethereumAddress} />
               </View>
               <Text style={{ color: "white", marginTop: 10 }}>
-                {this.state.ethereumAddress}
+                {this.props.ethereumAddress}
               </Text>
               <View style={{marginTop:'5%'}}>
-                <TouchableHighlight onPress={() => { this.writeToClipboard(this.state.ethereumAddress) }
+                <TouchableHighlight onPress={() => { this.writeToClipboard(this.props.ethereumAddress) }
                 }>
                   <Text style={{ marginTop: 10, backgroundColor: "#4c99ed", width: 100, lineHeight: 30, height: 30, borderRadius: 5, color: "white", textAlign: "center", justifyContent: "center", alignContent: "center" }}>
                     Copy

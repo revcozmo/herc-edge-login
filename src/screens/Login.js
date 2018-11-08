@@ -45,13 +45,13 @@ class Login extends Component {
 }
 
   onLogin = async (error = null, account) => {
-    let customHercToken = {
+    let tokenHerc = {
       currencyName: 'Hercules', // 0x6251583e7d997df3604bc73b9779196e94a090ce
       contractAddress: '0x6251583e7D997DF3604bc73B9779196e94A090Ce',
       currencyCode: 'HERC',
       multiplier: '1000000000000000000'
     };
-    let enableHercTokens = {
+    let customHercTokens = {
       tokens: [ "HERC", "HERCULES" ]
     };
     if (!this.state.account) {
@@ -85,11 +85,17 @@ class Login extends Component {
         this.setState({walletId: walletInfo.id})
         account.waitForCurrencyWallet(walletInfo.id)
           .then(async wallet => {
+            let light = wallet.watch('balances')
+            console.log(light, 'chances light 1')
+
             wallet.watch('balances', (newBalances) => this.props.updateBalances(newBalances));
+            const tokens = await wallet.getEnabledTokens()
+            console.log(tokens,'chance enabled tokens') // => ['WINGS', 'REP']
+
             this.props.getEthAddress(wallet.keys.ethereumAddress)
             this.props.getWallet(wallet)
-            wallet.addCustomToken(customHercToken)
-            wallet.enableTokens(enableHercTokens).catch(err => {console.log(err, "chance enable token err")})
+            wallet.addCustomToken(tokenHerc)
+            wallet.enableTokens(customHercTokens).catch(err => {console.log(err, "chance enable token err")})
             this.setState({wallet})
             return wallet
           })
@@ -98,11 +104,15 @@ class Login extends Component {
           name: 'My First Wallet',
           fiatCurrencyCode: 'iso:USD'
         }).then(async wallet => {
+
+          let light = wallet.watch('balances')
+          console.log(light, 'chances light 2')
+
           wallet.watch('balances', (newBalances) => this.props.updateBalances(newBalances));
           this.props.getEthAddress(wallet.keys.ethereumAddress)
           this.props.getWallet(wallet)
-          wallet.addCustomToken(customHercToken)
-          wallet.enableTokens(enableHercTokens).catch(err => {console.log(err, "chance enable token err")})
+          wallet.addCustomToken(tokenHerc)
+          wallet.enableTokens(customHercTokens).catch(err => {console.log(err, "chance enable token err")})
           this.setState({ wallet })
           this.setState({walletId: wallet.id})
         })
