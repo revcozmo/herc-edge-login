@@ -34,7 +34,7 @@ class Wallet extends React.Component {
   });
 
   componentDidMount = async () => {
-    if (!this.props.watchBalance){
+    if (!this.props.watchBalance || Object.keys(this.props.watchBalance).length < 1 ){
       let light = await this.props.wallet.getEnabledTokens()
       let enabledTokens = light.reverse()
       this.setState({
@@ -51,12 +51,12 @@ class Wallet extends React.Component {
   }
 
   _updateWallet = () => {
-    let displayWallet = this.state.displayWallet;
-    let tempBalance;
-    this.props.watchBalance ? tempBalance = new BigNumber(this.props.watchBalance[displayWallet]) : tempBalance = new BigNumber("0")
-    let balance = tempBalance.times(1e-18).toFixed(6)
-    return (balance)
-  }
+      let displayWallet = this.state.displayWallet;
+      let tempBalance;
+      this.props.watchBalance.ETH === NaN ? tempBalance = new BigNumber(this.props.watchBalance[displayWallet]) : tempBalance = new BigNumber("0")
+      let balance = tempBalance.times(1e-18).toFixed(6)
+      return (balance)
+    }
 
   async _onPressSend() {
     const wallet = this.props.wallet
@@ -148,6 +148,7 @@ class Wallet extends React.Component {
   }
 
   render() {
+    let flag = this._updateWallet() === NaN ? '0.000000' : this._updateWallet();
     return (
       <ScrollView>
         <View style={styles.container}>
@@ -163,7 +164,7 @@ class Wallet extends React.Component {
                 <View style={localStyles.tokenValueContainer}>
                   <Image style={localStyles.icon} source={round} />
 
-                  <Text style={localStyles.currencyValue}>{this._updateWallet()}</Text>
+                  <Text style={localStyles.currencyValue}>{flag}</Text>
 
                 </View>
 
