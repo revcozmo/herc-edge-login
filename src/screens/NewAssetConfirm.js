@@ -195,7 +195,7 @@ class NewAssetConfirm extends Component {
         let newAsset = this.props.newAsset;
         let Logo, Url, list;
         let Name = newAsset.Name;
-        let password = this.props.newAsset.password
+        let password = this.props.newAsset.Password
 
         console.log(newAsset, "newAsset, look at Logo")
         if (newAsset.Logo) {
