@@ -27,6 +27,21 @@ export default class Hipr extends Component {
     headerRight: <Image source={profilePic} style={{ height: 40, width: 25, resizeMode: 'contain', marginRight: 10 }} />
 
   })
+
+  /*
+
+  NOTES FOR HIPR PAYMENT MODEL
+
+  hipr fee > 0x20B3dB2C1E7CFdE1a7f7D40dEf288Dc94F1e59d4 = 0.000032 HERC
+  priority for HIPR is
+  0.000032 = Low
+  0.000064 = mid
+  0.000096 = High
+  the hiprFee is like a minerFee
+
+  */
+
+
   render() {
     return (
       <WebView
