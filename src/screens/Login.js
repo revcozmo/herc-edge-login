@@ -37,7 +37,7 @@ class Login extends Component {
     apiKey: EDGE_API_KEY,
     appId: 'com.mydomain.myapp',
     vendorName: 'Chain Net',
-    vendorImageUrl: 'https://airbitz.co/go/wp-content/uploads/2016/10/GenericEdgeLoginIcon.png',
+    vendorImageUrl: 'https://s3.us-east-2.amazonaws.com/hercmedia/hLogo.png',
     plugins: [ethereumCurrencyPluginFactory]
   }).then(context => {
     this.setState({ context })
@@ -45,7 +45,7 @@ class Login extends Component {
 }
 
   onLogin = async (error = null, account) => {
-    let tokenHerc = { 
+    let tokenHerc = {
       currencyName: 'Hercules', // 0x6251583e7d997df3604bc73b9779196e94a090ce
       contractAddress: '0x6251583e7D997DF3604bc73B9779196e94A090Ce',
       currencyCode: 'HERC',
@@ -83,12 +83,9 @@ class Login extends Component {
       let walletInfo = account.getFirstWalletInfo('wallet:ethereum')
       if (walletInfo) {
         this.setState({walletId: walletInfo.id})
-        await account.waitForCurrencyWallet(walletInfo.id)
+        account.waitForCurrencyWallet(walletInfo.id)
           .then(async wallet => {
             wallet.watch('balances', (newBalances) => this.props.updateBalances(newBalances));
-
-            console.log(wallet, "this is the wallet object")
-
             const tokens = await wallet.getEnabledTokens()
             console.log(tokens,'chance enabled tokens') // => ['WINGS', 'REP']
 
@@ -104,7 +101,7 @@ class Login extends Component {
           name: 'My First Wallet',
           fiatCurrencyCode: 'iso:USD'
         }).then(async wallet => {
-          wallet.watch('balances', (newBalances) => this.props.updateBalances({ newBalances }));
+          wallet.watch('balances', (newBalances) => this.props.updateBalances(newBalances));
           this.props.getEthAddress(wallet.keys.ethereumAddress)
           this.props.getWallet(wallet)
           wallet.addCustomToken(tokenHerc)

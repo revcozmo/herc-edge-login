@@ -94,7 +94,7 @@ class BlockScanner extends Component {
       <View style={styles.container}>
         <View style={styles.containerCenter}>
           <Text style={{ color: "white", height: 30, fontSize: 20 }}>
-            POC Ropsten TestNet Latest Block
+            Main NET Latest Block
         </Text>
 
           {this.props.data && (
