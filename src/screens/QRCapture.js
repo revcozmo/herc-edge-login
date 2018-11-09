@@ -56,7 +56,7 @@ class QRCapture extends Component {
     this.setState(
       {
         assetName: splitScanResult[0],
-        assetURL: splitScanResult[1],
+        assetURL: splitScanResult[1], //assetURL is deprecated 11/09/2018 version 0.9.3
         iconURL: splitScanResult[2],
         CoreProps: {
           metric1: splitScanResult[3],
