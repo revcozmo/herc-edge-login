@@ -102,32 +102,32 @@ class TransRev extends Component {
     }
 
 
-    _getPrices = () => {
+  _getPrices = () => {
 
-        let transDat = this.props.transDat;
-        let price = 0;
-        let imgPrice = 0;
-        let docPrice = 0;
+      let transDat = this.props.transDat;
+      let price = 0;
+      let imgPrice = 0;
+      let docPrice = 0;
 
-        if (transDat.images.size) {
-            imgPrice = ((transDat.images.size / 1024) * .00000002) / .4
-        };
+      if (transDat.images.size) {
+          imgPrice = ((transDat.images.size / 1024) * .00000002) / .4
+      };
 
-        if (transDat.documents) {
-            docPrice = .000032
-        }
+      if (transDat.documents) {
+          docPrice = .000032
+      }
 
-        if ((docPrice + imgPrice) !== 0) {
-            price = (docPrice + imgPrice) + (.000032);
-        }
+      if ((docPrice + imgPrice) !== 0) {
+          price = (docPrice + imgPrice) + (.000032);
+      }
 
-        let convertingPrice = new BigNumber(price)
-        let newPrice = convertingPrice.toFixed(6)
+      let convertingPrice = new BigNumber(price)
+      let newPrice = convertingPrice.toFixed(6)
 
-        return (
-          newPrice
-        )
-    }
+      return (
+        newPrice
+      )
+  }
 
 
     _hasImage = (transObj) => {
