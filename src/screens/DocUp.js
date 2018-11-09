@@ -73,7 +73,6 @@ class DocUp extends Component {
           </View>
         </TouchableHighlight>
       </View>
-
     }
   }
   state = {
@@ -81,7 +80,6 @@ class DocUp extends Component {
     uri: null,
     size: null
   }
-
 
   _onSubmit = () => {
     const { navigate } = this.props.navigation;
@@ -95,7 +93,6 @@ class DocUp extends Component {
       name: docName,
       content: docContent
     })
-    console.log(doc, "DocUp: pressed _onSubmit")
 
     this.props.addDoc(doc);
 
@@ -110,9 +107,8 @@ class DocUp extends Component {
       //this if(res) allows user to use native android back button to exit docpicker
       if(res){
         if (error) Alert.alert("Something Went Wrong! Error: " + error);
-        if (res.type != "text/comma-separated-values") Alert.alert("This filetype is not supported. Please upload a CSV file. ");
         // Android
-        RNFS.readFile(res.uri, 'utf8')
+        RNFS.readFile(res.uri, 'base64')
         .then(contents => {
           this.setState({
             uri: res.uri,
@@ -128,7 +124,6 @@ class DocUp extends Component {
 
   render() {
     const { navigate } = this.props.navigation;
-
     let locationImage = this.props.transInfo.location === 'recipient' ? newRecipient : newOriginator;
 
     return (
@@ -165,17 +160,14 @@ const mapStateToProps = (state) => ({
   transInfo: state.AssetReducers.trans.header,
   logo: state.AssetReducers.selectedAsset.Logo,
   name: state.AssetReducers.selectedAsset.Name
-
 });
 
 const mapDispatchToProps = (dispatch) => ({
   addDoc: (doc) =>
     dispatch(addDoc(doc)),
-
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(DocUp);
-
 
 const localStyles = StyleSheet.create({
   submitButton: {
