@@ -234,7 +234,7 @@ class NewAssetConfirm extends Component {
                     {Logo}
                     <Text style={styles.assetHeaderLabel}>{Url}</Text>
                     <Text style={styles.assetHeaderLabel}>HercID: {hercId}</Text>
-                    <Text style={styles.assetHeaderLabel}>Password: {passwrod}</Text>
+                    <Text style={styles.assetHeaderLabel}>Password: {password}</Text>
                     <ScrollView style={{ paddingRight: 5, alignSelf: "center", width: "100%" }}>
 
                         {list}
