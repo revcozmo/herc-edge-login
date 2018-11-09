@@ -37,7 +37,7 @@ class Login extends Component {
     apiKey: EDGE_API_KEY,
     appId: 'com.mydomain.myapp',
     vendorName: 'Chain Net',
-    vendorImageUrl: 'https://airbitz.co/go/wp-content/uploads/2016/10/GenericEdgeLoginIcon.png',
+    vendorImageUrl: 'https://s3.us-east-2.amazonaws.com/hercmedia/hLogo.png',
     plugins: [ethereumCurrencyPluginFactory]
   }).then(context => {
     this.setState({ context })
