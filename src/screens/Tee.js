@@ -167,6 +167,9 @@ class Tee extends Component {
     if (!this.state.Name) {
       Alert.alert("Please Add A Name");
     }
+    if(!this.state.Password) {
+      Alert.alert("Don't Forget The Password")
+    }
     if (this.state.CoreProps) {
       let CoreProps = {};
       Object.values(this.state.CoreProps).map(x => {
@@ -214,6 +217,17 @@ class Tee extends Component {
                 style={localStyles.input}
                 onChangeText={Name => this.setState({ Name })}
                 placeholder="Asset Name"
+              />
+            </View>
+            <View style={localStyles.assetMetricInputField}>
+              <Text style={localStyles.text}>Asset Password</Text>
+              <TextInput
+                autoCorrect={false}
+                spellCheck={false}
+                underlineColorAndroid='transparent'
+                style={localStyles.input}
+                onChangeText={ pass => this.setState({ Password: pass })}
+                placeholder="Asset Password"
               />
             </View>
             <View style={localStyles.assetMetricInputField}>

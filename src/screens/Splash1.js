@@ -8,12 +8,15 @@ import {
   ScrollView,
   TouchableHighlight,
   Alert,
+  TextInput,
   Platform,
   StatusBar,
+  Modal
 } from "react-native";
 import { createStackNavigator } from "react-navigation";
 import { connect } from "react-redux";
 import Button from "react-native-button";
+import submit from "../components/buttons/submit.png";
 import styles from "../assets/styles";
 import create from "../assets/createNewAssetButton.png";
 import supplyChain from "../assets/supplyChain.png";
@@ -84,6 +87,10 @@ class Splash1 extends Component {
 
   constructor(props) {
     super(props);
+
+    this.state = {
+      showPass: false
+    };
   }
 
   componentDidMount() {
@@ -102,22 +109,48 @@ class Splash1 extends Component {
   _renderAssets = () => {
     let list = this.props.assets.map((asset, index) => {
       return (
-        <TouchableHighlight style={{ borderRadius: 2 }} key={index} onPress={() => this._onPress(asset)}>
-          <View style={localStyles.menuItemField}>
-            {/* <Button onPress={() => this._onDelete(asset.key)} style={styles.assetDeleteButton}>Delete</Button> */}
-            <Image style={localStyles.assetLogo} source={{ uri: asset.Logo }} />
-            <View style={localStyles.menuItemField__textBox}>
-              <Text style={localStyles.assetLabel}>{asset.Name}</Text>
-            </View>
-          </View>
-        </TouchableHighlight>
-      );
-    });
+          <TouchableHighlight style={{ borderRadius: 2 }} key={index} onPress={() => this._showPass(asset)}>
+            <View style={localStyles.menuItemField}>
+              {/* <Button onPress={() => this._onDelete(asset.key)} style={styles.assetDeleteButton}>Delete</Button> */}
+              <Image style={localStyles.assetLogo} source={{ uri: asset.Logo }} />
+              <View style={localStyles.menuItemField__textBox}>
+                <Text style={localStyles.assetLabel}>{asset.Name}</Text>
+              </View>
+              </View>
+          </TouchableHighlight>
+      )
+    })
+
     return list;
+
   }
+  _showPass = asset => {
+    console.log(asset, "asset before pw enter in splash2");
+
+    this.setState({
+      showPass: true,
+      asset
+    });
+  };
+  _onPasswordSubmit = () => {
+
+    if (this.state.password === this.state.asset.Password) {
+      this._selectAsset(this.state.asset);
+      this._cancelPass();
+    } else {
+      Alert.alert("Password Incorrect");
+    }
+  };
+
+  _cancelPass = () => {
+    this.setState({
+      showPass: false,
+      password: ""
+    });
+  };
 
 
-  _onPress = asset => {
+  _selectAsset = asset => {
     const { navigate } = this.props.navigation;
     this.props.selectAsset(asset);
     if (asset.ipfsHash) {
@@ -133,8 +166,6 @@ class Splash1 extends Component {
   render() {
 
     const { navigate } = this.props.navigation;
-
-
     return (
       <View style={styles.container}>
         <View style={[styles.containerCenter, { paddingTop: 25 }]}>
@@ -153,9 +184,54 @@ class Splash1 extends Component {
 
           </ScrollView>
         </View>
+        <Modal
+          transparent={false}
+          animationType={'none'}
+          visible={this.state.showPass}
+          onRequestClose={() => { console.log("modal closed") }}
+        >
+          <View style={styles.container}>
+            <View style={[styles.containerCenter, { paddingTop: 25 }]}>
+              <View style={localStyles.passwordFieldContainer}>
+                <Text style={localStyles.passwordLabel}>
+                  Please Enter{" "}
+                  Asset Password
+          </Text>
+
+                <View style={localStyles.passwordTextInputView}>
+                  <TextInput
+                    autoCorrect={false}
+                    spellCheck={false}
+                    underlineColorAndroid="transparent"
+                    style={{ fontSize: 20, textAlign: "center" }}
+                    onChangeText={pass => this.setState({ password: pass })}
+                  />
+                </View>
+                <View style={localStyles.buttonField}>
+                  <TouchableHighlight onPress={() => this._onPasswordSubmit()}>
+                    <Image
+                      style={[
+                        localStyles.button,
+                        { resizeMode: "cover", alignSelf: "flex-start" }
+                      ]}
+                      source={submit}
+                    />
+                  </TouchableHighlight>
+                  <TouchableHighlight
+                    style={localStyles.button}
+                    onPress={this._cancelPass}
+                  >
+                    <Text style={{ fontSize: 18 }}>Cancel</Text>
+                  </TouchableHighlight>
+                </View>
+              </View>
+            </View>
+          </View>
+        </Modal>
       </View>
-    );
-  }
+    )
+  };
+
 }
 
 const localStyles = StyleSheet.create({
@@ -212,6 +288,53 @@ const localStyles = StyleSheet.create({
   menuItemField__textBox: {
     flex: 1
   },
+  passwordFieldContainer: {
+    height: "30%",
+    width: "88%",
+    justifyContent: "center",
+    backgroundColor: "#123C4A",
+    marginTop: 17,
+    paddingBottom: 20,
+  },
+  passwordTextInput: {
+    fontSize: 20,
+    textAlign: "center",
+    height: 30,
+    justifyContent: "center",
+  },
+  passwordTextInputView: {
+    backgroundColor: "white",
+    padding: 5,
+    alignItems: "center",
+    width: "90%",
+    alignSelf: "center",
+    marginTop: 4,
+  },
+  passwordLabel: {
+    color: "white",
+    fontSize: 18,
+    textAlign: "center",
+    margin: 5,
+    paddingTop: 20,
+  },
+  buttonField: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    padding: 5,
+    margin: 5,
+    paddingBottom: 20
+  },
+  button: {
+    height: 40,
+    width: 80,
+    borderColor: "black",
+    borderWidth: 2,
+    margin: 5,
+    padding: 5,
+    justifyContent: "center"
+  }
+
+
 });
 
 const mapStateToProps = state => ({

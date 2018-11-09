@@ -117,7 +117,8 @@ class NewAssetConfirm extends Component {
             hercId: this.props.hercId,
             Name: newAsset.Name,
             Logo: downloadURL,
-            registeredUnder: this.state.orgName
+            registeredUnder: this.state.orgName,
+            Password: newAsset.Password
         }
 
         console.log(ipfsAsset, fbAsset, "right before the send chance")
@@ -194,6 +195,7 @@ class NewAssetConfirm extends Component {
         let newAsset = this.props.newAsset;
         let Logo, Url, list;
         let Name = newAsset.Name;
+        let password = this.props.newAsset.password
 
         console.log(newAsset, "newAsset, look at Logo")
         if (newAsset.Logo) {
@@ -232,6 +234,7 @@ class NewAssetConfirm extends Component {
                     {Logo}
                     <Text style={styles.assetHeaderLabel}>{Url}</Text>
                     <Text style={styles.assetHeaderLabel}>HercID: {hercId}</Text>
+                    <Text style={styles.assetHeaderLabel}>Password: {password}</Text>
                     <ScrollView style={{ paddingRight: 5, alignSelf: "center", width: "100%" }}>
 
                         {list}
