@@ -231,17 +231,6 @@ class Tee extends Component {
               />
             </View>
             <View style={localStyles.assetMetricInputField}>
-              <Text style={localStyles.text}>Asset URL</Text>
-              <TextInput
-                autoCorrect={false}
-                spellCheck={false}
-                underlineColorAndroid='transparent'
-                style={localStyles.input}
-                onChangeText={Url => this.setState({ Url })}
-                placeholder="URL"
-              />
-            </View>
-            <View style={localStyles.assetMetricInputField}>
               <Text style={localStyles.text}>Metric 1</Text>
               <TextInput
                 autoCorrect={false}

@@ -86,7 +86,7 @@ export default class Create extends Component {
       <View style={styles.container}>
         <View style={[styles.containerCenter, { paddingTop: 59 }]}>
           <Text style={localStyles.copy}>
-            Create a New Asset by defining its Name, URL, up to 8 Metrics,
+            Create a New Asset by defining its Name, up to 8 Metrics,
             and choosing a photo. This asset can be unique to either an
             individual part or a batch of a specific item. Be as succinct
             as possible as these asset metrics cannot be redefined later.

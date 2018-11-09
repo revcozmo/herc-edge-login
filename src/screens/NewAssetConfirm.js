@@ -107,7 +107,6 @@ class NewAssetConfirm extends Component {
 
 
         ipfsAsset = Object.assign({}, {
-            url: newAsset.Url || 'No URL',
             Name: newAsset.Name,
             CoreProps: newAsset.CoreProps,
             hercId: this.props.hercId,
@@ -193,9 +192,9 @@ class NewAssetConfirm extends Component {
         let price = this.state.fctPrice;
         let hercId = this.props.hercId;
         let newAsset = this.props.newAsset;
-        let Logo, Url, list;
+        let Logo, Organization, list;
         let Name = newAsset.Name;
-        let password = this.props.newAsset.password
+        let password = this.props.newAsset.Password
 
         console.log(newAsset, "newAsset, look at Logo")
         if (newAsset.Logo) {
@@ -205,11 +204,7 @@ class NewAssetConfirm extends Component {
         }
 
 
-        if (newAsset.hasOwnProperty('Url')) {
-            Url = (<Text style={styles.label}>{newAsset.Url}</Text>);
-        } else {
-            Url = (<Text style={styles.label}>No Url</Text>)
-        }
+        Organization = (<Text style={styles.label}>{this.props.organization}</Text>);
 
         if (newAsset.hasOwnProperty('CoreProps')) {
             list = Object.getOwnPropertyNames(newAsset.CoreProps).map((x, i) => {
@@ -232,7 +227,7 @@ class NewAssetConfirm extends Component {
 
                     <Text style={styles.assetHeaderLabel}>{Name}</Text>
                     {Logo}
-                    <Text style={styles.assetHeaderLabel}>{Url}</Text>
+                    <Text style={styles.assetHeaderLabel}>{Organization}</Text>
                     <Text style={styles.assetHeaderLabel}>HercID: {hercId}</Text>
                     <Text style={styles.assetHeaderLabel}>Password: {password}</Text>
                     <ScrollView style={{ paddingRight: 5, alignSelf: "center", width: "100%" }}>
@@ -304,7 +299,8 @@ const mapStateToProps = (state) => ({
     edgeAccount: state.WalletActReducers.edge_account,
     wallet: state.WalletActReducers.wallet,
     dataFlags: state.AssetReducers.dataFlags,
-    watchBalance: state.WalletActReducers.watchBalance
+    watchBalance: state.WalletActReducers.watchBalance,
+    organization: state.WalletActReducers.organizationName
 });
 
 const mapDispatchToProps = (dispatch) => ({
