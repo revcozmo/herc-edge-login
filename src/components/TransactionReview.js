@@ -22,7 +22,6 @@ class TransRev extends Component {
             modalVisible: false,
             loading: false,
             balance: null,
-            transactionId: null,
         }
     }
     componentDidMount = () => {
@@ -45,9 +44,13 @@ class TransRev extends Component {
 
   async _checkBalance(){
     if (!this.state.balance) {return}
+
+    let dataFee = new BigNumber(this._getPrices())
+
     let total = parseFloat(this._getPrices()) + 0.000032
     let convertingPrice = new BigNumber(total) // don't have to times 1e18 because its already hercs
     let balance = new BigNumber(this.state.balance)
+
     let newbalance = balance.minus(convertingPrice)
 
     console.log('do you have enough?', newbalance.isPositive())
@@ -56,7 +59,7 @@ class TransRev extends Component {
     if (newbalance.isNegative()){
       Alert.alert(
         'Insufficient Funds',
-        'Balance: '+ this.state.balance+ ' HERC' ,
+        'Balance: '+ this.state.balance + ' HERC' ,
         [
           {text: 'Top Up Hercs', onPress: () => Linking.openURL("https://purchase.herc.one/"), style: 'cancel'},
           {text: 'Ok', onPress: () => console.log('OK Pressed')},
@@ -65,7 +68,7 @@ class TransRev extends Component {
       )
     } else {
       this.setState({ modalVisible: true })
-      const abcSpendInfo = {
+      const burnSpendInfo = {
         networkFeeOption: 'standard',
         currencyCode: 'HERC',
         metadata: {
@@ -75,19 +78,42 @@ class TransRev extends Component {
         spendTargets: [
           {
             publicAddress: TOKEN_ADDRESS,
-            nativeAmount: convertingPrice.toString()
+            nativeAmount: "0.000032"
+          }
+        ]
+      }
+      const dataFeeSpendInfo = {
+        networkFeeOption: 'standard',
+        currencyCode: 'HERC',
+        metadata: {
+          name: 'Transfer From Herc Wallet',
+          category: 'Transfer:Wallet:College Fund'
+        },
+        spendTargets: [
+          {
+            publicAddress: "0x1a2a618f83e89efbd9c9c120ab38c1c2ec9c4e76",
+            nativeAmount: dataFee.toString()
           }
         ]
       }
       // catch error for "ErrorInsufficientFunds"
       let wallet = this.props.wallet
-      let abcTransaction = await wallet.makeSpend(abcSpendInfo)
-      await wallet.signTx(abcTransaction)
-      await wallet.broadcastTx(abcTransaction)
-      await wallet.saveTx(abcTransaction)
+      let burnTransaction = await wallet.makeSpend(burnSpendInfo)
+      await wallet.signTx(burnTransaction)
+      await wallet.broadcastTx(burnTransaction)
+      await wallet.saveTx(burnTransaction)
+      console.log("Sent burn transaction with ID = " + burnTransaction.txid)
 
-      console.log("Sent transaction with ID = " + abcTransaction.txid)
-      this.setState({ transactionId: abcTransaction.id }, this._sendTrans())
+      let dataFeeTransaction = await wallet.makeSpend(dataFeeSpendInfo)
+      await wallet.signTx(dataFeeTransaction)
+      await wallet.broadcastTx(dataFeeTransaction)
+      await wallet.saveTx(dataFeeTransaction)
+      console.log("Sent dataFee transaction with ID = " + dataFeeTransaction.txid)
+
+
+      if (burnTransaction.txid && dataFeeTransaction.txid) {
+        this._sendTrans()
+      }
     }
   }
 
