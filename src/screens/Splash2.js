@@ -156,10 +156,14 @@ class Splash2 extends Component {
     }
   }
   _onPasswordSubmit = () => {
-    if (this.state.location === "Originator") {
-      this._startTrans(this.state.location);
+    if (this.state.password) {
+      if (this.state.location === "Originator") {
+        this._startTrans(this.state.location);
+      } else {
+        this._getOriginTrans(this.state.password);
+      }
     } else {
-      this._getOriginTrans(this.state.password);
+      Alert.alert("Password Incorrect");
     }
   };
 
@@ -291,7 +295,7 @@ class Splash2 extends Component {
           )}
 
           {this.state.originalTransInfo && (
-            <View style={[localStyles.passwordFieldContainer, { height: 195 }]}>
+            <View style={[localStyles.passwordFieldContainer, {  }]}>
               <Text style={[localStyles.passwordLabel, { marginTop: 5 }]}>
                 Confirm{" "}
                 <Text style={{ color: "#F3C736" }}>
@@ -363,17 +367,16 @@ export default connect(mapStateToProps, mapDispatchToProps)(Splash2);
 const localStyles = StyleSheet.create({
 
   passwordFieldContainer: {
-    height: "30%",
     width: "88%",
     justifyContent: "center",
     backgroundColor: "#123C4A",
     marginTop: 17,
-    paddingBottom: 20,
+    paddingTop: 5,
+    paddingBottom: 5,
   },
   passwordTextInput: {
     fontSize: 20,
     textAlign: "center",
-    height: 30,
     justifyContent: "center",
   },
   passwordTextInputView: {
