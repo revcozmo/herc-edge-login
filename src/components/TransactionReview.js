@@ -73,7 +73,7 @@ class TransRev extends Component {
         currencyCode: 'HERC',
         metadata: {
           name: 'Transfer From Herc Wallet',
-          category: 'Transfer:Wallet:College Fund'
+          category: 'Transfer:Wallet:Burn Amount'
         },
         spendTargets: [
           {
@@ -87,7 +87,7 @@ class TransRev extends Component {
         currencyCode: 'HERC',
         metadata: {
           name: 'Transfer From Herc Wallet',
-          category: 'Transfer:Wallet:College Fund'
+          category: 'Transfer:Wallet:Data Fee'
         },
         spendTargets: [
           {
@@ -97,22 +97,37 @@ class TransRev extends Component {
         ]
       }
       // catch error for "ErrorInsufficientFunds"
+      // catch error for "ErrorInsufficientFundsMoreEth"
       let wallet = this.props.wallet
-      let burnTransaction = await wallet.makeSpend(burnSpendInfo)
-      await wallet.signTx(burnTransaction)
-      await wallet.broadcastTx(burnTransaction)
-      await wallet.saveTx(burnTransaction)
-      console.log("Sent burn transaction with ID = " + burnTransaction.txid)
+      try {
+        let burnTransaction = await wallet.makeSpend(burnSpendInfo)
+        await wallet.signTx(burnTransaction)
+        await wallet.broadcastTx(burnTransaction)
+        await wallet.saveTx(burnTransaction)
+        console.log("Sent burn transaction with ID = " + burnTransaction.txid)
 
-      let dataFeeTransaction = await wallet.makeSpend(dataFeeSpendInfo)
-      await wallet.signTx(dataFeeTransaction)
-      await wallet.broadcastTx(dataFeeTransaction)
-      await wallet.saveTx(dataFeeTransaction)
-      console.log("Sent dataFee transaction with ID = " + dataFeeTransaction.txid)
+        let dataFeeTransaction = await wallet.makeSpend(dataFeeSpendInfo)
+        await wallet.signTx(dataFeeTransaction)
+        await wallet.broadcastTx(dataFeeTransaction)
+        await wallet.saveTx(dataFeeTransaction)
+        console.log("Sent dataFee transaction with ID = " + dataFeeTransaction.txid)
 
 
-      if (burnTransaction.txid && dataFeeTransaction.txid) {
-        this._sendTrans()
+        if (burnTransaction.txid && dataFeeTransaction.txid) {
+          this._sendTrans()
+        }
+      } catch(e){
+        let tempBalance = new BigNumber(this.props.watchBalance["ETH"])
+        let ethBalance = tempBalance.times(1e-18).toFixed(6)
+        this.setState({ modalVisible: false })
+        Alert.alert(
+          'Insufficient ETH Funds',
+          'Balance: '+ ethBalance + ' ETH' ,
+          [
+            {text: 'Ok', onPress: () => console.log('OK Pressed')},
+          ],
+          { cancelable: false }
+        )
       }
     }
   }
