@@ -1,5 +1,9 @@
 .env
 
+#auto-generated apk artifacts
+android/build/*
+android/app/build/*
+
 #this is where the idology API login information is stored
 src/components/settings.js
 
