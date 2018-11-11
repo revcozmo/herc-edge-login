@@ -35,7 +35,7 @@ class Login extends Component {
   makeEdgeContext({
     // Replace this with your own API key from https://developer.airbitz.co:
     apiKey: EDGE_API_KEY,
-    appId: 'com.mydomain.myapp',
+    appId: 'com.herc',
     vendorName: 'Chain Net',
     vendorImageUrl: 'https://s3.us-east-2.amazonaws.com/hercmedia/hLogo.png',
     plugins: [ethereumCurrencyPluginFactory]
