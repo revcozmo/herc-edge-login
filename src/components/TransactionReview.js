@@ -30,16 +30,26 @@ class TransRev extends Component {
     }
 
   _onPressSubmit(){
-    let total = parseFloat(this._getPrices()) + 0.000032
-    Alert.alert(
-      'Data Fee: '+ this._getPrices().toString() +' HERC \nBurn Amount: 0.000032 HERC',
-      'Total: '+ total + ' HERC \n Do you authorize this payment?' ,
-      [
-        {text: 'No', onPress: () => console.log('No Pressed'), style: 'cancel'},
-        {text: 'Yes', onPress: () => this._checkBalance() },
-      ],
-      { cancelable: false }
-    )
+    if (parseFloat(this._getPrices()) > 0){
+      let total = parseFloat(this._getPrices()) + 0.000032
+      Alert.alert(
+        'Data Fee: '+ this._getPrices().toString() +' HERC \nBurn Amount: 0.000032 HERC',
+        'Total: '+ total + ' HERC \n Do you authorize this payment?' ,
+        [
+          {text: 'No', onPress: () => console.log('No Pressed'), style: 'cancel'},
+          {text: 'Yes', onPress: () => this._checkBalance() },
+        ],
+        { cancelable: false }
+      )
+    } else {
+      Alert.alert(
+        'Empty Submission',
+        [
+          {text: 'Ok', onPress: () => console.log('OK Pressed')},
+        ],
+        { cancelable: true }
+      )
+    }
   }
 
   async _checkBalance(){
