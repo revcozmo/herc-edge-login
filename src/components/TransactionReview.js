@@ -173,7 +173,7 @@ class TransRev extends Component {
 
     _hasImage = (transObj) => {
         if (transObj.images) {
-            let imgPrice = ((transObj.images.size / 1024) * (.00000002)) / (.4);
+            let imgPrice = ((transObj.images.size / 1024) * .00000002) / .4
             return (
                 <View style={localStyles.imgContainer}>
                     <Text style={localStyles.transRevTime}>Images</Text>
@@ -253,7 +253,7 @@ class TransRev extends Component {
         if (transDat.hasOwnProperty('ediT')) {
             edit = (
                 <View style={localStyles.editField}>
-                    <Text style={localStyles.editLabel}>EDI-T-SET:</Text>
+                    <Text style={localStyles.transRevTime}>EDI-T-SET:</Text>
                     <Text style={localStyles.text}>{transDat.ediT.name}</Text>
                     <Text style={localStyles.text}>{transDat.ediT.value}</Text>
                 </View>)
