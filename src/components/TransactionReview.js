@@ -150,7 +150,7 @@ class TransRev extends Component {
       let imgPrice = 0;
       let docPrice = 0;
 
-      if (transDat.images.size) {
+      if (transDat.images) {
           imgPrice = ((transDat.images.size / 1024) * .00000002) / .4
       };
 
@@ -159,7 +159,7 @@ class TransRev extends Component {
       }
 
       if ((docPrice + imgPrice) !== 0) {
-          price = (docPrice + imgPrice) + (.000032);
+          price = (docPrice + imgPrice) + .000032;
       }
 
       let convertingPrice = new BigNumber(price)
@@ -172,7 +172,7 @@ class TransRev extends Component {
 
 
     _hasImage = (transObj) => {
-        if (transObj.images.size) {
+        if (transObj.images) {
             let imgPrice = ((transObj.images.size / 1024) * (.00000002)) / (.4);
             return (
                 <View style={localStyles.imgContainer}>
@@ -191,8 +191,8 @@ class TransRev extends Component {
     }
 
     _hasDocuments = (transObj) => {
-        if (transObj.documents.size) {
-            let docPrice = (transObj.documents.size * .000032) * .4;
+        if (transObj.documents) {
+            let docPrice = .000032;
             return (
                 <View style={localStyles.docContainer}>
                     <Text style={localStyles.transRevTime}>Documents</Text>

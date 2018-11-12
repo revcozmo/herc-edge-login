@@ -117,8 +117,9 @@ class Splash2 extends Component {
 
         },
         data: {
-          images: {},
-          documents: {}
+          // Julie removed below - debugging non-zero price at TX start
+          // images: {},
+          // documents: {}
         }
       };
       this.props.startTrans(trans);
