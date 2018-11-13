@@ -30,16 +30,27 @@ class TransRev extends Component {
     }
 
   _onPressSubmit(){
-    let total = parseFloat(this._getPrices()) + 0.000032
-    Alert.alert(
-      'Data Fee: '+ this._getPrices().toString() +' HERC \nBurn Amount: 0.000032 HERC',
-      'Total: '+ total + ' HERC \n Do you authorize this payment?' ,
-      [
-        {text: 'No', onPress: () => console.log('No Pressed'), style: 'cancel'},
-        {text: 'Yes', onPress: () => this._checkBalance() },
-      ],
-      { cancelable: false }
-    )
+    if (Object.keys(this.props.transDat).length > 0){
+      let total = parseFloat(this._getPrices()) + 0.000032
+      Alert.alert(
+        'Data Fee: '+ this._getPrices().toString() +' HERC \nBurn Amount: 0.000032 HERC',
+        'Total: '+ total + ' HERC \n Do you authorize this payment?' ,
+        [
+          {text: 'No', onPress: () => console.log('No Pressed'), style: 'cancel'},
+          {text: 'Yes', onPress: () => this._checkBalance() },
+        ],
+        { cancelable: false }
+      )
+    } else {
+      Alert.alert(
+        'Oh no!',
+        'This is an empty submission',
+        [
+          {text: 'Ok', onPress: () => console.log('OK Pressed')}
+        ],
+        { cancelable: true }
+      )
+    }
   }
 
   async _checkBalance(){
@@ -73,7 +84,7 @@ class TransRev extends Component {
         currencyCode: 'HERC',
         metadata: {
           name: 'Transfer From Herc Wallet',
-          category: 'Transfer:Wallet:College Fund'
+          category: 'Transfer:Wallet:Burn Amount'
         },
         spendTargets: [
           {
@@ -87,7 +98,7 @@ class TransRev extends Component {
         currencyCode: 'HERC',
         metadata: {
           name: 'Transfer From Herc Wallet',
-          category: 'Transfer:Wallet:College Fund'
+          category: 'Transfer:Wallet:Data Fee'
         },
         spendTargets: [
           {
@@ -97,22 +108,37 @@ class TransRev extends Component {
         ]
       }
       // catch error for "ErrorInsufficientFunds"
+      // catch error for "ErrorInsufficientFundsMoreEth"
       let wallet = this.props.wallet
-      let burnTransaction = await wallet.makeSpend(burnSpendInfo)
-      await wallet.signTx(burnTransaction)
-      await wallet.broadcastTx(burnTransaction)
-      await wallet.saveTx(burnTransaction)
-      console.log("Sent burn transaction with ID = " + burnTransaction.txid)
+      try {
+        let burnTransaction = await wallet.makeSpend(burnSpendInfo)
+        await wallet.signTx(burnTransaction)
+        await wallet.broadcastTx(burnTransaction)
+        await wallet.saveTx(burnTransaction)
+        console.log("Sent burn transaction with ID = " + burnTransaction.txid)
 
-      let dataFeeTransaction = await wallet.makeSpend(dataFeeSpendInfo)
-      await wallet.signTx(dataFeeTransaction)
-      await wallet.broadcastTx(dataFeeTransaction)
-      await wallet.saveTx(dataFeeTransaction)
-      console.log("Sent dataFee transaction with ID = " + dataFeeTransaction.txid)
+        let dataFeeTransaction = await wallet.makeSpend(dataFeeSpendInfo)
+        await wallet.signTx(dataFeeTransaction)
+        await wallet.broadcastTx(dataFeeTransaction)
+        await wallet.saveTx(dataFeeTransaction)
+        console.log("Sent dataFee transaction with ID = " + dataFeeTransaction.txid)
 
 
-      if (burnTransaction.txid && dataFeeTransaction.txid) {
-        this._sendTrans()
+        if (burnTransaction.txid && dataFeeTransaction.txid) {
+          this._sendTrans()
+        }
+      } catch(e){
+        let tempBalance = new BigNumber(this.props.watchBalance["ETH"])
+        let ethBalance = tempBalance.times(1e-18).toFixed(6)
+        this.setState({ modalVisible: false })
+        Alert.alert(
+          'Insufficient ETH Funds',
+          'Balance: '+ ethBalance + ' ETH' ,
+          [
+            {text: 'Ok', onPress: () => console.log('OK Pressed')},
+          ],
+          { cancelable: false }
+        )
       }
     }
   }
@@ -135,7 +161,7 @@ class TransRev extends Component {
       let imgPrice = 0;
       let docPrice = 0;
 
-      if (transDat.images.size) {
+      if (transDat.images) {
           imgPrice = ((transDat.images.size / 1024) * .00000002) / .4
       };
 
@@ -144,7 +170,7 @@ class TransRev extends Component {
       }
 
       if ((docPrice + imgPrice) !== 0) {
-          price = (docPrice + imgPrice) + (.000032);
+          price = (docPrice + imgPrice) + .000032;
       }
 
       let convertingPrice = new BigNumber(price)
@@ -157,8 +183,8 @@ class TransRev extends Component {
 
 
     _hasImage = (transObj) => {
-        if (transObj.images.size) {
-            let imgPrice = ((transObj.images.size / 1024) * (.00000002)) / (.4);
+        if (transObj.images) {
+            let imgPrice = ((transObj.images.size / 1024) * .00000002) / .4
             return (
                 <View style={localStyles.imgContainer}>
                     <Text style={localStyles.transRevTime}>Images</Text>
@@ -176,8 +202,8 @@ class TransRev extends Component {
     }
 
     _hasDocuments = (transObj) => {
-        if (transObj.documents.size) {
-            let docPrice = (transObj.documents.size * .000032) * .4;
+        if (transObj.documents) {
+            let docPrice = .000032;
             return (
                 <View style={localStyles.docContainer}>
                     <Text style={localStyles.transRevTime}>Documents</Text>
@@ -238,7 +264,7 @@ class TransRev extends Component {
         if (transDat.hasOwnProperty('ediT')) {
             edit = (
                 <View style={localStyles.editField}>
-                    <Text style={localStyles.editLabel}>EDI-T-SET:</Text>
+                    <Text style={localStyles.transRevTime}>EDI-T-SET:</Text>
                     <Text style={localStyles.text}>{transDat.ediT.name}</Text>
                     <Text style={localStyles.text}>{transDat.ediT.value}</Text>
                 </View>)

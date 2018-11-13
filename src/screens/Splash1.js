@@ -289,12 +289,12 @@ const localStyles = StyleSheet.create({
     flex: 1
   },
   passwordFieldContainer: {
-    height: "30%",
     width: "88%",
     justifyContent: "center",
     backgroundColor: "#123C4A",
     marginTop: 17,
-    paddingBottom: 20,
+    paddingTop: 5,
+    paddingBottom: 5,
   },
   passwordTextInput: {
     fontSize: 20,
