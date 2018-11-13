@@ -30,8 +30,6 @@ class TransRev extends Component {
     }
 
   _onPressSubmit(){
-    console.log(Object.keys(this.props.transDat).length, 'chance, this should be zero')
-
     if (Object.keys(this.props.transDat).length > 0){
       let total = parseFloat(this._getPrices()) + 0.000032
       Alert.alert(
