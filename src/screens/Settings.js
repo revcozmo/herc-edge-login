@@ -285,7 +285,7 @@ export class Settings extends Component {
                 <Image style={localStyles.block__icon} source={versionIcon} />
                 <View style={localStyles.block__textBlock}>
                   <Text style={localStyles.title__Text}> Version </Text>
-                  <Text style={localStyles.subInfo__Text}> Version 0.9.1 </Text>
+                  <Text style={localStyles.subInfo__Text}> Version 0.9.3 </Text>
                 </View>
               </View>
             </View>
