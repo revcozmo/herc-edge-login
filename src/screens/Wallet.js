@@ -30,11 +30,18 @@ class Wallet extends React.Component {
   }
 
   static navigationOptions = ({ navigation }) => ({
-    headerTitle: <View style={localStyles.headerBox}><Text style={localStyles.headerText}>Wallets</Text></View>,
+    headerTitle: (
+        <View style={localStyles.headerBox}>
+        <TouchableHighlight style={{ justifyContent: "center" }} onPress={() => navigation.navigate("MenuOptions")}>
+          <Text style={localStyles.headerText}>Wallets</Text>
+          </TouchableHighlight>
+        </View>
+
+    )
   });
 
   componentDidMount = async () => {
-    if (!this.props.watchBalance || Object.keys(this.props.watchBalance).length < 1) {
+    if (!this.props.watchBalance || !this.props.watchBalance.ETH) {
       let light = await this.props.wallet.getEnabledTokens()
       let enabledTokens = light.reverse()
       this.setState({
@@ -87,23 +94,37 @@ class Wallet extends React.Component {
           }
         ]
       }
-      // catch error for "ErrorInsufficientFunds"
-      let abcTransaction = await this.props.wallet.makeSpend(abcSpendInfo)
-      await wallet.signTx(abcTransaction)
-      await wallet.broadcastTx(abcTransaction)
-      await wallet.saveTx(abcTransaction)
-      // TODO: after successful transaction, reset state.
+      try {
+        let abcTransaction = await this.props.wallet.makeSpend(abcSpendInfo)
+        await wallet.signTx(abcTransaction)
+        await wallet.broadcastTx(abcTransaction)
+        await wallet.saveTx(abcTransaction)
+        console.log("Sent transaction with ID = " + abcTransaction.txid)
+        Alert.alert(
+          'Transaction ID',
+          abcTransaction.txid,
+          [
+            { text: 'Copy', onPress: () => this.writeToClipboard(abcTransaction.txid), style: 'cancel' },
+            { text: 'OK', onPress: () => console.log('OK Pressed') },
+          ],
+          { cancelable: false }
+        )
+      }
+      catch(e){
+        let displayWallet = this.state.displayWallet
+        let tempBalance = new BigNumber(this.props.watchBalance[displayWallet])
+          .times(1e-18).toFixed(6);
 
-      console.log("Sent transaction with ID = " + abcTransaction.txid)
-      Alert.alert(
-        'Transaction ID',
-        abcTransaction.txid,
-        [
-          { text: 'Copy', onPress: () => this.writeToClipboard(abcTransaction.txid), style: 'cancel' },
-          { text: 'OK', onPress: () => console.log('OK Pressed') },
-        ],
-        { cancelable: false }
-      )
+        Alert.alert(
+          'Insufficient Funds',
+          'Balance: '+ tempBalance + " " + displayWallet ,
+          [
+            {text: 'Ok', onPress: () => console.log('OK Pressed')},
+          ],
+          { cancelable: false }
+        )
+      }
+      // TODO: after successful transaction, reset state.
     }
 
     writeToClipboard = async (data) => {
