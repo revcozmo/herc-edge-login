@@ -15,12 +15,26 @@ limitations under the License.
 import React, { Component } from "react";
 import MainNavigation from "./navigation/MainNavigation";
 import { Provider } from "react-redux";
+const Web3 = require('web3');
 import store from "./store";
 import { Platform, StyleSheet, Text, View, Button, YellowBox } from "react-native";
 YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTImageLoader', 'Setting a timer for a long period of time']);
 
 
 export default class App extends Component {
+
+  componentWillMount() {
+    const web3 = new Web3(
+      new Web3.providers.HttpProvider('https://mainnet.infura.io/v3/92ffd0e0fb6e484198387a5fabf31954')
+    )
+    web3.eth.getBlock('latest')
+      .then(res => {
+        console.log(res, "chance latest block")
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  }
 
   render() {
     return (

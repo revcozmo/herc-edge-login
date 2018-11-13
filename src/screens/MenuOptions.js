@@ -28,6 +28,7 @@ import store from "../store";
 import Wallet from "./Wallet";
 import firebase from '../constants/Firebase';
 const rootRef = firebase.database().ref();
+import Web3 from 'web3';
 
 YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTImageLoader', 'Setting a timer for a long period of time']);
 
@@ -39,6 +40,7 @@ class MenuOptions extends Component {
 
 
     componentDidMount() {
+      console.log(Web3.currentProvider, 'chance trust wallet')
         // this.props.clearState();
         this.props.getHercId();
         this.props.getAssets(this.props.username);
