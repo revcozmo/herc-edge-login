@@ -30,7 +30,7 @@ class TransRev extends Component {
     }
 
   _onPressSubmit(){
-    if (parseFloat(this._getPrices()) > 0){
+    if (Object.keys(this.props.transDat).length > 0){
       let total = parseFloat(this._getPrices()) + 0.000032
       Alert.alert(
         'Data Fee: '+ this._getPrices().toString() +' HERC \nBurn Amount: 0.000032 HERC',
@@ -43,9 +43,10 @@ class TransRev extends Component {
       )
     } else {
       Alert.alert(
-        'Empty Submission',
+        'Oh no!',
+        'This is an empty submission',
         [
-          {text: 'Ok', onPress: () => console.log('OK Pressed')},
+          {text: 'Ok', onPress: () => console.log('OK Pressed')}
         ],
         { cancelable: true }
       )
