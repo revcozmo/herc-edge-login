@@ -26,8 +26,6 @@ export default class TxSwiper extends Component {
 
   renderCard = card => {
     let hashes = this.state.hashes
-    console.log(card,'chance cards')
-    console.log(hashes, 'chance hashes')
     let factomChain = hashes.chainId;
     let corePropsHash = hashes.ipfsHash;
     let factomEntry = card.header.factomEntry
@@ -86,11 +84,6 @@ export default class TxSwiper extends Component {
   onSwiped = (index) => {
     currentCard = index;
     console.log("index", index, "and currentCard", currentCard)
-    console.log(this.state.cards[index], 'chance index?')
-  }
-
-  keyExtractor = (card) => {
-      console.log(card, 'chance keyextractor?')
   }
 
   swipeBack = () => {
@@ -117,7 +110,6 @@ export default class TxSwiper extends Component {
   };
 
   swipeTop = (index) => {
-    console.log(this.state.cards[index], 'chance card[cardindex] selected')
     this.sharing(this.state.cards[index]);
     // this.makeMessage(this.state.cards[currentCard].data);
   }
@@ -153,10 +145,7 @@ export default class TxSwiper extends Component {
 
 
   sharing = (data) => {
-    console.log(data, 'chance card to share')
-    console.log("sharing is caring", this.makeMessage(data));
     let shareTitle = this.makeMessage(data);
-    console.log(shareTitle[0], "sharetitle", "sharingmessage" + shareTitle[1]);
     Share.share({
       message: shareTitle[1],
       title: shareTitle[0]
@@ -186,7 +175,6 @@ export default class TxSwiper extends Component {
         cardVerticalMargin={10}
         infinite={true}
         renderCard={this.renderCard}
-        keyExtractor={this.keyExtractor}
         onSwipedAll={this.onSwipedAllCards}
         onSwipedTop={this.swipeTop}
         onSwipedLeft={this.swipeLeft}
