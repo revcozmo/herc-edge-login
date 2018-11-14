@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Swiper from 'react-native-deck-swiper';
-import { Image, StyleSheet, TouchableHighlight, Text, View } from 'react-native';
+import { Image, StyleSheet, TouchableHighlight, Share, Text, View } from 'react-native';
 import Button from 'react-native-button';
 import originator from "./buttons/originatorButton.png";
 import recipient from "./buttons/recipientButton.png";
@@ -83,6 +83,16 @@ export default class TxSwiper extends Component {
     })
   };
 
+  onSwiped = (index) => {
+    currentCard = index;
+    console.log("index", index, "and currentCard", currentCard)
+    console.log(this.state.cards[index], 'chance index?')
+  }
+
+  keyExtractor = (card) => {
+      console.log(card, 'chance keyextractor?')
+  }
+
   swipeBack = () => {
     if (!this.state.isSwipingBack) {
       this.setIsSwipingBack(true, () => {
@@ -106,10 +116,9 @@ export default class TxSwiper extends Component {
     this.swiper.swipeLeft()
   };
 
-  swipeTop = () => {
-    let currentCard = this.state.cardIndex
-    console.log(currentCard, 'chance cardindex in state')
-    this.sharing(this.state.cards[currentCard].transData);
+  swipeTop = (index) => {
+    console.log(this.state.cards[index], 'chance card[cardindex] selected')
+    this.sharing(this.state.cards[index]);
     // this.makeMessage(this.state.cards[currentCard].data);
   }
 
@@ -120,32 +129,31 @@ export default class TxSwiper extends Component {
   }
 
   makeMessage = (cardData) => {
-    // console.log(cardData, "data");
-    let time = cardData.dTime;
-    let location = cardData.tXLocation.toUpperCase() + " ";
-    let properties = cardData.properties ? Object.keys(cardData.properties).length + " Properties;\n" : "";
-    let images = cardData.images ? cardData.images.length + " Image(s);\n" : "";
-    let documents = cardData.documents ? cardData.documents.length + " Document(s);\n" : "";
-    let price = "Hercs: " + cardData.price + ";\n";
-    let sig = "Sent from TestHerc v.0.2.9"
+    let header = cardData.header
+    let data = cardData.data
+    let time = header.dTime;
+    let location = header.tXLocation.toUpperCase() + " ";
+    let properties = data.properties ? Object.keys(data.properties).length + " Properties;\n" : "";
+    let images = data.images ? data.images.length + " Image(s);\n" : "";
+    let documents = data.documents ? data.documents.length + " Document(s);\n" : "";
+    let price = "Hercs: " + header.price + ";\n";
+    let sig = "Sent from Herc v.1.0"
     let edit = "";
-    let password = cardData.password ? cardData.password : "No password";
-    if (cardData.ediT) {
-      edit = "EDI-T Value: " + cardData.ediT.value;
+    let password = header.password ? header.password : "No password";
+    if (data.ediT) {
+      edit = "EDI-T Value: " + data.ediT.value;
 
     }
-
-    let title = this.props.assetName + " " + location + " Transaction @ " + time + ";";
+    let title = header.name + " " + location + " Transaction @ " + time + ";";
     let message = title + "\n" +
       properties + edit + images + documents + price + password + " " + sig;
     console.log(title, "title", message, "message")
     return [title, message];
-
-
   }
 
 
   sharing = (data) => {
+    console.log(data, 'chance card to share')
     console.log("sharing is caring", this.makeMessage(data));
     let shareTitle = this.makeMessage(data);
     console.log(shareTitle[0], "sharetitle", "sharingmessage" + shareTitle[1]);
@@ -159,8 +167,6 @@ export default class TxSwiper extends Component {
         excludedActivityTypes: [
           'com.apple.UIKit.activity.PostToTwitter'
         ]
-
-
       })
   }
 
@@ -178,7 +184,9 @@ export default class TxSwiper extends Component {
         cards={this.state.cards}
         cardIndex={this.state.cardIndex}
         cardVerticalMargin={10}
+        infinite={true}
         renderCard={this.renderCard}
+        keyExtractor={this.keyExtractor}
         onSwipedAll={this.onSwipedAllCards}
         onSwipedTop={this.swipeTop}
         onSwipedLeft={this.swipeLeft}
