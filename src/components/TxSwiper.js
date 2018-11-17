@@ -160,7 +160,6 @@ export default class TxSwiper extends Component {
   }
 
   render() {
-    console.log(this.state.cards, 'cards in swiper')
     return (
       <Swiper
         backgroundColor={'#002740'}
