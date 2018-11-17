@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Swiper from 'react-native-deck-swiper';
-import { Image, StyleSheet, TouchableHighlight, Text, View } from 'react-native';
+import { Image, StyleSheet, TouchableHighlight, Share, Text, View } from 'react-native';
 import Button from 'react-native-button';
 import originator from "./buttons/originatorButton.png";
 import recipient from "./buttons/recipientButton.png";
@@ -25,8 +25,6 @@ export default class TxSwiper extends Component {
   }
 
   renderCard = card => {
-    console.log(card,'chance cards')
-    console.log(hashes, 'chance hashes')
     let hashes = this.state.hashes
     let factomChain = hashes.chainId;
     let corePropsHash = hashes.ipfsHash;
@@ -78,9 +76,15 @@ export default class TxSwiper extends Component {
   onSwipedAllCards = () => {
     console.log('Swiped all cards');
     this.setState({
-      swipedAllCards: true
+      swipedAllCards: true,
+      cardIndex: 0 // NOTE: wat does this do
     })
   };
+
+  onSwiped = (index) => {
+    currentCard = index;
+    console.log("index", index, "and currentCard", currentCard)
+  }
 
   swipeBack = () => {
     if (!this.state.isSwipingBack) {
@@ -105,36 +109,43 @@ export default class TxSwiper extends Component {
     this.swiper.swipeLeft()
   };
 
+  swipeTop = (index) => {
+    this.sharing(this.state.cards[index]);
+    // this.makeMessage(this.state.cards[currentCard].data);
+  }
+
+  swipeBottom = () => {
+    console.log('Swiping Down/Bottom');
+    // const {navigate} = this.props.navigate
+    // navigate('PreHipr');
+  }
+
   makeMessage = (cardData) => {
-    // console.log(cardData, "data");
-    let time = cardData.dTime;
-    let location = cardData.tXLocation.toUpperCase() + " ";
-    let properties = cardData.properties ? Object.keys(cardData.properties).length + " Properties;\n" : "";
-    let images = cardData.images ? cardData.images.length + " Image(s);\n" : "";
-    let documents = cardData.documents ? cardData.documents.length + " Document(s);\n" : "";
-    let price = "Hercs: " + cardData.price + ";\n";
-    let sig = "Sent from TestHerc v.0.2.9"
+    let header = cardData.header
+    let data = cardData.data
+    let time = header.dTime;
+    let location = header.tXLocation.toUpperCase() + " ";
+    let properties = data.properties ? Object.keys(data.properties).length + " Properties;\n" : "";
+    let images = data.images ? data.images.length + " Image(s);\n" : "";
+    let documents = data.documents ? data.documents.length + " Document(s);\n" : "";
+    let price = "Hercs: " + header.price + ";\n";
+    let sig = "Sent from Herc v.1.0"
     let edit = "";
-    let password = cardData.password ? cardData.password : "No password";
-    if (cardData.ediT) {
-      edit = "EDI-T Value: " + cardData.ediT.value;
+    let password = header.password ? header.password : "No password";
+    if (data.ediT) {
+      edit = "EDI-T Value: " + data.ediT.value;
 
     }
-
-    let title = this.props.assetName + " " + location + " Transaction @ " + time + ";";
+    let title = header.name + " " + location + " Transaction @ " + time + ";";
     let message = title + "\n" +
       properties + edit + images + documents + price + password + " " + sig;
     console.log(title, "title", message, "message")
     return [title, message];
-
-
   }
 
 
   sharing = (data) => {
-    console.log("sharing is caring", this.makeMessage(data));
     let shareTitle = this.makeMessage(data);
-    console.log(shareTitle[0], "sharetitle", "sharingmessage" + shareTitle[1]);
     Share.share({
       message: shareTitle[1],
       title: shareTitle[0]
@@ -145,13 +156,10 @@ export default class TxSwiper extends Component {
         excludedActivityTypes: [
           'com.apple.UIKit.activity.PostToTwitter'
         ]
-
-
       })
   }
 
   render() {
-    console.log(this.state.cards, 'cards in swiper')
     return (
       <Swiper
         backgroundColor={'#002740'}
@@ -164,8 +172,12 @@ export default class TxSwiper extends Component {
         cards={this.state.cards}
         cardIndex={this.state.cardIndex}
         cardVerticalMargin={10}
+        infinite={true}
         renderCard={this.renderCard}
         onSwipedAll={this.onSwipedAllCards}
+        onSwipedTop={this.swipeTop}
+        onSwipedLeft={this.swipeLeft}
+        onSwipedBottom={this.swipeBottom}
         stackSize={3}
         cardHorizontalMargin={5}
         stackSeparation={15}
