@@ -80,9 +80,9 @@ class MenuOptions extends Component {
                         <Image style={localStyles.menuButton} source={profileButton} />
                     </TouchableHighlight> */}
 
-                    {/* <TouchableHighlight style={localStyles.touchableHighlight} onPress={() => navigate("Settings")}>
+                    <TouchableHighlight style={localStyles.touchableHighlight} onPress={() => navigate("DocumentStorage")}>
                         <Image style={localStyles.menuButton} source={settings} />
-                    </TouchableHighlight> */}
+                    </TouchableHighlight>
 
                     <Text style={{ color: "#f3c736", alignSelf: "flex-end", fontSize: 8 }}>
                         V.0.9.3

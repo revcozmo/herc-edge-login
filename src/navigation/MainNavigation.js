@@ -47,6 +47,8 @@ import QRCapture2 from "../screens/QRCapture2";
 import styles from "../assets/styles";
 import DrawerIcon from "../assets/icons/drawerIcon.png";
 import WebViewComponent from "../components/WebViewComponent";
+import DocumentStorage from "../screens/DocumentStorage";
+import DocumentQRScanner from "../screens/DocumentQRScanner";
 
 let headerStyles = StyleSheet.create({
     header__container: {
@@ -124,6 +126,8 @@ const MainNavigator = StackNavigator({ //this will be "createStackNavigator" aft
     Camera: { screen: Camera },
     WebViewComponent: { screen: WebViewComponent },
     TxSwiper: { screen: TxSwiper },
+    DocumentStorage: { screen: DocumentStorage },
+    DocumentQRScanner: { screen: DocumentQRScanner },
 
 }, {
         initialRouteName: 'Login',
