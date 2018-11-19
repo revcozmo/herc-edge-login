@@ -19,6 +19,7 @@ import wallet from "../components/buttons/walletButton.png";
 import settings from "../components/buttons/settingsButton.png";
 import registerAsset from "../components/buttons/registerAssetButton.png"
 import profileButton from "../components/buttons/profileButton.png"
+import documentButton from "../components/buttons/document.png"
 
 import styles from "../assets/styles";
 import { connect } from "react-redux";
@@ -58,7 +59,7 @@ class MenuOptions extends Component {
                         </TouchableHighlight>
                     </View>
                     <TouchableHighlight style={localStyles.touchableHighlight}
-                    onPress={() => navigate("Splash1")}>
+                        onPress={() => navigate("Splash1")}>
                         <Image style={localStyles.menuButton} source={supplyChain} />
                     </TouchableHighlight>
 
@@ -81,7 +82,7 @@ class MenuOptions extends Component {
                     </TouchableHighlight> */}
 
                     <TouchableHighlight style={localStyles.touchableHighlight} onPress={() => navigate("DocumentStorage")}>
-                        <Image style={localStyles.menuButton} source={settings} />
+                        <Image style={localStyles.menuButton} source={documentButton} />
                     </TouchableHighlight>
 
                     <Text style={{ color: "#f3c736", alignSelf: "flex-end", fontSize: 8 }}>
@@ -104,7 +105,7 @@ const mapDispatchToProps = dispatch => ({
     clearState: () => dispatch(clearState())
 });
 
-export default connect( mapStateToProps, mapDispatchToProps )(MenuOptions);
+export default connect(mapStateToProps, mapDispatchToProps)(MenuOptions);
 
 const localStyles = StyleSheet.create({
     touchableHighlight: {
