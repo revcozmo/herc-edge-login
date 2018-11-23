@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { Platform, WebView, Image, StyleSheet, View, TouchableHighlight } from 'react-native';
+import { connect } from 'react-redux';
 import hiprLogo from "../assets/hiprLogo.png";
 import backArrow from "../assets/icons/blueBackArrow.png";
 import profilePic from "../assets/icons/darker_profileIcon.png";
 
 
-export default class Hipr extends Component {
+class Hipr extends Component {
 
   static navigationOptions = ({ navigation }) => ({
     headerStyle: {
@@ -51,6 +52,13 @@ export default class Hipr extends Component {
     );
   }
 }
+
+const mapStateToProps = (state) => ({
+  ethereumAddress: state.WalletActReducers.ethereumAddress
+});
+
+
+export default connect(mapStateToProps)(Hipr);
 
 const localStyles = StyleSheet.create({
   hiprBackContainer: {

@@ -101,7 +101,6 @@ class HiprAssets extends Component {
       return (
         <TouchableHighlight style={{ borderRadius: 2 }} key={index} onPress={() => this._onPress(asset)}>
           <View style={localStyles.menuItemField}>
-            {/* <Button onPress={() => this._onDelete(asset.key)} style={styles.assetDeleteButton}>Delete</Button> */}
             <Image style={localStyles.assetLogo} source={{ uri: asset.Logo }} />
             <View style={localStyles.menuItemField__textBox}>
               <Text style={localStyles.assetLabel}>{asset.Name}</Text>
@@ -125,6 +124,7 @@ class HiprAssets extends Component {
 
 const mapStateToProps = (state) => ({
   assets: state.AssetReducers.assets,
+  ethereumAddress: state.WalletActReducers.ethereumAddress
 });
 const mapDispatchToProps = dispatch => ({
   selectAsset: asset => dispatch(selectAsset(asset)),
