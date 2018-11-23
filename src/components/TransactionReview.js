@@ -25,8 +25,17 @@ class TransRev extends Component {
         }
     }
     componentDidMount = () => {
+      // TODO: Add Error handling for empty watchBalance. Empty herc wallet.
+      try {
         let balance = new BigNumber(this.props.watchBalance["HERC"])
         this.setState({ balance: balance.times(1e-18).toFixed(6) })
+      } catch (e) {
+        if (!this.props.watchBalance || !this.props.watchBalance.ETH) {
+          console.log(this.state, 'state in watchBalance is undefined')
+          let balance = new BigNumber("0.000000")
+          this.setState({ balance: balance.times(1e-18).toFixed(6) })
+        }
+      }
     }
 
   _onPressSubmit(){
@@ -34,7 +43,7 @@ class TransRev extends Component {
       let total = parseFloat(this._getPrices()) + 0.000032
       Alert.alert(
         'Data Fee: '+ this._getPrices().toString() +' HERC \nBurn Amount: 0.000032 HERC',
-        'Total: '+ total + ' HERC \n Do you authorize this payment?' ,
+        'Total: '+ total + ' HERC \nDo you authorize this payment?' ,
         [
           {text: 'No', onPress: () => console.log('No Pressed'), style: 'cancel'},
           {text: 'Yes', onPress: () => this._checkBalance() },

@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, Image, ScrollView, TouchableHighlight, Alert, P
 import { StackNavigator } from 'react-navigation';
 import { connect } from 'react-redux';
 import hiprLogo from "../assets/hiprLogo.png";
+import { getAssetDef, selectAsset } from "../actions/AssetActions";
 import styles from '../assets/styles';
 
 
@@ -84,6 +85,11 @@ class HiprAssets extends Component {
   }
 
   _onPress = (asset) => {
+    this.props.selectAsset(asset);
+    if (asset.hashes.ipfsHash) { // this gets the ipfsHash Def
+      this.props.getAssetDef(asset.hashes.ipfsHash);
+    }
+
     const { navigate } = this.props.navigation;
     navigate('Hipr', { logo: asset.logo, name: asset.name });
   }
@@ -120,8 +126,12 @@ class HiprAssets extends Component {
 const mapStateToProps = (state) => ({
   assets: state.AssetReducers.assets,
 });
+const mapDispatchToProps = dispatch => ({
+  selectAsset: asset => dispatch(selectAsset(asset)),
+  getAssetDef: assetIpfsHash => dispatch(getAssetDef(assetIpfsHash)),
+});
 
-export default connect(mapStateToProps)(HiprAssets);
+export default connect(mapStateToProps, mapDispatchToProps)(HiprAssets);
 
 const localStyles = StyleSheet.create({
   createNew__Box: {
