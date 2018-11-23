@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from "react-redux";
 import {
   Image,
   Platform,
@@ -29,7 +30,7 @@ import { RNCamera } from "react-native-camera";
 
 console.disableYellowBox = true;
 
-export default class DocumentStorage extends React.Component {
+class DocumentStorage extends React.Component {
 
   state = {
     hasCameraRollPermission: null,
@@ -114,6 +115,10 @@ export default class DocumentStorage extends React.Component {
       }
     };
   };
+
+  componentDidMount() {
+    console.log(this.props.account.username, "this is the props in document storage")
+  }
 
   _writeToClipboard = async (data) => {
     await Clipboard.setString(data);
@@ -227,7 +232,7 @@ export default class DocumentStorage extends React.Component {
       return snapshot.ref.getDownloadURL();
     }).then(downloadURL => {
       console.log(`Successfully uploaded file and got download link` + downloadURL);
-      bindedThis.setState({ downloadURL }, () => console.log(this.state));
+      bindedThis.setState({ downloadURL }, () => this._updateHistory())
       // return downloadURL;
     }).catch(error => {
       // Use to signal error if something goes wrong.
@@ -252,6 +257,19 @@ export default class DocumentStorage extends React.Component {
         >
         </RNCamera>
       </View>)
+  }
+
+  _updateHistory = () => {
+    let filename = this.state.name;
+    let userID = this.props.account.username;
+    let downloadURL = this.state.downloadURL;
+    var dt = new Date();
+    var utcDate = dt.toUTCString();
+    var starCountRef = firebase.database().ref('documents/' + userID).push().set({
+      downloadURL: downloadURL,
+      filename: filename,
+      date: utcDate
+    })
   }
 
   _takePic = () => {
@@ -392,3 +410,10 @@ const localStyles = StyleSheet.create({
     // alignItems: "center"
   }
 });
+
+
+const mapStateToProps = state => ({
+  account: state.WalletActReducers.account
+})
+
+export default connect(mapStateToProps, null)(DocumentStorage);
