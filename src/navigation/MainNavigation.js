@@ -23,6 +23,7 @@ import EdiT from "../screens/Edi-T";
 import FileUp from "../screens/FileUp";
 import Hipr from "../screens/Hipr";
 import HiprAssets from "../screens/HiprAssets";
+import HiprTransactions from "../screens/HiprTransactions";
 import IdologyForm from "../screens/IdologyForm";
 import IdologyQuestions from "../screens/IdologyQuestions";
 import InputMan from "../screens/InputMan";
@@ -101,6 +102,7 @@ const MainNavigator = StackNavigator({ //this will be "createStackNavigator" aft
     Anthem: { screen: Anthem },
     PreHipr: { screen: PreHipr },
     HiprAssets: { screen: HiprAssets },
+    HiprTransactions : { screen: HiprTransactions },
     Hipr: { screen: Hipr },
     BlockScanner: { screen: BlockScanner },
     TransSwiper: { screen: TransSwiper },

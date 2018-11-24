@@ -42,7 +42,9 @@ class Hipr extends Component {
 
   */
 
-
+componentDidMount(){
+  console.log(this.props.ethereumAddress, "chance HIPR ethereumAddress")
+}
   render() {
     return (
       <WebView

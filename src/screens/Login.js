@@ -156,6 +156,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
+  updateBalances: (newBalances) =>
+    dispatch(updateBalances(newBalances)),
     getUsername: (edge_account) =>
         dispatch(getUsername(edge_account)),
     authToken: (auth_token) =>
@@ -166,7 +168,5 @@ const mapDispatchToProps = (dispatch) => ({
       dispatch(getWallet(wallet)),
     getAccount: (account) =>
       dispatch(getAccount(account)),
-    updateBalances: (newBalances) =>
-      dispatch(updateBalances(newBalances))
 })
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

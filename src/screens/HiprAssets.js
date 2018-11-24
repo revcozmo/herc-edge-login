@@ -91,11 +91,10 @@ class HiprAssets extends Component {
     }
 
     const { navigate } = this.props.navigation;
-    navigate('Hipr', { logo: asset.logo, name: asset.name });
+    navigate('HiprTransactions', { logo: asset.Logo, name: asset.Name, asset: asset });
   }
 
   render() {
-    const { navigate } = this.props.navigation;
     console.log('HiprAssets :', this.props, )
     let list = this.props.assets.map((asset, index) => {
       return (
@@ -124,7 +123,6 @@ class HiprAssets extends Component {
 
 const mapStateToProps = (state) => ({
   assets: state.AssetReducers.assets,
-  ethereumAddress: state.WalletActReducers.ethereumAddress
 });
 const mapDispatchToProps = dispatch => ({
   selectAsset: asset => dispatch(selectAsset(asset)),
