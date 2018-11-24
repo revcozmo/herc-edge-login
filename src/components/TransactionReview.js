@@ -178,9 +178,9 @@ class TransRev extends Component {
           docPrice = .000032
       }
 
-      if ((docPrice + imgPrice) !== 0) {
-          price = (docPrice + imgPrice) + .000032;
-      }
+
+      price = (docPrice + imgPrice) + .000032;
+      console.log(docPrice, imgPrice, price,'chance price check')
 
       let convertingPrice = new BigNumber(price)
       let newPrice = convertingPrice.toFixed(6)

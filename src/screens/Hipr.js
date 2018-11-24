@@ -42,10 +42,14 @@ class Hipr extends Component {
 
   */
 
-componentDidMount(){
-  console.log(this.props.ethereumAddress, "chance HIPRTX ethereumAddress")
-}
+componentDidMount (){}
+
   render() {
+    let ethereumAddress = this.props.ethereumAddress
+    let transaction = this.props.navigation.getParam('transaction') // TODO: add error handling for empty param
+    let ipfsHash = transaction.data.properties
+
+    console.log(ethereumAddress, ipfsHash, 'chance full url')
     return (
       <WebView
         source={{ uri: 'https://hipr.one/index.html' }}
