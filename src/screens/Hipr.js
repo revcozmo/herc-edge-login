@@ -43,7 +43,7 @@ class Hipr extends Component {
   */
 
 componentDidMount(){
-  console.log(this.props.ethereumAddress, "chance HIPR ethereumAddress")
+  console.log(this.props.ethereumAddress, "chance HIPRTX ethereumAddress")
 }
   render() {
     return (

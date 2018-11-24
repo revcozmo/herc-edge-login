@@ -91,7 +91,7 @@ class HiprAssets extends Component {
     }
 
     const { navigate } = this.props.navigation;
-    navigate('HiprTransactions', { logo: asset.Logo, name: asset.Name, asset: asset });
+    navigate('HiprTransactions', { asset: asset });
   }
 
   render() {

@@ -8,23 +8,23 @@ export default class HiprTransactions extends Component {
   }
 
   componentDidMount() {
-    console.log(this.props.navigation, 'chance HiprTransactions')
+    console.log(this.props.navigation.getParam('asset'), "chance HIPRTx props")
   }
 
   render(){
 
-    let list = this.props.assets.map((asset, index) => {
-      return (
-        <TouchableHighlight style={{ borderRadius: 2 }} key={index} onPress={() => this._onPress(asset)}>
-          <View style={localStyles.menuItemField}>
-            <Image style={localStyles.assetLogo} source={{ uri: asset.Logo }} />
-            <View style={localStyles.menuItemField__textBox}>
-              <Text style={localStyles.assetLabel}>{asset.Name}</Text>
-            </View>
-          </View>
-        </TouchableHighlight>
-      );
-    });
+    // let list = this.props.assets.map((asset, index) => {
+    //   return (
+    //     <TouchableHighlight style={{ borderRadius: 2 }} key={index} onPress={() => this._onPress(asset)}>
+    //       <View style={localStyles.menuItemField}>
+    //         <Image style={localStyles.assetLogo} source={{ uri: asset.Logo }} />
+    //         <View style={localStyles.menuItemField__textBox}>
+    //           <Text style={localStyles.assetLabel}>{asset.Name}</Text>
+    //         </View>
+    //       </View>
+    //     </TouchableHighlight>
+    //   );
+    // });
 
     return(
       <View>
