@@ -46,7 +46,6 @@
     "react-native-image-picker": "^0.26.10",
     "react-native-json-tree": "^1.2.0",
     "react-native-linear-gradient": "^2.0.0",
-    "react-native-multiple-select-list": "file:react-native-multiple-select-list",
     "react-native-randombytes": "^3.5.0",
     "react-native-simple-radio-button": "^2.7.3",
     "react-native-tcp": "git://github.com/Airbitz/react-native-tcp.git#c6af8f728fcbbae23d20c0211fd5b6c322f7a446",
@@ -54,7 +53,6 @@
     "react-navigation": "^1.0.0-beta.11",
     "react-qr-code": "^0.1.2",
     "redux-devtools-extension": "^2.13.2",
-    "tcomb-form-native": "file:tcomb-form-native",
     "url": "^0.10.3",
     "web3": "^1.0.0-beta.35"
   },
