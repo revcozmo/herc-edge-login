@@ -48,11 +48,12 @@ componentDidMount (){}
     let ethereumAddress = this.props.ethereumAddress
     let transaction = this.props.navigation.getParam('transaction') // TODO: add error handling for empty param
     let ipfsHash = transaction.data.properties
+    let uri = 'https://hipr.one/' + ethereumAddress + '/' + ipfsHash + '/' + ipfsHash
 
-    console.log(ethereumAddress, ipfsHash, 'chance full url')
+    console.log(uri, 'chance full hipr uri')
     return (
       <WebView
-        source={{ uri: 'https://hipr.one/index.html' }}
+        source={{ uri: uri }}
         style={{ margin: 0, padding: 0, flex: 1, width: '100%' }}
       />
     );
