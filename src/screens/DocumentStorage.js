@@ -117,7 +117,24 @@ class DocumentStorage extends React.Component {
   };
 
   componentDidMount() {
-    console.log(this.props.account.username, "this is the props in document storage")
+    let userID = this.props.account.username;
+    console.log(userID, "this is the props in document storage");
+    database = firebase.database();
+    var ref = database.ref('documents/' + userID );
+    ref.on('value',gotData,errData)
+
+    function gotData(data) {
+      const uploadHistory = data.val();
+      const keys = Object.keys(uploadHistory);
+      const mappingThrough = keys.map(
+        (i,x) => i, "is found at ", x
+            )
+      console.log(mappingThrough, "line 132 ");
+    }
+
+    function errData(err){
+      console.log('Error!', err);
+    }
   }
 
   _writeToClipboard = async (data) => {
