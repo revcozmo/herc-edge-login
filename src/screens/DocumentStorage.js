@@ -14,7 +14,8 @@ import {
   TouchableHighlight,
   Clipboard,
   Alert,
-  Share
+  Share,
+  FlatList
 } from 'react-native';
 // import { WebBrowser } from 'expo';
 // import { DocumentPicker, ImagePicker, takeSnapshotAsync } from 'expo';
@@ -30,6 +31,28 @@ import { RNCamera } from "react-native-camera";
 
 console.disableYellowBox = true;
 
+class HistoryLog extends React.Component {
+  render() {
+    return (
+      <View style={styles.container}>
+        <FlatList
+          data={[
+            {key: this.props.blah },
+            {key: 'Jackson'},
+            {key: 'James'},
+            {key: 'Joel'},
+            {key: 'John'},
+            {key: 'Jillian'},
+            {key: 'Jimmy'},
+            {key: 'Julie'},
+          ]}
+          renderItem={({item}) => <Text style={styles.item}>{item.key}</Text>}
+        />
+      </View>
+    );
+  }
+}
+
 class DocumentStorage extends React.Component {
 
   state = {
@@ -39,7 +62,8 @@ class DocumentStorage extends React.Component {
     size: "",
     type: "",
     content: "",
-    uploadDoc: null
+    uploadDoc: null,
+    uploadHistory: {}
   };
 
 
@@ -117,24 +141,7 @@ class DocumentStorage extends React.Component {
   };
 
   componentDidMount() {
-    let userID = this.props.account.username;
-    console.log(userID, "this is the props in document storage");
-    database = firebase.database();
-    var ref = database.ref('documents/' + userID );
-    ref.on('value',gotData,errData)
-
-    function gotData(data) {
-      const uploadHistory = data.val();
-      const keys = Object.keys(uploadHistory);
-      const mappingThrough = keys.map(
-        (i,x) => i, "is found at ", x
-            )
-      console.log(mappingThrough, "line 132 ");
-    }
-
-    function errData(err){
-      console.log('Error!', err);
-    }
+    this._mapUploadHistory();
   }
 
   _writeToClipboard = async (data) => {
@@ -276,6 +283,34 @@ class DocumentStorage extends React.Component {
       </View>)
   }
 
+  _mapUploadHistory = (name) => {
+    console.log("in show upload history");
+    let userID = this.props.account.username;
+    database = firebase.database();
+    var ref = database.ref('documents/' + userID);
+
+    gotData = (data) => {
+      let rawDataObjects = data.val();
+      let dataObjects = Object.keys(rawDataObjects);
+      console.log(dataObjects);
+
+      for (let i = 0; i < dataObjects.length; i++) {
+        const k = dataObjects[i];
+        const date = rawDataObjects[k].date;
+        const filename = rawDataObjects[k].filename;
+        const downloadURL = rawDataObjects[k].downloadURL;
+        console.log(filename, date, downloadURL);
+      }
+    }
+
+    function errData(err) {
+      console.log('Error!', err);
+    }
+
+    ref.on('value', gotData, errData)
+
+  }
+
   _updateHistory = () => {
     let filename = this.state.name;
     let userID = this.props.account.username;
@@ -299,12 +334,25 @@ class DocumentStorage extends React.Component {
     this.setState({ qrcode: e.data });
   };
 
-  //   _updateWallet = () => {
-  //     let currentWallet = this.state.wallet;
-  //     let currentPrice = this.state.cost;
-  //     let newWallet = currentWallet - currentPrice;
-  //     this.setState({ wallet: newWallet })
-  //   }
+  _showUploadHistory = () => {
+    let dataObjectClone = { ...this.state.uploadHistory };
+    // let firstEntryKey = Object.keys(dataObjectClone)[0];
+    // let firstEntryObject = Object.entries(dataObjectClone[firstEntryKey]);
+
+
+
+    console.log(firstEntryObject, "**** line 319 ***")
+    // this.state.uploadHistory.map(
+    //   (current) => {
+    //    return  (
+    //    <li>test</li>
+    //    )
+    //   }
+    // )
+
+  }
+
+
 
   //   _saveToCameraRollAsync = async () => {
   //     const targetPixelCount = 1080; // If you want full HD pictures
@@ -324,7 +372,6 @@ class DocumentStorage extends React.Component {
   //   };
 
   render() {
-    // let { image } = this.state;
 
     return (
       <View
@@ -387,6 +434,10 @@ class DocumentStorage extends React.Component {
               </TouchableHighlight>
             </View>
           }
+
+          <HistoryLog blah={this.state.uploadHistory}/>
+
+          {/* {this._showUploadHistory()} */}
 
           {/* {this.state.uploadDoc === false ? this._openCameraView() : null} */}
 
