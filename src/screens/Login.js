@@ -12,7 +12,7 @@ import { connect } from "react-redux";
 import axios from 'axios';
 import { ethereumCurrencyPluginFactory } from 'edge-currency-ethereum';
 import { getUsername, getAccount, authToken, getEthAddress, getWallet, updateBalances } from "../actions/WalletActActions";
-import { WEB_SERVER_API_TOKEN, WEB_SERVER_API_IDOLOGY_CHECK } from "../components/settings";
+import { WEB_SERVER_API_TOKEN } from "../components/settings";
 import { makeEdgeContext } from 'edge-core-js';
 import { EDGE_API_KEY } from '../components/settings.js'
 import firebase from "../constants/Firebase";
@@ -68,14 +68,8 @@ class Login extends Component {
             'Authorization': token,
             'Content-Type': 'application/x-www-form-urlencoded'
           };
-        })
-        .then(() => {
-          axios.get(WEB_SERVER_API_IDOLOGY_CHECK)
-          .then(response => {
-            const { navigate } = this.props.navigation;
-            response.data.status == "true" ? navigate('MenuOptions') : navigate('Identity');
-          })
-          .catch( err => { console.log(err) })
+          const { navigate } = this.props.navigation;
+          navigate('MenuOptions')
         })
         .catch ( err => { console.log(err) })
     }
