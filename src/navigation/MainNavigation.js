@@ -23,12 +23,6 @@ import EdiT from "../screens/Edi-T";
 import FileUp from "../screens/FileUp";
 import Hipr from "../screens/Hipr";
 import HiprAssets from "../screens/HiprAssets";
-<<<<<<< HEAD
-import HiprTransactions from "../screens/HiprTransactions";
-import IdologyForm from "../screens/IdologyForm";
-import IdologyQuestions from "../screens/IdologyQuestions";
-=======
->>>>>>> master
 import InputMan from "../screens/InputMan";
 import Login from "../screens/Login";
 import MenuOptions from "../screens/MenuOptions";
