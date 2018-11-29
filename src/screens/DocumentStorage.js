@@ -247,25 +247,26 @@ class DocumentStorage extends React.Component {
   };
 
   _showUploadHistory = () => {
-    if (this.state.uploadHistory) {
-      let dataObjects = Object.keys(this.state.uploadHistory);
-      return (
-        dataObjects.map((curr, ind) => {
-          const dataObjectKeys = this.state.uploadHistory;
-          const date = dataObjectKeys[curr].date;
-          const filename = dataObjectKeys[curr].filename;
-          const downloadURL = dataObjectKeys[curr].downloadURL;
-          return (
-            <View key={dataObjectKeys[curr]}>
-              <Text style={{ color: "white" }}>{date}</Text>
-              <Text style={{ color: "white" }}>{filename}</Text>
-              <TouchableHighlight onPress={() => { this._writeToClipboard(downloadURL) }} >
-                <Text style={{ color: "white", margin: 10, backgroundColor: "#4c99ed", width: 200, lineHeight: 30, height: 30, borderRadius: 5, textAlign: "center", justifyContent: "center", alignContent: "center" }} > Copy Link</Text>
-              </TouchableHighlight>
-            </View>
-          )
-        })
-      )
+    const uploadHist = this.state.uploadHistory;
+    if (uploadHist) {
+        let dataObjects = Object.keys(this.state.uploadHistory);
+        return (
+          dataObjects.map((curr, ind) => {
+            const dataObjectKeys = this.state.uploadHistory;
+            const date = dataObjectKeys[curr].date;
+            const filename = dataObjectKeys[curr].filename;
+            const downloadURL = dataObjectKeys[curr].downloadURL;
+            return (
+              <View key={dataObjectKeys[curr]}>
+                <Text style={{ color: "white" }}>{date}</Text>
+                <Text style={{ color: "white" }}>{filename}</Text>
+                <TouchableHighlight onPress={() => { this._writeToClipboard(downloadURL) }} >
+                  <Text style={{ color: "white", margin: 10, backgroundColor: "#4c99ed", width: 200, lineHeight: 30, height: 30, borderRadius: 5, textAlign: "center", justifyContent: "center", alignContent: "center" }} > Copy Link</Text>
+                </TouchableHighlight>
+              </View>
+            )
+          })
+        )
     }
   }
 
@@ -292,7 +293,7 @@ class DocumentStorage extends React.Component {
 
     return (
       <View style={styles.container}>
-        <View style={[styles.containerCenter, {flex: 1}]}>
+        <View style={[styles.containerCenter, { flex: 1 }]}>
           <TouchableHighlight style={{ marginTop: 10 }} onPress={() => this._pickDocument()}>
             <Text style={{ color: "white", backgroundColor: "#4c99ed", width: 200, lineHeight: 30, height: 30, borderRadius: 5, textAlign: "center", justifyContent: "center", alignContent: "center" }}>
               Select Document
@@ -351,13 +352,13 @@ class DocumentStorage extends React.Component {
 
           {this.state.uploadDoc === true ? null :
             <ScrollView style={{ height: "50%" }}>
-              <View style={{ marginTop: "20%", alignItems: "center"}}>
+              <View style={{ marginTop: "20%", alignItems: "center" }}>
                 {this.state.uploadHistory ? <Text style={{ color: "white", fontSize: 18, textAlign: "center", marginVertical: 10, }}>HISTORY</Text> : null}
                 {this._showUploadHistory()}
               </View>
             </ScrollView>}
-          <View style={{ flexDirection:"column", flex: 1, margin: 2, width: "100%", justifyContent:"flex-end", backgroundColor: "#091141"}}>
-            <Image source={hercLogo} style={{ resizeMode: "center", height: 50, width: "50%", alignSelf:"center"}} />
+          <View style={{ flexDirection: "column", flex: 1, margin: 2, width: "100%", justifyContent: "flex-end", backgroundColor: "#091141" }}>
+            <Image source={hercLogo} style={{ resizeMode: "center", height: 50, width: "50%", alignSelf: "center" }} />
           </View>
         </View>
       </View>
