@@ -23,8 +23,6 @@ import EdiT from "../screens/Edi-T";
 import FileUp from "../screens/FileUp";
 import Hipr from "../screens/Hipr";
 import HiprAssets from "../screens/HiprAssets";
-import IdologyForm from "../screens/IdologyForm";
-import IdologyQuestions from "../screens/IdologyQuestions";
 import InputMan from "../screens/InputMan";
 import Login from "../screens/Login";
 import MenuOptions from "../screens/MenuOptions";
@@ -95,8 +93,6 @@ let headerStyles = StyleSheet.create({
 const MainNavigator = StackNavigator({ //this will be "createStackNavigator" after upgrading react-navigation
     Login: { screen: Login },
     MenuOptions: { screen: MenuOptions },
-    Identity: { screen: IdologyForm },
-    IdologyQuestions: { screen: IdologyQuestions },
     Create: { screen: Create },
     Tee: { screen: Tee },
     Digi: { screen: Digi },
