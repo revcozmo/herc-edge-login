@@ -271,7 +271,6 @@ class DocumentStorage extends React.Component {
   }
 
 
-
   //   _saveToCameraRollAsync = async () => {
   //     const targetPixelCount = 1080; // If you want full HD pictures
   //     const pixelRatio = PixelRatio.get(); // The pixel ratio of the device
