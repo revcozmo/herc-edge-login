@@ -6,16 +6,14 @@ import {
   ScrollView,
   StyleSheet,
   Text,
-  TouchableOpacity,
   View,
-  Button,
   CameraRoll,
   PixelRatio,
   TouchableHighlight,
   Clipboard,
   Alert,
   Share,
-  FlatList
+  ActivityIndicator,
 } from 'react-native';
 // import { WebBrowser } from 'expo';
 // import { DocumentPicker, ImagePicker, takeSnapshotAsync } from 'expo';
@@ -41,7 +39,8 @@ class DocumentStorage extends React.Component {
     type: "",
     content: "",
     uploadDoc: null,
-    uploadHistory: []
+    uploadHistory: [],
+    showLoader: true
   };
 
   static navigationOptions = ({ navigation }) => {
@@ -152,12 +151,12 @@ class DocumentStorage extends React.Component {
   _share = async () => {
     const downloadUrl = this.state.downloadURL;
     Share.share({
-      message: 'this is a link to the file ' + downloadUrl,
-      url: 'http://bam.tech',
-      title: 'Wow, did you see that?'
+      message: 'Herc Document Storage Link: ' + downloadUrl,
+      url: downloadUrl,
+      title: 'Herc Document Storage Link'
     }, {
         // Android only:
-        dialogTitle: 'Share BAM goodness',
+        dialogTitle: 'Herc Document Storage Link',
         // iOS only:
         excludedActivityTypes: [
           'com.apple.UIKit.activity.PostToTwitter'
@@ -249,25 +248,47 @@ class DocumentStorage extends React.Component {
   _showUploadHistory = () => {
     const uploadHist = this.state.uploadHistory;
     if (uploadHist) {
-        let dataObjects = Object.keys(this.state.uploadHistory);
-        return (
-          dataObjects.map((curr, ind) => {
-            const dataObjectKeys = this.state.uploadHistory;
-            const date = dataObjectKeys[curr].date;
-            const filename = dataObjectKeys[curr].filename;
-            const downloadURL = dataObjectKeys[curr].downloadURL;
-            return (
-              <View key={dataObjectKeys[curr]}>
-                <Text style={{ color: "white" }}>{date}</Text>
-                <Text style={{ color: "white" }}>{filename}</Text>
-                <TouchableHighlight onPress={() => { this._writeToClipboard(downloadURL) }} >
-                  <Text style={{ color: "white", margin: 10, backgroundColor: "#4c99ed", width: 200, lineHeight: 30, height: 30, borderRadius: 5, textAlign: "center", justifyContent: "center", alignContent: "center" }} > Copy Link</Text>
-                </TouchableHighlight>
-              </View>
-            )
-          })
-        )
+      let dataObjects = Object.keys(this.state.uploadHistory);
+      return (
+        dataObjects.map((curr, ind) => {
+          const dataObjectKeys = this.state.uploadHistory;
+          const date = dataObjectKeys[curr].date;
+          const filename = dataObjectKeys[curr].filename;
+          const downloadURL = dataObjectKeys[curr].downloadURL;
+          return (
+            <View key={dataObjectKeys[curr]}>
+              <Text style={{ color: "white" }}>{date}</Text>
+              <Text style={{ color: "white" }}>{filename}</Text>
+              <TouchableHighlight onPress={() => { this._writeToClipboard(downloadURL) }} >
+                <Text style={{ color: "white", margin: 10, backgroundColor: "#4c99ed", width: 200, lineHeight: 30, height: 30, borderRadius: 5, textAlign: "center", justifyContent: "center", alignContent: "center" }} > Copy Link</Text>
+              </TouchableHighlight>
+            </View>
+          )
+        })
+      )
     }
+  }
+
+  _activityIdicatorOrQRCode = () => {
+
+    const runLoaderChange = () => {
+      this.setState({ showLoader: false })
+    };
+
+    setTimeout(runLoaderChange, 2 * 1000);
+
+    if (this.state.showLoader != true) {
+      return (
+        <QRCode size={140} value={this.state.downloadURL} />
+      )
+    } else {
+      return (
+        <View style={{height: 140, width: 140, backgroundColor: "white", justifyContent: "center", alignContent: "center" }}>
+          <ActivityIndicator size="large" color="#0000ff" />
+        </View>
+      )
+    }
+
   }
 
 
@@ -316,7 +337,7 @@ class DocumentStorage extends React.Component {
               this._container = view;
             }}>
 
-              {this.state.downloadURL ? <QRCode size={140} value={this.state.downloadURL} /> : null}
+              {this.state.downloadURL ? <View style={{ backgroundColor: "white", borderWidth: 10, borderColor: "white" }}>{this._activityIdicatorOrQRCode()}</View> : null}
 
               {this.state.downloadURL ? <Text style={{ color: "silver", flexWrap: 'wrap', textAlign: "center" }}> {this.state.downloadURL} </Text> : null}
             </View>
@@ -376,7 +397,6 @@ const localStyles = StyleSheet.create({
     flex: 1,
   }
 });
-
 
 const mapStateToProps = state => ({
   account: state.WalletActReducers.account
