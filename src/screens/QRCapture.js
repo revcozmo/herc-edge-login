@@ -32,7 +32,7 @@ class QRCapture extends Component {
     const passStateToRedux = this.props.getQRData(this.state);
 
     const { navigate } = this.props.navigation;
-    navigate("Tee");
+    navigate("NewAssetForm");
   };
 
   _handleBarCodeRead = data => {

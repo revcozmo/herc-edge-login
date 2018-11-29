@@ -16,7 +16,7 @@ import BlockScanner from "../screens/BlockScanner";
 import Camera from "../screens/Camera";
 import Confirm from "../screens/Confirm";
 // import ConfirmConf from "../screens/ConfirmConf";
-import Create from "../screens/Create";
+import NewAssetLanding from "../screens/NewAssetLanding";
 import Digi from "../screens/DigiViewer";
 import DocUp from "../screens/DocUp";
 import EdiT from "../screens/Edi-T";
@@ -33,7 +33,7 @@ import SpaceScreen from "../screens/SpaceScreen";
 import Splash1 from "../screens/Splash1";
 import Splash2 from "../screens/Splash2";
 import Splash3 from "../screens/Splash3";
-import Tee from "../screens/Tee";
+import NewAssetForm from "../screens/NewAssetForm";
 import TransAssetList from "../screens/TransAssetList";
 import TransSwiper from "../screens/TransSwiper";
 import TxSwiper from "../components/TxSwiper";
@@ -91,8 +91,8 @@ let headerStyles = StyleSheet.create({
 const MainNavigator = StackNavigator({ //this will be "createStackNavigator" after upgrading react-navigation
     Login: { screen: Login },
     MenuOptions: { screen: MenuOptions },
-    Create: { screen: Create },
-    Tee: { screen: Tee },
+    NewAssetLanding: { screen: NewAssetLanding },
+    NewAssetForm: { screen: NewAssetForm },
     Digi: { screen: Digi },
     Anthem: { screen: Anthem },
     PreHipr: { screen: PreHipr },

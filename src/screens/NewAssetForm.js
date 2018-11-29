@@ -21,7 +21,7 @@ import uploadPhoto from "../components/buttons/uploadImage.png";
 var ImagePicker = require('react-native-image-picker');
 
 
-class Tee extends Component {
+class NewAssetForm extends Component {
   constructor(props) {
     super(props);
     this.setImage = this.setImage.bind(this); // method to set the log from the camera component
@@ -470,4 +470,4 @@ const mapDispatchToProps = dispatch => ({
   getHercId: () => dispatch(getHercId())
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Tee);
+export default connect(mapStateToProps, mapDispatchToProps)(NewAssetForm);
