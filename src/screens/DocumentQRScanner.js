@@ -28,7 +28,6 @@ export default class LinksScreen extends React.Component {
     };
 
     _handleBarCodeRead = payload => {
-        console.log("read QR")
         const scanResult = payload.data;
         this.setState(
             {
