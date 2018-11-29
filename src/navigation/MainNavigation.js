@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import React, { Component } from "react";
 import { StackNavigator } from "react-navigation";
-import backArrow from "../assets/icon_backarrow.png";
+import backArrow from "../assets/icon_backarrow.png"; // TODO: must be changed into a vector icon
 
 import Anthem from "../screens/Anthem";
 import BlockScanner from "../screens/BlockScanner";
