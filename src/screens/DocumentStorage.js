@@ -31,28 +31,6 @@ import { RNCamera } from "react-native-camera";
 
 console.disableYellowBox = true;
 
-class HistoryLog extends React.Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        <FlatList
-          data={[
-            { key: this.props.blah },
-            { key: 'Jackson' },
-            { key: 'James' },
-            { key: 'Joel' },
-            { key: 'John' },
-            { key: 'Jillian' },
-            { key: 'Jimmy' },
-            { key: 'Julie' },
-          ]}
-          renderItem={({ item }) => <Text style={styles.item}>{item.key}</Text>}
-        />
-      </View>
-    );
-  }
-}
-
 class DocumentStorage extends React.Component {
 
   state = {
@@ -65,8 +43,6 @@ class DocumentStorage extends React.Component {
     uploadDoc: null,
     uploadHistory: []
   };
-
-
 
   static navigationOptions = ({ navigation }) => {
     const { params } = navigation.state;
@@ -117,10 +93,6 @@ class DocumentStorage extends React.Component {
           <TouchableHighlight style={{ justifyContent: "center" }} onPress={() => navigation.navigate("MenuOptions")}>
             <View style={headerStyles.header__container__centeredBox}>
               <View style={headerStyles.header__image__box}>
-                {/* <Image
-                      style={headerStyles.assetHeaderLogo}
-                      source={{ uri: params.logo }}
-                    /> */}
               </View>
               <View style={headerStyles.header__text__box}>
                 <Text style={headerStyles.headerText}>Document Storage</Text>
@@ -149,24 +121,6 @@ class DocumentStorage extends React.Component {
     Alert.alert('Copied to Clipboard!', data);
   };
 
-
-
-  //   async componentDidMount() {
-  //     // await Permissions.askAsync(Permissions.CAMERA_ROLL);
-  //     // await Permissions.askAsync(Permissions.CAMERA);
-  //   }
-
-  //   _requestCameraRollPermission = async () => {
-
-  //     const { Permissions } = Expo;
-  //     const { status } = await Permissions.getAsync(Permissions.CAMERA_ROLL);
-
-  //     // const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
-  //     this.setState({
-  //       hasCameraRollPermission: status === "granted"
-  //     });
-  //   };
-
   _pickDocument = () => {
     this.setState({ uploadDoc: true })
     DocumentPicker.show({
@@ -189,37 +143,6 @@ class DocumentStorage extends React.Component {
       }
     });
   }
-
-  //   _contents = (cont) => {
-  //     this.setState({ contents: cont });
-  //   }
-
-  // _setDetails = () => {
-  //   if (this.state.document) {
-  //     let docSizeBytes = this.state.document.size;
-  //     let docSizeKilobytes = docSizeBytes * .001;
-  //     let docSizeKB2Decimals = docSizeKilobytes.toFixed(2);
-  //     this.setState({ docSizekb: docSizeKB2Decimals });
-  //     // let calculatedCost = (docSizeKB2Decimals * .001) / .4;
-  //     let calculatedCost2Fixed =  .00008;
-  //     this.setState({ cost: calculatedCost2Fixed })
-  //   }
-  // }
-  //   _pickImage = async () => {
-  //     const Blob = RNFetchBlob.polyfill.Blob;
-  //     const fs = RNFetchBlob.fs;
-  //     window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest;
-  //     window.Blob = Blob;
-
-  //     let result = await ImagePicker.launchImageLibraryAsync({
-  //       allowsEditing: true,
-  //       aspect: [4, 3],
-  //     });
-  //     alert("file path: ", result.uri);
-  //     if (!result.cancelled) {
-  //       this.setState({ image: result.uri });
-  //     }
-  //   };
 
   _executeUpload = async () => {
     let f = this.state.uri;
@@ -265,7 +188,6 @@ class DocumentStorage extends React.Component {
   }
 
   _scanQR = () => {
-    console.log("scanning QR");
     this.setState({ uploadDoc: false })
   }
 
@@ -284,26 +206,21 @@ class DocumentStorage extends React.Component {
   }
 
   _mapUploadHistory = (name) => {
-    console.log("in show upload history");
     let userID = this.props.account.username;
     database = firebase.database();
     var ref = database.ref('documents/' + userID);
 
-
-
-
-    function errData(err) {
+    errData = (err) => {
       console.log('Error!', err);
-    }
+    };
 
-    ref.on('value', this.gotData, errData)
+    gotData = (data) => {
+      this.setState({
+        uploadHistory: data.val()
+      }, () => console.log(this.state))
+    };
 
-  }
-
-  gotData = (data) => {
-    this.setState({
-      uploadHistory: data.val()
-    }, () => console.log(this.state))
+    ref.on('value', gotData, errData);
   }
 
   _updateHistory = () => {
@@ -330,30 +247,26 @@ class DocumentStorage extends React.Component {
   };
 
   _showUploadHistory = () => {
-    let dataObjects = Object.keys(this.state.uploadHistory);
-    let specifics = [];
-
-    // let dataObjectClone = { ...this.state.uploadHistory };
-    // let firstEntryKey = Object.keys(dataObjectClone)[0];
-    // let firstEntryObject = Object.entries(dataObjectClone[firstEntryKey]);
-    return (
-      dataObjects.map((curr, ind) => {
-        const dataObjectKeys = this.state.uploadHistory;
-        const date = dataObjectKeys[curr].date;
-        const filename = dataObjectKeys[curr].filename;
-        const downloadURL = dataObjectKeys[curr].downloadURL;
-        specifics.push(date, filename, downloadURL);
-        return (
-          <View key={dataObjectKeys[curr]}>
-            <Text style={{ color: "white" }}>{date}</Text>
-            <Text style={{ color: "white" }}>{filename}</Text>
-            <TouchableHighlight>
-              <Text style={{ color: "white", margin: 10, backgroundColor: "#4c99ed", width: 200, lineHeight: 30, height: 30, borderRadius: 5, textAlign: "center", justifyContent: "center", alignContent: "center" }} > Copy Link</Text>
-            </TouchableHighlight>
-          </View>
-        )
-      })
-    )
+    if (this.state.uploadHistory) {
+      let dataObjects = Object.keys(this.state.uploadHistory);
+      return (
+        dataObjects.map((curr, ind) => {
+          const dataObjectKeys = this.state.uploadHistory;
+          const date = dataObjectKeys[curr].date;
+          const filename = dataObjectKeys[curr].filename;
+          const downloadURL = dataObjectKeys[curr].downloadURL;
+          return (
+            <View key={dataObjectKeys[curr]}>
+              <Text style={{ color: "white" }}>{date}</Text>
+              <Text style={{ color: "white" }}>{filename}</Text>
+              <TouchableHighlight onPress={() => { this._writeToClipboard(downloadURL) }} >
+                <Text style={{ color: "white", margin: 10, backgroundColor: "#4c99ed", width: 200, lineHeight: 30, height: 30, borderRadius: 5, textAlign: "center", justifyContent: "center", alignContent: "center" }} > Copy Link</Text>
+              </TouchableHighlight>
+            </View>
+          )
+        })
+      )
+    }
   }
 
 
@@ -378,113 +291,89 @@ class DocumentStorage extends React.Component {
   render() {
 
     return (
-      <View
-        style={styles.container}
-      >
-        <ScrollView>
-          <View style={[styles.containerCenter, { paddingTop: 25 }]}>
-
-
-            <TouchableHighlight onPress={() => this._pickDocument()}>
-              <Text style={{ color: "white", backgroundColor: "#4c99ed", width: 200, lineHeight: 30, height: 30, borderRadius: 5, textAlign: "center", justifyContent: "center", alignContent: "center" }}>
-                Select Document
+      <View style={styles.container}>
+        <View style={[styles.containerCenter, {flex: 1}]}>
+          <TouchableHighlight style={{ marginTop: 10 }} onPress={() => this._pickDocument()}>
+            <Text style={{ color: "white", backgroundColor: "#4c99ed", width: 200, lineHeight: 30, height: 30, borderRadius: 5, textAlign: "center", justifyContent: "center", alignContent: "center" }}>
+              Select Document
             </Text>
-            </TouchableHighlight>
+          </TouchableHighlight>
 
-            {this.state.name ? <Text style={{ color: "silver", flexWrap: 'wrap' }}> file name: {this.state.name} </Text> : null}
-            {this.state.size ? <Text style={{ color: "silver", flexWrap: 'wrap' }}> file size: {this.state.size} kB </Text> : null}
-            {/* {this.state.cost ? <Text> upload cost: {this.state.cost} Hercs </Text> : null} */}
+          {this.state.name ? <Text style={{ color: "silver", flexWrap: 'wrap' }}> file name: {this.state.name} </Text> : null}
+          {this.state.size ? <Text style={{ color: "silver", flexWrap: 'wrap' }}> file size: {this.state.size} kB </Text> : null}
+          {/* {this.state.cost ? <Text> upload cost: {this.state.cost} Hercs </Text> : null} */}
 
-            {this.state.name ?
-              <TouchableHighlight onPress={this._executeUpload}>
-                <Text style={{ color: "white", marginTop: 10, backgroundColor: "#4c99ed", width: 200, lineHeight: 30, height: 30, borderRadius: 5, textAlign: "center", justifyContent: "center", alignContent: "center" }}>
-                  Upload
+          {this.state.name ?
+            <TouchableHighlight onPress={this._executeUpload}>
+              <Text style={{ color: "white", marginTop: 10, backgroundColor: "#4c99ed", width: 200, lineHeight: 30, height: 30, borderRadius: 5, textAlign: "center", justifyContent: "center", alignContent: "center" }}>
+                Upload
               </Text>
-              </TouchableHighlight>
-              : null}
+            </TouchableHighlight>
+            : null}
 
-            <View style={{ alignContent: "center", alignItems: "center" }}>
-              <View style={{ padding: 10, flexDirection: "column", justifyContent: "center", alignContent: "center", alignItems: "center" }} collapsable={false} ref={view => {
-                this._container = view;
-              }}>
+          <View style={{ alignContent: "center", alignItems: "center" }}>
+            <View style={{ padding: 10, flexDirection: "column", justifyContent: "center", alignContent: "center", alignItems: "center" }} collapsable={false} ref={view => {
+              this._container = view;
+            }}>
 
-                {this.state.downloadURL ? <QRCode size={140} value={this.state.downloadURL} /> : null}
+              {this.state.downloadURL ? <QRCode size={140} value={this.state.downloadURL} /> : null}
 
-                {this.state.downloadURL ? <Text style={{ color: "silver", flexWrap: 'wrap', textAlign: "center" }}> {this.state.downloadURL} </Text> : null}
-              </View>
-
-              {/* {this.state.downloadURL ? <Button title="Save QR" onPress={this._saveToCameraRollAsync} /> : null} */}
-
-              {this.state.downloadURL ?
-                <View>
-                  <TouchableHighlight onPress={() => { this._writeToClipboard(this.state.downloadURL) }}>
-                    <Text style={{ color: "white", marginTop: 10, backgroundColor: "#4c99ed", width: 200, lineHeight: 30, height: 30, borderRadius: 5, textAlign: "center", justifyContent: "center", alignContent: "center" }}>
-                      Copy
-                  </Text>
-                  </TouchableHighlight>
-                  <TouchableHighlight onPress={() => { this._share() }}>
-                    <Text style={{ color: "white", marginTop: 10, backgroundColor: "#4c99ed", width: 200, lineHeight: 30, height: 30, borderRadius: 5, textAlign: "center", justifyContent: "center", alignContent: "center" }}>
-                      share
-                  </Text>
-                  </TouchableHighlight>
-                </View> : null}
+              {this.state.downloadURL ? <Text style={{ color: "silver", flexWrap: 'wrap', textAlign: "center" }}> {this.state.downloadURL} </Text> : null}
             </View>
 
-            {this.state.uploadDoc === true ? null :
-              <View style={{ alignContent: "center" }}>
-                <Text style={{ color: "white", textAlign: "center" }}>OR</Text>
-                <TouchableHighlight style={{ marginTop: 10, marginBottom: 10 }} onPress={() => this._takePic()}>
-                  <Text style={{ color: "white", backgroundColor: "#4c99ed", width: 200, lineHeight: 30, height: 30, borderRadius: 5, textAlign: "center", justifyContent: "center", alignContent: "center" }}>
-                    Scan A QR
-                </Text>
+            {/* {this.state.downloadURL ? <Button title="Save QR" onPress={this._saveToCameraRollAsync} /> : null} */}
+
+            {this.state.downloadURL ?
+              <View>
+                <TouchableHighlight onPress={() => { this._writeToClipboard(this.state.downloadURL) }}>
+                  <Text style={{ color: "white", marginTop: 10, backgroundColor: "#4c99ed", width: 200, lineHeight: 30, height: 30, borderRadius: 5, textAlign: "center", justifyContent: "center", alignContent: "center" }}>
+                    Copy
+                  </Text>
                 </TouchableHighlight>
-              </View>
-            }
-            <View style={{marginTop: "80%"}}>
-            <Text style={{color: "white", fontSize: 18, textAlign:"center"}}>HISTORY</Text>
-            {this._showUploadHistory()}
-            </View>
-
-           
-
-            {/* {this.state.uploadDoc === false ? this._openCameraView() : null} */}
-
-            {/* <TouchableHighlight onPress={() => this._takePic()}>
-            <Image style={styles.menuButton} source={takePhoto} />
-          </TouchableHighlight> */}
-
-            <View style={{ width: "100%", flex: 1, justifyContent: "space-between", flexDirection: "row", alignItems: "flex-end" }}>
-              {/* <View style={{ flexDirection: "row", alignContent: "flex-end", margin: 2 }}>
-            <Text style={{ fontSize: 12, color: "black", margin: 1, marginBottom: "10%", alignSelf: "center" }}>Wallet: {this.state.wallet} Hercs
-            </Text>
-          </View> */}
-
-
-              <View style={{ flexDirection: "column", margin: 2, width: "100%" }}>
-                {/* <Text style={{ fontSize: 12, color: "silver"}}>Secured by</Text> */}
-                <Image source={hercLogo} style={{ resizeMode: "center", height: 50, width: "50%", alignSelf: "center" }} />
-              </View>
-            </View>
+                <TouchableHighlight onPress={() => { this._share() }}>
+                  <Text style={{ color: "white", marginTop: 10, backgroundColor: "#4c99ed", width: 200, lineHeight: 30, height: 30, borderRadius: 5, textAlign: "center", justifyContent: "center", alignContent: "center" }}>
+                    share
+                  </Text>
+                </TouchableHighlight>
+              </View> : null}
           </View>
-        </ScrollView>
+
+          {this.state.uploadDoc === true ? null :
+            <View style={{ alignContent: "center" }}>
+              <Text style={{ color: "white", textAlign: "center" }}>OR</Text>
+              <TouchableHighlight style={{ marginTop: 10, marginBottom: 10 }} onPress={() => this._takePic()}>
+                <Text style={{ color: "white", backgroundColor: "#4c99ed", width: 200, lineHeight: 30, height: 30, borderRadius: 5, textAlign: "center", justifyContent: "center", alignContent: "center" }}>
+                  Scan A QR
+                </Text>
+              </TouchableHighlight>
+            </View>
+          }
+
+          {this.state.uploadDoc === true ? null :
+            <ScrollView style={{ height: "50%" }}>
+              <View style={{ marginTop: "20%", alignItems: "center"}}>
+                {this.state.uploadHistory ? <Text style={{ color: "white", fontSize: 18, textAlign: "center", marginVertical: 10, }}>HISTORY</Text> : null}
+                {this._showUploadHistory()}
+              </View>
+            </ScrollView>}
+          <View style={{ flexDirection:"column", flex: 1, margin: 2, width: "100%", justifyContent:"flex-end", backgroundColor: "#091141"}}>
+            <Image source={hercLogo} style={{ resizeMode: "center", height: 50, width: "50%", alignSelf:"center"}} />
+          </View>
+        </View>
       </View>
     );
   }
 }
-
 
 const localStyles = StyleSheet.create({
   container: {
     borderColor: "red",
     borderWidth: 3,
     flex: 1,
-    // height: 400,
     flexDirection: "row"
   },
   preview: {
     flex: 1,
-    // justifyContent: "flex-end",
-    // alignItems: "center"
   }
 });
 
