@@ -125,7 +125,6 @@ class NewAssetConfirm extends Component {
         this.props.settingHeader(fbAsset);
         this.props.confirmAssetStarted(ipfsAsset);
         this.props.incHercId(this.props.hercId);
-        // navigate('ConfirmConf');
     }
     _sendNewAsset(){
       this._changeModalVisibility(true);

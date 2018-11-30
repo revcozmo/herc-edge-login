@@ -9,7 +9,6 @@ import {
 } from "react-native";
 import React, { Component } from "react";
 import { StackNavigator } from "react-navigation";
-import backArrow from "../assets/icon_backarrow.png"; // TODO: must be changed into a vector icon
 
 import BlockScanner from "../screens/BlockScanner";
 import Camera from "../screens/Camera";
@@ -25,14 +24,14 @@ import MetricInput from "../screens/MetricInput";
 import Login from "../screens/Login";
 import MenuOptions from "../screens/MenuOptions";
 import NewAssetConfirm from "../screens/NewAssetConfirm";
-import PreHipr from "../screens/PreHIPR";
+import HiprLanding from "../screens/HiprLanding";
 import TrackAssetOptions from "../screens/TrackAssetOptions";
 import SupplyChainAssetList from "../screens/SupplyChainAssetList";
 import SupplyChainTxRx from "../screens/SupplyChainTxRx";
 import SupplyChainReview from "../screens/SupplyChainReview";
 import NewAssetForm from "../screens/NewAssetForm";
 import TrackAssetList from "../screens/TrackAssetList";
-import TransactionSwiper from "../screens/TransactionSwiper";
+import TxSwiperContainer from "../screens/TxSwiperContainer";
 import TxSwiper from "../components/TxSwiper";
 import Wallet from "../screens/Wallet";
 import Settings from "../screens/Settings";
@@ -40,6 +39,7 @@ import QRCapture from "../screens/QRCapture";
 import QRCapture2 from "../screens/QRCapture2";
 import roundImage from "../assets/round.png"
 import styles from "../assets/styles";
+import backArrow from "../assets/icon_backarrow.png"; // TODO: turn into vector icon!
 import DrawerIcon from "../assets/icons/drawerIcon.png"; // TODO: turn into vector icon!
 import WebViewComponent from "../components/WebViewComponent";
 
@@ -90,30 +90,37 @@ const MainNavigator = StackNavigator({ //this will be "createStackNavigator" aft
     MenuOptions: { screen: MenuOptions },
     NewAssetLanding: { screen: NewAssetLanding },
     NewAssetForm: { screen: NewAssetForm },
-    PreHipr: { screen: PreHipr },
+    NewAssetConfirm: { screen: NewAssetConfirm },
+
+    HiprLanding: { screen: HiprLanding },
     HiprAssets: { screen: HiprAssets },
     Hipr: { screen: Hipr },
+
     BlockScanner: { screen: BlockScanner },
-    TransactionSwiper: { screen: TransactionSwiper },
+    TxSwiperContainer: { screen: TxSwiperContainer },
+
     TrackAssetList: { screen: TrackAssetList },
+    TrackAssetOptions: { screen: TrackAssetOptions },
+
     SupplyChainAssetList: { screen: SupplyChainAssetList },
     SupplyChainTxRx: { screen: SupplyChainTxRx },
     SupplyChainReview: { screen: SupplyChainReview },
-    MetricInput: { screen: MetricInput },
     ImageUpload: { screen: ImageUpload },
+    Camera: { screen: Camera },
     DocUp: { screen: DocUp },
-    Confirm: { screen: Confirm },
-    NewAssetConfirm: { screen: NewAssetConfirm },
-    // ConfirmConf: { screen: ConfirmConf },
     EdiT: { screen: EdiT },
-    TrackAssetOptions: { screen: TrackAssetOptions },
+    MetricInput: { screen: MetricInput },
+    Confirm: { screen: Confirm },
+
     QRCapture: { screen: QRCapture },
     QRCapture2: { screen: QRCapture2 },
+
     Wallet: { screen: Wallet },
     Settings: { screen: Settings },
-    Camera: { screen: Camera },
+
     WebViewComponent: { screen: WebViewComponent },
     TxSwiper: { screen: TxSwiper },
+    // ConfirmConf: { screen: ConfirmConf },
 
 }, {
         initialRouteName: 'Login',

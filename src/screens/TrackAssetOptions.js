@@ -89,7 +89,7 @@ class TrackAssetOptions extends Component {
             this.setState({
                 tx: <MagicButton style={localStyles.menuButton}
 
-                    onPress={() => navigate('TransactionSwiper', { name: this.props.name, logo: this.props.logo })}>
+                    onPress={() => navigate('TxSwiperContainer', { name: this.props.name, logo: this.props.logo })}>
                     Transaction Swiper
                 </MagicButton>
             })
@@ -116,7 +116,7 @@ class TrackAssetOptions extends Component {
                 <View style={[styles.containerCenter, { paddingTop: 25 }]}>
                     {this.state.tx}
 
-                    {/* <Button title={'Transaction Viewer'} onPress={() => navigate('TransactionSwiper', { name: this.props.name, logo: this.props.logo })} /> */}
+                    {/* <Button title={'Transaction Viewer'} onPress={() => navigate('TxSwiperContainer', { name: this.props.name, logo: this.props.logo })} /> */}
 
                     <MagicButton styles={localStyles.menuButton} onPress={this._onPress}>Block Scanner</MagicButton>
                 </View>

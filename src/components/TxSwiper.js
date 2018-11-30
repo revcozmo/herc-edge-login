@@ -117,7 +117,7 @@ export default class TxSwiper extends Component {
   swipeBottom = () => {
     console.log('Swiping Down/Bottom');
     // const {navigate} = this.props.navigate
-    // navigate('PreHipr');
+    // navigate('HiprLanding');
   }
 
   makeMessage = (cardData) => {
