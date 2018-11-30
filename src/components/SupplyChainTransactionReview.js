@@ -3,11 +3,11 @@ import { StyleSheet, Text, TextInput, View, Image, TouchableHighlight, Alert, Sc
 import { connect } from 'react-redux';
 import { StackNavigator } from 'react-navigation';
 import styles from '../assets/styles';
-import submit from "./buttons/submit.png";
+import submit from "./buttons/submit.png"; // todo: turn into vector
 import { sendTrans } from "../actions/AssetActions";
 import fee from "../assets/hLogo.png";
-import newOriginator from "./buttons/originatorButton.png";
-import newRecipient from "./buttons/recipientButton.png";
+import newOriginator from "./buttons/originatorButton.png";// todo: turn into vector
+import newRecipient from "./buttons/recipientButton.png"; // todo: turn into vector
 import modalStyle from "../assets/confModalStyles";
 import { TOKEN_ADDRESS } from "../components/settings"
 import BigNumber from 'bignumber.js';

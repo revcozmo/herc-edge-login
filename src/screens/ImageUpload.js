@@ -3,9 +3,9 @@ import { Platform, StyleSheet, Text, View, Image, ScrollView, TouchableHighlight
 import { StackNavigator } from 'react-navigation';
 import styles from '../assets/styles';
 import { connect } from 'react-redux';
-import newOriginator from "../components/buttons/originatorButton.png";
-import newRecipient from "../components/buttons/recipientButton.png";
-import submit from "../components/buttons/submit.png";
+import newOriginator from "../components/buttons/originatorButton.png"; // todo: turn into vector
+import newRecipient from "../components/buttons/recipientButton.png"; // todo: turn into vector
+import submit from "../components/buttons/submit.png"; // todo: turn into vector
 import uploadImage from "../components/buttons/uploadImage.png";
 import takePhoto from "../components/buttons/takePhoto.png";
 import { addPhoto } from '../actions/AssetActions';

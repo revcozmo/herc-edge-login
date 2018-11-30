@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import Swiper from 'react-native-deck-swiper';
 import { Image, StyleSheet, TouchableHighlight, Share, Text, View } from 'react-native';
 import Button from 'react-native-button';
-import originator from "./buttons/originatorButton.png";
-import recipient from "./buttons/recipientButton.png";
+import originator from "./buttons/originatorButton.png";// todo: turn into vector
+import recipient from "./buttons/recipientButton.png"; // todo: turn into vector
 import { WebViewComponent } from "../components/WebViewComponent"
 import { StackNavigator } from 'react-navigation';
 

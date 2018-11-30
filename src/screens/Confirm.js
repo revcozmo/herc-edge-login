@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Platform, StyleSheet, Text, View, Image, ScrollView, TextInput, TouchableHighlight, Alert } from 'react-native';
-import submit from "../components/buttons/submit.png";
-import originator from "../components/buttons/originatorButton.png";
-import recipient from "../components/buttons/recipientButton.png";
+import submit from "../components/buttons/submit.png"; // todo: turn into vector
+import originator from "../components/buttons/originatorButton.png";// todo: turn into vector
+import recipient from "../components/buttons/recipientButton.png"; // todo: turn into vector
 import { StackNavigator } from 'react-navigation';
 import { connect } from "react-redux";
 import styles from "../assets/styles";

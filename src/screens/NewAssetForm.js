@@ -15,7 +15,7 @@ import styles from "../assets/styles";
 import Button from "react-native-button";
 import logo from "../assets/round.png";
 import { addAsset, getHercId } from "../actions/AssetActions";
-import next from "../components/buttons/nextButton.png";
+import next from "../components/buttons/nextButton.png"; // todo: turn into vector
 import takePhoto from "../components/buttons/takePhoto.png";
 import uploadPhoto from "../components/buttons/uploadImage.png";
 var ImagePicker = require('react-native-image-picker');

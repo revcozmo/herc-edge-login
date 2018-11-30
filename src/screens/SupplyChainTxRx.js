@@ -16,9 +16,9 @@ import { createStackNavigator } from "react-navigation";
 import styles from "../assets/styles";
 import { connect } from "react-redux";
 import { startTrans } from "../actions/AssetActions";
-import newOriginator from "../components/buttons/originatorButton.png";
-import newRecipient from "../components/buttons/recipientButton.png";
-import submit from "../components/buttons/submit.png";
+import newOriginator from "../components/buttons/originatorButton.png";// todo: turn into vector
+import newRecipient from "../components/buttons/recipientButton.png";// todo: turn into vector
+import submit from "../components/buttons/submit.png"; // todo: turn into vector
 
 class SupplyChainTxRx extends Component {
   static navigationOptions = ({ navigation }) => {

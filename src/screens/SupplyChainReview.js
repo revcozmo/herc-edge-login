@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import { StyleSheet, Platform, TextInput, Text, View, Image, ScrollView, TouchableHighlight, Alert, TouchableNativeFeedback, StatusBar } from "react-native";
 
 import { StackNavigator } from "react-navigation";
-import originator from "../components/buttons/originatorButton.png";
-import recipient from "../components/buttons/recipientButton.png";
+import originator from "../components/buttons/originatorButton.png";// todo: turn into vector
+import recipient from "../components/buttons/recipientButton.png";// todo: turn into vector
 import documents from "../components/buttons/document.png";
 import camera from "../components/buttons/camera.png";
 import metrics from "../components/buttons/metrics.png";

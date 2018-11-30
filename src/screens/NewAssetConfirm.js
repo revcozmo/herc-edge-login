@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Modal, Platform, StyleSheet, Text, View, Image, ScrollView, TextInput, TouchableHighlight, Alert, Button, ActivityIndicator, Linking } from 'react-native';
-import submit from "../components/buttons/submit.png";
+import submit from "../components/buttons/submit.png"; // todo: turn into vector
 import logo from "../assets/round.png";
 import { connect } from "react-redux";
 import styles from "../assets/styles";

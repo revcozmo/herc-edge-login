@@ -3,9 +3,9 @@ import { Platform, StyleSheet, Text, View, Image, ScrollView, TouchableHighlight
 import { connect } from 'react-redux';
 import styles from '../assets/styles';
 import { addDoc } from '../actions/AssetActions';
-import newOriginator from "../components/buttons/originatorButton.png";
-import newRecipient from "../components/buttons/recipientButton.png";
-import submit from "../components/buttons/submit.png";
+import newOriginator from "../components/buttons/originatorButton.png"; // todo: turn into vector
+import newRecipient from "../components/buttons/recipientButton.png"; // todo: turn into vector
+import submit from "../components/buttons/submit.png"; // todo: turn into vector
 var RNFS = require('react-native-fs')
 
 import { DocumentPicker, DocumentPickerUtil } from 'react-native-document-picker';
