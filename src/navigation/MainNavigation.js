@@ -13,7 +13,6 @@ import { StackNavigator } from "react-navigation";
 import BlockScanner from "../screens/BlockScanner";
 import Camera from "../screens/Camera";
 import Confirm from "../screens/Confirm";
-// import ConfirmConf from "../screens/ConfirmConf";
 import NewAssetLanding from "../screens/NewAssetLanding";
 import DocUp from "../screens/DocUp";
 import EdiT from "../screens/Edi-T";
@@ -120,7 +119,6 @@ const MainNavigator = StackNavigator({ //this will be "createStackNavigator" aft
 
     WebViewComponent: { screen: WebViewComponent },
     TxSwiper: { screen: TxSwiper },
-    // ConfirmConf: { screen: ConfirmConf },
 
 }, {
         initialRouteName: 'Login',
