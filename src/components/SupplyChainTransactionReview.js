@@ -5,13 +5,12 @@ import { StackNavigator } from 'react-navigation';
 import styles from '../assets/styles';
 import submit from "./buttons/submit.png";
 import { sendTrans } from "../actions/AssetActions";
-import fee from "../assets/hercLogoPillar.png";
+import fee from "../assets/hLogo.png";
 import newOriginator from "./buttons/originatorButton.png";
 import newRecipient from "./buttons/recipientButton.png";
 import modalStyle from "../assets/confModalStyles";
 import { TOKEN_ADDRESS } from "../components/settings"
 import BigNumber from 'bignumber.js';
-YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTImageLoader', 'Setting a timer for a long period of time']);
 import store from "../store"
 
 class SupplyChainTransactionReview extends Component {

@@ -16,12 +16,12 @@ import {
 import { createStackNavigator } from "react-navigation";
 import { connect } from "react-redux";
 import Button from "react-native-button";
-import submit from "../components/buttons/submit.png";
+import submit from "../components/buttons/submit.png"; // todo: turn into vector
 import styles from "../assets/styles";
-import create from "../assets/createNewAssetButton.png";
+import create from "../assets/createNewAssetButton.png"; // todo: turn into vector
 import supplyChain from "../assets/supplyChain.png";
 import { getAssetDef, selectAsset, deleteAsset } from "../actions/AssetActions";
-import addIcon from "../components/buttons/addIcon.png";
+import addIcon from "../components/buttons/addIcon.png"; // TODO: turn into vector icon
 import supplyChainIcon from "../assets/supplyChainIcon.png";
 
 let headerStyles = StyleSheet.create({

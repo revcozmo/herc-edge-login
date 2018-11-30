@@ -28,8 +28,6 @@ import Wallet from "./Wallet";
 import firebase from '../constants/Firebase';
 const rootRef = firebase.database().ref();
 
-YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTImageLoader', 'Setting a timer for a long period of time']);
-
 
 class MenuOptions extends Component {
     static navigationOptions = ({ navigation }) => ({

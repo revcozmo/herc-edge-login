@@ -16,7 +16,6 @@ import { WEB_SERVER_API_TOKEN } from "../components/settings";
 import { makeEdgeContext } from 'edge-core-js';
 import { EDGE_API_KEY } from '../components/settings.js'
 import firebase from "../constants/Firebase";
-YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTImageLoader', 'Setting a timer for a long period of time']);
 
 
 class Login extends Component {

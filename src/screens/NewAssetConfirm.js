@@ -4,8 +4,7 @@ import submit from "../components/buttons/submit.png";
 import logo from "../assets/round.png";
 import { connect } from "react-redux";
 import styles from "../assets/styles";
-import hercPillar from "../assets/hercLogoPillar.png";
-// import Loader from "../components/Loader"
+import hercPillar from "../assets/hLogo.png";
 import { incHercId, confirmAssetStarted, confirmAssetComplete, settingHeader, settingHeaderError } from "../actions/AssetActions"
 import modalStyle from "../assets/confModalStyles";
 import { TOKEN_ADDRESS } from "../components/settings"
