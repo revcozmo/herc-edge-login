@@ -96,7 +96,7 @@ class DocUp extends Component {
 
     this.props.addDoc(doc);
 
-    navigate('Splash3', { logo: this.props.logo, name: this.props.name });
+    navigate('SupplyChainReview', { logo: this.props.logo, name: this.props.name });
   };
 
 

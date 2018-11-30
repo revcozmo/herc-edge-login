@@ -23,16 +23,16 @@ import EdiT from "../screens/Edi-T";
 import FileUp from "../screens/FileUp";
 import Hipr from "../screens/Hipr";
 import HiprAssets from "../screens/HiprAssets";
-import InputMan from "../screens/InputMan";
+import MetricInput from "../screens/MetricInput";
 import Login from "../screens/Login";
 import MenuOptions from "../screens/MenuOptions";
 import NewAssetConfirm from "../screens/NewAssetConfirm";
 import PreDigi from "../screens/PreDigiView";
 import PreHipr from "../screens/PreHIPR";
 import SpaceScreen from "../screens/SpaceScreen";
-import Splash1 from "../screens/Splash1";
-import Splash2 from "../screens/Splash2";
-import Splash3 from "../screens/Splash3";
+import SupplyChainAssetList from "../screens/SupplyChainAssetList";
+import SupplyChainTxRx from "../screens/SupplyChainTxRx";
+import SupplyChainReview from "../screens/SupplyChainReview";
 import NewAssetForm from "../screens/NewAssetForm";
 import TransAssetList from "../screens/TransAssetList";
 import TransSwiper from "../screens/TransSwiper";
@@ -101,10 +101,10 @@ const MainNavigator = StackNavigator({ //this will be "createStackNavigator" aft
     BlockScanner: { screen: BlockScanner },
     TransSwiper: { screen: TransSwiper },
     TransAssetList: { screen: TransAssetList },
-    Splash1: { screen: Splash1 },
-    Splash2: { screen: Splash2 },
-    Splash3: { screen: Splash3 },
-    InputMan: { screen: InputMan },
+    SupplyChainAssetList: { screen: SupplyChainAssetList },
+    SupplyChainTxRx: { screen: SupplyChainTxRx },
+    SupplyChainReview: { screen: SupplyChainReview },
+    MetricInput: { screen: MetricInput },
     FileUp: { screen: FileUp },
     DocUp: { screen: DocUp },
     Confirm: { screen: Confirm },

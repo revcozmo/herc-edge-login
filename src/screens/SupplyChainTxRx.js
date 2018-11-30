@@ -20,7 +20,7 @@ import newOriginator from "../components/buttons/originatorButton.png";
 import newRecipient from "../components/buttons/recipientButton.png";
 import submit from "../components/buttons/submit.png";
 
-class Splash2 extends Component {
+class SupplyChainTxRx extends Component {
   static navigationOptions = ({ navigation }) => {
     const { params } = navigation.state;
     let headerStyles = StyleSheet.create({
@@ -124,7 +124,7 @@ class Splash2 extends Component {
       };
       this.props.startTrans(trans);
 
-      navigate("Splash3", {
+      navigate("SupplyChainReview", {
         logo: this.props.asset.Logo,
         name: this.props.asset.Name
       });
@@ -149,7 +149,7 @@ class Splash2 extends Component {
       };
       this.props.startTrans(trans);
 
-      navigate("Splash3", {
+      navigate("SupplyChainReview", {
         logo: this.props.asset.Logo,
         name: this.props.asset.Name
       });
@@ -177,7 +177,7 @@ class Splash2 extends Component {
 
 
   _getPlace = place => {
-    console.log(place, "place in splash2");
+    console.log(place, "place in SupplyChainTxRx");
 
     this.setState({
       showPass: true,
@@ -363,7 +363,7 @@ const mapDispatchToProps = dispatch => ({
   startTrans: trans => dispatch(startTrans(trans))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Splash2);
+export default connect(mapStateToProps, mapDispatchToProps)(SupplyChainTxRx);
 
 const localStyles = StyleSheet.create({
 

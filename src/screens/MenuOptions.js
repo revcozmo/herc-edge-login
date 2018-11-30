@@ -53,12 +53,12 @@ class MenuOptions extends Component {
                 <View style={[styles.containerCenter, { justifyContent: "space-around" }]}>
 
                     <View style={localStyles.touchableHighlight}>
-                        <TouchableHighlight onPress={() => navigate("Create")}>
+                        <TouchableHighlight onPress={() => navigate('NewAssetLanding')}>
                             <Image style={localStyles.menuButton} source={registerAsset} />
                         </TouchableHighlight>
                     </View>
                     <TouchableHighlight style={localStyles.touchableHighlight}
-                    onPress={() => navigate("Splash1")}>
+                    onPress={() => navigate('SupplyChainAssetList')}>
                         <Image style={localStyles.menuButton} source={supplyChain} />
                     </TouchableHighlight>
 

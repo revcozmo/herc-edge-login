@@ -65,7 +65,7 @@ let headerStyles = StyleSheet.create({
   },
 })
 
-class Splash1 extends Component {
+class SupplyChainAssetList extends Component {
 
   static navigationOptions = ({ navigation }) => ({
     headerTitle:
@@ -125,7 +125,7 @@ class Splash1 extends Component {
 
   }
   _showPass = asset => {
-    console.log(asset, "asset before pw enter in splash2");
+    console.log(asset, "asset before pw enter in SupplyChainTxRx");
 
     this.setState({
       showPass: true,
@@ -159,7 +159,7 @@ class Splash1 extends Component {
     else { this.props.getAssetDef(asset.hashes.ipfsHash) }
 
 
-    navigate("Splash2", { logo: asset.Logo, name: asset.Name });
+    navigate('SupplyChainTxRx', { logo: asset.Logo, name: asset.Name });
 
   }
 
@@ -173,7 +173,7 @@ class Splash1 extends Component {
 
             {this._renderAssets()}
 
-            <TouchableHighlight onPress={() => navigate("Create")}>
+            <TouchableHighlight onPress={() => navigate('NewAssetLanding')}>
 
               <View style={localStyles.createNew__Box}>
                 <Image style={localStyles.assetLogo} source={addIcon} />
@@ -347,4 +347,4 @@ const mapDispatchToProps = dispatch => ({
   deleteAsset: key => dispatch(deleteAsset(key))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Splash1);
+export default connect(mapStateToProps, mapDispatchToProps)(SupplyChainAssetList);

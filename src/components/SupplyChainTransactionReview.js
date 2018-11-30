@@ -14,7 +14,7 @@ import BigNumber from 'bignumber.js';
 YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTImageLoader', 'Setting a timer for a long period of time']);
 import store from "../store"
 
-class TransRev extends Component {
+class SupplyChainTransactionReview extends Component {
 
     constructor(props) {
         super(props);
@@ -273,7 +273,7 @@ class TransRev extends Component {
         /// I'm using a smaller location image locally. localStyles.assetLocationLabel
         return (
 
-            <View style={localStyles.transactionReviewContainer}>
+            <View style={localStyles.SupplyChainTransactionReviewContainer}>
                 <Text style={styles.transReview}>Transaction Review</Text>
 
                 {edit}
@@ -341,7 +341,7 @@ class TransRev extends Component {
 }
 
 const localStyles = StyleSheet.create({
-    transactionReviewContainer: {
+    SupplyChainTransactionReviewContainer: {
         marginTop: 10,
         flex: 1,
         alignItems: "center",
@@ -477,4 +477,4 @@ const mapDispatchToProps = (dispatch) => ({
     sendTrans: (transPrice) => dispatch(sendTrans(transPrice))
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(TransRev);
+export default connect(mapStateToProps, mapDispatchToProps)(SupplyChainTransactionReview);

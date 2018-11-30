@@ -138,7 +138,7 @@ class FileUp extends Component {
     const { navigate } = this.props.navigation;
     let image = this.state;
     this.props.addPhoto(image);
-    navigate('Splash3', { logo: this.props.logo, name: this.props.name })
+    navigate('SupplyChainReview', { logo: this.props.logo, name: this.props.name })
   };
 
   render() {

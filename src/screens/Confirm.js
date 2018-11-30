@@ -131,7 +131,7 @@ class Confirm extends Component {
           <Image style={localStyles.assetLocationLabel} source={locationImage} />
           <ScrollView style={{ alignSelf: "center", width: "100%", paddingRight: 10 }}>
             {list}
-            <TouchableHighlight style={{alignSelf: "center"}} onPress={() => navigate('Splash3', { logo: this.props.logo, name: this.props.name })}>
+            <TouchableHighlight style={{alignSelf: "center"}} onPress={() => navigate('SupplyChainReview', { logo: this.props.logo, name: this.props.name })}>
               <Image style={styles.menuButton} source={submit} />
             </TouchableHighlight>
             {/* <View style={styles.assetFee}>

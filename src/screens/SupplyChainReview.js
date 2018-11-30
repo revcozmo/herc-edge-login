@@ -10,9 +10,9 @@ import metrics from "../components/buttons/metrics.png";
 import EDIT from "../components/buttons/EDI-T.png";
 import styles from "../assets/styles";
 import { connect } from "react-redux";
-import TransRev from "../components/TransactionReview";
+import SupplyChainTransactionReview from "../components/SupplyChainTransactionReview";
 
-class Splash3 extends Component {
+class SupplyChainReview extends Component {
   static navigationOptions = ({ navigation }) => {
     const { params } = navigation.state;
 
@@ -127,7 +127,7 @@ class Splash3 extends Component {
 
             <TouchableHighlight
               onPress={() =>
-                navigate("InputMan", { logo: logo, name: asset.name })}>
+                navigate("MetricInput", { logo: logo, name: asset.name })}>
               <Image style={styles.menuButton} source={metrics} />
             </TouchableHighlight>
 
@@ -151,7 +151,7 @@ const mapStateToProps = state => ({
   hercId: state.AssetReducers.selectedAsset.hercId || null,
 });
 
-export default connect(mapStateToProps)(Splash3);
+export default connect(mapStateToProps)(SupplyChainReview);
 
 const localStyles = StyleSheet.create({
   originatorText: {
