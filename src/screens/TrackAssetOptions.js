@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { fetchBlock } from '../actions/EthActions';
 import MagicButton from 'react-native-button';
 
-class SpaceScreen extends Component {
+class TrackAssetOptions extends Component {
     static navigationOptions = ({ navigation }) => {
         const { params } = navigation.state;
         let headerStyles = StyleSheet.create({
@@ -78,7 +78,7 @@ class SpaceScreen extends Component {
     }
 
     componentDidMount() {
-        console.log(this.props.asset.hasOwnProperty('transactions'), 'SpaceScreen: Does it have transactions??');
+        console.log(this.props.asset.hasOwnProperty('transactions'), 'TrackAssetOptions: Does it have transactions??');
         this._checkProps();
         this.props.fetchBlock();
     }
@@ -89,7 +89,7 @@ class SpaceScreen extends Component {
             this.setState({
                 tx: <MagicButton style={localStyles.menuButton}
 
-                    onPress={() => navigate('TransSwiper', { name: this.props.name, logo: this.props.logo })}>
+                    onPress={() => navigate('TransactionSwiper', { name: this.props.name, logo: this.props.logo })}>
                     Transaction Swiper
                 </MagicButton>
             })
@@ -100,7 +100,7 @@ class SpaceScreen extends Component {
     }
 
     _onPress = () => {
-        console.log('SpaceScreen: pressing blockscanner in spacescreen')
+        console.log('TrackAssetOptions: pressing blockscanner in TrackAssetOptions')
         const { navigate } = this.props.navigation;
         // this.props.fetchBlock();
         navigate('BlockScanner', { name: this.props.asset.Name, logo: this.props.asset.Logo })
@@ -116,7 +116,7 @@ class SpaceScreen extends Component {
                 <View style={[styles.containerCenter, { paddingTop: 25 }]}>
                     {this.state.tx}
 
-                    {/* <Button title={'Transaction Viewer'} onPress={() => navigate('TransSwiper', { name: this.props.name, logo: this.props.logo })} /> */}
+                    {/* <Button title={'Transaction Viewer'} onPress={() => navigate('TransactionSwiper', { name: this.props.name, logo: this.props.logo })} /> */}
 
                     <MagicButton styles={localStyles.menuButton} onPress={this._onPress}>Block Scanner</MagicButton>
                 </View>
@@ -135,7 +135,7 @@ const mapDispatchToProps = (dispatch) => ({
     fetchBlock: () => dispatch(fetchBlock())
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(SpaceScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(TrackAssetOptions);
 
 const localStyles = StyleSheet.create({
     headerField: {

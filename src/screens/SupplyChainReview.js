@@ -113,7 +113,7 @@ class SupplyChainReview extends Component {
             <TouchableHighlight
               style={{ marginTop: 8 }}
               onPress={() =>
-                navigate("FileUp", { logo: logo, name: asset.name })}>
+                navigate("ImageUpload", { logo: logo, name: asset.name })}>
               <Image style={styles.menuButton} source={camera} />
             </TouchableHighlight>
 
@@ -136,7 +136,7 @@ class SupplyChainReview extends Component {
               <Image style={styles.menuButton} source={EDIT} />
             </TouchableHighlight>
 
-            <TransRev navigate={navigate} />
+            <SupplyChainTransactionReview navigate={navigate} />
           </ScrollView>
         </View>
       </View>

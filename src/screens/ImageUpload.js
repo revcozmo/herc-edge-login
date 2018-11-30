@@ -11,7 +11,7 @@ import takePhoto from "../components/buttons/takePhoto.png";
 import { addPhoto } from '../actions/AssetActions';
 var ImagePicker = require('react-native-image-picker');
 
-class FileUp extends Component {
+class ImageUpload extends Component {
   static navigationOptions = ({ navigation }) => {
     const { params } = navigation.state;
     let headerStyles = StyleSheet.create({
@@ -104,18 +104,18 @@ class FileUp extends Component {
 
   }
   _pickImage = () => {
-    console.log("FileUp Camera: picking image")
+    console.log("ImageUpload Camera: picking image")
 
     ImagePicker.launchImageLibrary({}, (response) => {
 
       if (response.didCancel) {
-        console.log('FileUp Camera: User cancelled image picker');
+        console.log('ImageUpload Camera: User cancelled image picker');
       }
       else if (response.error) {
-        console.log('FileUp Camera: ImagePicker Error: ', response.error);
+        console.log('ImageUpload Camera: ImagePicker Error: ', response.error);
       }
       else if (response.customButton) {
-        console.log('FileUp Camera: User tapped custom button: ', response.customButton);
+        console.log('ImageUpload Camera: User tapped custom button: ', response.customButton);
       }
       else {
         let source = { uri: response.uri };
@@ -129,7 +129,7 @@ class FileUp extends Component {
   }
   _takePic = () => {
     const { navigate } = this.props.navigation;
-    console.log("FileUp Camera: takingpic")
+    console.log("ImageUpload Camera: takingpic")
     navigate('Camera',{ setPic: this.setImage})
 
   }
@@ -143,7 +143,7 @@ class FileUp extends Component {
 
   render() {
     let image = this.state;
-    console.log(Object.keys(image), 'FileUp Camera: should be this state');
+    console.log(Object.keys(image), 'ImageUpload Camera: should be this state');
     let transInfo = this.props.transInfo;
     let locationImage = this.props.transInfo.location === 'recipient' ? newRecipient : newOriginator;
     let logo = this.props.logo;
@@ -190,7 +190,7 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(addPhoto(image)),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(FileUp);
+export default connect(mapStateToProps, mapDispatchToProps)(ImageUpload);
 
 const localStyles = StyleSheet.create({
   submitButton: {

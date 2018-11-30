@@ -187,7 +187,7 @@ class SupplyChainTransactionReview extends Component {
             let imgPrice = ((transObj.images.size / 1024) * .00000002) / .4
             return (
                 <View style={localStyles.imgContainer}>
-                    <Text style={localStyles.transRevTime}>Images</Text>
+                    <Text style={localStyles.TransactionReviewTime}>Images</Text>
                     <Image style={localStyles.thumb} source={{ uri: transObj.images.image }} />
                     <Text style={localStyles.revPropVal}>{(transObj.images.size / 1024).toFixed(3)} kb</Text>
                     <View style={localStyles.feeContainer}>
@@ -206,7 +206,7 @@ class SupplyChainTransactionReview extends Component {
             let docPrice = .000032;
             return (
                 <View style={localStyles.docContainer}>
-                    <Text style={localStyles.transRevTime}>Documents</Text>
+                    <Text style={localStyles.TransactionReviewTime}>Documents</Text>
                     <Text style={localStyles.text}>{transObj.documents.name}</Text>
                     <Text style={localStyles.text}>{(transObj.documents.size / 1024).toFixed(3)} kb</Text>
                     <View style={localStyles.feeContainer}>
@@ -226,14 +226,14 @@ class SupplyChainTransactionReview extends Component {
             list = Object.keys(transObj.properties).map((name, idx) => {
                 return (
                     <View key={idx} style={localStyles.revPropField}>
-                        <Text style={localStyles.transRevName}>{name}:</Text>
+                        <Text style={localStyles.TransactionReviewName}>{name}:</Text>
                         <Text style={localStyles.revPropVal}>{transObj.properties[name]}</Text>
                     </View>
                 )
             });
             return (
                 <View style={localStyles.listContainer}>
-                    <Text style={localStyles.transRevTime}>Properties</Text>
+                    <Text style={localStyles.TransactionReviewTime}>Properties</Text>
                     {list}
                 </View>
             )
@@ -254,7 +254,7 @@ class SupplyChainTransactionReview extends Component {
         let transInfo = trans.header;
         // let fctPrice = this.state ? this.state.fctPrice : "";
         let transDat = trans.data;
-        console.log(transInfo, 'transinfo in transreviewrender', transInfo.price, 'transdata')
+        console.log(transInfo, 'transinfo in TransactionReviewrender', transInfo.price, 'transdata')
         let locationImage = this.props.transInfo.tXLocation === 'recipient' ? newRecipient : newOriginator;
         let list, edit;
         let dTime = transDat.dTime;
@@ -264,7 +264,7 @@ class SupplyChainTransactionReview extends Component {
         if (transDat.hasOwnProperty('ediT')) {
             edit = (
                 <View style={localStyles.editField}>
-                    <Text style={localStyles.transRevTime}>EDI-T-SET:</Text>
+                    <Text style={localStyles.TransactionReviewTime}>EDI-T-SET:</Text>
                     <Text style={localStyles.text}>{transDat.ediT.name}</Text>
                     <Text style={localStyles.text}>{transDat.ediT.value}</Text>
                 </View>)
@@ -274,7 +274,7 @@ class SupplyChainTransactionReview extends Component {
         return (
 
             <View style={localStyles.SupplyChainTransactionReviewContainer}>
-                <Text style={styles.transReview}>Transaction Review</Text>
+                <Text style={styles.TransactionReview}>Transaction Review</Text>
 
                 {edit}
 
@@ -401,7 +401,7 @@ const localStyles = StyleSheet.create({
         margin: 2,
         alignSelf: "center",
     },
-    transRevTime: {
+    TransactionReviewTime: {
         color: "#f3c736",
         fontFamily: "dinPro",
         textAlign: "center",
@@ -409,7 +409,7 @@ const localStyles = StyleSheet.create({
         fontWeight: "bold",
         flexDirection: "column",
     },
-    transRevName: {
+    TransactionReviewName: {
         fontFamily: "dinPro",
         fontSize: 16,
         color: "white",

@@ -5,7 +5,7 @@ import Swiper from '../components/TxSwiper';
 import { connect } from "react-redux";
 import styles from '../assets/styles';
 
-class TransSwiper extends Component {
+class TransactionSwiper extends Component {
     static navigationOptions = ({ navigation }) => {
         const { params } = navigation.state;
         let headerStyles = StyleSheet.create({
@@ -76,7 +76,7 @@ class TransSwiper extends Component {
         }
     }
     componentDidMount() {
-        console.log(this.state.transactions, 'TransSwiper: state transactions')
+        console.log(this.state.transactions, 'TransactionSwiper: state transactions')
 
     }
     // _renderCards() {
@@ -107,7 +107,7 @@ const mapStateToProps = (state) => ({
     asset: state.AssetReducers.selectedAsset
 })
 
-export default connect(mapStateToProps)(TransSwiper);
+export default connect(mapStateToProps)(TransactionSwiper);
 
 const localStyles = StyleSheet.create({
     headerField: {

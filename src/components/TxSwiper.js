@@ -52,8 +52,8 @@ export default class TxSwiper extends Component {
     return (
       <View key={card.key} style={styles.card}>
         <Text style={styles.revPropVal}>{header.hercId}</Text>
-        <Text style={styles.transRevName}>{header.dTime}</Text>
-        <Text style={styles.transRevName}>{header.tXLocation}</Text>
+        <Text style={styles.TransactionReviewName}>{header.dTime}</Text>
+        <Text style={styles.TransactionReviewName}>{header.tXLocation}</Text>
         <View style={{margin: 10}}>
           <Text style={styles.text}>Factom Chain:{factomChain}</Text>
           <Text style={styles.text}>Factom Entry:{factomEntry}</Text>
@@ -312,7 +312,7 @@ const styles = StyleSheet.create({
     color: 'white',
     backgroundColor: 'transparent'
   },
-  transReview: {
+  TransactionReview: {
     color: '#f3c736',
     alignSelf: 'center',
     fontSize: 14,
@@ -328,7 +328,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     borderColor: '#F3c736',
   },
-  transRevName: {
+  TransactionReviewName: {
     fontFamily: 'dinPro',
     fontSize: 14,
     color: 'white',
@@ -336,7 +336,7 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     textAlign: 'left'
   },
-  transRevTime: {
+  TransactionReviewTime: {
     color: '#f3c736',
     fontSize: 14,
     fontFamily: 'dinPro',

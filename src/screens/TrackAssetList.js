@@ -8,7 +8,7 @@ import { selectAsset } from '../actions/AssetActions';
 import { fetchBlock } from '../actions/EthActions';
 import logo from "../assets/round.png";
 
-class TransAssetList extends Component {
+class TrackAssetList extends Component {
   static navigationOptions = ({ navigation }) => {
     const { params } = navigation.state;
     let headerStyles = StyleSheet.create({
@@ -73,9 +73,9 @@ class TransAssetList extends Component {
   }
   _onPress = (asset) => {
     const { navigate } = this.props.navigation;
-    console.log("TransAssetList: going to the trans")
+    console.log("TrackAssetList: going to the trans")
     this.props.selectAsset(asset);
-    navigate('SpaceScreen', { name: asset.Name, logo: asset.Logo });
+    navigate('TrackAssetOptions', { name: asset.Name, logo: asset.Logo });
   }
 
 
@@ -123,7 +123,7 @@ const mapDispatchToProps = (dispatch) => ({
   selectAsset: (asset) => dispatch(selectAsset(asset)),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(TransAssetList)
+export default connect(mapStateToProps, mapDispatchToProps)(TrackAssetList)
 
 const localStyles = StyleSheet.create({
   headerField: {

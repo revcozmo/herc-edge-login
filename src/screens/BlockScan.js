@@ -1,7 +1,7 @@
 
 import React, { Component } from 'react';
 // import { WebView } from 'react-native';
-// import TransAssetList from '../components/TransAssetList';
+// import TrackAssetList from '../components/TrackAssetList';
 import { StackNavigator } from 'react-navigation';
 import track from '../components/buttons/blockScannerBtn.png';
 import { StyleSheet, Text, View, Image, ScrollView, TouchableHighlight, Alert, Platform } from 'react-native';
@@ -22,9 +22,9 @@ class BlockScan extends Component {
 
    
    this.props.getTrans(asset.key);
-   navigate('SpaceScreen', { name: asset.name, logo: asset.logo });
+   navigate('TrackAssetOptions', { name: asset.name, logo: asset.logo });
 
-  //  navigate('SpaceScreen', { logo: asset.logo, name: asset.name });
+  //  navigate('TrackAssetOptions', { logo: asset.logo, name: asset.name });
   }
  
   render() {

@@ -11,39 +11,36 @@ import React, { Component } from "react";
 import { StackNavigator } from "react-navigation";
 import backArrow from "../assets/icon_backarrow.png"; // TODO: must be changed into a vector icon
 
-import Anthem from "../screens/Anthem";
 import BlockScanner from "../screens/BlockScanner";
 import Camera from "../screens/Camera";
 import Confirm from "../screens/Confirm";
 // import ConfirmConf from "../screens/ConfirmConf";
 import NewAssetLanding from "../screens/NewAssetLanding";
-import Digi from "../screens/DigiViewer";
 import DocUp from "../screens/DocUp";
 import EdiT from "../screens/Edi-T";
-import FileUp from "../screens/FileUp";
+import ImageUpload from "../screens/ImageUpload";
 import Hipr from "../screens/Hipr";
 import HiprAssets from "../screens/HiprAssets";
 import MetricInput from "../screens/MetricInput";
 import Login from "../screens/Login";
 import MenuOptions from "../screens/MenuOptions";
 import NewAssetConfirm from "../screens/NewAssetConfirm";
-import PreDigi from "../screens/PreDigiView";
 import PreHipr from "../screens/PreHIPR";
-import SpaceScreen from "../screens/SpaceScreen";
+import TrackAssetOptions from "../screens/TrackAssetOptions";
 import SupplyChainAssetList from "../screens/SupplyChainAssetList";
 import SupplyChainTxRx from "../screens/SupplyChainTxRx";
 import SupplyChainReview from "../screens/SupplyChainReview";
 import NewAssetForm from "../screens/NewAssetForm";
-import TransAssetList from "../screens/TransAssetList";
-import TransSwiper from "../screens/TransSwiper";
+import TrackAssetList from "../screens/TrackAssetList";
+import TransactionSwiper from "../screens/TransactionSwiper";
 import TxSwiper from "../components/TxSwiper";
 import Wallet from "../screens/Wallet";
 import Settings from "../screens/Settings";
-import roundImage from "../assets/round.png"
 import QRCapture from "../screens/QRCapture";
 import QRCapture2 from "../screens/QRCapture2";
+import roundImage from "../assets/round.png"
 import styles from "../assets/styles";
-import DrawerIcon from "../assets/icons/drawerIcon.png";
+import DrawerIcon from "../assets/icons/drawerIcon.png"; // TODO: turn into vector icon!
 import WebViewComponent from "../components/WebViewComponent";
 
 let headerStyles = StyleSheet.create({
@@ -93,26 +90,23 @@ const MainNavigator = StackNavigator({ //this will be "createStackNavigator" aft
     MenuOptions: { screen: MenuOptions },
     NewAssetLanding: { screen: NewAssetLanding },
     NewAssetForm: { screen: NewAssetForm },
-    Digi: { screen: Digi },
-    Anthem: { screen: Anthem },
     PreHipr: { screen: PreHipr },
     HiprAssets: { screen: HiprAssets },
     Hipr: { screen: Hipr },
     BlockScanner: { screen: BlockScanner },
-    TransSwiper: { screen: TransSwiper },
-    TransAssetList: { screen: TransAssetList },
+    TransactionSwiper: { screen: TransactionSwiper },
+    TrackAssetList: { screen: TrackAssetList },
     SupplyChainAssetList: { screen: SupplyChainAssetList },
     SupplyChainTxRx: { screen: SupplyChainTxRx },
     SupplyChainReview: { screen: SupplyChainReview },
     MetricInput: { screen: MetricInput },
-    FileUp: { screen: FileUp },
+    ImageUpload: { screen: ImageUpload },
     DocUp: { screen: DocUp },
     Confirm: { screen: Confirm },
     NewAssetConfirm: { screen: NewAssetConfirm },
     // ConfirmConf: { screen: ConfirmConf },
     EdiT: { screen: EdiT },
-    PreDigi: { screen: PreDigi },
-    SpaceScreen: { screen: SpaceScreen },
+    TrackAssetOptions: { screen: TrackAssetOptions },
     QRCapture: { screen: QRCapture },
     QRCapture2: { screen: QRCapture2 },
     Wallet: { screen: Wallet },

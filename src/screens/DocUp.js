@@ -141,7 +141,7 @@ class DocUp extends Component {
           </TouchableHighlight>
 
           {this.state && <View style={localStyles.docContainer}>
-            <Text style={localStyles.transRevTime}>Documents</Text>
+            <Text style={localStyles.TransactionReviewTime}>Documents</Text>
             <Text style={localStyles.text}>{this.state.name}</Text>
             <Text style={localStyles.text}>{(this.state.size / 1024).toFixed(3)} kb</Text>
           </View>
@@ -221,7 +221,7 @@ const localStyles = StyleSheet.create({
     margin: 2,
     fontFamily: "dinPro"
   },
-  transRevTime: {
+  TransactionReviewTime: {
     color: "#f3c736",
     fontFamily: "dinPro",
     textAlign: "center",

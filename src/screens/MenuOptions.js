@@ -13,7 +13,6 @@ import {
 import { StackNavigator } from "react-navigation";
 import hiprBtn from "../components/buttons/validate.png";
 import supplyChain from "../components/buttons/supplyChainButton.png";
-import digiView from "../components/buttons/digitalViewerButton.png";
 import track from "../components/buttons/trackButton.png";
 import wallet from "../components/buttons/walletButton.png";
 import settings from "../components/buttons/settingsButton.png";
@@ -63,7 +62,7 @@ class MenuOptions extends Component {
                     </TouchableHighlight>
 
                     <TouchableHighlight style={localStyles.touchableHighlight}
-                        onPress={() => navigate("TransAssetList")}>
+                        onPress={() => navigate("TrackAssetList")}>
                         <Image style={localStyles.menuButton} source={track} />
                     </TouchableHighlight>
 
