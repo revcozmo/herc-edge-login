@@ -1,7 +1,7 @@
 
-import ApiKeys from './apiKeys';
+import FirebaseKeys from './FirebaseKeys';
 import * as firebase from 'firebase';
 
-firebase.initializeApp(ApiKeys.FirebaseConfig);
+firebase.initializeApp(FirebaseKeys.FirebaseConfig);
 
 export default firebase;
