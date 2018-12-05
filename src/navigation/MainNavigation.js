@@ -22,6 +22,7 @@ import DocUp from "../screens/DocUp";
 import EdiT from "../screens/Edi-T";
 import FileUp from "../screens/FileUp";
 import Hipr from "../screens/Hipr";
+import HiprTransactions from "../screens/HiprTransactions";
 import HiprAssets from "../screens/HiprAssets";
 import InputMan from "../screens/InputMan";
 import Login from "../screens/Login";
