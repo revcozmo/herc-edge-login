@@ -25,6 +25,7 @@ class TransRev extends Component {
         }
     }
     componentDidMount = () => {
+<<<<<<< HEAD
       // TODO: Add Error handling for empty watchBalance. Empty herc wallet.
       try {
         let balance = new BigNumber(this.props.watchBalance["HERC"])
@@ -36,6 +37,15 @@ class TransRev extends Component {
           this.setState({ balance: balance.times(1e-18).toFixed(6) })
         }
       }
+=======
+        try {
+          let balance = new BigNumber(this.props.watchBalance["HERC"])
+          this.setState({ balance: balance.times(1e-18).toFixed(6) })
+        } catch(e) {
+          let balance =  new BigNumber(this.props.wallet.balances['HERC'])
+          this.setState({ balance: balance.times(1e-18).toFixed(6) })
+        }
+>>>>>>> master
     }
 
   _onPressSubmit(){

@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { Platform, WebView, Image, StyleSheet, Text, View, TouchableHighlight } from 'react-native';
 import hiprLogo from "../assets/hiprLogo.png";
-import backArrow from "../assets/icons/blueBackArrow.png";
-import profilePic from "../assets/icons/darker_profileIcon.png";
 
 
 export default class WebViewComponent extends Component {
