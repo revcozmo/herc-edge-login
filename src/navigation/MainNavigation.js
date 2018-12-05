@@ -41,6 +41,8 @@ import styles from "../assets/styles";
 import backArrow from "../assets/icon_backarrow.png"; // TODO: turn into vector icon!
 import DrawerIcon from "../assets/icons/drawerIcon.png"; // TODO: turn into vector icon!
 import WebViewComponent from "../components/WebViewComponent";
+import DocumentStorage from "../screens/DocumentStorage";
+import DocumentQRScanner from "../screens/DocumentQRScanner";
 
 let headerStyles = StyleSheet.create({
     header__container: {
@@ -119,6 +121,8 @@ const MainNavigator = StackNavigator({ //this will be "createStackNavigator" aft
 
     WebViewComponent: { screen: WebViewComponent },
     TxSwiper: { screen: TxSwiper },
+    DocumentStorage: { screen: DocumentStorage },
+    DocumentQRScanner: { screen: DocumentQRScanner },
 
 }, {
         initialRouteName: 'Login',

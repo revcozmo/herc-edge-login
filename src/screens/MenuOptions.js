@@ -18,6 +18,7 @@ import wallet from "../components/buttons/walletButton.png";
 import settings from "../components/buttons/settingsButton.png";
 import registerAsset from "../components/buttons/registerAssetButton.png"
 import profileButton from "../components/buttons/profileButton.png"
+import documentButton from "../components/buttons/document.png"
 
 import styles from "../assets/styles";
 import { connect } from "react-redux";
@@ -55,7 +56,11 @@ class MenuOptions extends Component {
                         </TouchableHighlight>
                     </View>
                     <TouchableHighlight style={localStyles.touchableHighlight}
+<<<<<<< HEAD
                     onPress={() => navigate('SupplyChainAssetList')}>
+=======
+                        onPress={() => navigate("Splash1")}>
+>>>>>>> master
                         <Image style={localStyles.menuButton} source={supplyChain} />
                     </TouchableHighlight>
 
@@ -64,7 +69,11 @@ class MenuOptions extends Component {
                         <Image style={localStyles.menuButton} source={track} />
                     </TouchableHighlight>
 
+<<<<<<< HEAD
                     <TouchableHighlight style={localStyles.touchableHighlight} onPress={() => navigate("HiprLanding")}>
+=======
+                    <TouchableHighlight style={localStyles.touchableHighlight} onPress={() => navigate("PreHipr")}>
+>>>>>>> master
                         <Image style={localStyles.menuButton} source={hiprBtn} />
                     </TouchableHighlight>
 
@@ -77,12 +86,12 @@ class MenuOptions extends Component {
                         <Image style={localStyles.menuButton} source={profileButton} />
                     </TouchableHighlight> */}
 
-                    {/* <TouchableHighlight style={localStyles.touchableHighlight} onPress={() => navigate("Settings")}>
-                        <Image style={localStyles.menuButton} source={settings} />
-                    </TouchableHighlight> */}
+                    <TouchableHighlight style={localStyles.touchableHighlight} onPress={() => navigate("DocumentStorage")}>
+                        <Image style={localStyles.menuButton} source={documentButton} />
+                    </TouchableHighlight>
 
                     <Text style={{ color: "#f3c736", alignSelf: "flex-end", fontSize: 8 }}>
-                        V.0.9.3
+                        V.0.9.4
                     </Text>
                 </View>
             </View>
@@ -101,7 +110,7 @@ const mapDispatchToProps = dispatch => ({
     clearState: () => dispatch(clearState())
 });
 
-export default connect( mapStateToProps, mapDispatchToProps )(MenuOptions);
+export default connect(mapStateToProps, mapDispatchToProps)(MenuOptions);
 
 const localStyles = StyleSheet.create({
     touchableHighlight: {
