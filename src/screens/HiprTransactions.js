@@ -2,8 +2,81 @@ import React, {Component} from 'react';
 import { StyleSheet, Button, Text, TextInput, ScrollView, ActivityIndicator, Modal, View, Image, TouchableHighlight, Alert } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import styles from '../assets/styles';
+import hiprLogo from "../assets/hiprLogo.png";
 
 export default class HiprTransactions extends Component {
+  static navigationOptions = ({ navigation }) => {
+    const { params } = navigation.state;
+    let headerStyles = StyleSheet.create({
+      header__container: {
+        display: "flex",
+        height: 80,
+        alignSelf: "center",
+        flex: 1,
+        alignContent: "center",
+        alignItems: "center",
+        marginTop: 40,
+        paddingBottom: 20
+      },
+      header__container__centeredBox: {
+        height: "100%",
+        alignItems: "center",
+        flexDirection: 'row'
+      },
+      header__text__box: {
+        height: "100%",
+        marginBottom: 5,
+        marginLeft: 12,
+      },
+      header__image__box: {
+        height: "100%",
+        borderRadius: 100
+      },
+      assetHeaderLogo: {
+        height: 35,
+        width: 35,
+        borderRadius: 50,
+      },
+      headerText: {
+        fontFamily: "dinPro",
+        fontSize: 26,
+        alignSelf: "center",
+        fontWeight: "normal",
+        color: "black",
+        textAlign: "center",
+        marginTop: 2,
+      },
+    })
+
+    return {
+      headerTitle: (
+
+        <View style={headerStyles.header__container}>
+          <View style={headerStyles.header__container__centeredBox}>
+            <View style={headerStyles.header__image__box}>
+              <TouchableHighlight style={{ justifyContent: "center" }} onPress={() => navigation.navigate("MenuOptions")}>
+                <Image
+                  style={headerStyles.assetHeaderLogo}
+                  source={hiprLogo}
+                />
+              </TouchableHighlight>
+            </View>
+            <View style={headerStyles.header__text__box}>
+              <Text style={headerStyles.headerText}>Validate</Text>
+            </View>
+          </View>
+        </View>
+      ),
+      headerTitleStyle: {
+        height: 50,
+        width: 200,
+        alignSelf: "center",
+        justifyContent: "center",
+        flexDirection: "row",
+        marginLeft: 20
+      }
+    };
+  };
   constructor(props) {
     super(props);
   }
