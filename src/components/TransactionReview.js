@@ -25,7 +25,6 @@ class TransRev extends Component {
         }
     }
     componentDidMount = () => {
-        // let balance = new BigNumber(this.props.watchBalance["HERC"])
         try {
           let balance = new BigNumber(this.props.watchBalance["HERC"])
           this.setState({ balance: balance.times(1e-18).toFixed(6) })
