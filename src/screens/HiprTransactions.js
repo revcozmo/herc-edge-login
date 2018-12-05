@@ -1,13 +1,10 @@
-import React, { Component } from 'react';
-import { StyleSheet, Text, View, Image, ScrollView, TouchableHighlight, Alert, Platform } from 'react-native';
+import React, {Component} from 'react';
+import { StyleSheet, Button, Text, TextInput, ScrollView, ActivityIndicator, Modal, View, Image, TouchableHighlight, Alert } from 'react-native';
 import { StackNavigator } from 'react-navigation';
-import { connect } from 'react-redux';
-import hiprLogo from "../assets/hiprLogo.png";
-import { getAssetDef, selectAsset } from "../actions/AssetActions";
 import styles from '../assets/styles';
+import hiprLogo from "../assets/hiprLogo.png";
 
-
-class HiprAssets extends Component {
+export default class HiprTransactions extends Component {
   static navigationOptions = ({ navigation }) => {
     const { params } = navigation.state;
     let headerStyles = StyleSheet.create({
@@ -84,32 +81,31 @@ class HiprAssets extends Component {
     super(props);
   }
 
-  _onPress = (asset) => {
-    this.props.selectAsset(asset);
-    if (asset.hashes.ipfsHash) { // this gets the ipfsHash Def
-      this.props.getAssetDef(asset.hashes.ipfsHash);
-    }
+  componentDidMount() {}
 
+  _onPress(transaction){
     const { navigate } = this.props.navigation;
-    navigate('HiprTransactions', { asset: asset });
+    navigate('Hipr', { transaction: transaction });
   }
 
-  render() {
-    console.log('HiprAssets :', this.props, )
-    let list = this.props.assets.map((asset, index) => {
+  render(){
+    let assets = this.props.navigation.getParam('asset') // TODO: add error handling for empty param
+    let transactions = assets.transactions
+
+    let list = Object.keys(transactions).map((transaction, index) => {
       return (
-        <TouchableHighlight style={{ borderRadius: 2 }} key={index} onPress={() => this._onPress(asset)}>
+        <TouchableHighlight style={{ borderRadius: 2 }} key={index} onPress={() => this._onPress(transactions[transaction])}>
           <View style={localStyles.menuItemField}>
-            <Image style={localStyles.assetLogo} source={{ uri: asset.Logo }} />
             <View style={localStyles.menuItemField__textBox}>
-              <Text style={localStyles.assetLabel}>{asset.Name}</Text>
+              <Text style={localStyles.assetLabel}>{transactions[transaction].header.dTime}</Text>
+              <Text style={localStyles.assetLabel}>{transactions[transaction].header.tXLocation}</Text>
             </View>
           </View>
         </TouchableHighlight>
       );
     });
 
-    return (
+    return(
       <View style={styles.container}>
         <View style={styles.containerCenter}>
           <ScrollView contentContainerStyle={styles.scrollView}>
@@ -117,32 +113,12 @@ class HiprAssets extends Component {
           </ScrollView>
         </View>
       </View>
+
     )
   };
 }
 
-const mapStateToProps = (state) => ({
-  assets: state.AssetReducers.assets,
-});
-const mapDispatchToProps = dispatch => ({
-  selectAsset: asset => dispatch(selectAsset(asset)),
-  getAssetDef: assetIpfsHash => dispatch(getAssetDef(assetIpfsHash)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(HiprAssets);
-
 const localStyles = StyleSheet.create({
-  createNew__Box: {
-    flexDirection: "row",
-    width: 200,
-    height: 50,
-    backgroundColor: 'white',
-    borderRadius: 2,
-    alignItems: "center",
-    alignContent: "center",
-    marginTop: 100,
-    paddingLeft: 5,
-  },
   menuItemField: {
     display: "flex",
     flexDirection: "row",
@@ -156,13 +132,6 @@ const localStyles = StyleSheet.create({
     margin: 15,
     paddingLeft: 3,
   },
-  assetLogo: {
-    height: 25,
-    width: 25,
-    marginLeft: 2,
-    borderRadius: 25 / 2,
-    alignSelf: "center"
-  },
   assetLabel: {
     color: "black",
     alignSelf: "center",
@@ -173,6 +142,6 @@ const localStyles = StyleSheet.create({
     fontFamily: "dinPro"
   },
   menuItemField__textBox: {
-    flex: 1
+    flex: 1,
   },
 });

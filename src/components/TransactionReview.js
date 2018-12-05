@@ -39,7 +39,7 @@ class TransRev extends Component {
       let total = parseFloat(this._getPrices()) + 0.000032
       Alert.alert(
         'Data Fee: '+ this._getPrices().toString() +' HERC \nBurn Amount: 0.000032 HERC',
-        'Total: '+ total + ' HERC \n Do you authorize this payment?' ,
+        'Total: '+ total + ' HERC \nDo you authorize this payment?' ,
         [
           {text: 'No', onPress: () => console.log('No Pressed'), style: 'cancel'},
           {text: 'Yes', onPress: () => this._checkBalance() },
@@ -174,9 +174,9 @@ class TransRev extends Component {
           docPrice = .000032
       }
 
-      if ((docPrice + imgPrice) !== 0) {
-          price = (docPrice + imgPrice) + .000032;
-      }
+
+      price = (docPrice + imgPrice) + .000032;
+      console.log(docPrice, imgPrice, price,'chance price check')
 
       let convertingPrice = new BigNumber(price)
       let newPrice = convertingPrice.toFixed(6)
