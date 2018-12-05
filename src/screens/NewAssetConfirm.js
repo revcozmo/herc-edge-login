@@ -43,8 +43,13 @@ class NewAssetConfirm extends Component {
 
     componentDidMount() {
         this._getOrgName(this.props.edgeAccount)
-        let balance = new BigNumber(this.props.watchBalance["HERC"])
-        this.setState({ balance: balance.times(1e-18).toFixed(6) })
+        try {
+          let balance = new BigNumber(this.props.watchBalance["HERC"])
+          this.setState({ balance: balance.times(1e-18).toFixed(6) })
+        } catch(e) {
+          let balance =  new BigNumber(this.props.wallet.balances['HERC'])
+          this.setState({ balance: balance.times(1e-18).toFixed(6) })
+        }
         this.setState({
             hercId: this.props.hercId
         })
