@@ -25,8 +25,14 @@ class TransRev extends Component {
         }
     }
     componentDidMount = () => {
-        let balance = new BigNumber(this.props.watchBalance["HERC"])
-        this.setState({ balance: balance.times(1e-18).toFixed(6) })
+        // let balance = new BigNumber(this.props.watchBalance["HERC"])
+        try {
+          let balance = new BigNumber(this.props.watchBalance["HERC"])
+          this.setState({ balance: balance.times(1e-18).toFixed(6) })
+        } catch(e) {
+          let balance =  new BigNumber(this.props.wallet.balances['HERC'])
+          this.setState({ balance: balance.times(1e-18).toFixed(6) })
+        }
     }
 
   _onPressSubmit(){
