@@ -1,18 +1,14 @@
 import React, { Component } from "react";
 import {
   View,
-  Platform,
   Text,
   TouchableHighlight,
   Image,
-  ScrollView,
   StyleSheet,
   WebView
 } from "react-native";
 import styles from "../assets/styles";
 import { connect } from "react-redux";
-
-import JSONTree from "react-native-json-tree";
 
 class BlockScanner extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -89,23 +85,10 @@ class BlockScanner extends Component {
     };
   }
 
-  componentDidMount() {
-    console.log(this.props.data, "this should be the block");
-  }
   render() {
-    // let block = this.props.data ? this.props.data :  null;
-    return (
-      <View style={{flex: 1}}>
-        
-          {/* <Text style={{ color: "white", height: 30, fontSize: 20 }}>
-            Main NET Latest Block
-        </Text>
 
-          {this.props.data && (
-            <ScrollView style={{ paddingLeft: 10 }}>
-              <JSONTree data={this.props.data} theme={theme} invertTheme={false} />
-            </ScrollView>
-          )} */}
+    return (
+      <View style={localStyles.container}>
           <WebView
             source={{uri: 'https://etherscan.io/token/0x6251583e7d997df3604bc73b9779196e94a090ce'}}
             style={localStyles.webview}
@@ -114,7 +97,6 @@ class BlockScanner extends Component {
             javaScriptEnabled={true}
             domStorageEnabled={true}
           />
-        
       </View>
     );
   }
@@ -134,26 +116,6 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(BlockScanner);
-const theme = {
-  scheme: "monokai",
-  author: "wimer hazenberg (http://www.monokai.nl)",
-  base00: "#272822",
-  base01: "#383830",
-  base02: "#49483e",
-  base03: "#75715e",
-  base04: "#a59f85",
-  base05: "#f8f8f2",
-  base06: "#f5f4f1",
-  base07: "#f9f8f5",
-  base08: "#f92672",
-  base09: "#fd971f",
-  base0A: "#f4bf75",
-  base0B: "#a6e22e",
-  base0C: "#a1efe4",
-  base0D: "#66d9ef",
-  base0E: "#ae81ff",
-  base0F: "#cc6633"
-};
 
 const localStyles = StyleSheet.create({
   headerField: {
@@ -184,19 +146,17 @@ const localStyles = StyleSheet.create({
     height: 50,
     borderColor: "#f3c736",
     borderWidth: 1
-    // resizeMode: "contain"
   },
   imageButtons: {
     height: 40,
     width: 175,
-    // resizeMode: "contain",
     alignSelf: "center",
     margin: 7
   },
   webview: {
-    // marginTop: 20,
-    // maxHeight: 200,
-    // width: "100%",
+    flex: 1
+  },
+  container: {
     flex: 1
   }
 });
