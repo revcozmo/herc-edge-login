@@ -56,11 +56,7 @@ class MenuOptions extends Component {
                         </TouchableHighlight>
                     </View>
                     <TouchableHighlight style={localStyles.touchableHighlight}
-<<<<<<< HEAD
                     onPress={() => navigate('SupplyChainAssetList')}>
-=======
-                        onPress={() => navigate("Splash1")}>
->>>>>>> master
                         <Image style={localStyles.menuButton} source={supplyChain} />
                     </TouchableHighlight>
 
@@ -69,11 +65,7 @@ class MenuOptions extends Component {
                         <Image style={localStyles.menuButton} source={track} />
                     </TouchableHighlight>
 
-<<<<<<< HEAD
                     <TouchableHighlight style={localStyles.touchableHighlight} onPress={() => navigate("HiprLanding")}>
-=======
-                    <TouchableHighlight style={localStyles.touchableHighlight} onPress={() => navigate("PreHipr")}>
->>>>>>> master
                         <Image style={localStyles.menuButton} source={hiprBtn} />
                     </TouchableHighlight>
 
