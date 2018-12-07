@@ -18,6 +18,7 @@ import DocUp from "../screens/DocUp";
 import EdiT from "../screens/Edi-T";
 import ImageUpload from "../screens/ImageUpload";
 import Hipr from "../screens/Hipr";
+import HiprTransactions from "../screens/HiprTransactions";
 import HiprAssets from "../screens/HiprAssets";
 import MetricInput from "../screens/MetricInput";
 import Login from "../screens/Login";
@@ -95,6 +96,7 @@ const MainNavigator = StackNavigator({ //this will be "createStackNavigator" aft
 
     HiprLanding: { screen: HiprLanding },
     HiprAssets: { screen: HiprAssets },
+    HiprTransactions : { screen: HiprTransactions },
     Hipr: { screen: Hipr },
 
     BlockScanner: { screen: BlockScanner },

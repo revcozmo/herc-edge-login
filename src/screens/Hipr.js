@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { Platform, WebView, Image, StyleSheet, View, TouchableHighlight } from 'react-native';
+import { connect } from 'react-redux';
 import hiprLogo from "../assets/hiprLogo.png";
 
 
-export default class Hipr extends Component {
+class Hipr extends Component {
 
   static navigationOptions = ({ navigation }) => ({
     headerTitle: <Image style={{
@@ -29,16 +30,30 @@ export default class Hipr extends Component {
 
   */
 
+componentDidMount (){}
 
   render() {
+    let ethereumAddress = this.props.ethereumAddress
+    let transaction = this.props.navigation.getParam('transaction') // TODO: add error handling for empty param
+    let ipfsHash = transaction.data.properties
+    let uri = 'https://hipr.one/' + ethereumAddress + '/' + ipfsHash + '/' + ipfsHash
+
+    console.log(uri, 'chance full hipr uri')
     return (
       <WebView
-        source={{ uri: 'https://hipr.one/index.html' }}
+        source={{ uri: uri }}
         style={{ margin: 0, padding: 0, flex: 1, width: '100%' }}
       />
     );
   }
 }
+
+const mapStateToProps = (state) => ({
+  ethereumAddress: state.WalletActReducers.ethereumAddress
+});
+
+
+export default connect(mapStateToProps)(Hipr);
 
 const localStyles = StyleSheet.create({
   hiprBackContainer: {
