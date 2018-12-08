@@ -113,7 +113,7 @@ module.exports = StyleSheet.create({
     fontFamily: "dinPro"
   },
 
-  transReview: {
+  TransactionReview: {
     alignSelf: "center",
     color: "red",
     fontSize: 20,

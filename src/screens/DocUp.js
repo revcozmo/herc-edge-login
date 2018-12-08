@@ -3,9 +3,9 @@ import { Platform, StyleSheet, Text, View, Image, ScrollView, TouchableHighlight
 import { connect } from 'react-redux';
 import styles from '../assets/styles';
 import { addDoc } from '../actions/AssetActions';
-import newOriginator from "../components/buttons/originatorButton.png";
-import newRecipient from "../components/buttons/recipientButton.png";
-import submit from "../components/buttons/submit.png";
+import newOriginator from "../components/buttons/originatorButton.png"; // todo: turn into vector
+import newRecipient from "../components/buttons/recipientButton.png"; // todo: turn into vector
+import submit from "../components/buttons/submit.png"; // todo: turn into vector
 var RNFS = require('react-native-fs')
 
 import { DocumentPicker, DocumentPickerUtil } from 'react-native-document-picker';
@@ -96,7 +96,7 @@ class DocUp extends Component {
 
     this.props.addDoc(doc);
 
-    navigate('Splash3', { logo: this.props.logo, name: this.props.name });
+    navigate('SupplyChainReview', { logo: this.props.logo, name: this.props.name });
   };
 
 
@@ -141,7 +141,7 @@ class DocUp extends Component {
           </TouchableHighlight>
 
           {this.state && <View style={localStyles.docContainer}>
-            <Text style={localStyles.transRevTime}>Documents</Text>
+            <Text style={localStyles.TransactionReviewTime}>Documents</Text>
             <Text style={localStyles.text}>{this.state.name}</Text>
             <Text style={localStyles.text}>{(this.state.size / 1024).toFixed(3)} kb</Text>
           </View>
@@ -221,7 +221,7 @@ const localStyles = StyleSheet.create({
     margin: 2,
     fontFamily: "dinPro"
   },
-  transRevTime: {
+  TransactionReviewTime: {
     color: "#f3c736",
     fontFamily: "dinPro",
     textAlign: "center",

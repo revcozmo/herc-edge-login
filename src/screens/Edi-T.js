@@ -76,7 +76,7 @@ class EditSets extends Component {
     }
     _setEdit = (item) => {
         this.props.setSet(item);
-        this.props.navigation.navigate('Splash3', { logo: this.props.logo, name: this.props.name });
+        this.props.navigation.navigate('SupplyChainReview', { logo: this.props.logo, name: this.props.name });
     }
 
 

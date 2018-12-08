@@ -13,7 +13,6 @@ import {
 import { StackNavigator } from "react-navigation";
 import hiprBtn from "../components/buttons/validate.png";
 import supplyChain from "../components/buttons/supplyChainButton.png";
-import digiView from "../components/buttons/digitalViewerButton.png";
 import track from "../components/buttons/trackButton.png";
 import wallet from "../components/buttons/walletButton.png";
 import settings from "../components/buttons/settingsButton.png";
@@ -29,8 +28,6 @@ import store from "../store";
 import Wallet from "./Wallet";
 import firebase from '../constants/Firebase';
 const rootRef = firebase.database().ref();
-
-YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTImageLoader', 'Setting a timer for a long period of time']);
 
 
 class MenuOptions extends Component {
@@ -54,21 +51,21 @@ class MenuOptions extends Component {
                 <View style={[styles.containerCenter, { justifyContent: "space-around" }]}>
 
                     <View style={localStyles.touchableHighlight}>
-                        <TouchableHighlight onPress={() => navigate("Create")}>
+                        <TouchableHighlight onPress={() => navigate('NewAssetLanding')}>
                             <Image style={localStyles.menuButton} source={registerAsset} />
                         </TouchableHighlight>
                     </View>
                     <TouchableHighlight style={localStyles.touchableHighlight}
-                        onPress={() => navigate("Splash1")}>
+                    onPress={() => navigate('SupplyChainAssetList')}>
                         <Image style={localStyles.menuButton} source={supplyChain} />
                     </TouchableHighlight>
 
                     <TouchableHighlight style={localStyles.touchableHighlight}
-                        onPress={() => navigate("TransAssetList")}>
+                        onPress={() => navigate("TrackAssetList")}>
                         <Image style={localStyles.menuButton} source={track} />
                     </TouchableHighlight>
 
-                    <TouchableHighlight style={localStyles.touchableHighlight} onPress={() => navigate("PreHipr")}>
+                    <TouchableHighlight style={localStyles.touchableHighlight} onPress={() => navigate("HiprLanding")}>
                         <Image style={localStyles.menuButton} source={hiprBtn} />
                     </TouchableHighlight>
 

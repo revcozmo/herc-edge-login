@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { Platform, StyleSheet, Text, View, Image, ScrollView, TextInput, TouchableHighlight, Alert } from 'react-native';
-import submit from "../components/buttons/submit.png";
-import originator from "../components/buttons/originatorButton.png";
-import recipient from "../components/buttons/recipientButton.png";
+import submit from "../components/buttons/submit.png"; // todo: turn into vector
+import originator from "../components/buttons/originatorButton.png";// todo: turn into vector
+import recipient from "../components/buttons/recipientButton.png"; // todo: turn into vector
 import { StackNavigator } from 'react-navigation';
 import { connect } from "react-redux";
 import styles from "../assets/styles";
-import fee from "../assets/hercLogoPillar.png";
+import fee from "../assets/hLogo.png";
 import { addMetrics } from '../actions/AssetActions'
 {/* <Image style={styles.assetFee} source={fee} /> */ }
 
@@ -131,7 +131,7 @@ class Confirm extends Component {
           <Image style={localStyles.assetLocationLabel} source={locationImage} />
           <ScrollView style={{ alignSelf: "center", width: "100%", paddingRight: 10 }}>
             {list}
-            <TouchableHighlight style={{alignSelf: "center"}} onPress={() => navigate('Splash3', { logo: this.props.logo, name: this.props.name })}>
+            <TouchableHighlight style={{alignSelf: "center"}} onPress={() => navigate('SupplyChainReview', { logo: this.props.logo, name: this.props.name })}>
               <Image style={styles.menuButton} source={submit} />
             </TouchableHighlight>
             {/* <View style={styles.assetFee}>

@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import { Modal, Platform, StyleSheet, Text, View, Image, ScrollView, TextInput, TouchableHighlight, Alert, Button, ActivityIndicator, Linking } from 'react-native';
-import submit from "../components/buttons/submit.png";
+import submit from "../components/buttons/submit.png"; // todo: turn into vector
 import logo from "../assets/round.png";
 import { connect } from "react-redux";
 import styles from "../assets/styles";
-import hercPillar from "../assets/hercLogoPillar.png";
-// import Loader from "../components/Loader"
+import hercPillar from "../assets/hLogo.png";
 import { incHercId, confirmAssetStarted, confirmAssetComplete, settingHeader, settingHeaderError } from "../actions/AssetActions"
 import modalStyle from "../assets/confModalStyles";
 import { TOKEN_ADDRESS } from "../components/settings"
@@ -130,7 +129,6 @@ class NewAssetConfirm extends Component {
         this.props.settingHeader(fbAsset);
         this.props.confirmAssetStarted(ipfsAsset);
         this.props.incHercId(this.props.hercId);
-        // navigate('ConfirmConf');
     }
     _sendNewAsset(){
       this._changeModalVisibility(true);

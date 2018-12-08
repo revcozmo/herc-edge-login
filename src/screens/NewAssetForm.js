@@ -15,13 +15,13 @@ import styles from "../assets/styles";
 import Button from "react-native-button";
 import logo from "../assets/round.png";
 import { addAsset, getHercId } from "../actions/AssetActions";
-import next from "../components/buttons/nextButton.png";
+import next from "../components/buttons/nextButton.png"; // todo: turn into vector
 import takePhoto from "../components/buttons/takePhoto.png";
 import uploadPhoto from "../components/buttons/uploadImage.png";
 var ImagePicker = require('react-native-image-picker');
 
 
-class Tee extends Component {
+class NewAssetForm extends Component {
   constructor(props) {
     super(props);
     this.setImage = this.setImage.bind(this); // method to set the log from the camera component
@@ -470,4 +470,4 @@ const mapDispatchToProps = dispatch => ({
   getHercId: () => dispatch(getHercId())
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Tee);
+export default connect(mapStateToProps, mapDispatchToProps)(NewAssetForm);

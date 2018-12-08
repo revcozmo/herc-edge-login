@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import { Platform, StyleSheet, Text, TextInput, View, Image, TouchableHighlight, Alert, YellowBox } from 'react-native';
 import logo from "../assets/round.png";
-import begin from "../components/buttons/beginBtn.png";
-import info from "../components/buttons/infoBtn.png"
+import begin from "../components/buttons/beginBtn.png"; // todo: turn into vector
+import info from "../components/buttons/infoBtn.png" // todo: turn into vector
 import styles from "../assets/styles";
-YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTImageLoader', 'Setting a timer for a long period of time']);
 
-export default class Create extends Component {
+export default class NewAssetLanding extends Component {
 
   static navigationOptions = ({ navigation }) => {
     let headerStyles = StyleSheet.create({
@@ -92,7 +91,7 @@ export default class Create extends Component {
             as possible as these asset metrics cannot be redefined later.
           </Text>
           <View style={{paddingTop: "20%"}}>
-          <TouchableHighlight onPress={() => navigate('Tee')}>
+          <TouchableHighlight onPress={() => navigate('NewAssetForm')}>
             <Image source={begin} style={localStyles.menuButton} />
           </TouchableHighlight>
           </View>

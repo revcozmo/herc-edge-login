@@ -3,7 +3,7 @@ import React from 'react';
 import styles from '../assets/styles';
 import { NewButton } from 'react-native-button';
 import round from '../assets/round.png';
-import plus from '../assets/plus.png';
+import plus from '../assets/plus.png'; // todo: turn into vector
 import { connect } from "react-redux";
 import {
   // getBalance,

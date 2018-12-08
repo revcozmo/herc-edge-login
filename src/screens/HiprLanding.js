@@ -4,12 +4,12 @@ import { StackNavigator } from 'react-navigation';
 import { connect } from 'react-redux';
 import styles from '../assets/styles';
 // import leaderBrd from '../assets/leaderBrdBtn.png';
-import info from "../components/buttons/infoBtn.png";
-import begin from "../components/buttons/beginBtn.png";
+import info from "../components/buttons/infoBtn.png"; // todo: turn into vector
+import begin from "../components/buttons/beginBtn.png"; // todo: turn into vector
 import hiprLogo from "../assets/hiprLogo.png";
 import hiprText from "../assets/hiprText";
 
-export default class PreHIPR extends Component {
+export default class HiprLanding extends Component {
 
   static navigationOptions = ({ navigation }) => {
     let headerStyles = StyleSheet.create({
