@@ -181,11 +181,10 @@ class DocumentStorage extends React.Component {
       return snapshot.ref.getDownloadURL();
     }).then(
       downloadURL => {
-      let shortenedURL = '';
       axios.post(WEB_SERVER_API_SHORTEN_URL, {
         longURL: downloadURL
       }).then(response => {
-        shortenedURL = response.data.url;
+        let shortenedURL = response.data.url;
         bindedThis.setState({ downloadURL: shortenedURL }, () => this._updateHistory())
       })
     }).catch(error => {
