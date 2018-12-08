@@ -26,6 +26,8 @@ var RNFS = require('react-native-fs');
 import QRCode from 'react-qr-code';
 import styles from '../assets/styles';
 import { RNCamera } from "react-native-camera";
+import axios from 'axios';
+import { WEB_SERVER_API_SHORTEN_URL } from "../components/settings";
 
 console.disableYellowBox = true;
 
@@ -174,12 +176,17 @@ class DocumentStorage extends React.Component {
     //****this is where the file needs to be converted and push to storage */
     const response = await fetch(uri);
     const blob = await response.blob();
+    let shortenedURL;
     const snapshot = await testTextDocRef.put(blob).then(snapshot => {
       return snapshot.ref.getDownloadURL();
-    }).then(downloadURL => {
-      console.log(`Successfully uploaded file and got download link` + downloadURL);
-      bindedThis.setState({ downloadURL }, () => this._updateHistory())
-      // return downloadURL;
+    }).then(
+      downloadURL => {
+      axios.post(WEB_SERVER_API_SHORTEN_URL, {
+        longURL: downloadURL
+      }).then(response => {
+        let shortenedURL = response.data.url;
+        bindedThis.setState({ downloadURL: shortenedURL }, () => this._updateHistory())
+      })
     }).catch(error => {
       // Use to signal error if something goes wrong.
       console.log(`Failed to upload file and get link - ${error}`);
@@ -290,7 +297,6 @@ class DocumentStorage extends React.Component {
     }
 
   }
-
 
   //   _saveToCameraRollAsync = async () => {
   //     const targetPixelCount = 1080; // If you want full HD pictures
