@@ -7,8 +7,8 @@ import {
 import axios from 'axios';
 import { WEB_SERVER_API_GET_LATEST_BLOCK } from '../components/settings'
 // import { sendTrans } from './AssetActions';
-// import key from '../constants/ethKey'
-// const info = await fetch('https://api-ropsten.etherscan.io/api?module=account&action=balance&address=' + add + '&tag=latest&apikey=' + key)
+// import ethKey from '../constants/ethKey'
+// const info = await fetch('https://api-ropsten.etherscan.io/api?module=account&action=balance&address=' + add + '&tag=latest&apikey=' + kethKeyey)
 
 
 //////////   Trying out some Async actions for error tracking
@@ -106,7 +106,7 @@ export function fetchContract(address) {
         }
 
         try {
-            const info = await fetch('https://api-ropsten.etherscan.io/api?module=contract&action=getabi&address=0xBB9bc244D798123fDe783fCc1C72d3Bb8C189413&apikey=' + key)
+            const info = await fetch('https://api-ropsten.etherscan.io/api?module=contract&action=getabi&address=0xBB9bc244D798123fDe783fCc1C72d3Bb8C189413&apikey=' + ethKey)
             return onSuccess(info);
         } catch (error) {
             return onError(error);
@@ -115,12 +115,12 @@ export function fetchContract(address) {
     }
 }
 
-// https://api-ropsten.etherscan.io/api?module=contract&action=getabi&address=' + add + '&tag=latest&apikey=' + key
+// https://api-ropsten.etherscan.io/api?module=contract&action=getabi&address=' + add + '&tag=latest&apikey=' + ethKey
 
 // https://api-ropsten.etherscan.io/api?module=contract&action=getabi&address=0xBB9bc244D798123fDe783fCc1C72d3Bb8C189413&apikey=YourApiKeyToken
 // export function getData() {
 //     fetch(
-//         'https://api-ropsten.etherscan.io/api?module=account&action=balance&address=' + add + '&tag=latest&apikey=' + key
+//         'https://api-ropsten.etherscan.io/api?module=account&action=balance&address=' + add + '&tag=latest&apikey=' + ethKey
 //     ).then((response) => {
 //     () => {
 //         let responseJson = response.json();
@@ -132,6 +132,3 @@ export function fetchContract(address) {
 //         }
 //     )
 // }
-
-
-

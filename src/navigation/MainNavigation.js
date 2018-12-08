@@ -9,42 +9,38 @@ import {
 } from "react-native";
 import React, { Component } from "react";
 import { StackNavigator } from "react-navigation";
-import backArrow from "../assets/icon_backarrow.png";
 
-import Anthem from "../screens/Anthem";
 import BlockScanner from "../screens/BlockScanner";
 import Camera from "../screens/Camera";
 import Confirm from "../screens/Confirm";
-// import ConfirmConf from "../screens/ConfirmConf";
-import Create from "../screens/Create";
-import Digi from "../screens/DigiViewer";
+import NewAssetLanding from "../screens/NewAssetLanding";
 import DocUp from "../screens/DocUp";
 import EdiT from "../screens/Edi-T";
-import FileUp from "../screens/FileUp";
+import ImageUpload from "../screens/ImageUpload";
 import Hipr from "../screens/Hipr";
 import HiprTransactions from "../screens/HiprTransactions";
 import HiprAssets from "../screens/HiprAssets";
-import InputMan from "../screens/InputMan";
+import MetricInput from "../screens/MetricInput";
 import Login from "../screens/Login";
 import MenuOptions from "../screens/MenuOptions";
 import NewAssetConfirm from "../screens/NewAssetConfirm";
-import PreDigi from "../screens/PreDigiView";
-import PreHipr from "../screens/PreHIPR";
-import SpaceScreen from "../screens/SpaceScreen";
-import Splash1 from "../screens/Splash1";
-import Splash2 from "../screens/Splash2";
-import Splash3 from "../screens/Splash3";
-import Tee from "../screens/Tee";
-import TransAssetList from "../screens/TransAssetList";
-import TransSwiper from "../screens/TransSwiper";
+import HiprLanding from "../screens/HiprLanding";
+import TrackAssetOptions from "../screens/TrackAssetOptions";
+import SupplyChainAssetList from "../screens/SupplyChainAssetList";
+import SupplyChainTxRx from "../screens/SupplyChainTxRx";
+import SupplyChainReview from "../screens/SupplyChainReview";
+import NewAssetForm from "../screens/NewAssetForm";
+import TrackAssetList from "../screens/TrackAssetList";
+import TxSwiperContainer from "../screens/TxSwiperContainer";
 import TxSwiper from "../components/TxSwiper";
 import Wallet from "../screens/Wallet";
 import Settings from "../screens/Settings";
-import roundImage from "../assets/round.png"
 import QRCapture from "../screens/QRCapture";
 import QRCapture2 from "../screens/QRCapture2";
+import roundImage from "../assets/round.png"
 import styles from "../assets/styles";
-import DrawerIcon from "../assets/icons/drawerIcon.png";
+import backArrow from "../assets/icon_backarrow.png"; // TODO: turn into vector icon!
+import DrawerIcon from "../assets/icons/drawerIcon.png"; // TODO: turn into vector icon!
 import WebViewComponent from "../components/WebViewComponent";
 import DocumentStorage from "../screens/DocumentStorage";
 import DocumentQRScanner from "../screens/DocumentQRScanner";
@@ -94,34 +90,37 @@ let headerStyles = StyleSheet.create({
 const MainNavigator = StackNavigator({ //this will be "createStackNavigator" after upgrading react-navigation
     Login: { screen: Login },
     MenuOptions: { screen: MenuOptions },
-    Create: { screen: Create },
-    Tee: { screen: Tee },
-    Digi: { screen: Digi },
-    Anthem: { screen: Anthem },
-    PreHipr: { screen: PreHipr },
+    NewAssetLanding: { screen: NewAssetLanding },
+    NewAssetForm: { screen: NewAssetForm },
+    NewAssetConfirm: { screen: NewAssetConfirm },
+
+    HiprLanding: { screen: HiprLanding },
     HiprAssets: { screen: HiprAssets },
     HiprTransactions : { screen: HiprTransactions },
     Hipr: { screen: Hipr },
+
     BlockScanner: { screen: BlockScanner },
-    TransSwiper: { screen: TransSwiper },
-    TransAssetList: { screen: TransAssetList },
-    Splash1: { screen: Splash1 },
-    Splash2: { screen: Splash2 },
-    Splash3: { screen: Splash3 },
-    InputMan: { screen: InputMan },
-    FileUp: { screen: FileUp },
+    TxSwiperContainer: { screen: TxSwiperContainer },
+
+    TrackAssetList: { screen: TrackAssetList },
+    TrackAssetOptions: { screen: TrackAssetOptions },
+
+    SupplyChainAssetList: { screen: SupplyChainAssetList },
+    SupplyChainTxRx: { screen: SupplyChainTxRx },
+    SupplyChainReview: { screen: SupplyChainReview },
+    ImageUpload: { screen: ImageUpload },
+    Camera: { screen: Camera },
     DocUp: { screen: DocUp },
-    Confirm: { screen: Confirm },
-    NewAssetConfirm: { screen: NewAssetConfirm },
-    // ConfirmConf: { screen: ConfirmConf },
     EdiT: { screen: EdiT },
-    PreDigi: { screen: PreDigi },
-    SpaceScreen: { screen: SpaceScreen },
+    MetricInput: { screen: MetricInput },
+    Confirm: { screen: Confirm },
+
     QRCapture: { screen: QRCapture },
     QRCapture2: { screen: QRCapture2 },
+
     Wallet: { screen: Wallet },
     Settings: { screen: Settings },
-    Camera: { screen: Camera },
+
     WebViewComponent: { screen: WebViewComponent },
     TxSwiper: { screen: TxSwiper },
     DocumentStorage: { screen: DocumentStorage },

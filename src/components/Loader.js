@@ -13,7 +13,7 @@ class Loader extends Component {
         this.state = {
             loading: this.props.loading,
             confirmComplete: this.props.confirmComplete
-           
+
         }
     }
     render() {
@@ -30,13 +30,13 @@ class Loader extends Component {
                     <View style={styles.activityIndicatorWrapper}>
                         <ActivityIndicator
                             animating={this.state.loading} size="large" color="#091141" />
-                  
-                  {this.state.confirmComplete && 
-                    <Button 
-                    onPress={() => navigate('MenuOptions')} 
+
+                  {this.state.confirmComplete &&
+                    <Button
+                    onPress={() => navigate('MenuOptions')}
                     style={styles.button}>Menu</Button>
                   }
-                  
+
                     </View>
                 </View>
             </Modal>

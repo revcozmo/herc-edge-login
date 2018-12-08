@@ -2,17 +2,17 @@ import React, { Component } from "react";
 import { StyleSheet, Platform, TextInput, Text, View, Image, ScrollView, TouchableHighlight, Alert, TouchableNativeFeedback, StatusBar } from "react-native";
 
 import { StackNavigator } from "react-navigation";
-import originator from "../components/buttons/originatorButton.png";
-import recipient from "../components/buttons/recipientButton.png";
+import originator from "../components/buttons/originatorButton.png";// todo: turn into vector
+import recipient from "../components/buttons/recipientButton.png";// todo: turn into vector
 import documents from "../components/buttons/document.png";
 import camera from "../components/buttons/camera.png";
 import metrics from "../components/buttons/metrics.png";
 import EDIT from "../components/buttons/EDI-T.png";
 import styles from "../assets/styles";
 import { connect } from "react-redux";
-import TransRev from "../components/TransactionReview";
+import SupplyChainTransactionReview from "../components/SupplyChainTransactionReview";
 
-class Splash3 extends Component {
+class SupplyChainReview extends Component {
   static navigationOptions = ({ navigation }) => {
     const { params } = navigation.state;
 
@@ -113,7 +113,7 @@ class Splash3 extends Component {
             <TouchableHighlight
               style={{ marginTop: 8 }}
               onPress={() =>
-                navigate("FileUp", { logo: logo, name: asset.name })}>
+                navigate("ImageUpload", { logo: logo, name: asset.name })}>
               <Image style={styles.menuButton} source={camera} />
             </TouchableHighlight>
 
@@ -127,7 +127,7 @@ class Splash3 extends Component {
 
             <TouchableHighlight
               onPress={() =>
-                navigate("InputMan", { logo: logo, name: asset.name })}>
+                navigate("MetricInput", { logo: logo, name: asset.name })}>
               <Image style={styles.menuButton} source={metrics} />
             </TouchableHighlight>
 
@@ -136,7 +136,7 @@ class Splash3 extends Component {
               <Image style={styles.menuButton} source={EDIT} />
             </TouchableHighlight>
 
-            <TransRev navigate={navigate} />
+            <SupplyChainTransactionReview navigate={navigate} />
           </ScrollView>
         </View>
       </View>
@@ -151,7 +151,7 @@ const mapStateToProps = state => ({
   hercId: state.AssetReducers.selectedAsset.hercId || null,
 });
 
-export default connect(mapStateToProps)(Splash3);
+export default connect(mapStateToProps)(SupplyChainReview);
 
 const localStyles = StyleSheet.create({
   originatorText: {

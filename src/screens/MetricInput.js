@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { Platform, StyleSheet, Text, View, Image, ScrollView, TextInput, TouchableHighlight } from 'react-native';
 import styles from "../assets/styles";
-import originator from "../components/buttons/originatorButton.png";
-import recipient from "../components/buttons/recipientButton.png";
+import originator from "../components/buttons/originatorButton.png";// todo: turn into vector
+import recipient from "../components/buttons/recipientButton.png";// todo: turn into vector
 import { StackNavigator, } from 'react-navigation';
 import { connect } from "react-redux";
 import { addMetrics } from "../actions/AssetActions";
-import review from "../components/buttons/reviewBtn.png";
+import review from "../components/buttons/reviewBtn.png"; // todo: turn into vector
 
-class InputMan extends Component {
+class MetricInput extends Component {
 
     static navigationOptions = ({ navigation }) => {
         const { params } = navigation.state;
@@ -91,7 +91,7 @@ class InputMan extends Component {
     _onSubmit = () => {
         const { navigate } = this.props.navigation;
         let attributes = this.state;
-        console.log(this.state, "InputMan: state Inputs filled?");
+        console.log(this.state, "MetricInput: state Inputs filled?");
         this.props.addMetrics(attributes);
         navigate('Confirm', { logo: this.props.logo, name: this.props.name });
     }
@@ -142,7 +142,7 @@ const mapDispatchToProps = (dispatch) => ({
     addMetrics: (attributes) =>
         dispatch(addMetrics(attributes))
 })
-export default connect(mapStateToProps, mapDispatchToProps)(InputMan);
+export default connect(mapStateToProps, mapDispatchToProps)(MetricInput);
 
 
 const localStyles = StyleSheet.create({
