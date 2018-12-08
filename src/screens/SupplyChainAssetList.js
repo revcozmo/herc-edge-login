@@ -15,11 +15,10 @@ import {
 } from "react-native";
 import { createStackNavigator } from "react-navigation";
 import { connect } from "react-redux";
-import Button from "react-native-button";
 import submit from "../components/buttons/submit.png"; // todo: turn into vector
 import styles from "../assets/styles";
 import create from "../assets/createNewAssetButton.png"; // todo: turn into vector
-import { getAssetDef, selectAsset, deleteAsset } from "../actions/AssetActions";
+import { getAssetDef, selectAsset } from "../actions/AssetActions";
 import addIcon from "../components/buttons/addIcon.png"; // TODO: turn into vector icon
 import supplyChainIcon from "../assets/supplyChainIcon.png";
 
@@ -99,30 +98,23 @@ class SupplyChainAssetList extends Component {
 
   }
 
-  // _onDelete = key => {
-  //   const { navigate } = this.props.navigation;
-  //   this.props.deleteAsset(key);
-  //   navigate("MenuOptions");
-  // };
-
   _renderAssets = () => {
     let list = this.props.assets.map((asset, index) => {
       return (
           <TouchableHighlight style={{ borderRadius: 2 }} key={index} onPress={() => this._showPass(asset)}>
             <View style={localStyles.menuItemField}>
-              {/* <Button onPress={() => this._onDelete(asset.key)} style={styles.assetDeleteButton}>Delete</Button> */}
               <Image style={localStyles.assetLogo} source={{ uri: asset.Logo }} />
               <View style={localStyles.menuItemField__textBox}>
                 <Text style={localStyles.assetLabel}>{asset.Name}</Text>
               </View>
-              </View>
+            </View>
           </TouchableHighlight>
       )
     })
 
     return list;
-
   }
+
   _showPass = asset => {
     console.log(asset, "asset before pw enter in SupplyChainTxRx");
 
@@ -131,6 +123,7 @@ class SupplyChainAssetList extends Component {
       asset
     });
   };
+
   _onPasswordSubmit = () => {
 
     if (this.state.password === this.state.asset.Password) {
@@ -343,7 +336,6 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   selectAsset: asset => dispatch(selectAsset(asset)),
   getAssetDef: assetIpfsHash => dispatch(getAssetDef(assetIpfsHash)),
-  deleteAsset: key => dispatch(deleteAsset(key))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SupplyChainAssetList);
