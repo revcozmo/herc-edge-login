@@ -137,8 +137,6 @@ export class Settings extends Component {
                   <Text style={localStyles.title__Text}> Profile </Text>
                   <View style={localStyles.profileBlock}>
                     <Text style={localStyles.subInfo__TextUserName}>
-                      {/* {" "} */}
-                      {/* {this.props.displayName}{" "} */}
                       {this.state.accountName}
                     </Text>
                     <TouchableHighlight onPress={() => this.onLogOut()}>
