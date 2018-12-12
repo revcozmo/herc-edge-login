@@ -28,6 +28,10 @@ import styles from '../assets/styles';
 import { RNCamera } from "react-native-camera";
 import axios from 'axios';
 import { WEB_SERVER_API_SHORTEN_URL } from "../components/settings";
+import store from "../store"
+import { sendTrans } from "../actions/AssetActions";
+import BigNumber from 'bignumber.js';
+
 
 console.disableYellowBox = true;
 
@@ -115,6 +119,15 @@ class DocumentStorage extends React.Component {
 
   componentDidMount() {
     this._mapUploadHistory();
+
+    try {
+      let balance = new BigNumber(this.props.watchBalance["HERC"])
+      this.setState({ balance: balance.times(1e-18).toFixed(6) })
+    } catch(e) {
+      let balance =  new BigNumber(this.props.wallet.balances['HERC'])
+      this.setState({ balance: balance.times(1e-18).toFixed(6) })
+    }
+
   }
 
   _writeToClipboard = async (data) => {
@@ -298,6 +311,171 @@ class DocumentStorage extends React.Component {
 
   }
 
+  //under here is copied from supply chain transaction review
+
+  _onPressSubmit(){
+    if (Object.keys(this.props.transDat).length > 0){
+      let total = parseFloat(this._getPrices()) + 0.000032
+      Alert.alert(
+        'Data Fee: '+ this._getPrices().toString() +' HERC \nBurn Amount: 0.000032 HERC',
+        'Total: '+ total + ' HERC \nDo you authorize this payment?' ,
+        [
+          {text: 'No', onPress: () => console.log('No Pressed'), style: 'cancel'},
+          {text: 'Yes', onPress: () => this._checkBalance() },
+        ],
+        { cancelable: false }
+      )
+    } else {
+      Alert.alert(
+        'Oh no!',
+        'This is an empty submission',
+        [
+          {text: 'Ok', onPress: () => console.log('OK Pressed')}
+        ],
+        { cancelable: true }
+      )
+    }
+  }
+
+  async _checkBalance(){
+    if (!this.state.balance) {return}
+
+    let dataFee = new BigNumber(this._getPrices())
+
+    let total = parseFloat(this._getPrices()) + 0.000032
+    let convertingPrice = new BigNumber(total) // don't have to times 1e18 because its already hercs
+    let balance = new BigNumber(this.state.balance)
+
+    let newbalance = balance.minus(convertingPrice)
+
+    console.log('do you have enough?', newbalance.isPositive())
+
+
+    if (newbalance.isNegative()){
+      Alert.alert(
+        'Insufficient Funds',
+        'Balance: '+ this.state.balance + ' HERC' ,
+        [
+          {text: 'Top Up Hercs', onPress: () => Linking.openURL("https://purchase.herc.one/"), style: 'cancel'},
+          {text: 'Ok', onPress: () => console.log('OK Pressed')},
+        ],
+        { cancelable: true }
+      )
+    } else {
+      this.setState({ modalVisible: true })
+      const burnSpendInfo = {
+        networkFeeOption: 'standard',
+        currencyCode: 'HERC',
+        metadata: {
+          name: 'Transfer From Herc Wallet',
+          category: 'Transfer:Wallet:Burn Amount'
+        },
+        spendTargets: [
+          {
+            publicAddress: TOKEN_ADDRESS,
+            nativeAmount: "0.000032"
+          }
+        ]
+      }
+      const dataFeeSpendInfo = {
+        networkFeeOption: 'standard',
+        currencyCode: 'HERC',
+        metadata: {
+          name: 'Transfer From Herc Wallet',
+          category: 'Transfer:Wallet:Data Fee'
+        },
+        spendTargets: [
+          {
+            publicAddress: "0x1a2a618f83e89efbd9c9c120ab38c1c2ec9c4e76",
+            nativeAmount: dataFee.toString()
+          }
+        ]
+      }
+      // catch error for "ErrorInsufficientFunds"
+      // catch error for "ErrorInsufficientFundsMoreEth"
+      let wallet = this.props.wallet
+      try {
+        let burnTransaction = await wallet.makeSpend(burnSpendInfo)
+        await wallet.signTx(burnTransaction)
+        await wallet.broadcastTx(burnTransaction)
+        await wallet.saveTx(burnTransaction)
+        console.log("Sent burn transaction with ID = " + burnTransaction.txid)
+
+        let dataFeeTransaction = await wallet.makeSpend(dataFeeSpendInfo)
+        await wallet.signTx(dataFeeTransaction)
+        await wallet.broadcastTx(dataFeeTransaction)
+        await wallet.saveTx(dataFeeTransaction)
+        console.log("Sent dataFee transaction with ID = " + dataFeeTransaction.txid)
+
+
+        if (burnTransaction.txid && dataFeeTransaction.txid) {
+          this._sendTrans()
+        }
+      } catch(e){
+        let tempBalance = new BigNumber(this.props.watchBalance["ETH"])
+        let ethBalance = tempBalance.times(1e-18).toFixed(6)
+        this.setState({ modalVisible: false })
+        Alert.alert(
+          'Insufficient ETH Funds',
+          'Balance: '+ ethBalance + ' ETH' ,
+          [
+            {text: 'Ok', onPress: () => console.log('OK Pressed')},
+          ],
+          { cancelable: false }
+        )
+      }
+    }
+  }
+
+  _sendTrans() {
+    this.props.sendTrans(this._getPrices())
+    }
+
+  _getPrices = () => {
+
+      let transDat = this.props.transDat;
+      let price = 0;
+      let imgPrice = 0;
+      let docPrice = 0;
+
+      // if (transDat.images) {
+      //     imgPrice = ((transDat.images.size / 1024) * .00000002) / .4
+      // };
+
+      if (transDat.documents) {
+          docPrice = .000032
+      }
+
+      price = (docPrice + imgPrice) + .000032;
+      console.log(docPrice, imgPrice, price,'chance price check')
+
+      let convertingPrice = new BigNumber(price)
+      let newPrice = convertingPrice.toFixed(6)
+
+      return (
+        newPrice
+      )
+  }
+
+  _hasDocuments = (transObj) => {
+    if (transObj.documents) {
+        let docPrice = .000032;
+        return (
+            <View style={localStyles.docContainer}>
+                <Text style={localStyles.TransactionReviewTime}>Documents</Text>
+                <Text style={localStyles.text}>{transObj.documents.name}</Text>
+                <Text style={localStyles.text}>{(transObj.documents.size / 1024).toFixed(3)} kb</Text>
+                <View style={localStyles.feeContainer}>
+                    <Image style={localStyles.hercPillarIcon} source={fee} />
+                    <Text style={localStyles.teePrice}>{docPrice.toFixed(6)}</Text>
+                </View>
+            </View>
+        );
+        console.log(transInfo.price, "transprice plus docprice", this.state.docPrice)
+    }
+    return (<Text style={localStyles.revPropVal}>No Documents</Text>)
+}
+
   //   _saveToCameraRollAsync = async () => {
   //     const targetPixelCount = 1080; // If you want full HD pictures
   //     const pixelRatio = PixelRatio.get(); // The pixel ratio of the device
@@ -316,6 +494,17 @@ class DocumentStorage extends React.Component {
   //   };
 
   render() {
+    let trans = store.getState().AssetReducers.trans;
+    console.log(trans, "***trans***")
+    // let transInfo = trans.header;
+    // let fctPrice = this.state ? this.state.fctPrice : "";
+    // let transDat = trans.data;
+    // console.log(transInfo, 'transinfo in TransactionReviewrender', transInfo.price, 'transdata')
+    // let locationImage = this.props.transInfo.tXLocation === 'recipient' ? newRecipient : newOriginator;
+    let list, edit;
+    // let dTime = transDat.dTime;
+    // let name = this.props.transInfo.name;
+    // let transPrice = transInfo.price;
 
     return (
       <View style={styles.container}>
@@ -327,11 +516,11 @@ class DocumentStorage extends React.Component {
           </TouchableHighlight>
 
           {this.state.name ? <Text style={{ color: "silver", flexWrap: 'wrap' }}> file name: {this.state.name} </Text> : null}
-          {this.state.size ? <Text style={{ color: "silver", flexWrap: 'wrap' }}> file size: {this.state.size} kB </Text> : null}
+          {this.state.size ? <View><Text style={{ color: "silver", flexWrap: 'wrap' }}> file size: {this.state.size} kB </Text> {this._hasDocuments(transDat)} </View> : null}
           {/* {this.state.cost ? <Text> upload cost: {this.state.cost} Hercs </Text> : null} */}
 
           {this.state.name ?
-            <TouchableHighlight onPress={this._executeUpload}>
+            <TouchableHighlight onPress={() => this._onPressSubmit(transPrice)}>
               <Text style={{ color: "white", marginTop: 10, backgroundColor: "#4c99ed", width: 200, lineHeight: 30, height: 30, borderRadius: 5, textAlign: "center", justifyContent: "center", alignContent: "center" }}>
                 Upload
               </Text>
@@ -401,11 +590,139 @@ const localStyles = StyleSheet.create({
   },
   preview: {
     flex: 1,
-  }
+  },    SupplyChainTransactionReviewContainer: {
+    marginTop: 10,
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "flex-start"
+},
+submitButton: {
+    height: 40,
+    width: 200,
+    resizeMode: "contain",
+    alignSelf: "center",
+},
+assetLocationLabel: {
+    height: 30,
+    width: 150,
+    resizeMode: "contain",
+    marginTop: 10,
+    alignSelf: "center"
+},
+teePrice: {
+    color: "white"
+},
+docContainer: {
+    width: "100%",
+    height: 100,
+},
+imgContainer: {
+    width: "100%",
+    height: 125,
+    justifyContent: "center"
+},
+text: {
+    color: "white",
+    alignSelf: "center",
+    fontSize: 16,
+    fontWeight: "normal",
+    margin: 2,
+    fontFamily: "dinPro"
+},
+thumb: {
+    height: 50,
+    width: 50,
+    resizeMode: "cover",
+    alignSelf: "center",
+    margin: 4
+},
+editField: {
+    height: 75,
+    width: "100%",
+    justifyContent: "center",
+    padding: 3,
+    margin: 10,
+},
+editLabel: {
+    fontFamily: "dinPro",
+    fontSize: 21,
+    color: "yellow",
+    margin: 2,
+    alignSelf: "center",
+},
+TransactionReviewTime: {
+    color: "#f3c736",
+    fontFamily: "dinPro",
+    textAlign: "center",
+    fontSize: 20,
+    fontWeight: "bold",
+    flexDirection: "column",
+},
+TransactionReviewName: {
+    fontFamily: "dinPro",
+    fontSize: 16,
+    color: "white",
+    margin: 2,
+    textAlign: "left"
+},
+
+revPropField: {
+    height: 20,
+    width: 225,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: 2,
+    margin: 2,
+    backgroundColor: "#021227",
+    alignSelf: "center"
+},
+revPropVal: {
+    fontFamily: "dinPro",
+    fontSize: 15,
+    color: "white",
+    //put this margin  top combat an overlap issue
+    // marginTop: 20,
+    padding: 2,
+    textAlign: "center"
+},
+listContainer: {
+    margin: 10,
+    flex: 1,
+    justifyContent: "center"
+},
+feeContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    alignSelf: "center",
+    margin: 5,
+},
+teePrice: {
+    fontSize: 10,
+    color: "white",
+    backgroundColor: "#091141",
+    marginRight: 5
+},
+hercPillarIcon: {
+    height: 15,
+    width: 15,
+    resizeMode: "contain",
+    borderRadius: 15 / 2
+}
 });
 
 const mapStateToProps = state => ({
+  // transInfo: state.AssetReducers.trans.header,
+  // transDat: state.AssetReducers.trans.data,
+  transDataFlags: state.AssetReducers.transDataFlags,
+  wallet: state.WalletActReducers.wallet,
+  watchBalance: state.WalletActReducers.watchBalance,
   account: state.WalletActReducers.account
 })
 
-export default connect(mapStateToProps, null)(DocumentStorage);
+const mapDispatchToProps = (dispatch) => ({
+  sendTrans: (transPrice) => dispatch(sendTrans(transPrice))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(DocumentStorage);
