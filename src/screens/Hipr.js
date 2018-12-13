@@ -37,6 +37,7 @@ componentDidMount (){}
     let transaction = this.props.navigation.getParam('transaction') // TODO: add error handling for empty param
     let ipfsHash = transaction.data.properties
     let uri = 'https://hipr.one/' + ethereumAddress + '/' + ipfsHash + '/' + ipfsHash
+    // let uri = 'https://hipr.one/'
 
     console.log(uri, 'chance full hipr uri')
     return (
