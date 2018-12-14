@@ -255,6 +255,7 @@ class SupplyChainTransactionReview extends Component {
 
     render() {
         let trans = store.getState().AssetReducers.trans;
+        console.log(trans, "trans****");
         let transInfo = trans.header;
         // let fctPrice = this.state ? this.state.fctPrice : "";
         let transDat = trans.data;
