@@ -171,7 +171,8 @@ class SupplyChainTxRx extends Component {
   _cancelPass = () => {
     this.setState({
       showPass: false,
-      password: ""
+      password: "",
+      originalTransInfo: false,
     });
   };
 
@@ -211,7 +212,6 @@ class SupplyChainTxRx extends Component {
             },
             showPass: false,
             gotTransInfo: true,
-            // originalTransInfo
           });
           return originalTransInfo;
         }

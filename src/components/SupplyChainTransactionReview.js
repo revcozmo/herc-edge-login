@@ -28,8 +28,14 @@ class SupplyChainTransactionReview extends Component {
           let balance = new BigNumber(this.props.watchBalance["HERC"])
           this.setState({ balance: balance.times(1e-18).toFixed(6) })
         } catch(e) {
-          let balance =  new BigNumber(this.props.wallet.balances['HERC'])
-          this.setState({ balance: balance.times(1e-18).toFixed(6) })
+          if (this.props.wallet.balances['HERC']) {
+            let balance =  new BigNumber(this.props.wallet.balances['HERC']) // if balances:{} this will NaN
+            this.setState({ balance: balance.times(1e-18).toFixed(6) })
+          }
+          else {
+            let balance = new BigNumber('0')
+            this.setState({ balance: balance.times(1e-18).toFixed(6) })
+          }
         }
     }
 
@@ -68,7 +74,7 @@ class SupplyChainTransactionReview extends Component {
 
     let newbalance = balance.minus(convertingPrice)
 
-    console.log('do you have enough?', newbalance.isPositive())
+    console.log('chance, do you have enough?', newbalance.isPositive())
 
 
     if (newbalance.isNegative()){
