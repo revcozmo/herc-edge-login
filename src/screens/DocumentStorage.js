@@ -445,6 +445,7 @@ class DocumentStorage extends React.Component {
           }
         ]
       };
+      
       // catch error for "ErrorInsufficientFunds"
       // catch error for "ErrorInsufficientFundsMoreEth"
       let wallet = this.props.wallet;
