@@ -32,18 +32,20 @@ import { RNCamera } from "react-native-camera";
 import axios from "axios";
 import { WEB_SERVER_API_SHORTEN_URL } from "../components/settings";
 import store from "../store";
-import { sendTrans } from "../actions/AssetActions";
 import BigNumber from "bignumber.js";
+import { addDocStorage, sendTrans } from "../actions/AssetActions";
 console.disableYellowBox = true;
 
 class DocumentStorage extends React.Component {
   state = {
     hasCameraRollPermission: null,
-    uri: "",
-    name: "",
-    size: "",
-    type: "",
-    content: "",
+    document: {
+      uri: "",
+      name: "",
+      size: "",
+      type: "",
+      content: ""
+    },
     uploadDoc: null,
     uploadHistory: [],
     showLoader: true
@@ -152,11 +154,13 @@ class DocumentStorage extends React.Component {
           RNFS.readFile(res.uri, "base64").then(contents => {
             this.setState(
               {
-                uri: res.uri,
-                name: res.fileName,
-                size: res.fileSize,
-                type: res.type,
-                content: contents
+                document: {
+                  uri: res.uri,
+                  name: res.fileName,
+                  size: res.fileSize,
+                  type: res.type,
+                  content: contents
+                }
               },
               () => this._onSubmit()
             );
@@ -167,12 +171,14 @@ class DocumentStorage extends React.Component {
   };
 
   _executeUpload = async () => {
-    let f = this.state.uri;
+    console.log("getting to line 174");
+    let f = this.state.document.uri;
+    console.log(f, "**** should be the document uri*** ");
     uploadURL = await this._uploadFile(f);
   };
 
   _share = async () => {
-    const downloadUrl = this.state.downloadURL;
+    const downloadUrl = this.state.document.DocumentStoragedownloadURL;
     Share.share(
       {
         message: "Herc Document Storage Link: " + downloadUrl,
@@ -189,30 +195,34 @@ class DocumentStorage extends React.Component {
   };
 
   _uploadFile = async uri => {
-    let docName = this.state.name;
+    console.log(this.state);
+    let docName = this.state.document.name;
     let storageRef = firebase.storage().ref();
     let testTextRef = storageRef.child(docName);
     let testTextDocRef = storageRef.child("documents/" + docName);
     var bindedThis = this;
-
     //****this is where the file needs to be converted and push to storage */
     const response = await fetch(uri);
     const blob = await response.blob();
-    let shortenedURL;
     const snapshot = await testTextDocRef
       .put(blob)
       .then(snapshot => {
         return snapshot.ref.getDownloadURL();
       })
       .then(downloadURL => {
+        console.log("**line 213**");
         axios
           .post(WEB_SERVER_API_SHORTEN_URL, {
             longURL: downloadURL
           })
           .then(response => {
+            console.log("making it to line 218", response);
             let shortenedURL = response.data.url;
-            bindedThis.setState({ downloadURL: shortenedURL }, () =>
-              this._updateHistory()
+            bindedThis.setState(
+              {
+                document: { ...this.state.document, downloadURL: shortenedURL }
+              },
+              () => this._updateHistory()
             );
           });
       })
@@ -262,9 +272,10 @@ class DocumentStorage extends React.Component {
   };
 
   _updateHistory = () => {
-    let filename = this.state.name;
+    console.log("making it to update history line 269", this.state.document);
+    let filename = this.state.document.name;
     let userID = this.props.account.username;
-    let downloadURL = this.state.downloadURL;
+    let downloadURL = this.state.document.downloadURL;
     var dt = new Date();
     var utcDate = dt.toUTCString();
     var starCountRef = firebase
@@ -298,7 +309,7 @@ class DocumentStorage extends React.Component {
         const filename = dataObjectKeys[curr].filename;
         const downloadURL = dataObjectKeys[curr].downloadURL;
         return (
-          <View key={dataObjectKeys[curr]}>
+          <View key={[ind]}>
             <Text style={{ color: "white" }}>{date}</Text>
             <Text style={{ color: "white" }}>{filename}</Text>
             <TouchableHighlight
@@ -338,7 +349,7 @@ class DocumentStorage extends React.Component {
     setTimeout(runLoaderChange, 2 * 1000);
 
     if (this.state.showLoader != true) {
-      return <QRCode size={140} value={this.state.downloadURL} />;
+      return <QRCode size={140} value={this.state.document.downloadURL} />;
     } else {
       return (
         <View
@@ -358,33 +369,33 @@ class DocumentStorage extends React.Component {
 
   //under here is copied from supply chain transaction review
 
-  _onPressSubmit() {
-    if (Object.keys(this.props.transDat).length > 0) {
-      let total = parseFloat(this._getPrices()) + 0.000032;
-      Alert.alert(
-        "Data Fee: " +
-          this._getPrices().toString() +
-          " HERC \nBurn Amount: 0.000032 HERC",
-        "Total: " + total + " HERC \nDo you authorize this payment?",
-        [
-          {
-            text: "No",
-            onPress: () => console.log("No Pressed"),
-            style: "cancel"
-          },
-          { text: "Yes", onPress: () => this._checkBalance() }
-        ],
-        { cancelable: false }
-      );
-    } else {
-      Alert.alert(
-        "Oh no!",
-        "This is an empty submission",
-        [{ text: "Ok", onPress: () => console.log("OK Pressed") }],
-        { cancelable: true }
-      );
-    }
-  }
+  // _onPressSubmit() {
+  //   if (Object.keys(this.props.transDat).length > 0) {
+  //     let total = parseFloat(this._getPrices()) + 0.000032;
+  //     Alert.alert(
+  //       "Data Fee: " +
+  //         this._getPrices().toString() +
+  //         " HERC \nBurn Amount: 0.000032 HERC",
+  //       "Total: " + total + " HERC \nDo you authorize this payment?",
+  //       [
+  //         {
+  //           text: "No",
+  //           onPress: () => console.log("No Pressed"),
+  //           style: "cancel"
+  //         },
+  //         { text: "Yes", onPress: () => this._checkBalance() }
+  //       ],
+  //       { cancelable: false }
+  //     );
+  //   } else {
+  //     Alert.alert(
+  //       "Oh no!",
+  //       "This is an empty submission",
+  //       [{ text: "Ok", onPress: () => console.log("OK Pressed") }],
+  //       { cancelable: true }
+  //     );
+  //   }
+  // }
 
   async _checkBalance() {
     if (!this.state.balance) {
@@ -445,7 +456,7 @@ class DocumentStorage extends React.Component {
           }
         ]
       };
-      
+
       // catch error for "ErrorInsufficientFunds"
       // catch error for "ErrorInsufficientFundsMoreEth"
       let wallet = this.props.wallet;
@@ -508,32 +519,18 @@ class DocumentStorage extends React.Component {
   //   return newPrice;
   // };
 
-  // _hasDocuments = transObj => {
-  //   if (transObj.documents) {
-  //     let docPrice = 0.000032;
-  //     return (
-  //       <View style={localStyles.docContainer}>
-  //         <Text style={localStyles.TransactionReviewTime}>Documents</Text>
-  //         <Text style={localStyles.text}>{transObj.documents.name}</Text>
-  //         <Text style={localStyles.text}>
-  //           {(transObj.documents.size / 1024).toFixed(3)} kb
-  //         </Text>
-  //         <View style={localStyles.feeContainer}>
-  //           <Image style={localStyles.hercPillarIcon} source={fee} />
-  //           <Text style={localStyles.teePrice}>{docPrice.toFixed(6)}</Text>
-  //         </View>
-  //       </View>
-  //     );
-  //     console.log(
-  //       transInfo.price,
-  //       "transprice plus docprice",
-  //       this.state.docPrice
-  //     );
-  //   }
-  //   return <Text style={localStyles.revPropVal}>No Documents</Text>;
-  // };
+  _displayPrice = () => {
+      let docPrice = 0.000032;
+      return (
+        <View>
+          {/* <Image style={localStyles.hercPillarIcon} source={fee} /> */}
+          <Text style={{color: "silver"}}> fee: {docPrice} </Text>
+        </View>
+      );
+    };
 
   _onSubmit = () => {
+    console.log(this.state);
     const { navigate } = this.props.navigation;
     let uri = this.state.uri;
     let docName = this.state.name;
@@ -544,14 +541,13 @@ class DocumentStorage extends React.Component {
       size: docSize,
       name: docName,
       content: docContent
-    })
+    });
 
-    this.props.addDoc(doc);
+    this.props.addDocStorage(doc);
+    console.log("***made it to line 551****");
 
     // navigate('SupplyChainReview', { logo: this.props.logo, name: this.props.name });
   };
-
-
 
   //   _saveToCameraRollAsync = async () => {
   //     const targetPixelCount = 1080; // If you want full HD pictures
@@ -607,25 +603,23 @@ class DocumentStorage extends React.Component {
             </Text>
           </TouchableHighlight>
 
-          {this.state.name ? (
+          {this.state.document.name ? (
             <Text style={{ color: "silver", flexWrap: "wrap" }}>
               {" "}
-              file name: {this.state.name}{" "}
+              file name: {this.state.document.name}{" "}
             </Text>
           ) : null}
-          {this.state.size ? (
+          {this.state.document.size ? (
             <View>
               <Text style={{ color: "silver", flexWrap: "wrap" }}>
                 {" "}
-                file size: {this.state.size} kB{" "}
-              </Text>{" "}
-              {this._hasDocuments(transDat)}{" "}
+                file size: {this.state.document.size} kB
+              </Text>
+              {this._displayPrice()}
             </View>
           ) : null}
-          {/* {this.state.cost ? <Text> upload cost: {this.state.cost} Hercs </Text> : null} */}
-
-          {this.state.name ? (
-            <TouchableHighlight onPress={() => this._onPressSubmit(transPrice)}>
+          {this.state.document.name ? (
+            <TouchableHighlight onPress={() => this._executeUpload()}>
               <Text
                 style={{
                   color: "white",
@@ -659,7 +653,7 @@ class DocumentStorage extends React.Component {
                 this._container = view;
               }}
             >
-              {this.state.downloadURL ? (
+              {this.state.document.downloadURL ? (
                 <View
                   style={{
                     backgroundColor: "white",
@@ -671,7 +665,7 @@ class DocumentStorage extends React.Component {
                 </View>
               ) : null}
 
-              {this.state.downloadURL ? (
+              {this.state.document.downloadURL ? (
                 <Text
                   style={{
                     color: "silver",
@@ -687,11 +681,11 @@ class DocumentStorage extends React.Component {
 
             {/* {this.state.downloadURL ? <Button title="Save QR" onPress={this._saveToCameraRollAsync} /> : null} */}
 
-            {this.state.downloadURL ? (
+            {this.state.document.downloadURL ? (
               <View>
                 <TouchableHighlight
                   onPress={() => {
-                    this._writeToClipboard(this.state.downloadURL);
+                    this._writeToClipboard(this.state.document.downloadURL);
                   }}
                 >
                   <Text
@@ -941,6 +935,7 @@ const localStyles = StyleSheet.create({
 });
 
 const mapStateToProps = state => ({
+  documentStorage: state.DocumentStorage,
   // transHeader: state.AssetReducers.trans.header || {},
   // transInfo: state.AssetReducers.trans.header,
   // transDat: state.AssetReducers.trans,
@@ -951,7 +946,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  addDoc: doc => dispatch(addDoc(doc)),
+  addDocStorage: doc => dispatch(addDocStorage(doc)),
   sendTrans: transPrice => dispatch(sendTrans(transPrice))
 });
 
