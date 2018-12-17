@@ -499,21 +499,8 @@ class DocumentStorage extends React.Component {
   }
 
   _sendTrans() {
-    // this.props.sendTrans(this._getPrices());
     this._executeUpload();
   }
-
-  // _getPrices = () => {
-  //   // let transDat = this.props.transDat;
-  //   let price = 0;
-  //   let imgPrice = 0;
-  //   let docPrice = 0;
-
-  //   if (this.state.document) {
-  //     docPrice = 0.000032;
-  //   }
-
-  // };
 
   _getDocPrice = () => {
     /// 12/16/18 docPrice of 200% of .000032 hercs.. That's .000128 hercs
