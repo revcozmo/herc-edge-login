@@ -15,8 +15,6 @@ import {
   Share,
   ActivityIndicator
 } from "react-native";
-// import { WebBrowser } from 'expo';
-// import { DocumentPicker, ImagePicker, takeSnapshotAsync } from 'expo';
 import firebase from "firebase";
 import Firebase from "../constants/Firebase";
 import hercLogo from "../assets/hercLogoBreak.png";
@@ -34,7 +32,7 @@ import { WEB_SERVER_API_SHORTEN_URL } from "../components/settings";
 import store from "../store";
 import BigNumber from "bignumber.js";
 import { addDocStorage, sendTrans } from "../actions/AssetActions";
-import { TOKEN_ADDRESS } from "../components/settings"
+import { TOKEN_ADDRESS } from "../components/settings";
 
 console.disableYellowBox = true;
 
@@ -154,18 +152,15 @@ class DocumentStorage extends React.Component {
           if (error) Alert.alert("Something Went Wrong! Error: " + error);
           // Android
           RNFS.readFile(res.uri, "base64").then(contents => {
-            this.setState(
-              {
-                document: {
-                  uri: res.uri,
-                  name: res.fileName,
-                  size: res.fileSize,
-                  type: res.type,
-                  content: contents
-                }
-              },
-              // () => this._onSubmit()
-            );
+            this.setState({
+              document: {
+                uri: res.uri,
+                name: res.fileName,
+                size: res.fileSize,
+                type: res.type,
+                content: contents
+              }
+            });
           });
         }
       }
@@ -188,9 +183,9 @@ class DocumentStorage extends React.Component {
       },
       {
         // Android only:
-        dialogTitle: "Herc Document Storage Link",
+        dialogTitle: "Herc Document Storage Link"
         // iOS only:
-        excludedActivityTypes: ["com.apple.UIKit.activity.PostToTwitter"]
+        // excludedActivityTypes: ["com.apple.UIKit.activity.PostToTwitter"]
       }
     );
   };
@@ -210,12 +205,13 @@ class DocumentStorage extends React.Component {
         return snapshot.ref.getDownloadURL();
       })
       .then(downloadURL => {
+        console.log("***this is the response from firebase***", downloadURL);
         axios
           .post(WEB_SERVER_API_SHORTEN_URL, {
             longURL: downloadURL
           })
           .then(response => {
-            console.log("making it to line 218", response);
+            console.log("this is the response from bitly", response);
             let shortenedURL = response.data.url;
             bindedThis.setState(
               {
@@ -271,6 +267,7 @@ class DocumentStorage extends React.Component {
   };
 
   _updateHistory = () => {
+    //after a successful document upload to Firebase Storage, this function updates the history for each user. This information is stored on Firebase DB
     console.log("making it to update history line 269", this.state.document);
     let filename = this.state.document.name;
     let userID = this.props.account.username;
@@ -370,14 +367,22 @@ class DocumentStorage extends React.Component {
 
   _onPressSubmit() {
     if (Object.keys(this.state.document)) {
-      let total = parseFloat(this._getPrices()) + 0.000032;
+      let total =
+        parseFloat(this._getDocPrice()) + parseFloat(this._getBurnPrice());
       // let total = 0.000032 + ;
 
       Alert.alert(
-        "Data Fee: " +
-          this._getPrices().toString() +
-          " HERC \nBurn Amount: 0.000032 HERC",
-        "Total: " + total + " HERC \nDo you authorize this payment?",
+        "Doc Fee: " +
+          this._getDocPrice().toString() +
+          " HERC \nBurn Amount: " +
+          this._getBurnPrice().toString() +
+          " HERC",
+        "Total: " +
+          total.toFixed(6) +
+          " HERC" +
+          "\nETH Gas Cost(est.): " +
+          "0.000223 ETH" +
+          "\nDo you authorize this payment?",
         [
           {
             text: "No",
@@ -403,18 +408,18 @@ class DocumentStorage extends React.Component {
       return;
     }
 
-    let dataFee = new BigNumber(this._getPrices());
+    let dataFee = new BigNumber(this._getDocPrice());
 
-    let total = parseFloat(this._getPrices()) + 0.000032;
+    let total =
+      parseFloat(this._getDocPrice()) + parseFloat(this._getBurnPrice());
     let convertingPrice = new BigNumber(total); // don't have to times 1e18 because its already hercs
     let balance = new BigNumber(this.state.balance);
-
     let newbalance = balance.minus(convertingPrice);
 
     console.log("do you have enough?", newbalance.isPositive());
 
     if (newbalance.isNegative()) {
-      Alert.alert( 
+      Alert.alert(
         "Insufficient Funds",
         "Balance: " + this.state.balance + " HERC",
         [
@@ -498,51 +503,48 @@ class DocumentStorage extends React.Component {
     this._executeUpload();
   }
 
-  _getPrices = () => {
-    // let transDat = this.props.transDat;
-    let price = 0;
-    let imgPrice = 0;
-    let docPrice = 0;
+  // _getPrices = () => {
+  //   // let transDat = this.props.transDat;
+  //   let price = 0;
+  //   let imgPrice = 0;
+  //   let docPrice = 0;
 
-    if (this.state.document) {
-      docPrice = 0.000032;
-    }
-
-    price = docPrice + 0.000032;
-    let convertingPrice = new BigNumber(price);
-    let newPrice = convertingPrice.toFixed(6);
-
-    return newPrice;
-  };
-
-  _displayPrice = () => {
-      let docPrice = 0.000032;
-      return (
-        <View>
-          {/* <Image style={localStyles.hercPillarIcon} source={fee} /> */}
-          <Text style={{color: "silver"}}> fee: {docPrice} </Text>
-        </View>
-      );
-    };
-
-  // _onSubmit = () => {
-  //   console.log(this.state);
-  //   const { navigate } = this.props.navigation;
-  //   let uri = this.state.uri;
-  //   let docName = this.state.name;
-  //   let docSize = this.state.size;
-  //   let docContent = this.state.content;
-  //   let doc = Object.assign({}, this.state, {
-  //     uri: uri,
-  //     size: docSize,
-  //     name: docName,
-  //     content: docContent
-  //   });
-
-  //   // this.props.addDocStorage(doc);
-  //   console.log("***made it to line 551****");
+  //   if (this.state.document) {
+  //     docPrice = 0.000032;
+  //   }
 
   // };
+
+  _getDocPrice = () => {
+    /// 12/16/18 docPrice of 200% of .000032 hercs.. That's .000128 hercs
+    let docPrice = 0.000128;
+    let convertingPrice = new BigNumber(docPrice);
+    let newDocPrice = convertingPrice.toFixed(6);
+    return newDocPrice;
+  };
+
+  _getBurnPrice = () => {
+    let feePrice = 0.000032;
+    let convertingPrice = new BigNumber(feePrice);
+    let newFeePrice = convertingPrice.toFixed(6);
+    return newFeePrice;
+  };
+
+  _displayPrices = () => {
+    return (
+      <View>
+        {/* <Image style={localStyles.hercPillarIcon} source={fee} /> */}
+        <Text style={{ color: "silver" }}>
+          {" "}
+          Doc Price : {this._getDocPrice()}{" "}
+        </Text>
+        <Text style={{ color: "silver" }}>
+          {" "}
+          Burn Price: {this._getBurnPrice()}{" "}
+        </Text>
+      </View>
+    );
+  };
 
   //   _saveToCameraRollAsync = async () => {
   //     const targetPixelCount = 1080; // If you want full HD pictures
@@ -562,7 +564,6 @@ class DocumentStorage extends React.Component {
   //   };
 
   render() {
-
     return (
       <View style={styles.container}>
         <View style={[styles.containerCenter, { flex: 1 }]}>
@@ -599,7 +600,7 @@ class DocumentStorage extends React.Component {
                 {" "}
                 file size: {this.state.document.size} kB
               </Text>
-              {this._displayPrice()}
+              {/* {this._displayPrices()} */}
             </View>
           ) : null}
           {this.state.document.name ? (
