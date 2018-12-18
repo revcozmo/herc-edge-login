@@ -517,22 +517,6 @@ class DocumentStorage extends React.Component {
     return newFeePrice;
   };
 
-  _displayPrices = () => {
-    return (
-      <View>
-        {/* <Image style={localStyles.hercPillarIcon} source={fee} /> */}
-        <Text style={{ color: "silver" }}>
-          {" "}
-          Doc Price : {this._getDocPrice()}{" "}
-        </Text>
-        <Text style={{ color: "silver" }}>
-          {" "}
-          Burn Price: {this._getBurnPrice()}{" "}
-        </Text>
-      </View>
-    );
-  };
-
   //   _saveToCameraRollAsync = async () => {
   //     const targetPixelCount = 1080; // If you want full HD pictures
   //     const pixelRatio = PixelRatio.get(); // The pixel ratio of the device
@@ -587,7 +571,6 @@ class DocumentStorage extends React.Component {
                 {" "}
                 file size: {this.state.document.size} kB
               </Text>
-              {/* {this._displayPrices()} */}
             </View>
           ) : null}
           {this.state.document.name ? (
@@ -875,8 +858,6 @@ const localStyles = StyleSheet.create({
     fontFamily: "dinPro",
     fontSize: 15,
     color: "white",
-    //put this margin  top combat an overlap issue
-    // marginTop: 20,
     padding: 2,
     textAlign: "center"
   },
@@ -908,10 +889,6 @@ const localStyles = StyleSheet.create({
 
 const mapStateToProps = state => ({
   documentStorage: state.DocumentStorage,
-  // transHeader: state.AssetReducers.trans.header || {},
-  // transInfo: state.AssetReducers.trans.header,
-  // transDat: state.AssetReducers.trans,
-  // transDataFlags: state.AssetReducers.transDataFlags,
   wallet: state.WalletActReducers.wallet,
   watchBalance: state.WalletActReducers.watchBalance,
   account: state.WalletActReducers.account
