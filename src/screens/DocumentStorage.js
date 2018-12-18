@@ -529,7 +529,6 @@ class DocumentStorage extends React.Component {
   //       quality: 1,
   //       format: 'jpg',
   //     });
-
   //     let saveResult = await CameraRoll.saveToCameraRoll(result, 'photo');
   //     this.setState({ cameraRollUri: saveResult }, alert("saved to " + saveResult));
   //   };
