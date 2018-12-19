@@ -13,7 +13,9 @@ import {
   Clipboard,
   Alert,
   Share,
-  ActivityIndicator
+  ActivityIndicator,
+  Button,
+  PermissionsAndroid
 } from "react-native";
 import firebase from "firebase";
 import Firebase from "../constants/Firebase";
@@ -33,6 +35,8 @@ import store from "../store";
 import BigNumber from "bignumber.js";
 import { addDocStorage, sendTrans } from "../actions/AssetActions";
 import { TOKEN_ADDRESS } from "../components/settings";
+import { captureRef } from "react-native-view-shot";
+
 
 console.disableYellowBox = true;
 
@@ -122,6 +126,8 @@ class DocumentStorage extends React.Component {
   };
 
   componentDidMount() {
+
+    this._requestExternalStoragePermission();
     console.log(this.props, "***props***");
     console.log(store, "store****");
     this._mapUploadHistory();
@@ -517,26 +523,44 @@ class DocumentStorage extends React.Component {
     return newFeePrice;
   };
 
-  //   _saveToCameraRollAsync = async () => {
-  //     const targetPixelCount = 1080; // If you want full HD pictures
-  //     const pixelRatio = PixelRatio.get(); // The pixel ratio of the device
-  //     // pixels * pixelratio = targetPixelCount, so pixels = targetPixelCount / pixelRatio
-  //     const pixels = targetPixelCount / pixelRatio;
-  //     const result = await takeSnapshotAsync(this._container, {
-  //       result: 'file',
-  //       height: 120,
-  //       width: 120,
-  //       quality: 1,
-  //       format: 'jpg',
-  //     });
-  //     let saveResult = await CameraRoll.saveToCameraRoll(result, 'photo');
-  //     this.setState({ cameraRollUri: saveResult }, alert("saved to " + saveResult));
-  //   };
+  _saveToCameraRollAsync = async () => {
+    console.log("attempting to run save camera")
+    
+    let bindedCont = this.cont;
+
+    const result = captureRef(this._container, {
+      format: "jpg",
+      quality: 0.8
+    })
+    .then(
+      uri => CameraRoll.saveToCameraRoll(uri, 'photo'),
+      error => console.error("Oops, snapshot failed", error)
+    );
+  };
+
+  _requestExternalStoragePermission = async () => {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+        {
+          title: 'My App Storage Permission',
+          message: 'My App needs access to your storage ' +
+            'so you can save your photos',
+        },
+      );
+      return granted;
+    } catch (err) {
+      console.error('Failed to request permission ', err);
+      return null;
+    }
+  };
 
   render() {
     return (
       <View style={styles.container}>
-        <View style={[styles.containerCenter, { flex: 1 }]}>
+        <View style={[styles.containerCenter, { flex: 1 }]} ref={view => {
+              this._container = view;
+            }}>
           <TouchableHighlight
             style={{ marginTop: 10 }}
             onPress={() => this._pickDocument()}
@@ -557,6 +581,8 @@ class DocumentStorage extends React.Component {
               Select Document
             </Text>
           </TouchableHighlight>
+
+          <Button title="Save QR" onPress={this._saveToCameraRollAsync} />
 
           {this.state.document.name ? (
             <Text style={{ color: "silver", flexWrap: "wrap" }}>
@@ -604,7 +630,7 @@ class DocumentStorage extends React.Component {
               }}
               collapsable={false}
               ref={view => {
-                this._container = view;
+                QRContent = view;
               }}
             >
               {this.state.document.downloadURL ? (
@@ -633,7 +659,9 @@ class DocumentStorage extends React.Component {
               ) : null}
             </View>
 
-            {/* {this.state.downloadURL ? <Button title="Save QR" onPress={this._saveToCameraRollAsync} /> : null} */}
+            
+              
+            
 
             {this.state.document.downloadURL ? (
               <View>
