@@ -37,7 +37,6 @@ import { addDocStorage, sendTrans } from "../actions/AssetActions";
 import { TOKEN_ADDRESS } from "../components/settings";
 import { captureRef } from "react-native-view-shot";
 
-
 console.disableYellowBox = true;
 
 class DocumentStorage extends React.Component {
@@ -126,7 +125,6 @@ class DocumentStorage extends React.Component {
   };
 
   componentDidMount() {
-
     this._requestExternalStoragePermission();
     console.log(this.props, "***props***");
     console.log(store, "store****");
@@ -351,11 +349,25 @@ class DocumentStorage extends React.Component {
     setTimeout(runLoaderChange, 2 * 1000);
 
     if (this.state.showLoader != true) {
-      return <QRCode size={140} value={this.state.document.downloadURL} />;
+      return (
+        <View
+          style={{
+            alignSelf: "center",
+            height: 140,
+            width: 140,
+            backgroundColor: "white",
+            justifyContent: "center",
+            alignContent: "center"
+          }}
+        >
+          <QRCode size={140} value={this.state.document.downloadURL} />
+        </View>
+      );
     } else {
       return (
         <View
           style={{
+            alignSelf: "center",
             height: 140,
             width: 140,
             backgroundColor: "white",
@@ -524,17 +536,14 @@ class DocumentStorage extends React.Component {
   };
 
   _saveToCameraRollAsync = async () => {
-    console.log("attempting to run save camera")
-    
-    let bindedCont = this.cont;
-
     const result = captureRef(this._container, {
       format: "jpg",
       quality: 0.8
-    })
-    .then(
-      uri => CameraRoll.saveToCameraRoll(uri, 'photo'),
+    }).then(
+      uri => CameraRoll.saveToCameraRoll(uri, "photo"),
       error => console.error("Oops, snapshot failed", error)
+    ).then(
+      result => Alert.alert("QR has been saved to gallery!")
     );
   };
 
@@ -543,14 +552,15 @@ class DocumentStorage extends React.Component {
       const granted = await PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
         {
-          title: 'My App Storage Permission',
-          message: 'My App needs access to your storage ' +
-            'so you can save your photos',
-        },
+          title: "My App Storage Permission",
+          message:
+            "My App needs access to your storage " +
+            "so you can save your photos"
+        }
       );
       return granted;
     } catch (err) {
-      console.error('Failed to request permission ', err);
+      console.error("Failed to request permission ", err);
       return null;
     }
   };
@@ -558,9 +568,7 @@ class DocumentStorage extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <View style={[styles.containerCenter, { flex: 1 }]} ref={view => {
-              this._container = view;
-            }}>
+        <View style={[styles.containerCenter, { flex: 1 }]}>
           <TouchableHighlight
             style={{ marginTop: 10 }}
             onPress={() => this._pickDocument()}
@@ -581,9 +589,6 @@ class DocumentStorage extends React.Component {
               Select Document
             </Text>
           </TouchableHighlight>
-
-          <Button title="Save QR" onPress={this._saveToCameraRollAsync} />
-
           {this.state.document.name ? (
             <Text style={{ color: "silver", flexWrap: "wrap" }}>
               {" "}
@@ -629,19 +634,32 @@ class DocumentStorage extends React.Component {
                 alignItems: "center"
               }}
               collapsable={false}
-              ref={view => {
-                QRContent = view;
-              }}
             >
               {this.state.document.downloadURL ? (
                 <View
                   style={{
+                    width: 200,
+                    alignContent: "center",
+                    justifyContent: "center",
                     backgroundColor: "white",
                     borderWidth: 10,
                     borderColor: "white"
                   }}
+                  ref={view => {
+                    this._container = view;
+                  }}
                 >
                   {this._activityIdicatorOrQRCode()}
+                  <Text
+                    style={{
+                      color: "black",
+                      flexWrap: "wrap",
+                      textAlign: "center"
+                    }}
+                  >
+                    {" "}
+                    {this.state.document.name}{" "}
+                  </Text>
                 </View>
               ) : null}
 
@@ -658,13 +676,26 @@ class DocumentStorage extends React.Component {
                 </Text>
               ) : null}
             </View>
-
-            
-              
-            
-
             {this.state.document.downloadURL ? (
               <View>
+                <TouchableHighlight onPress={this._saveToCameraRollAsync}>
+                  <Text
+                    style={{
+                      color: "white",
+                      marginTop: 10,
+                      backgroundColor: "#4c99ed",
+                      width: 200,
+                      lineHeight: 30,
+                      height: 30,
+                      borderRadius: 5,
+                      textAlign: "center",
+                      justifyContent: "center",
+                      alignContent: "center"
+                    }}
+                  >
+                    Save QR
+                  </Text>
+                </TouchableHighlight>
                 <TouchableHighlight
                   onPress={() => {
                     this._writeToClipboard(this.state.document.downloadURL);
@@ -706,7 +737,7 @@ class DocumentStorage extends React.Component {
                       alignContent: "center"
                     }}
                   >
-                    share
+                    Share
                   </Text>
                 </TouchableHighlight>
               </View>
