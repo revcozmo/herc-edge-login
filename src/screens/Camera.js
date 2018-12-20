@@ -1,12 +1,23 @@
 import React, { Component } from 'react';
-import { AppRegistry, Dimensions, StyleSheet, Text, TouchableOpacity, TouchableHighlight, View, Image } from 'react-native';
+import {
+  AppRegistry,
+  Dimensions,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  TouchableHighlight,
+  View,
+  Image,
+  ActivityIndicator
+} from 'react-native';
 import { RNCamera } from 'react-native-camera';
 import { relative } from 'path';
 
 export default class Camera extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
-      headerTitle: null
+      headerTitle: null,
+      loading: false,
     }
   }
 
@@ -26,12 +37,17 @@ export default class Camera extends Component {
 
   }
 
+
   takePicture = async () => {
     console.log("taking");
     const { params } = this.props.navigation.state;
     if (this.camera) {
       //picture orientation bug fix zube card #406
-      const options = { base64: true, fixOrientation: true }
+      const options = {
+        base64: true,
+        fixOrientation: true,
+        skipProcessing: true
+      }
       try {
         const data = await this.camera.takePictureAsync(options);
         // this._getSize(data.base64);
@@ -89,6 +105,8 @@ export default class Camera extends Component {
     return (
       <View style={styles.container}>
         {this.state.image ? this.renderImage() : this.renderCamera()}
+        <ActivityIndicator
+            animating={this.state.loading} size="large" color="#091141" />
       </View>
     );
   }
