@@ -14,12 +14,14 @@ import { RNCamera } from 'react-native-camera';
 import { relative } from 'path';
 
 export default class Camera extends Component {
-  static navigationOptions = ({ navigation }) => {
-    return {
-      headerTitle: null,
-      loading: false,
-    }
-  }
+  // Commented out due to: https://github.com/expo/expo/issues/2288#issuecomment-426235728
+  // static navigationOptions = ({ navigation }) => {
+  //   return {
+  //     headerTitle: null,
+  //     loading: false,
+  //   }
+  // }
+  static navigationOptions = { header: null }
 
   constructor(props) {
     super(props);
@@ -39,11 +41,10 @@ export default class Camera extends Component {
 
 
   takePicture = async () => {
-    console.log("taking");
     const { params } = this.props.navigation.state;
     if (this.camera) {
-      //picture orientation bug fix zube card #406
       const options = {
+        quality: 0, // to make sure latency isnt caused by quality
         base64: true,
         fixOrientation: true,
         skipProcessing: true
@@ -60,7 +61,10 @@ export default class Camera extends Component {
 
         params.setPic(this.state.image);
         console.log("Camera: afterBase", data.uri, "Camera: size: ", this._getSize(data.base64));
-      } catch (err) { console.log('err: ', err)}
+      }
+      catch (err) {
+         console.log('Camera Error: ', err)
+       }
     };
   }
 
