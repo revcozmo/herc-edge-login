@@ -13,7 +13,7 @@ import { connect } from "react-redux";
 import axios from 'axios';
 import { ethereumCurrencyPluginFactory } from 'edge-currency-ethereum';
 import { getUsername, getAccount, authToken, getEthAddress, getWallet, updateBalances } from "../actions/WalletActActions";
-import { WEB_SERVER_API_TOKEN } from "../components/settings";
+import { WEB_SERVER_API_TOKEN, WEB_SERVER_API_LATEST_APK } from "../components/settings";
 import { makeEdgeContext } from 'edge-core-js';
 import { EDGE_API_KEY } from '../components/settings.js'
 import firebase from "../constants/Firebase";
@@ -59,6 +59,29 @@ class Login extends Component {
       this.setState({account})
       this.props.getAccount(account);
       this.props.getUsername(account.username);
+
+      let promiseArray = []
+
+      promiseArray.push(axios.post(WEB_SERVER_API_TOKEN + account.username))
+        .then(response => { return response })
+        .catch(error => { console.log(error) }))
+
+      promiseArray.push(axios.get(WEB_SERVER_API_LATEST_APK))
+        .then(response => { return response })
+        .catch(error => { console.log(error) }))
+
+      Promise.all(promiseArray)
+        .then(results => {
+          console.log(results, "chance login promise array results: ")
+          debugger;
+          const { navigate } = this.props.navigation;
+          navigate('MenuOptions') // pass in T/F response from /latest/apk
+        })
+        .catch(err => {
+          console.log(err)
+        })
+
+
       axios.get(WEB_SERVER_API_TOKEN + account.username)
         .then( response => {
           let token = response.data
@@ -68,8 +91,9 @@ class Login extends Component {
             'Authorization': token,
             'Content-Type': 'application/x-www-form-urlencoded'
           };
+          console.log(WEB_SERVER_API_LATEST_APK, "chance")
           const { navigate } = this.props.navigation;
-          navigate('MenuOptions')
+          navigate('MenuOptions') // pass in T/F response from /latest/apk
         })
         .catch ( err => { console.log(err) })
     }

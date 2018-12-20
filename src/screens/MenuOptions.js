@@ -24,6 +24,7 @@ import styles from "../assets/styles";
 import { connect } from "react-redux";
 import { getHercId, getAssets, clearState } from "../actions/AssetActions";
 import { getOrganization } from "../actions/WalletActActions";
+import { VERSION } from '../components/settings.js'
 import store from "../store";
 import Wallet from "./Wallet";
 import firebase from '../constants/Firebase';
@@ -65,9 +66,9 @@ class MenuOptions extends Component {
                         <Image style={localStyles.menuButton} source={track} />
                     </TouchableHighlight>
 
-                    <TouchableHighlight style={localStyles.touchableHighlight} onPress={() => navigate("HiprLanding")}>
-                        <Image style={localStyles.menuButton} source={hiprBtn} />
-                    </TouchableHighlight>
+                    // <TouchableHighlight style={localStyles.touchableHighlight} onPress={() => navigate("HiprLanding")}>
+                    //     <Image style={localStyles.menuButton} source={hiprBtn} />
+                    // </TouchableHighlight>
 
 
                     <TouchableHighlight style={localStyles.touchableHighlight} onPress={() => navigate("Wallet")}>
@@ -83,7 +84,7 @@ class MenuOptions extends Component {
                     </TouchableHighlight>
 
                     <Text style={{ color: "#f3c736", alignSelf: "flex-end", fontSize: 8 }}>
-                        V.0.9.4
+                        V.{VERSION}
                     </Text>
                 </View>
             </View>
