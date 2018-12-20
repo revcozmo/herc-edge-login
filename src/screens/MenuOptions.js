@@ -42,6 +42,22 @@ class MenuOptions extends Component {
         this.props.getHercId();
         this.props.getAssets(this.props.username);
         this.props.getOrganization();
+
+        let alertLatestVersion = this.props.navigation.getParam('alertLatestVersion', 'false')
+        console.log("chance", alertLatestVersion)
+
+        // if alertLatestVersion is true, trigger alert.
+        if (alertLatestVersion &&  alertLatestVersion == true) {
+          Alert.alert(
+            'You\'re not on the latest version!',
+            'Download the latest version to get the best experience.' ,
+            [
+              {text: 'No, thanks!', onPress: () => console.log('OK Pressed'), style: 'cancel'},
+              {text: 'Download Latest APK', onPress: () => Linking.openURL("https://github.com/hercone/herc-edge-login/releases")},
+            ],
+            { cancelable: true }
+          )
+        }
     }
 
     render() {
@@ -66,9 +82,9 @@ class MenuOptions extends Component {
                         <Image style={localStyles.menuButton} source={track} />
                     </TouchableHighlight>
 
-                    // <TouchableHighlight style={localStyles.touchableHighlight} onPress={() => navigate("HiprLanding")}>
-                    //     <Image style={localStyles.menuButton} source={hiprBtn} />
-                    // </TouchableHighlight>
+                  {/*  <TouchableHighlight style={localStyles.touchableHighlight} onPress={() => navigate("HiprLanding")}>
+                        <Image style={localStyles.menuButton} source={hiprBtn} />
+                    </TouchableHighlight> */}
 
 
                     <TouchableHighlight style={localStyles.touchableHighlight} onPress={() => navigate("Wallet")}>
