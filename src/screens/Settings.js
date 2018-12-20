@@ -12,6 +12,7 @@ import {
   Linking
 } from "react-native";
 import styles from "../assets/styles";
+import { VERSION } from '../components/settings.js'
 import contributeIcon from "../assets/icons/contributeIcon.png";
 import discordIcon from "../assets/icons/discordIcon.png";
 import emailUsIcon from "../assets/icons/emailUsIcon.png"; //todo: turn into vector
@@ -39,7 +40,7 @@ export class Settings extends Component {
   }
 
   componentDidMount() {
-
+    console.log('****SETTINGS.jS *****', VERSION)
   }
 
   onLogOut = () => {
@@ -285,7 +286,7 @@ export class Settings extends Component {
                 <Image style={localStyles.block__icon} source={versionIcon} />
                 <View style={localStyles.block__textBlock}>
                   <Text style={localStyles.title__Text}> Version </Text>
-                  <Text style={localStyles.subInfo__Text}> Version 0.9.4 </Text>
+                  <Text style={localStyles.subInfo__Text}> Version {VERSION} </Text>
                 </View>
               </View>
             </View>

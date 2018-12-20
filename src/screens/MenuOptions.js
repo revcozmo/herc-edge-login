@@ -8,6 +8,7 @@ import {
     TouchableHighlight,
     StatusBar,
     Alert,
+    Linking,
     YellowBox
 } from "react-native";
 import { StackNavigator } from "react-navigation";
@@ -24,6 +25,7 @@ import styles from "../assets/styles";
 import { connect } from "react-redux";
 import { getHercId, getAssets, clearState } from "../actions/AssetActions";
 import { getOrganization } from "../actions/WalletActActions";
+import { VERSION } from '../components/settings.js'
 import store from "../store";
 import Wallet from "./Wallet";
 import firebase from '../constants/Firebase';
@@ -41,6 +43,22 @@ class MenuOptions extends Component {
         this.props.getHercId();
         this.props.getAssets(this.props.username);
         this.props.getOrganization();
+
+        let alertLatestVersion = this.props.navigation.getParam('alertLatestVersion', 'false')
+        console.log("chance", alertLatestVersion)
+
+        // if alertLatestVersion is true, trigger alert.
+        if (alertLatestVersion &&  alertLatestVersion == true) {
+          Alert.alert(
+            'You\'re not on the latest version!',
+            'Download the latest version to get the best experience.' ,
+            [
+              {text: 'No, thanks!', onPress: () => console.log('OK Pressed'), style: 'cancel'},
+              {text: 'Download Latest APK', onPress: () => Linking.openURL("https://github.com/hercone/herc-edge-login/releases")},
+            ],
+            { cancelable: true }
+          )
+        }
     }
 
     render() {
@@ -65,9 +83,9 @@ class MenuOptions extends Component {
                         <Image style={localStyles.menuButton} source={track} />
                     </TouchableHighlight>
 
-                    <TouchableHighlight style={localStyles.touchableHighlight} onPress={() => navigate("HiprLanding")}>
+                  {/*  <TouchableHighlight style={localStyles.touchableHighlight} onPress={() => navigate("HiprLanding")}>
                         <Image style={localStyles.menuButton} source={hiprBtn} />
-                    </TouchableHighlight>
+                    </TouchableHighlight> */}
 
 
                     <TouchableHighlight style={localStyles.touchableHighlight} onPress={() => navigate("Wallet")}>
@@ -83,7 +101,7 @@ class MenuOptions extends Component {
                     </TouchableHighlight>
 
                     <Text style={{ color: "#f3c736", alignSelf: "flex-end", fontSize: 8 }}>
-                        V.0.9.4
+                        V.{VERSION}
                     </Text>
                 </View>
             </View>

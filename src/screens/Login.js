@@ -13,7 +13,7 @@ import { connect } from "react-redux";
 import axios from 'axios';
 import { ethereumCurrencyPluginFactory } from 'edge-currency-ethereum';
 import { getUsername, getAccount, authToken, getEthAddress, getWallet, updateBalances } from "../actions/WalletActActions";
-import { WEB_SERVER_API_TOKEN } from "../components/settings";
+import { WEB_SERVER_API_TOKEN, WEB_SERVER_API_LATEST_APK } from "../components/settings";
 import { makeEdgeContext } from 'edge-core-js';
 import { EDGE_API_KEY } from '../components/settings.js'
 import firebase from "../constants/Firebase";
@@ -59,8 +59,11 @@ class Login extends Component {
       this.setState({account})
       this.props.getAccount(account);
       this.props.getUsername(account.username);
-      axios.get(WEB_SERVER_API_TOKEN + account.username)
-        .then( response => {
+
+      let promiseArray = []
+
+      promiseArray.push(axios.get(WEB_SERVER_API_TOKEN + account.username)
+        .then(response => {
           let token = response.data
           this.props.authToken(token)
           firebase.auth().signInWithCustomToken(token).catch( error => { console.log(error) })
@@ -68,10 +71,32 @@ class Login extends Component {
             'Authorization': token,
             'Content-Type': 'application/x-www-form-urlencoded'
           };
-          const { navigate } = this.props.navigation;
-          navigate('MenuOptions')
+          return response
         })
-        .catch ( err => { console.log(err) })
+        .catch(error => { console.log(error) })
+      )
+
+      promiseArray.push(axios.get(WEB_SERVER_API_LATEST_APK)
+        .then(response => { return response })
+        .catch(error => { console.log(error) })
+      )
+
+      Promise.all(promiseArray)
+        .then(results => {
+          console.log(results[1].data, "chance latestAPK ")
+          const { navigate } = this.props.navigation;
+
+          if (results[1].data && results[1].data == true) {
+            navigate('MenuOptions') // pass in T/F response from /latest/apk
+          } else {
+            navigate('MenuOptions', {alertLatestVersion: true})
+          }
+
+        })
+        .catch(err => {
+          console.log(err)
+        })
+
     }
     if (!this.state.walletId) {
       // Check if there is a wallet, if not create it
@@ -87,7 +112,6 @@ class Login extends Component {
             }
           );
             const tokens = await wallet.getEnabledTokens()
-            console.log(tokens,'chance enabled tokens') // => ['WINGS', 'REP']
 
             this.props.getEthAddress(wallet.keys.ethereumAddress)
             this.props.getWallet(wallet)
