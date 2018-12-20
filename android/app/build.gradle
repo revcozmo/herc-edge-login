@@ -167,6 +167,7 @@ configurations.all {
 }
 
 dependencies {
+    compile project(':react-native-view-shot')
     compile project(':edge-login-ui-rn')
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation project(':react-native-device-info')
@@ -174,7 +175,7 @@ dependencies {
     implementation project(':react-native-document-picker')
     implementation project(':react-native-image-picker')
     implementation project(':react-native-camera')
-
+    implementation project(':react-native-view-shot')
     implementation project(':react-native-vector-icons')
     //implementation project(':herc-edge-login-ui-rn')
     implementation project(':react-native-tcp')

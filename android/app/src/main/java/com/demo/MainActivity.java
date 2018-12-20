@@ -1,6 +1,7 @@
 package com.HERC;
 
 import com.facebook.react.ReactActivity;
+// import fr.greweb.reactnativeviewshot.RNViewShotPackage;
 
 public class MainActivity extends ReactActivity {
 
