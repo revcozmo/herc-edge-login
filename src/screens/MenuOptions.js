@@ -8,6 +8,7 @@ import {
     TouchableHighlight,
     StatusBar,
     Alert,
+    Linking,
     YellowBox
 } from "react-native";
 import { StackNavigator } from "react-navigation";
