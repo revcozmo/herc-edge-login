@@ -302,14 +302,14 @@ class TransRev extends Component {
                     transparent={false}
                     animationType={'none'}
                     visible={this.state.modalVisible}
-                    onRequestClose={() => { console.log("modal closed") }}
+                    onRequestClose={() => { this._goToMenu() }}
                 >
                     <View style={modalStyle.container}>
                         <View style={modalStyle.modalBackground}>
                           <View style={modalStyle.closeButtonContainer}>
                               <TouchableHighlight
                                 style={modalStyle.closeButton}
-                                onPress={() => this._changeModalVisibility(false)}>
+                                onPress={() => this._goToMenu()}>
                               <Text style={{ margin: 5, fontSize: 30, color: '#00000070'} }>X</Text>
                               </TouchableHighlight>
                           </View>
