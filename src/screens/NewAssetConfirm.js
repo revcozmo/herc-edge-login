@@ -262,7 +262,7 @@ class NewAssetConfirm extends Component {
                         <View style={modalStyle.closeButtonContainer}>
                             <TouchableHighlight
                               style={modalStyle.closeButton}
-                              onPress={() => this._changeModalVisibility(false)}>
+                              onPress={() => this._goToMenu()}>
                             <Text style={{ margin: 5, fontSize: 30, color: '#00000070'} }>X</Text>
                             </TouchableHighlight>
                         </View>

@@ -15,19 +15,19 @@ import { relative } from 'path';
 
 export default class Camera extends Component {
   // Commented out due to: https://github.com/expo/expo/issues/2288#issuecomment-426235728
-  // static navigationOptions = ({ navigation }) => {
-  //   return {
-  //     headerTitle: null,
-  //     loading: false,
-  //   }
-  // }
-  static navigationOptions = { header: null }
+  static navigationOptions = ({ navigation }) => {
+    return {
+      headerTitle: null,
+    }
+  }
+  // static navigationOptions = { header: null }
 
   constructor(props) {
     super(props);
     const initial = null;
     this.state = {
       image: null,
+      // loading: false,
     };
   }
   _getSize = (data) => {
@@ -44,10 +44,9 @@ export default class Camera extends Component {
     const { params } = this.props.navigation.state;
     if (this.camera) {
       const options = {
-        quality: 0, // to make sure latency isnt caused by quality
+        skipProcessing: true,
         base64: true,
-        fixOrientation: true,
-        skipProcessing: true
+        // fixOrientation: true,
       }
       try {
         const data = await this.camera.takePictureAsync(options);
@@ -109,8 +108,6 @@ export default class Camera extends Component {
     return (
       <View style={styles.container}>
         {this.state.image ? this.renderImage() : this.renderCamera()}
-        <ActivityIndicator
-            animating={this.state.loading} size="large" color="#091141" />
       </View>
     );
   }
