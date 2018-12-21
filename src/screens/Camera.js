@@ -15,12 +15,12 @@ import { relative } from 'path';
 
 export default class Camera extends Component {
   // Commented out due to: https://github.com/expo/expo/issues/2288#issuecomment-426235728
-  static navigationOptions = ({ navigation }) => {
-    return {
-      headerTitle: null,
-    }
-  }
-  // static navigationOptions = { header: null }
+  // static navigationOptions = ({ navigation }) => {
+  //   return {
+  //     headerTitle: null,
+  //   }
+  // }
+  static navigationOptions = { header: null }
 
   constructor(props) {
     super(props);
@@ -44,9 +44,10 @@ export default class Camera extends Component {
     const { params } = this.props.navigation.state;
     if (this.camera) {
       const options = {
-        skipProcessing: true,
+        quality:0,
+        // skipProcessing: true,
         base64: true,
-        // fixOrientation: true,
+        fixOrientation: true,
       }
       try {
         const data = await this.camera.takePictureAsync(options);
