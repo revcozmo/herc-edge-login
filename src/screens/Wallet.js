@@ -68,7 +68,6 @@ class Wallet extends React.Component {
   };
 
   _updateWallet = () => {
-
     if (!this.props.watchBalance || !this.props.watchBalance.ETH) {
       return "0.000000";
     } else {
@@ -184,13 +183,10 @@ class Wallet extends React.Component {
                 <Text style={localStyles.text}>
                   {this.state.displayWallet} Balance:
                 </Text>
-
                 <View style={localStyles.tokenValueContainer}>
                   <Image style={localStyles.icon} source={round} />
-
                   <Text style={localStyles.currencyValue}>{flag}</Text>
                 </View>
-
                 <View
                   style={{
                     flexDirection: "row",
@@ -449,4 +445,3 @@ const localStyles = StyleSheet.create({
     alignItems: "center"
   }
 });
-
