@@ -69,15 +69,21 @@ class Wallet extends React.Component {
 
   _updateWallet = () => {
     if (!this.props.watchBalance || !this.props.watchBalance.ETH) {
-      return "0.000000";
+      let displayWallet = this.state.displayWallet;
+      console.log(this.props.wallet.balances[displayWallet], "chance")
+      let tempBalance = new BigNumber(this.props.wallet.balances[displayWallet])
+        .times(1e-18)
+        .toFixed(6);
+      return tempBalance;
+      // return "0.000000"; //don't assume it is 0
     } else {
       let displayWallet = this.state.displayWallet;
       let tempBalance = new BigNumber(this.props.watchBalance[displayWallet])
         .times(1e-18)
         .toFixed(6);
-
       return tempBalance;
     }
+
   };
   async _onPressSend() {
     const wallet = this.props.wallet;
@@ -171,7 +177,8 @@ class Wallet extends React.Component {
   };
 
   render() {
-    let flag = this._updateWallet() === NaN ? "0.000000" : this._updateWallet();
+    // let currencyValue = this._updateWallet() === NaN ? "0.000000" : this._updateWallet();
+    let currencyValue = this._updateWallet() // julie
     return (
       <ScrollView>
         <View style={styles.container}>
@@ -185,7 +192,7 @@ class Wallet extends React.Component {
                 </Text>
                 <View style={localStyles.tokenValueContainer}>
                   <Image style={localStyles.icon} source={round} />
-                  <Text style={localStyles.currencyValue}>{flag}</Text>
+                  <Text style={localStyles.currencyValue}>{currencyValue}</Text>
                 </View>
               </View>
             </View>
