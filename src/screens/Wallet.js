@@ -187,15 +187,6 @@ class Wallet extends React.Component {
                   <Image style={localStyles.icon} source={round} />
                   <Text style={localStyles.currencyValue}>{flag}</Text>
                 </View>
-                <View
-                  style={{
-                    flexDirection: "row",
-                    width: "60%",
-                    height: 50,
-                    justifyContent: "space-around",
-                    alignItems: "center"
-                  }}
-                />
               </View>
             </View>
             <TextInput
@@ -355,18 +346,15 @@ export default connect(
 const localStyles = StyleSheet.create({
   centerBalance: {
     height: "100%",
-    alignContent: "center",
-    alignSelf: "center",
     alignItems: "center",
-    justifyContent: "center",
     flexDirection: "column"
   },
   balanceContainer: {
     borderColor: "gold",
     borderWidth: 3,
-    borderRadius: 10,
+    borderRadius: 5,
     width: "95%",
-    height: 150,
+    height: 80,
     backgroundColor: "silver",
     alignSelf: "center"
   },
@@ -375,7 +363,7 @@ const localStyles = StyleSheet.create({
     borderTopWidth: 1,
     borderBottomWidth: 1,
     flexDirection: "row",
-    height: "30%",
+    height: "50%",
     width: "100%",
     justifyContent: "space-around",
     alignItems: "center",
@@ -387,26 +375,10 @@ const localStyles = StyleSheet.create({
     borderRadius: 30 / 2,
     resizeMode: "contain"
   },
-  walletsField: {
-    marginTop: 10,
-    width: "100%",
-    flex: 1,
-    backgroundColor: "blue"
-  },
-  picker: {
-    width: "50%",
-    height: 120,
-    color: "white"
-  },
   currencyValue: {
     fontSize: 26,
     color: "black"
   },
-  usdValue: {
-    fontSize: 20,
-    color: "black"
-  },
-
   headerBox: {
     alignItems: "center",
     flex: 1
@@ -425,23 +397,5 @@ const localStyles = StyleSheet.create({
     fontWeight: "normal",
     margin: 5,
     fontFamily: "dinPro"
-  },
-  buttonText: {
-    textAlign: "left",
-    fontSize: 22,
-    fontWeight: "normal",
-    margin: 5,
-    fontFamily: "dinPro"
-  },
-  addWalletField: {
-    height: 50,
-    flexDirection: "row",
-    width: "80%",
-    backgroundColor: "blue",
-    justifyContent: "space-around",
-    margin: 10,
-    alignContent: "center",
-    alignSelf: "center",
-    alignItems: "center"
   }
 });
