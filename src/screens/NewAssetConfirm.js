@@ -176,7 +176,7 @@ class NewAssetConfirm extends Component {
 
         Alert.alert(
           'Minimum Balance Requirement: 1000 HERC',
-          'Current Balance: \n'+ this.state.balance+ ' HERC \n Do you wish to check if your balance meets the minimum requirement?' ,
+          'Current Balance: \n'+ this.state.balance+ ' HERC\nDo you wish to check if your balance meets the minimum requirement?' ,
           [
             {text: 'No', onPress: () => console.log('No Pressed'), style: 'cancel'},
             {text: 'Yes', onPress: () => {this._checkBalance()} },
@@ -263,11 +263,11 @@ class NewAssetConfirm extends Component {
                             <TouchableHighlight
                               style={modalStyle.closeButton}
                               onPress={() => this._goToMenu()}>
-                            <Text style={{ margin: 5, fontSize: 30, color: '#00000070'} }>X</Text>
+                            <Text style={{ margin: 5, fontSize: 30, color: '#00000070'} }>Go Back to Main</Text>
                             </TouchableHighlight>
                         </View>
                             {!this.props.dataFlags.confirmAssetComplete &&
-                                <Text style={modalStyle.wordsText}>Your Asset Information Is Being Written To The Blockchain</Text>
+                                <Text style={modalStyle.wordsText}>Your Asset Information Is Being Written To The Blockchain. {"\n"}At this pooint, you cannot cancel the transaction. This may take a few minutes. Press close to go back to main menu. </Text>
                             }
 
                             <View style={modalStyle.activityIndicatorWrapper}>
