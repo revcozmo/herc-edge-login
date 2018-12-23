@@ -8,7 +8,7 @@ import hercPillar from "../assets/hercLogoPillar.png";
 // import Loader from "../components/Loader"
 import { incHercId, confirmAssetStarted, confirmAssetComplete, settingHeader, settingHeaderError } from "../actions/AssetActions"
 import modalStyle from "../assets/confModalStyles";
-import { TOKEN_ADDRESS } from "../components/settings"
+import { TOKEN_ADDRESS, DEVELOPERS } from "../components/settings"
 import BigNumber from 'bignumber.js';
 import firebase from "../constants/Firebase";
 
@@ -143,32 +143,38 @@ class NewAssetConfirm extends Component {
     }
 
     async _checkBalance(){
-      let price = new BigNumber(1000)
-      let balance = new BigNumber(this.state.balance)
-      let newbalance = balance.minus(price)
-
-      console.log('do you have enough?', newbalance.isPositive())
-
-      if (newbalance.isNegative()){
-        Alert.alert(
-          'Insufficient Funds',
-          'Current Balance:'+ this.state.balance + ' HERC' ,
-          [
-            {text: 'Top Up Hercs', onPress: () => Linking.openURL("https://purchase.herc.one/"), style: 'cancel'},
-            {text: 'Ok', onPress: () => console.log('OK Pressed')},
-          ],
-          { cancelable: true }
-        )
+      if (DEVELOPERS.includes(this.props.edgeAccount)){
+        // this is a developer
+        this._sendNewAsset()
       } else {
-        Alert.alert(
-          'You Meet the Minimum Balance!',
-          'Current Balance:'+ this.state.balance + ' HERC \n Do you wish to proceed?' ,
-          [
-            {text: 'Cancel', onPress: () => console.log('No Pressed'), style: 'cancel'},
-            {text: 'Yes, Make an Asset', onPress: () => this._sendNewAsset()},
-          ],
-          { cancelable: false }
-        )
+        // this is a non-developer
+        let price = new BigNumber(1000)
+        let balance = new BigNumber(this.state.balance)
+        let newbalance = balance.minus(price)
+
+        console.log('do you have enough?', newbalance.isPositive())
+
+        if (newbalance.isNegative()){
+          Alert.alert(
+            'Insufficient Funds',
+            'Current Balance:'+ this.state.balance + ' HERC' ,
+            [
+              {text: 'Top Up Hercs', onPress: () => Linking.openURL("https://purchase.herc.one/"), style: 'cancel'},
+              {text: 'Ok', onPress: () => console.log('OK Pressed')},
+            ],
+            { cancelable: true }
+          )
+        } else {
+          Alert.alert(
+            'You Meet the Minimum Balance!',
+            'Current Balance:'+ this.state.balance + ' HERC \n Do you wish to proceed?' ,
+            [
+              {text: 'Cancel', onPress: () => console.log('No Pressed'), style: 'cancel'},
+              {text: 'Yes, Make an Asset', onPress: () => this._sendNewAsset()},
+            ],
+            { cancelable: false }
+          )
+        }
       }
     }
 

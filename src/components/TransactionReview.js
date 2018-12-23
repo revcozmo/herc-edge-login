@@ -9,7 +9,7 @@ import fee from "../assets/hercLogoPillar.png";
 import newOriginator from "./buttons/originatorButton.png";
 import newRecipient from "./buttons/recipientButton.png";
 import modalStyle from "../assets/confModalStyles";
-import { TOKEN_ADDRESS } from "../components/settings"
+import { TOKEN_ADDRESS, DEVELOPERS } from "../components/settings"
 import BigNumber from 'bignumber.js';
 YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTImageLoader', 'Setting a timer for a long period of time']);
 import store from "../store"
@@ -60,90 +60,95 @@ class TransRev extends Component {
 
   async _checkBalance(){
     if (!this.state.balance) {return}
-
-    let dataFee = new BigNumber(this._getPrices())
-
-    let total = parseFloat(this._getPrices()) + 0.000032
-    let convertingPrice = new BigNumber(total) // don't have to times 1e18 because its already hercs
-    let balance = new BigNumber(this.state.balance)
-
-    let newbalance = balance.minus(convertingPrice)
-
-    console.log('do you have enough?', newbalance.isPositive())
-
-
-    if (newbalance.isNegative()){
-      Alert.alert(
-        'Insufficient Funds',
-        'Balance: '+ this.state.balance + ' HERC' ,
-        [
-          {text: 'Top Up Hercs', onPress: () => Linking.openURL("https://purchase.herc.one/"), style: 'cancel'},
-          {text: 'Ok', onPress: () => console.log('OK Pressed')},
-        ],
-        { cancelable: true }
-      )
+    // check if user is a developer
+    if (DEVELOPERS.includes(this.props.edgeAccount)){
+      // this is a developer
+      // skip a price checks, bypass being charged
+      this._sendTrans()
     } else {
-      this.setState({ modalVisible: true })
-      const burnSpendInfo = {
-        networkFeeOption: 'standard',
-        currencyCode: 'HERC',
-        metadata: {
-          name: 'Transfer From Herc Wallet',
-          category: 'Transfer:Wallet:Burn Amount'
-        },
-        spendTargets: [
-          {
-            publicAddress: TOKEN_ADDRESS,
-            nativeAmount: "0.000032"
-          }
-        ]
-      }
-      const dataFeeSpendInfo = {
-        networkFeeOption: 'standard',
-        currencyCode: 'HERC',
-        metadata: {
-          name: 'Transfer From Herc Wallet',
-          category: 'Transfer:Wallet:Data Fee'
-        },
-        spendTargets: [
-          {
-            publicAddress: "0x1a2a618f83e89efbd9c9c120ab38c1c2ec9c4e76",
-            nativeAmount: dataFee.toString()
-          }
-        ]
-      }
-      // catch error for "ErrorInsufficientFunds"
-      // catch error for "ErrorInsufficientFundsMoreEth"
-      let wallet = this.props.wallet
-      try {
-        let burnTransaction = await wallet.makeSpend(burnSpendInfo)
-        await wallet.signTx(burnTransaction)
-        await wallet.broadcastTx(burnTransaction)
-        await wallet.saveTx(burnTransaction)
-        console.log("Sent burn transaction with ID = " + burnTransaction.txid)
+      // this is a non-developer
+      let dataFee = new BigNumber(this._getPrices())
 
-        let dataFeeTransaction = await wallet.makeSpend(dataFeeSpendInfo)
-        await wallet.signTx(dataFeeTransaction)
-        await wallet.broadcastTx(dataFeeTransaction)
-        await wallet.saveTx(dataFeeTransaction)
-        console.log("Sent dataFee transaction with ID = " + dataFeeTransaction.txid)
+      let total = parseFloat(this._getPrices()) + 0.000032
+      let convertingPrice = new BigNumber(total) // don't have to times 1e18 because its already hercs
+      let balance = new BigNumber(this.state.balance)
 
+      let newbalance = balance.minus(convertingPrice)
 
-        if (burnTransaction.txid && dataFeeTransaction.txid) {
-          this._sendTrans()
-        }
-      } catch(e){
-        let tempBalance = new BigNumber(this.props.watchBalance["ETH"])
-        let ethBalance = tempBalance.times(1e-18).toFixed(6)
-        this.setState({ modalVisible: false })
+      console.log('do you have enough?', newbalance.isPositive())
+      if (newbalance.isNegative()){
         Alert.alert(
-          'Insufficient ETH Funds',
-          'Balance: '+ ethBalance + ' ETH' ,
+          'Insufficient Funds',
+          'Balance: '+ this.state.balance + ' HERC' ,
           [
+            {text: 'Top Up Hercs', onPress: () => Linking.openURL("https://purchase.herc.one/"), style: 'cancel'},
             {text: 'Ok', onPress: () => console.log('OK Pressed')},
           ],
-          { cancelable: false }
+          { cancelable: true }
         )
+      } else {
+        this.setState({ modalVisible: true })
+        const burnSpendInfo = {
+          networkFeeOption: 'standard',
+          currencyCode: 'HERC',
+          metadata: {
+            name: 'Transfer From Herc Wallet',
+            category: 'Transfer:Wallet:Burn Amount'
+          },
+          spendTargets: [
+            {
+              publicAddress: TOKEN_ADDRESS,
+              nativeAmount: "0.000032"
+            }
+          ]
+        }
+        const dataFeeSpendInfo = {
+          networkFeeOption: 'standard',
+          currencyCode: 'HERC',
+          metadata: {
+            name: 'Transfer From Herc Wallet',
+            category: 'Transfer:Wallet:Data Fee'
+          },
+          spendTargets: [
+            {
+              publicAddress: "0x1a2a618f83e89efbd9c9c120ab38c1c2ec9c4e76",
+              nativeAmount: dataFee.toString()
+            }
+          ]
+        }
+        // catch error for "ErrorInsufficientFunds"
+        // catch error for "ErrorInsufficientFundsMoreEth"
+        let wallet = this.props.wallet
+        try {
+          let burnTransaction = await wallet.makeSpend(burnSpendInfo)
+          await wallet.signTx(burnTransaction)
+          await wallet.broadcastTx(burnTransaction)
+          await wallet.saveTx(burnTransaction)
+          console.log("Sent burn transaction with ID = " + burnTransaction.txid)
+
+          let dataFeeTransaction = await wallet.makeSpend(dataFeeSpendInfo)
+          await wallet.signTx(dataFeeTransaction)
+          await wallet.broadcastTx(dataFeeTransaction)
+          await wallet.saveTx(dataFeeTransaction)
+          console.log("Sent dataFee transaction with ID = " + dataFeeTransaction.txid)
+
+
+          if (burnTransaction.txid && dataFeeTransaction.txid) {
+            this._sendTrans()
+          }
+        } catch(e){
+          let tempBalance = new BigNumber(this.props.watchBalance["ETH"])
+          let ethBalance = tempBalance.times(1e-18).toFixed(6)
+          this.setState({ modalVisible: false })
+          Alert.alert(
+            'Insufficient ETH Funds',
+            'Balance: '+ ethBalance + ' ETH' ,
+            [
+              {text: 'Ok', onPress: () => console.log('OK Pressed')},
+            ],
+            { cancelable: false }
+          )
+        }
       }
     }
   }
@@ -474,7 +479,8 @@ const mapStateToProps = (state) => ({
     transDat: state.AssetReducers.trans.data,
     transDataFlags: state.AssetReducers.transDataFlags,
     wallet: state.WalletActReducers.wallet,
-    watchBalance: state.WalletActReducers.watchBalance
+    watchBalance: state.WalletActReducers.watchBalance,
+    edgeAccount: state.WalletActReducers.edge_account
     // price: state.dataReducer.prices.list.pricePerHercForFCT
 })
 
