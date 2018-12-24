@@ -270,7 +270,14 @@ const AssetReducers = (state = INITIAL_STATE, action) => {
                 newAsset
             })
 
-
+        case GET_QR_DATA:
+            const getQRData = action.data;
+            console.log("getting qr data", getQRData);
+            return Object.assign({}, state, {
+              ...state,
+      
+              getQRData
+            });
 
         case SETTING_HEADER:
             return Object.assign({}, state, {

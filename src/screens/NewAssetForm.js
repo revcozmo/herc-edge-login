@@ -25,7 +25,21 @@ class NewAssetForm extends Component {
   constructor(props) {
     super(props);
     this.setImage = this.setImage.bind(this); // method to set the log from the camera component
-    this.state = {}
+    this.state = {
+      CoreProps: {}
+    }
+  }
+
+  componentDidMount() {
+  }
+
+  componentDidUpdate(prevProps) {
+    const data = this.props.getQRData;
+    console.log(data)
+    // Typical usage of componentDidUpdate (don't forget to compare props to prevent loop):
+    if (data !== prevProps.getQRData) {
+      this.setState({ CoreProps: data.CoreProps }, () => console.log(this.state));
+    }
   }
 
   static navigationOptions = ({ navigation }) => {
@@ -189,15 +203,26 @@ class NewAssetForm extends Component {
     }
   }
 
-  // qrSnapshot = () => {
-  //   const { navigate } = this.props.navigation;
-  //   navigate("QRCapture");
-  // };
+  qrSnapshot = () => {
+    const { navigate } = this.props.navigation;
+    navigate("QRCapture");
+  };
 
   render() {
     let Logo;
     this.state.Logo ? Logo = this.state.Logo.uri : Logo = null
     if (this.state.Logo) { console.log("Camera: logo is here") }
+
+    const {
+      metric1,
+      metric2,
+      metric3,
+      metric4,
+      metric5,
+      metric6,
+      metric7,
+      metric8
+    } = this.state.CoreProps;
 
     return (
       <View style={styles.container}>
@@ -233,21 +258,23 @@ class NewAssetForm extends Component {
             <View style={localStyles.assetMetricInputField}>
               <Text style={localStyles.text}>Metric 1</Text>
               <TextInput
+              value={metric1}
                 autoCorrect={false}
                 spellCheck={false}
                 underlineColorAndroid='transparent'
                 style={localStyles.input}
-                onChangeText={metric1 =>
+                onChangeText={met1 =>
                   this.setState({
-                    CoreProps: { ...this.state.CoreProps, metric1 }
+                    CoreProps: { ...this.state.CoreProps, met1 }
                   })
                 }
-                placeholder="metric1"
+                // placeholder="metric1"
               />
             </View>
             <View style={localStyles.assetMetricInputField}>
               <Text style={localStyles.text}>Metric 2</Text>
               <TextInput
+              value={metric2}
                 autoCorrect={false}
                 spellCheck={false}
                 underlineColorAndroid='transparent'
@@ -267,6 +294,7 @@ class NewAssetForm extends Component {
                 spellCheck={false}
                 underlineColorAndroid='transparent'
                 style={localStyles.input}
+                value={metric3}
                 onChangeText={metric3 =>
                   this.setState({
                     CoreProps: { ...this.state.CoreProps, metric3 }
@@ -366,12 +394,13 @@ class NewAssetForm extends Component {
 
             <View style={localStyles.imageButtonContainer}>
 
-              {/* <TouchableHighlight
+              <TouchableHighlight
                 onPress={() => this.qrSnapshot()}
                 style={localStyles.menuItemField__textBox}
               >
-                <Image style={localStyles.qrScan} source={qrScan} />
-              </TouchableHighlight> */}
+                {/* <Image style={localStyles.qrScan} source={qrScan} /> */}
+                <Text>Scan QR </Text>
+              </TouchableHighlight>
 
               <TouchableHighlight onPress={this._takePic}>
                 <Image style={styles.menuButton} source={takePhoto} />
@@ -463,6 +492,7 @@ const localStyles = StyleSheet.create({
 })
 
 const mapStateToProps = state => ({
+  getQRData: state.AssetReducers.getQRData,
   hercId: state.AssetReducers.hercId
 });
 const mapDispatchToProps = dispatch => ({

@@ -69,7 +69,7 @@ class QRCapture extends Component {
 
 
     this.setState(
-      {
+      { CoreProps: {
           metric1: splitScanResult[0],
           metric2: splitScanResult[1],
           metric3: splitScanResult[2],
@@ -77,7 +77,7 @@ class QRCapture extends Component {
           metric5: splitScanResult[4],
           metric6: splitScanResult[5],
           metric7: splitScanResult[6],
-          metric8: splitScanResult[7]
+          metric8: splitScanResult[7] }
       },
       () => this.handleQRForward()
     );
