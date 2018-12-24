@@ -302,7 +302,7 @@ class NewAssetConfirm extends Component {
 
                             <View style={modalStyle.activityIndicatorWrapper}>
                                 <ActivityIndicator
-                                    animating={this.props.dataFlags.confirmStarted} size="large" color="#091141" />
+                                    animating={!this.props.dataFlags.confirmStarted} size="large" color="#091141" />
                             </View>
 
                             {this.props.dataFlags.confAssetComplete &&

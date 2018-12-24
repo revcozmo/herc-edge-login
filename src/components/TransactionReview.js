@@ -315,7 +315,7 @@ class TransRev extends Component {
                               <TouchableHighlight
                                 style={modalStyle.closeButton}
                                 onPress={() => this._goToMenu()}>
-                              <Text style={{ margin: 5, fontSize: 20, color: '#00000070'} }>Back to Main</Text>
+                              <Text style={{fontSize: 15, color: '#ffffff'} }>Back to Main</Text>
                               </TouchableHighlight>
                           </View>
                             {!this.props.transDataFlags.confTransComplete &&
