@@ -315,12 +315,11 @@ class TransRev extends Component {
                               <TouchableHighlight
                                 style={modalStyle.closeButton}
                                 onPress={() => this._goToMenu()}>
-                              <Text style={{ margin: 5, fontSize: 30, color: '#00000070'} }>Go Back to Main</Text>
+                              <Text style={{ margin: 5, fontSize: 20, color: '#00000070'} }>Back to Main</Text>
                               </TouchableHighlight>
                           </View>
                             {!this.props.transDataFlags.confTransComplete &&
-
-                                <Text style={modalStyle.wordsText}>Your Transaction Information Is Being Written To The Blockchain. {"\n"}At this pooint, you cannot cancel the transaction. This may take a few minutes. Press close to go back to main menu. </Text>
+                                <Text style={modalStyle.wordsText}>Your Asset Information Is Being Written To The Blockchain. {"\n"}This may take a few minutes. At this point, you cannot cancel the transaction. You may return to Main Menu if you wish.</Text>
                             }
                             <View style={modalStyle.activityIndicatorWrapper}>
                                 <ActivityIndicator

@@ -78,7 +78,7 @@ class Wallet extends React.Component {
       let sendAmountInEth = new BigNumber(this.state.sendAmount)
       if (!destAddress) Alert.alert("Missing Destination Address");
       if (!sendAmountInEth) Alert.alert("Invalid Send Amount");
-      let sendAmountInWei = sendAmountInEth.times(1e18).toString()
+      let sendAmountInWei = sendAmountInEth.times(1e18).toString() // Error reported for 4 integer amounts. E.g. 1000
 
       const abcSpendInfo = {
         networkFeeOption: 'standard',
