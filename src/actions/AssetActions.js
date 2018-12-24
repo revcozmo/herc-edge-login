@@ -49,7 +49,7 @@ import {
 } from "../components/settings"
 
 export function clearState() {
-  return{
+  return {
     type: CLEAR_STATE,
   }
 }
@@ -328,7 +328,7 @@ export function sendTrans(transPrice) {
     let organizationName = store.getState().WalletActReducers.organizationName
 
     // let transObject = state.AssetReducers.selectedAsset.trans;
-    let header = Object.assign({},transObject.header, {
+    let header = Object.assign({}, transObject.header, {
       ...transObject.header,
       price: transPrice
     }); //tXlocation, hercId, price, name
@@ -347,7 +347,7 @@ export function sendTrans(transPrice) {
           .then(response => { return response }) // {key: 'images', hash: 'QmU1D1eAeSLC5Dt4wVRR'}
           .catch(error => { console.log(error) }))
       } else if (data[key].content) {
-        let contentTypeName = {"content": encodeURIComponent(data[key].content), "type": data[key].type, "name": data[key].name}
+        let contentTypeName = { "content": encodeURIComponent(data[key].content), "type": data[key].type, "name": data[key].name }
         var dataObject = Object.assign({}, { "key": key }, { "data": contentTypeName })
         promiseArray.push(axios.post(WEB_SERVER_API_UPLOAD_DOCUMENT, JSON.stringify(dataObject))
           .then(response => { return response })
@@ -361,7 +361,7 @@ export function sendTrans(transPrice) {
       }
     })
 
-  let chainId = store.getState().AssetReducers.selectedAsset.hashes.chainId;
+    let chainId = store.getState().AssetReducers.selectedAsset.hashes.chainId;
 
     Promise.all(promiseArray)
       .then(results => {
@@ -378,12 +378,12 @@ export function sendTrans(transPrice) {
             var firebaseHeader = Object.assign({}, header, { factomEntry: response.data })
             rootRef.child('assets').child(firebaseHeader.name).child('transactions').child(dTime).set({ data: dataObject, header: firebaseHeader })
             console.log("....finished writing to firebase.")
-            dispatch({type:TRANS_COMPLETE})
+            dispatch({ type: TRANS_COMPLETE })
           })
           .catch(err => { console.log(err) })
       })
       .catch(err => { console.log(err) })
-    }
+  }
 
   //   return {
   //     type: TRANS_COMPLETE,
@@ -394,83 +394,83 @@ export function sendTrans(transPrice) {
 }
 
 
-  export function addMetrics(newMetrics) {
-    return {
-      type: ADD_METRICS,
-      data: newMetrics
-    };
-  }
+export function addMetrics(newMetrics) {
+  return {
+    type: ADD_METRICS,
+    data: newMetrics
+  };
+}
 
-  export function addPhoto(imgObj) {
-    return {
-      type: ADD_PHOTO,
-      data: imgObj.image,
-      size: imgObj.size,
-      uri: imgObj.uri
-    };
-  }
+export function addPhoto(imgObj) {
+  return {
+    type: ADD_PHOTO,
+    data: imgObj.image,
+    size: imgObj.size,
+    uri: imgObj.uri
+  };
+}
 
-  export function addDoc(doc) {
-    let document = doc;
-    return {
-      type: ADD_DOC,
-      document
-    };
-  }
+export function addDoc(doc) {
+  let document = doc;
+  return {
+    type: ADD_DOC,
+    document
+  };
+}
 
-  export function setSet(item) {
-    return {
-      type: SET_SET,
-      item
-    };
-  }
+export function setSet(item) {
+  return {
+    type: SET_SET,
+    item
+  };
+}
 
-  export function getTrans(assetKey) {
-    return dispatch => {
-      dispatch({
-        type: GET_TRANS
-      });
+export function getTrans(assetKey) {
+  return dispatch => {
+    dispatch({
+      type: GET_TRANS
+    });
 
-      console.log("getTrans action");
-      let assetTrans = [];
-      rootRef
-        .child("assets/" + assetKey + "/transactions")
-        .once("value")
-        .then(snapshot => {
-          snapshot.forEach(trans => {
-            console.log("object in getTrans!");
-            assetTrans.push({
-              data: trans.toJSON().data
-            });
+    console.log("getTrans action");
+    let assetTrans = [];
+    rootRef
+      .child("assets/" + assetKey + "/transactions")
+      .once("value")
+      .then(snapshot => {
+        snapshot.forEach(trans => {
+          console.log("object in getTrans!");
+          assetTrans.push({
+            data: trans.toJSON().data
           });
-        })
-        .then(() => dispatch(gotAssetTrans(assetTrans)));
-    };
-  }
+        });
+      })
+      .then(() => dispatch(gotAssetTrans(assetTrans)));
+  };
+}
 
-  export function gotAssetTrans(assetTrans) {
-    let transactions = assetTrans;
-    console.log("got the transactions list");
-    return {
-      type: GOT_ASSET_TRANS,
-      transactions
-    };
-  }
+export function gotAssetTrans(assetTrans) {
+  let transactions = assetTrans;
+  console.log("got the transactions list");
+  return {
+    type: GOT_ASSET_TRANS,
+    transactions
+  };
+}
 
-  export function getOriginTrans(trans) {
-    console.log(trans, "INSIDE get Origin");
-    return (
-      {
-        type: GET_ORIGIN_TRANS,
-        trans
-      }
-    )
-  }
-
-  export function getQRData(data) {
-    console.log(data, "this is actions getQRData");
-    return {
-      type: GET_QR_DATA,
-      data
+export function getOriginTrans(trans) {
+  console.log(trans, "INSIDE get Origin");
+  return (
+    {
+      type: GET_ORIGIN_TRANS,
+      trans
     }
-  }
+  )
+}
+
+export function getQRData(data) {
+  console.log(data, "this is actions getQRData");
+  return ({
+    type: GET_QR_DATA,
+    data
+  })
+}

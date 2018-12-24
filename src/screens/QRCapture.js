@@ -1,6 +1,8 @@
 import React, { Component } from "react";
-import { Text, View, StyleSheet, Alert } from "react-native";
+import { Text, View, StyleSheet, Alert, TouchableHighlight } from "react-native";
 // import { ConstanSts, BarCodeScanner, Permissions } from "expo";
+import { RNCamera } from 'react-native-camera';
+import { PermissionsAndroid } from 'react-native';
 import { Button } from "react-native";
 import { connect } from "react-redux";
 import { getQRData } from "../actions/AssetActions";
@@ -21,28 +23,38 @@ class QRCapture extends Component {
     this._requestCameraPermission();
   }
 
-  // _requestCameraPermission = async () => {
-  //   const { status } = await Permissions.askAsync(Permissions.CAMERA);
-  //   this.setState({
-  //     hasCameraPermission: status === "granted"
-  //   });
-  // };
+  _requestCameraPermission = async () => {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.CAMERA,
+        {
+          'title': 'Camera Permission',
+          'message': 'HERC needs access to your camera '
+        }
+      )
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        this.setState({ hasCameraPermission: true })
+      } else {
+        this.setState({ hasCameraPermission: false })
+      }
+    } catch (err) {
+      console.warn(err)
+    }
+  }
 
   handleQRForward = () => {
     const passStateToRedux = this.props.getQRData(this.state);
-
     const { navigate } = this.props.navigation;
     navigate("NewAssetForm");
   };
 
-  _handleBarCodeRead = data => {
+  _handleBarCodeRead = (data) => {
+    console.log(data)
     const scanResult = data.data;
     const splitScanResult = scanResult.split(", ");
+    console.log(splitScanResult)
 
     // const splitScanResult = [
-    //   "anthemSilver",
-    //   "anthemgold.com",
-    //   "https://firebasestorage.googleapis.com/v0/b/hercone-8025f.appspot.com/o/AG_logo.png?alt=media&token=756e5e75-7c07-4f5c-91a7-d72ce1c0b9ed",
     //   "Assay",
     //   "Bar Serial",
     //   "Bar ID",
@@ -53,25 +65,39 @@ class QRCapture extends Component {
     //   "Weight"
     // ];
 
+    // "https://firebasestorage.googleapis.com/v0/b/hercone-8025f.appspot.com/o/AG_logo.png?alt=media&token=756e5e75-7c07-4f5c-91a7-d72ce1c0b9ed",
+
+
     this.setState(
       {
-        assetName: splitScanResult[0],
-        assetURL: splitScanResult[1], //assetURL is deprecated 11/09/2018 version 0.9.4
-        iconURL: splitScanResult[2],
-        CoreProps: {
-          metric1: splitScanResult[3],
-          metric2: splitScanResult[4],
-          metric3: splitScanResult[5],
-          metric4: splitScanResult[6],
-          metric5: splitScanResult[7],
-          metric6: splitScanResult[8],
-          metric7: splitScanResult[9],
-          metric8: splitScanResult[10]
-        }
+          metric1: splitScanResult[0],
+          metric2: splitScanResult[1],
+          metric3: splitScanResult[2],
+          metric4: splitScanResult[3],
+          metric5: splitScanResult[4],
+          metric6: splitScanResult[5],
+          metric7: splitScanResult[6],
+          metric8: splitScanResult[7]
       },
       () => this.handleQRForward()
     );
   };
+
+  renderCamera() {
+    return (
+      <RNCamera
+        barCodeTypes={[RNCamera.Constants.BarCodeType.qr]}
+        // flashMode={RNCamera.ConstantMode.on}
+        style={styles.preview}
+        onBarCodeRead={(bar) => this._handleBarCodeRead(bar)}
+        ref={cam => (this.camera = cam)}
+        style={styles.preview}
+        flashMode={RNCamera.Constants.FlashMode.off}
+        // permissionDialogTitle={'Permission to use camera'}
+        permissionDialogMessage={'We need your permission to use your camera phone'}>
+      </RNCamera>
+    );
+  }
 
   render() {
     return (
@@ -81,11 +107,8 @@ class QRCapture extends Component {
         ) : this.state.hasCameraPermission === false ? (
           <Text>Camera permission is not granted</Text>
         ) : (
-          <BarCodeScanner
-            onBarCodeRead={this._handleBarCodeRead}
-            style={{ height: 200, width: 200 }}
-          />
-        )}
+              this.renderCamera()
+            )}
         {/* <Button
           onPress={() => {
             this._handleBarCodeRead();
@@ -102,10 +125,42 @@ class QRCapture extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    // paddingTop: Constants.statusBarHeight,
-    backgroundColor: "#ecf0f1"
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#000',
+  },
+  preview: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    height: 400,
+    width: 400
+  },
+  capture: {
+    width: 70,
+    height: 70,
+    borderRadius: 35,
+    borderWidth: 5,
+    borderColor: '#FFF',
+    marginBottom: 15,
+  },
+  cancel: {
+    position: 'absolute',
+    right: 20,
+    top: -5,
+    backgroundColor: 'transparent',
+    color: '#FFF',
+    fontWeight: '600',
+    fontSize: 17,
+  },
+  accept: {
+    margin: 10,
+    top: -5,
+    backgroundColor: 'transparent',
+    color: '#FFF',
+    fontWeight: '600',
+    fontSize: 17,
+    alignSelf: 'center'
   }
 });
 
