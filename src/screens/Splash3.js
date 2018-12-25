@@ -145,7 +145,7 @@ class Splash3 extends Component {
 }
 
 const mapStateToProps = state => ({
-  logo: state.AssetReducers.selectedAsset.Logo || {},
+  logo: state.AssetReducers.selectedAsset.Logo || null,
   transHeader: state.AssetReducers.trans.header || {},
   data: state.AssetReducers.trans.data || null,
   hercId: state.AssetReducers.selectedAsset.hercId || null,
