@@ -90,8 +90,8 @@ class Splash3 extends Component {
     super(props);
   }
   componentDidMount() {
-    StatusBar.setBackgroundColor("#ffffff");
-    StatusBar.setBarStyle("dark-content", true);
+    // StatusBar.setBackgroundColor("#ffffff");
+    // StatusBar.setBarStyle("dark-content", true);
   }
   render() {
     console.log(this.state, 'state', this.props, 'props')

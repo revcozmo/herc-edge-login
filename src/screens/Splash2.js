@@ -123,7 +123,6 @@ class Splash2 extends Component {
         }
       };
       this.props.startTrans(trans);
-
       navigate("Splash3", {
         logo: this.props.asset.Logo,
         name: this.props.asset.Name

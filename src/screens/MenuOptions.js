@@ -59,19 +59,15 @@ class MenuOptions extends Component {
                         </TouchableHighlight>
                     </View>
 
-                    {this.props.assets &&
-                      <TouchableHighlight style={localStyles.touchableHighlight}
-                      onPress={() => navigate("Splash1")}>
+                    <TouchableHighlight disabled={!this.props.assets} style={localStyles.touchableHighlight}
+                    onPress={() => navigate("Splash1")}>
                       <Image style={localStyles.menuButton} source={supplyChain} />
-                      </TouchableHighlight>
-                    }
+                    </TouchableHighlight>
 
-                    {this.props.assets &&
-                    <TouchableHighlight style={localStyles.touchableHighlight}
+                    <TouchableHighlight disabled={!this.props.assets} style={localStyles.touchableHighlight}
                         onPress={() => navigate("TransAssetList")}>
                         <Image style={localStyles.menuButton} source={track} />
                     </TouchableHighlight>
-                    }
 
                     {/* <TouchableHighlight style={localStyles.touchableHighlight} onPress={() => navigate("PreHipr")}>
                         <Image style={localStyles.menuButton} source={hiprBtn} />
