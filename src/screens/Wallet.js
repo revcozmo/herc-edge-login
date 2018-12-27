@@ -58,7 +58,8 @@ class Wallet extends React.Component {
   }
 
   _updateWallet = () => {
-    console.log(this.props, 'props in updateWallet');
+    console.log(this.props, 'props in updateWallet'); //second login: this.props.wallet.
+    //this.props.wallet.balances
 
     if (!this.props.watchBalance || !this.props.watchBalance.ETH) {
       console.log(this.state, 'state in updateWalletundefined')
