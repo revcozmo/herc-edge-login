@@ -58,21 +58,23 @@ class Wallet extends React.Component {
   }
 
   _updateWallet = () => {
-    console.log(this.props, 'props in updateWallet'); //second login: this.props.wallet.
-    //this.props.wallet.balances
-
     if (!this.props.watchBalance || !this.props.watchBalance.ETH) {
-      console.log(this.state, 'state in updateWalletundefined')
-      return ("0.000000")
+      let displayWallet = this.state.displayWallet;
+      console.log(this.props.wallet.balances[displayWallet], "chance")
+      let tempBalance = new BigNumber(this.props.wallet.balances[displayWallet])
+        .times(1e-18)
+        .toFixed(6);
+      return tempBalance;
+      // return "0.000000"; //don't assume it is 0
     } else {
-      console.log('not undefined')
       let displayWallet = this.state.displayWallet;
       let tempBalance = new BigNumber(this.props.watchBalance[displayWallet])
-        .times(1e-18).toFixed(6);
-
-      return (tempBalance)
+        .times(1e-18)
+        .toFixed(6);
+      return tempBalance;
     }
   }
+
     async _onPressSend() {
       const wallet = this.props.wallet
       let destAddress = this.state.destAddress
@@ -179,6 +181,7 @@ class Wallet extends React.Component {
     render() {
 
       console.log(this._updateWallet())
+      let displayWallet = this.state.displayWallet
       let flag = this._updateWallet() === NaN ? '0.000000' : this._updateWallet();
       console.log(flag, 'flag in wallet render')
       return (
@@ -226,7 +229,7 @@ class Wallet extends React.Component {
                   this.setState({ sendAmount })
                 }
                 placeholderTextColor="silver"
-                placeholder="Amount(ETH)"
+                placeholder="Amount"
                 underlineColorAndroid='transparent'
                 selectionColor={'gold'}
               />
