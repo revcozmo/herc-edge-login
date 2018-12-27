@@ -173,6 +173,7 @@ class TransRev extends Component {
 
       if (transDat.images) {
           imgPrice = ((transDat.images.size / 1024) * .00000002) / .4
+          console.log(imgPrice, "chance IMAGEPRICE")
       };
 
       if (transDat.documents) {
@@ -192,14 +193,14 @@ class TransRev extends Component {
   }
 
 
-    _hasImage = (transObj) => {
-        if (transObj.images) {
-            let imgPrice = ((transObj.images.size / 1024) * .00000002) / .4
+    _hasImage = (transDat) => {
+        if (transDat.images) {
+            let imgPrice = ((transDat.images.size / 1024) * .00000002) / .4
             return (
                 <View style={localStyles.imgContainer}>
                     <Text style={localStyles.transRevTime}>Images</Text>
-                    <Image style={localStyles.thumb} source={{ uri: transObj.images.image }} />
-                    <Text style={localStyles.revPropVal}>{(transObj.images.size / 1024).toFixed(3)} kb</Text>
+                    <Image style={localStyles.thumb} source={{ uri: transDat.images.image }} />
+                    <Text style={localStyles.revPropVal}>{(transDat.images.size / 1024).toFixed(3)} kb</Text>
                     <View style={localStyles.feeContainer}>
                         <Image style={localStyles.hercPillarIcon} source={fee} />
                         <Text style={localStyles.teePrice}>{imgPrice.toFixed(8)}</Text>
