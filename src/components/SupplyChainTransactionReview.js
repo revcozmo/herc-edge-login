@@ -25,172 +25,210 @@ class SupplyChainTransactionReview extends Component {
     }
     componentDidMount = () => {
         try {
-          let balance = new BigNumber(this.props.watchBalance["HERC"])
-          this.setState({ balance: balance.times(1e-18).toFixed(6) })
-        } catch(e) {
-          if (this.props.wallet.balances['HERC']) {
-            let balance =  new BigNumber(this.props.wallet.balances['HERC']) // if balances:{} this will NaN
+            let balance = new BigNumber(this.props.watchBalance["HERC"])
             this.setState({ balance: balance.times(1e-18).toFixed(6) })
-          }
-          else {
-            let balance = new BigNumber('0')
-            this.setState({ balance: balance.times(1e-18).toFixed(6) })
-          }
+        } catch (e) {
+            if (this.props.wallet.balances['HERC']) {
+                let balance = new BigNumber(this.props.wallet.balances['HERC']) // if balances:{} this will NaN
+                this.setState({ balance: balance.times(1e-18).toFixed(6) })
+            }
+            else {
+                let balance = new BigNumber('0')
+                this.setState({ balance: balance.times(1e-18).toFixed(6) })
+            }
         }
     }
 
-  _onPressSubmit(){
-    if (Object.keys(this.props.transDat).length > 0){
-      let total = parseFloat(this._getPrices()) + 0.000032
-      Alert.alert(
-        'Data Fee: '+ this._getPrices().toString() +' HERC \nBurn Amount: 0.000032 HERC',
-        'Total: '+ total + ' HERC \nDo you authorize this payment?' ,
-        [
-          {text: 'No', onPress: () => console.log('No Pressed'), style: 'cancel'},
-          {text: 'Yes', onPress: () => this._checkBalance() },
-        ],
-        { cancelable: false }
-      )
-    } else {
-      Alert.alert(
-        'Oh no!',
-        'This is an empty submission',
-        [
-          {text: 'Ok', onPress: () => console.log('OK Pressed')}
-        ],
-        { cancelable: true }
-      )
-    }
-  }
-
-  async _checkBalance(){
-    if (!this.state.balance) {return}
-
-    let dataFee = new BigNumber(this._getPrices())
-
-    let total = parseFloat(this._getPrices()) + 0.000032
-    let convertingPrice = new BigNumber(total) // don't have to times 1e18 because its already hercs
-    let balance = new BigNumber(this.state.balance)
-
-    let newbalance = balance.minus(convertingPrice)
-
-    console.log('chance, do you have enough?', newbalance.isPositive())
-
-
-    if (newbalance.isNegative()){
-      Alert.alert(
-        'Insufficient Funds',
-        'Balance: '+ this.state.balance + ' HERC' ,
-        [
-          {text: 'Top Up Hercs', onPress: () => Linking.openURL("https://purchase.herc.one/"), style: 'cancel'},
-          {text: 'Ok', onPress: () => console.log('OK Pressed')},
-        ],
-        { cancelable: true }
-      )
-    } else {
-      this.setState({ modalVisible: true })
-      const burnSpendInfo = {
-        networkFeeOption: 'standard',
-        currencyCode: 'HERC',
-        metadata: {
-          name: 'Transfer From Herc Wallet',
-          category: 'Transfer:Wallet:Burn Amount'
-        },
-        spendTargets: [
-          {
-            publicAddress: TOKEN_ADDRESS,
-            nativeAmount: "0.000032"
-          }
-        ]
-      }
-      const dataFeeSpendInfo = {
-        networkFeeOption: 'standard',
-        currencyCode: 'HERC',
-        metadata: {
-          name: 'Transfer From Herc Wallet',
-          category: 'Transfer:Wallet:Data Fee'
-        },
-        spendTargets: [
-          {
-            publicAddress: "0x1a2a618f83e89efbd9c9c120ab38c1c2ec9c4e76",
-            nativeAmount: dataFee.toString()
-          }
-        ]
-      }
-      // catch error for "ErrorInsufficientFunds"
-      // catch error for "ErrorInsufficientFundsMoreEth"
-      let wallet = this.props.wallet
-      try {
-        let burnTransaction = await wallet.makeSpend(burnSpendInfo)
-        await wallet.signTx(burnTransaction)
-        await wallet.broadcastTx(burnTransaction)
-        await wallet.saveTx(burnTransaction)
-        console.log("Sent burn transaction with ID = " + burnTransaction.txid)
-
-        let dataFeeTransaction = await wallet.makeSpend(dataFeeSpendInfo)
-        await wallet.signTx(dataFeeTransaction)
-        await wallet.broadcastTx(dataFeeTransaction)
-        await wallet.saveTx(dataFeeTransaction)
-        console.log("Sent dataFee transaction with ID = " + dataFeeTransaction.txid)
-
-
-        if (burnTransaction.txid && dataFeeTransaction.txid) {
-          this._sendTrans()
+    _onPressSubmit() {
+        if (Object.keys(this.props.transDat).length > 0) {
+            console.log(this.props.transDat)
+            let total = parseFloat(this._getDocPrice()) + parseFloat(this._getImgPrice()) + parseFloat(this._getBurnPrice());
+            Alert.alert(
+                "Image Fee: " + this._getImgPrice().toString() +
+                "Doc Fee: " + this._getDocPrice().toString() +
+                ' HERC \nBurn Amount: ' + this._getBurnPrice().toString() + 'HERC',
+                'Total: ' + total + ' HERC \nDo you authorize this payment?',
+                [
+                    { text: 'No', onPress: () => console.log('No Pressed'), style: 'cancel' },
+                    { text: 'Yes', onPress: () => this._checkBalance() },
+                ],
+                { cancelable: false }
+            )
+        } else {
+            Alert.alert(
+                'Oh no!',
+                'This is an empty submission',
+                [
+                    { text: 'Ok', onPress: () => console.log('OK Pressed') }
+                ],
+                { cancelable: true }
+            )
         }
-      } catch(e){
-        let tempBalance = new BigNumber(this.props.watchBalance["ETH"])
-        let ethBalance = tempBalance.times(1e-18).toFixed(6)
-        this.setState({ modalVisible: false })
-        Alert.alert(
-          'Insufficient ETH Funds',
-          'Balance: '+ ethBalance + ' ETH' ,
-          [
-            {text: 'Ok', onPress: () => console.log('OK Pressed')},
-          ],
-          { cancelable: false }
+    }
+
+    async _checkBalance() {
+        if (!this.state.balance) { return }
+        let dataFee = new BigNumber(this._getDocPrice() + this._getImgPrice());
+        let total =
+            parseFloat(this._getDocPrice()) + parseFloat(this._getBurnPrice()) + parseFloat(this._getImgPrice());
+        let convertingPrice = new BigNumber(total) // don't have to times 1e18 because its already hercs
+        let balance = new BigNumber(this.state.balance);
+        let newbalance = balance.minus(convertingPrice);
+
+        console.log('chance, do you have enough?', newbalance.isPositive())
+
+        if (newbalance.isNegative()) {
+            Alert.alert(
+                'Insufficient Funds',
+                'Balance: ' + this.state.balance + ' HERC',
+                [
+                    { text: 'Top Up Hercs', onPress: () => Linking.openURL("https://purchase.herc.one/"), style: 'cancel' },
+                    { text: 'Ok', onPress: () => console.log('OK Pressed') },
+                ],
+                { cancelable: true }
+            )
+        } else {
+            this.setState({ modalVisible: true })
+            const burnSpendInfo = {
+                networkFeeOption: 'standard',
+                currencyCode: 'HERC',
+                metadata: {
+                    name: 'Transfer From Herc Wallet',
+                    category: 'Transfer:Wallet:Burn Amount'
+                },
+                spendTargets: [
+                    {
+                        publicAddress: TOKEN_ADDRESS,
+                        nativeAmount: "0.000032"
+                    }
+                ]
+            }
+            const dataFeeSpendInfo = {
+                networkFeeOption: 'standard',
+                currencyCode: 'HERC',
+                metadata: {
+                    name: 'Transfer From Herc Wallet',
+                    category: 'Transfer:Wallet:Data Fee'
+                },
+                spendTargets: [
+                    {
+                        publicAddress: "0x1a2a618f83e89efbd9c9c120ab38c1c2ec9c4e76",
+                        nativeAmount: dataFee.toString()
+                    }
+                ]
+            }
+            // catch error for "ErrorInsufficientFunds"
+            // catch error for "ErrorInsufficientFundsMoreEth"
+            let wallet = this.props.wallet
+            try {
+                let burnTransaction = await wallet.makeSpend(burnSpendInfo)
+                await wallet.signTx(burnTransaction)
+                await wallet.broadcastTx(burnTransaction)
+                await wallet.saveTx(burnTransaction)
+                console.log("Sent burn transaction with ID = " + burnTransaction.txid)
+
+                let dataFeeTransaction = await wallet.makeSpend(dataFeeSpendInfo)
+                await wallet.signTx(dataFeeTransaction)
+                await wallet.broadcastTx(dataFeeTransaction)
+                await wallet.saveTx(dataFeeTransaction)
+                console.log("Sent dataFee transaction with ID = " + dataFeeTransaction.txid)
+
+                if (burnTransaction.txid && dataFeeTransaction.txid) {
+                    this._sendTrans()
+                }
+            } catch (e) {
+                let tempBalance = new BigNumber(this.props.watchBalance["ETH"])
+                let ethBalance = tempBalance.times(1e-18).toFixed(6)
+                this.setState({ modalVisible: false })
+                Alert.alert(
+                    'Insufficient ETH Funds',
+                    'Balance: ' + ethBalance + ' ETH',
+                    [
+                        { text: 'Ok', onPress: () => console.log('OK Pressed') },
+                    ],
+                    { cancelable: false }
+                )
+            }
+        }
+    }
+
+    _changeModalVisibility = (visible) => {
+        this.setState({
+            modalVisible: visible
+        })
+    }
+
+    _sendTrans() {
+        this.props.sendTrans(this._getPrices())
+    }
+
+
+    _getPrices = () => {
+        let transDat = this.props.transDat;
+        let price = 0;
+        let imgPrice = 0;
+        let docPrice = 0;
+
+        if (transDat.images) {
+            console.log("made it into transdat images")
+            imgPrice = ((transDat.images.size / 1024) * .00000002) / .4
+        };
+
+        if (transDat.documents) {
+            docPrice = .000032
+        }
+
+        price = (docPrice + imgPrice) + .000032;
+        console.log(docPrice, imgPrice, price, 'chance price check')
+        let convertingPrice = new BigNumber(price)
+        let newPrice = convertingPrice.toFixed(6)
+
+        return (
+            newPrice
         )
-      }
-    }
-  }
-
-  _changeModalVisibility = (visible) => {
-      this.setState({
-          modalVisible: visible
-      })
-  }
-
-  _sendTrans() {
-    this.props.sendTrans(this._getPrices())
     }
 
+    _getDocPrice = () => {
+        /// 12/16/18 docPrice of 200% of .000032 hercs.. That's .000128 hercs
+        let transDat = this.props.transDat;
 
-  _getPrices = () => {
+        if (transDat.documents) {
+            let docPrice = 0.000032;
+            let convertingPrice = new BigNumber(docPrice);
+            let newDocPrice = convertingPrice.toFixed(6);
+            return newDocPrice;
+        } else {
+            let docPrice = 0;
+            return docPrice;
+        }
+    };
 
-      let transDat = this.props.transDat;
-      let price = 0;
-      let imgPrice = 0;
-      let docPrice = 0;
+    _getImgPrice = () => {
+        console.log("in the get img price function")
+        /// 12/16/18 docPrice of 200% of .000032 hercs.. That's .000128 hercs
+        let transDat = this.props.transDat;
+        if (transDat.images) {
+            console.log("made it into the transdat images")
+            let imgPrice = ((transDat.images.size / 1024) * .00000002) / .4
+            console.log(imgPrice.toFixed(12));
+            let convertingPrice = new BigNumber(imgPrice);
+            console.log(convertingPrice);
+            let newImgPrice = imgPrice.toFixed(12);
+            console.log(newImgPrice)
+            return newImgPrice;
+        } else {
+            console.log("this is in the else statement")
+            let imgPrice = 0;
+            return imgPrice;
+        }
+    };
 
-      if (transDat.images) {
-          imgPrice = ((transDat.images.size / 1024) * .00000002) / .4
-      };
-
-      if (transDat.documents) {
-          docPrice = .000032
-      }
-
-
-      price = (docPrice + imgPrice) + .000032;
-      console.log(docPrice, imgPrice, price,'chance price check')
-
-      let convertingPrice = new BigNumber(price)
-      let newPrice = convertingPrice.toFixed(6)
-
-      return (
-        newPrice
-      )
-  }
-
+    _getBurnPrice = () => {
+        let burnPrice = 0.000032;
+        let convertingPrice = new BigNumber(burnPrice);
+        let newBurnPrice = convertingPrice.toFixed(6);
+        return newBurnPrice;
+    };
 
     _hasImage = (transObj) => {
         if (transObj.images) {
@@ -206,7 +244,6 @@ class SupplyChainTransactionReview extends Component {
                     </View>
                 </View>
             );
-
         }
         return (<Text style={localStyles.revPropVal}>No Images</Text>)
     }
@@ -229,7 +266,6 @@ class SupplyChainTransactionReview extends Component {
         }
         return (<Text style={localStyles.revPropVal}>No Documents</Text>)
     }
-
 
     _hasList = (transObj) => {
         if (transObj.properties) {
@@ -254,9 +290,7 @@ class SupplyChainTransactionReview extends Component {
     _goToMenu = () => {
         // const { navigate } = this.props.navigate;
         this._changeModalVisibility(false);
-
         this.props.navigate('MenuOptions');
-
     }
 
     render() {
@@ -301,9 +335,7 @@ class SupplyChainTransactionReview extends Component {
                     <Image style={localStyles.hercPillarIcon} source={fee} />
                     <Text style={localStyles.teePrice}>{this._getPrices()}</Text>
                 </View>
-
-
-               <Modal
+                <Modal
                     transparent={false}
                     animationType={'none'}
                     visible={this.state.modalVisible}
@@ -311,13 +343,13 @@ class SupplyChainTransactionReview extends Component {
                 >
                     <View style={modalStyle.container}>
                         <View style={modalStyle.modalBackground}>
-                          <View style={modalStyle.closeButtonContainer}>
-                              <TouchableHighlight
-                                style={modalStyle.closeButton}
-                                onPress={() => this._changeModalVisibility(false)}>
-                              <Text style={{ margin: 5, fontSize: 30, color: '#00000070'} }>X</Text>
-                              </TouchableHighlight>
-                          </View>
+                            <View style={modalStyle.closeButtonContainer}>
+                                <TouchableHighlight
+                                    style={modalStyle.closeButton}
+                                    onPress={() => this._changeModalVisibility(false)}>
+                                    <Text style={{ margin: 5, fontSize: 30, color: '#00000070' }}>X</Text>
+                                </TouchableHighlight>
+                            </View>
                             {!this.props.transDataFlags.confTransComplete &&
 
                                 <Text style={modalStyle.wordsText}>Your Transaction Information Is Being Written To The Blockchain</Text>
@@ -331,9 +363,9 @@ class SupplyChainTransactionReview extends Component {
                                 <View>
                                     <Text style={modalStyle.wordsText}>Your Transaction Has Completed!</Text>
                                     <TouchableHighlight
-                                      style={modalStyle.modalButton}
-                                      onPress={() => this._goToMenu()}>
-                                    <Text style={{ margin: 5} }>Back to Menu</Text>
+                                        style={modalStyle.modalButton}
+                                        onPress={() => this._goToMenu()}>
+                                        <Text style={{ margin: 5 }}>Back to Menu</Text>
                                     </TouchableHighlight>
                                 </View>
                             }
