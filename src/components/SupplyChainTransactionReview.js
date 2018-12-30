@@ -42,12 +42,22 @@ class SupplyChainTransactionReview extends Component {
     _onPressSubmit() {
         if (Object.keys(this.props.transDat).length > 0) {
             console.log(this.props.transDat)
-            let total = parseFloat(this._getDocPrice()) + parseFloat(this._getImgPrice()) + parseFloat(this._getBurnPrice());
+            
+            let docPrice = parseFloat(this._getDocPrice());
+            console.log("this is the docprice",docPrice);
+            let imgPrice = parseFloat(this._getImgPrice())
+            console.log("this is the img price",imgPrice)
+            let dataFee = parseFloat(this._getDocPrice()) + parseFloat(this._getImgPrice());
+            // let dataFee = new BigNumber(this._getDocPrice() + this._getImgPrice())
+            console.log("this is the doc plus the img price",dataFee);
+            let burnAmount = this._getBurnPrice().toString();
+            let total = dataFee + parseFloat(this._getBurnPrice());
             Alert.alert(
-                "Image Fee: " + this._getImgPrice().toString() +
-                "Doc Fee: " + this._getDocPrice().toString() +
-                ' HERC \nBurn Amount: ' + this._getBurnPrice().toString() + 'HERC',
-                'Total: ' + total + ' HERC \nDo you authorize this payment?',
+                "Confirm",
+                'Image Fee: \n' + imgPrice.toFixed(18) + ' HERC' +
+                "\nDoc Fee: \n" + docPrice.toFixed(18) + ' HERC' + 
+                '\nBurn Amount: \n' + burnAmount + ' HERC' +
+                '\nTotal: \n' + total.toFixed(18) + ' HERC \n\nDo you authorize this payment?',
                 [
                     { text: 'No', onPress: () => console.log('No Pressed'), style: 'cancel' },
                     { text: 'Yes', onPress: () => this._checkBalance() },
@@ -195,7 +205,7 @@ class SupplyChainTransactionReview extends Component {
         if (transDat.documents) {
             let docPrice = 0.000032;
             let convertingPrice = new BigNumber(docPrice);
-            let newDocPrice = convertingPrice.toFixed(6);
+            let newDocPrice = convertingPrice.toFixed(18);
             return newDocPrice;
         } else {
             let docPrice = 0;
@@ -210,15 +220,12 @@ class SupplyChainTransactionReview extends Component {
         if (transDat.images) {
             console.log("made it into the transdat images")
             let imgPrice = ((transDat.images.size / 1024) * .00000002) / .4
-            console.log(imgPrice.toFixed(12));
-            let convertingPrice = new BigNumber(imgPrice);
-            console.log(convertingPrice);
-            let newImgPrice = imgPrice.toFixed(12);
+            let newImgPrice = imgPrice.toFixed(18);
             console.log(newImgPrice)
             return newImgPrice;
         } else {
-            console.log("this is in the else statement")
             let imgPrice = 0;
+            console.log("this is in the else statement imgPrice should be 0", imgPrice);
             return imgPrice;
         }
     };
@@ -226,7 +233,7 @@ class SupplyChainTransactionReview extends Component {
     _getBurnPrice = () => {
         let burnPrice = 0.000032;
         let convertingPrice = new BigNumber(burnPrice);
-        let newBurnPrice = convertingPrice.toFixed(6);
+        let newBurnPrice = convertingPrice.toFixed(18);
         return newBurnPrice;
     };
 
