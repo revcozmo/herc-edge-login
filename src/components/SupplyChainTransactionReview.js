@@ -42,22 +42,27 @@ class SupplyChainTransactionReview extends Component {
     _onPressSubmit() {
         if (Object.keys(this.props.transDat).length > 0) {
             console.log(this.props.transDat)
-            
+
             let docPrice = parseFloat(this._getDocPrice());
-            console.log("this is the docprice",docPrice);
+            console.log("this is the docprice", docPrice);
             let imgPrice = parseFloat(this._getImgPrice())
-            console.log("this is the img price",imgPrice)
-            let dataFee = parseFloat(this._getDocPrice()) + parseFloat(this._getImgPrice());
+            console.log("this is the img price", imgPrice)
+            // let dataFee = parseFloat(this._getDocPrice()) + parseFloat(this._getImgPrice());
             // let dataFee = new BigNumber(this._getDocPrice() + this._getImgPrice())
-            console.log("this is the doc plus the img price",dataFee);
-            let burnAmount = this._getBurnPrice().toString();
-            let total = dataFee + parseFloat(this._getBurnPrice());
+            // console.log("this is the doc plus the img price", dataFee);
+            let burnAmount = parseFloat(this._getBurnPrice());
+            console.log("this is the burn amount", burnAmount)
+            let networkFee = parseFloat(this._getNetworkFee());
+            console.log("this is the network fee", networkFee)
+            let total = imgPrice + docPrice + networkFee;
             Alert.alert(
                 "Confirm",
                 'Image Fee: \n' + imgPrice.toFixed(18) + ' HERC' +
-                "\nDoc Fee: \n" + docPrice.toFixed(18) + ' HERC' + 
-                '\nBurn Amount: \n' + burnAmount + ' HERC' +
-                '\nTotal: \n' + total.toFixed(18) + ' HERC \n\nDo you authorize this payment?',
+                "\nDoc Fee: \n" + docPrice.toFixed(18) + ' HERC' +
+                '\nNetwork Fee: \n' + networkFee.toFixed(18) + ' HERC' +
+                // '\nSecurity Fee: \n' + burnAmount + ' HERC' +
+                '\n\nTotal: \n' + total.toFixed(18) + ' HERC' +
+                '\n\nDo you authorize this payment?',
                 [
                     { text: 'No', onPress: () => console.log('No Pressed'), style: 'cancel' },
                     { text: 'Yes', onPress: () => this._checkBalance() },
@@ -172,6 +177,17 @@ class SupplyChainTransactionReview extends Component {
         this.props.sendTrans(this._getPrices())
     }
 
+    _getNetworkFee = () => {
+        let dynamicHercValue = this._getDynamicHercValue();
+        let secFee = dynamicHercValue;
+        let perUseFee = dynamicHercValue;
+        return secFee + perUseFee;
+    }
+
+    _getDynamicHercValue = () => {
+        let dynamicHercValue = .000032;
+        return dynamicHercValue;
+    }
 
     _getPrices = () => {
         let transDat = this.props.transDat;
@@ -215,11 +231,12 @@ class SupplyChainTransactionReview extends Component {
 
     _getImgPrice = () => {
         console.log("in the get img price function")
-        /// 12/16/18 docPrice of 200% of .000032 hercs.. That's .000128 hercs
+        // as of 12/30/18 Image Fee (storj .000000002/kB)
         let transDat = this.props.transDat;
+        let dynamicHercValue = this._getDynamicHercValue();
         if (transDat.images) {
             console.log("made it into the transdat images")
-            let imgPrice = ((transDat.images.size / 1024) * .00000002) / .4
+            let imgPrice = ((transDat.images.size / 1024) * .00000002) / dynamicHercValue
             let newImgPrice = imgPrice.toFixed(18);
             console.log(newImgPrice)
             return newImgPrice;
