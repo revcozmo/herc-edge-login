@@ -1,7 +1,7 @@
 // @flow
 
 import React, { Component } from 'react'
-import { TouchableWithoutFeedback, View, Image } from 'react-native'
+import { TouchableWithoutFeedback, View, Image, Text } from 'react-native'
 
 import s from '../../../common/locales/strings.js'
 import DeleteUserConnector from '../../../native/connectors/abSpecific/DeleteUserConnector'

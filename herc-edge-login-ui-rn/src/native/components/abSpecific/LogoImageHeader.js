@@ -12,25 +12,30 @@ type Props = {
 
 const styles = StyleSheet.create({
   logo: {
-    position: 'relative'
-    // resizeMode: 'contain',
-    // borderWidth: 1,
-    // borderColor: 'red'
-  }
+    position: 'relative',
+    resizeMode: 'contain',
+    width: '80%',
+  },
+  container: {
+    position: 'relative',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    width: '100%'
+  },
 });
 
 class LogoImageHeader extends Component<Props> {
   render () {
     let src = Assets.LOGO_BIG
+    // let src = Assets.LOGO_BIG
     if (this.props.small) {
       src = Assets.LOGO_SMALL
     }
     return (
-      <View style={this.props.style.container}>
+      <View style={styles.container}>
         <Image
           source={src}
-          style={this.props.style.image}
-          resizeMode= {'contain'}
+          style={styles.logo}
         />
       </View>
     )
