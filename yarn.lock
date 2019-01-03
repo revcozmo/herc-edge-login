@@ -4467,6 +4467,26 @@ hdkey@^0.7.0:
     coinstring "^2.0.0"
     secp256k1 "^3.0.1"
 
+"herc-edge-login-ui-rn@file:herc-edge-login-ui-rn":
+  version "0.5.12"
+  dependencies:
+    material-ui "^0.20.0"
+    moment "^2.19.3"
+    native-base "^2.7.2"
+    react-native-device-info "^0.11.0"
+    react-native-keyboard-aware-scroll-view "^0.4.1"
+    react-native-linear-gradient "^2.0.0"
+    react-native-mail "^3.0.5"
+    react-native-material-textfield "git://github.com/EdgeApp/react-native-material-textfield.git"
+    react-native-modal "^6.5.0"
+    react-native-qrcode "^0.2.6"
+    react-native-vector-icons "^4.4.2"
+    react-redux "^5.0.7"
+    redux "~3.5.2"
+    redux-thunk "~2.1.0"
+    sprintf-js "^1.0.3"
+    zxcvbn "^4.4.2"
+
 hmac-drbg@^1.0.0, hmac-drbg@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/hmac-drbg/-/hmac-drbg-1.0.1.tgz#d2745701025a6c775a6c545793ed502fc0c649a1"
@@ -7494,6 +7514,11 @@ react-native-vector-icons@^4.4.2:
     lodash "^4.0.0"
     prop-types "^15.5.10"
     yargs "^8.0.2"
+
+react-native-view-shot@^2.5.0:
+  version "2.5.0"
+  resolved "https://registry.yarnpkg.com/react-native-view-shot/-/react-native-view-shot-2.5.0.tgz#428a997f470d3148d0067c5b46abd988ef1aa4c0"
+  integrity sha512-xFJA+N7wh8Ik/17I4QB24e0a0L3atg1ScVehvtYR5UBTgHdzTFA0ZylvXp9gkZt7V+AT5Pni0H3NQItpqSKFoQ==
 
 react-native@0.55.3:
   version "0.55.3"
