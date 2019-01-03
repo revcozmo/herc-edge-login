@@ -10,7 +10,6 @@ type Props = {
   style: Object
 }
 
-<<<<<<< HEAD
 const styles = StyleSheet.create({
   logo: {
     position: 'relative'
@@ -25,38 +24,16 @@ class LogoImageHeader extends Component<Props> {
     let src = Assets.LOGO_BIG
     if (this.props.small) {
       src = Assets.LOGO_SMALL
-=======
-class LogoImageHeader extends Component<Props> {
-  render () {
-    let src = Assets.HERC_LOGO
-    if (this.props.small) {
-      src = Assets.HERC_LOGO
->>>>>>> 4b0ac0abf8fcf8cff187151d2c33f12eb0d56799
     }
     return (
       <View style={this.props.style.container}>
         <Image
           source={src}
           style={this.props.style.image}
-<<<<<<< HEAD
           resizeMode= {'contain'}
-=======
-          resizeMode={'contain'}
->>>>>>> 4b0ac0abf8fcf8cff187151d2c33f12eb0d56799
         />
       </View>
     )
   }
 }
-
-<<<<<<< HEAD
-=======
-const localStyles = StyleSheet.create({
-  logo: {
-    resizeMode: "contain",
-    width: "50%"
-  }
-})
-
->>>>>>> 4b0ac0abf8fcf8cff187151d2c33f12eb0d56799
 export { LogoImageHeader }
