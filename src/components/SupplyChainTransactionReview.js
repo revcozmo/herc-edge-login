@@ -24,6 +24,7 @@ class SupplyChainTransactionReview extends Component {
         }
     }
     componentDidMount = () => {
+        console.log(this._getNetworkFee())
         try {
             let balance = new BigNumber(this.props.watchBalance["HERC"])
             this.setState({ balance: balance.times(1e-18).toFixed(6) })
@@ -50,7 +51,7 @@ class SupplyChainTransactionReview extends Component {
             // let dataFee = parseFloat(this._getDocPrice()) + parseFloat(this._getImgPrice());
             // let dataFee = new BigNumber(this._getDocPrice() + this._getImgPrice())
             // console.log("this is the doc plus the img price", dataFee);
-            let burnAmount = parseFloat(this._getBurnPrice());
+            let burnAmount = parseFloat(this._getBurnAmount());
             console.log("this is the burn amount", burnAmount)
             let networkFee = parseFloat(this._getNetworkFee());
             console.log("this is the network fee", networkFee)
@@ -86,7 +87,7 @@ class SupplyChainTransactionReview extends Component {
         if (!this.state.balance) { return }
         let dataFee = new BigNumber(this._getDocPrice() + this._getImgPrice());
         let total =
-            parseFloat(this._getDocPrice()) + parseFloat(this._getBurnPrice()) + parseFloat(this._getImgPrice());
+            parseFloat(this._getDocPrice()) + parseFloat(this._getBurnAmount()) + parseFloat(this._getImgPrice());
         let convertingPrice = new BigNumber(total) // don't have to times 1e18 because its already hercs
         let balance = new BigNumber(this.state.balance);
         let newbalance = balance.minus(convertingPrice);
@@ -182,7 +183,7 @@ class SupplyChainTransactionReview extends Component {
             // let dataFee = parseFloat(this._getDocPrice()) + parseFloat(this._getImgPrice());
             // let dataFee = new BigNumber(this._getDocPrice() + this._getImgPrice())
             // console.log("this is the doc plus the img price", dataFee);
-            let burnAmount = parseFloat(this._getBurnPrice());
+            let burnAmount = parseFloat(this._getBurnAmount());
             console.log("this is the burn amount", burnAmount)
             let networkFee = parseFloat(this._getNetworkFee());
             console.log("this is the network fee", networkFee)
@@ -191,16 +192,17 @@ class SupplyChainTransactionReview extends Component {
     }
 
     _getNetworkFee = () => {
-        let securityFee = .000032;
-        let perUseFee = .000032 
+        //Security Fee should be $ 0.000032 worth of hercs. The response should be in hercs. 
+        //Per Use Fee should be $ 0.000032 worth of hercs. The response should be in Hercs.
+        //Network Fee is the combined value of security fee and per use fee. The response should be in Hercs. 
         let dynamicHercValue = this._getDynamicHercValue();
-        let secFee = dynamicHercValue;
-        let perUseFee = dynamicHercValue;
+        let securityFeeInHercs = .000032 / dynamicHercValue
+        let perUseFeeInHercs = .000032 / dynamicHercValue 
         return secFee + perUseFee;
     }
 
     _getDynamicHercValue = () => {
-        let dynamicHercValue = .000032;
+        let dynamicHercValue = 0.27154204;
         return dynamicHercValue;
     }
 
@@ -262,7 +264,7 @@ class SupplyChainTransactionReview extends Component {
         }
     };
 
-    _getBurnPrice = () => {
+    _getBurnAmount = () => {
         let burnPrice = 0.000032;
         let convertingPrice = new BigNumber(burnPrice);
         let newBurnPrice = convertingPrice.toFixed(18);
