@@ -54,6 +54,7 @@ class SupplyChainTransactionReview extends Component {
             console.log("this is the burn amount", burnAmount)
             let networkFee = parseFloat(this._getNetworkFee());
             console.log("this is the network fee", networkFee)
+            let dataFee = imgPrice + docPrice;
             let total = imgPrice + docPrice + networkFee;
             Alert.alert(
                 "Confirm",
@@ -114,7 +115,7 @@ class SupplyChainTransactionReview extends Component {
                 spendTargets: [
                     {
                         publicAddress: TOKEN_ADDRESS,
-                        nativeAmount: "0.000032"
+                        nativeAmount: burnAmount
                     }
                 ]
             }
@@ -174,10 +175,24 @@ class SupplyChainTransactionReview extends Component {
     }
 
     _sendTrans() {
+            let docPrice = parseFloat(this._getDocPrice());
+            console.log("this is the docprice", docPrice);
+            let imgPrice = parseFloat(this._getImgPrice())
+            console.log("this is the img price", imgPrice)
+            // let dataFee = parseFloat(this._getDocPrice()) + parseFloat(this._getImgPrice());
+            // let dataFee = new BigNumber(this._getDocPrice() + this._getImgPrice())
+            // console.log("this is the doc plus the img price", dataFee);
+            let burnAmount = parseFloat(this._getBurnPrice());
+            console.log("this is the burn amount", burnAmount)
+            let networkFee = parseFloat(this._getNetworkFee());
+            console.log("this is the network fee", networkFee)
+            let total = imgPrice + docPrice + networkFee;
         this.props.sendTrans(this._getPrices())
     }
 
     _getNetworkFee = () => {
+        let securityFee = .000032;
+        let perUseFee = .000032 
         let dynamicHercValue = this._getDynamicHercValue();
         let secFee = dynamicHercValue;
         let perUseFee = dynamicHercValue;
