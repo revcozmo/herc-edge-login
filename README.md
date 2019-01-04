@@ -1,4 +1,24 @@
-# [H]ERC Decentralized Application with Identity Powered by Https://Edge.App
+#  UI OverHaul!
+
+##  The way I imagine it working is like this:
+
+*  We shall consider this branch "Master"
+*  To Build something, create a new branch with your name, Date if you want, and what the branch is for. For instance, to start I will probably do something like ```Stack-SharedComponents``` and in it would be whatever components could be shared accross pages, probably inputs and labels etc. When I was finished I would put in a PR to merge with this branch and have it reviewed. 
+*  Try and keep commits small, maybe a page worth at a time...easier to debug, I'm bad at this, but I will do my best.
+
+###  Flows are as follows:
+
+*  stack: Register, Track, Supply Chain
+*  Mark: Doc Storage, Etherscan, Login
+*  Ahmer:  Wallet, Settings
+
+*  Loose Ends: Header(s) and Validate
+
+
+
+
+
+<!-- # [H]ERC Decentralized Application with Identity Powered by Https://Edge.App
 
 ![HERC Wallet](https://i.imgur.com/h0nwznp.png)
 
@@ -139,4 +159,4 @@ Parlimentary or Significant changes to HERC protocol's smart contracts, architec
 ### Coding Conventions
 As we have found from other projects such as 0x and other Ethereum based platforms we use a custom set of [TSLint](https://palantir.github.io/tslint/) rules to enforce our coding conventions. 
 
-In order to see style violation erros, install a tsliner for your text editor. e.g Atom's [atom-typescript](https://atom.io/packages/atom-typescript)
+In order to see style violation erros, install a tsliner for your text editor. e.g Atom's [atom-typescript](https://atom.io/packages/atom-typescript) -->
