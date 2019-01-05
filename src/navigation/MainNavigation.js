@@ -44,6 +44,8 @@ import DrawerIcon from "../assets/icons/drawerIcon.png"; // TODO: turn into vect
 import WebViewComponent from "../components/WebViewComponent";
 import DocumentStorage from "../screens/DocumentStorage";
 import DocumentQRScanner from "../screens/DocumentQRScanner";
+import ComponentTest from "../screens/ComponentTest";
+
 
 let headerStyles = StyleSheet.create({
     header__container: {
@@ -88,6 +90,7 @@ let headerStyles = StyleSheet.create({
 
 
 const MainNavigator = StackNavigator({ //this will be "createStackNavigator" after upgrading react-navigation
+    ComponentTest: {screen: ComponentTest},
     Login: { screen: Login },
     MenuOptions: { screen: MenuOptions },
     NewAssetLanding: { screen: NewAssetLanding },
@@ -127,7 +130,9 @@ const MainNavigator = StackNavigator({ //this will be "createStackNavigator" aft
     DocumentQRScanner: { screen: DocumentQRScanner },
 
 }, {
-        initialRouteName: 'Login',
+    initialRouteName: 'ComponentTest',
+
+    // initialRouteName: 'Login',
         navigationOptions: ({ navigation }) => ({
 
             headerTitle:

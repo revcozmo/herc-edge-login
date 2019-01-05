@@ -1,3 +1,7 @@
+#  This branch:
+
+## I've changed the loading screen to save time styling components. 
+
 #  UI OverHaul!
 
 ##  The way I imagine it working is like this:
