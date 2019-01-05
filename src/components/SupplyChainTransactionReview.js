@@ -37,15 +37,13 @@ class SupplyChainTransactionReview extends Component {
   }
   componentDidMount = () => {
     this._getDynamicHercValue().then(response =>
-      this.setState(
-        { hercValue: response }
-      )
+      this.setState({ hercValue: response })
     );
     // console.log(this._getNetworkFee(), "this is the network fee from component did mount");
     // console.log(this._getDynamicHercValue(), " this is the dynamic herc value, call made in component did mount");
     try {
       let balance = new BigNumber(this.props.watchBalance["HERC"]);
-      this.setState({ balance: balance.times(1e-18).toFixed(6) });
+      this.setState({ balance: balance.times(1e-18).toFixed(6) });ac
     } catch (e) {
       if (this.props.wallet.balances["HERC"]) {
         let balance = new BigNumber(this.props.wallet.balances["HERC"]); // if balances:{} this will NaN
@@ -58,17 +56,12 @@ class SupplyChainTransactionReview extends Component {
   };
 
   _onPressSubmit() {
-      console.log(this.state, "console logging state on submit**")
     if (Object.keys(this.props.transDat).length > 0) {
       console.log(this.props.transDat);
-
       let docPrice = parseFloat(this._getDocPrice());
       console.log("this is the docprice", docPrice);
       let imgPrice = parseFloat(this._getImgPrice());
       console.log("this is the img price", imgPrice);
-      // let dataFee = parseFloat(this._getDocPrice()) + parseFloat(this._getImgPrice());
-      // let dataFee = new BigNumber(this._getDocPrice() + this._getImgPrice())
-      // console.log("this is the doc plus the img price", dataFee);
       let burnAmount = parseFloat(this._getBurnAmount());
       console.log("this is the burn amount", burnAmount);
       let networkFee = parseFloat(this._getNetworkFee());
@@ -115,14 +108,17 @@ class SupplyChainTransactionReview extends Component {
     if (!this.state.balance) {
       return;
     }
-    let dataFee = new BigNumber(this._getDocPrice() + this._getImgPrice());
-    let total =
-      parseFloat(this._getDocPrice()) +
-      parseFloat(this._getBurnAmount()) +
-      parseFloat(this._getImgPrice());
-    let convertingPrice = new BigNumber(total); // don't have to times 1e18 because its already hercs
+    let docPrice = parseFloat(this._getDocPrice());
+    let imgPrice = parseFloat(this._getImgPrice());
+    let burnAmount = parseFloat(this._getBurnAmount());
+    // let dataFee = new BigNumber(this._getDocPrice() + this._getImgPrice());
+    let networkFee = parseFloat(this._getNetworkFee());
+    let docImgNetFee = docPrice + imgPrice + networkFee;
+    let convertingDocImgNetFee = new BigNumber(docImgNetFee);
+    let total = docPrice + imgPrice + burnAmount + networkFee;
+    let convertingTotal= new BigNumber(total); // don't have to times 1e18 because its already hercs
     let balance = new BigNumber(this.state.balance);
-    let newbalance = balance.minus(convertingPrice);
+    let newbalance = balance.minus(convertingTotal);
 
     console.log("chance, do you have enough?", newbalance.isPositive());
 
@@ -152,7 +148,7 @@ class SupplyChainTransactionReview extends Component {
         spendTargets: [
           {
             publicAddress: TOKEN_ADDRESS,
-            nativeAmount: burnAmount
+            nativeAmount: burnAmount.toString()
           }
         ]
       };
@@ -166,7 +162,7 @@ class SupplyChainTransactionReview extends Component {
         spendTargets: [
           {
             publicAddress: "0x1a2a618f83e89efbd9c9c120ab38c1c2ec9c4e76",
-            nativeAmount: dataFee.toString()
+            nativeAmount: docImgNetFee.toString()
           }
         ]
       };
@@ -213,18 +209,31 @@ class SupplyChainTransactionReview extends Component {
 
   _sendTrans() {
     let docPrice = parseFloat(this._getDocPrice());
-    console.log("this is the docprice", docPrice);
     let imgPrice = parseFloat(this._getImgPrice());
-    console.log("this is the img price", imgPrice);
     let burnAmount = parseFloat(this._getBurnAmount());
-    console.log("this is the burn amount", burnAmount);
     let networkFee = parseFloat(this._getNetworkFee());
-    console.log("this is the network fee", networkFee);
     let total = imgPrice + docPrice + networkFee;
-    this.props.sendTrans(this._getPrices());
+
+    console.log(docPrice, imgPrice, networkFee, total, "chance price check on send trans");
+    let convertingTotal = new BigNumber(total)
+    let newTotal = convertingTotal.toFixed(18)
+    this.props.sendTrans(newTotal);
   }
 
   _getNetworkFee = () => {
+
+        /// 12/16/18 docPrice of 200% of .000032 hercs.. That's .000128 hercs
+        // let transDat = this.props.transDat;
+
+        // if (transDat.documents) {
+        //   let docPrice = 0.000032;
+        //   let convertingPrice = new BigNumber(docPrice);
+        //   let newDocPrice = convertingPrice.toFixed(18);
+        //   return newDocPrice;
+        // } else {
+        //   let docPrice = 0;
+        //   return docPrice;
+        // }
     //Security Fee should be $ 0.000032 worth of hercs. The response should be in hercs.
     //Per Use Fee should be $ 0.000032 worth of hercs. The response should be in Hercs.
     //Network Fee is the combined value of security fee and per use fee. The response should be in Hercs.
@@ -232,7 +241,10 @@ class SupplyChainTransactionReview extends Component {
       let dynamicHercValue = this.state.hercValue;
       let securityFeeInHercs = 0.000032 / dynamicHercValue;
       let perUseFeeInHercs = 0.000032 / dynamicHercValue;
-      return securityFeeInHercs + perUseFeeInHercs;
+      let networkFee = securityFeeInHercs + perUseFeeInHercs;
+      let convertingNetworkFee = new BigNumber(networkFee);
+      let newNetworkFee = convertingNetworkFee.toFixed(18);
+      return newNetworkFee;
     }
   };
 
@@ -261,28 +273,31 @@ class SupplyChainTransactionReview extends Component {
   };
 
   // _getPrices = () => {
-  //     let transDat = this.props.transDat;
-  //     let price = 0;
-  //     let imgPrice = 0;
-  //     let docPrice = 0;
 
-  //     if (transDat.images) {
-  //         console.log("made it into transdat images")
-  //         imgPrice = ((transDat.images.size / 1024) * .00000002) / .4
-  //     };
+  //this function needs to be the doc price + img price + networkfee
 
-  //     if (transDat.documents) {
-  //         docPrice = .000032
-  //     }
+  // let transDat = this.props.transDat;
+  // let price = 0;
+  // let imgPrice = 0;
+  // let docPrice = 0;
 
-  //     price = (docPrice + imgPrice) + .000032;
-  //     console.log(docPrice, imgPrice, price, 'chance price check')
-  //     let convertingPrice = new BigNumber(price)
-  //     let newPrice = convertingPrice.toFixed(6)
+  // if (transDat.images) {
+  //     console.log("made it into transdat images")
+  //     imgPrice = ((transDat.images.size / 1024) * .00000002) / .4
+  // };
 
-  //     return (
-  //         newPrice
-  //     )
+  // if (transDat.documents) {
+  //     docPrice = .000032
+  // }
+
+  // price = (docPrice + imgPrice) + .000032;
+  // console.log(docPrice, imgPrice, price, 'chance price check')
+  // let convertingPrice = new BigNumber(price)
+  // let newPrice = convertingPrice.toFixed(6)
+
+  // return (
+  //     newPrice
+  // )
   // }
 
   _getDocPrice = () => {
