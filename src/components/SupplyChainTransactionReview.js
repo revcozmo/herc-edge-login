@@ -66,6 +66,10 @@ class SupplyChainTransactionReview extends Component {
       console.log("this is the burn amount", burnAmount);
       let networkFee = parseFloat(this._getNetworkFee());
       console.log("this is the network fee", networkFee);
+      let burnAmountPrepped = (burnAmount * 1000000000000000000).toFixed(0);
+      console.log(burnAmountPrepped, "this is the burn amount prepped")
+      let docImgNetFee = ((docPrice + imgPrice + networkFee) * 1000000000000000000).toFixed(0)
+      console.log(((docPrice + imgPrice + networkFee) * 1000000000000000000).toFixed(0), "this is docprice, img price and network fee times 18e1");
       let dataFee = imgPrice + docPrice;
       let total = imgPrice + docPrice + networkFee;
       Alert.alert(
@@ -119,6 +123,8 @@ class SupplyChainTransactionReview extends Component {
     let convertingTotal= new BigNumber(total); // don't have to times 1e18 because its already hercs
     let balance = new BigNumber(this.state.balance);
     let newbalance = balance.minus(convertingTotal);
+    let burnAmountPrepped = (burnAmount * 1000000000000000000).toFixed(0);
+    let docImgNetFeePrepped = (docImgNetFee * 1000000000000000000).toFixed(0)
 
     console.log("chance, do you have enough?", newbalance.isPositive());
 
@@ -148,7 +154,7 @@ class SupplyChainTransactionReview extends Component {
         spendTargets: [
           {
             publicAddress: TOKEN_ADDRESS,
-            nativeAmount: burnAmount.toString()
+            nativeAmount: burnAmountPrepped.toString()
           }
         ]
       };
@@ -162,7 +168,7 @@ class SupplyChainTransactionReview extends Component {
         spendTargets: [
           {
             publicAddress: "0x1a2a618f83e89efbd9c9c120ab38c1c2ec9c4e76",
-            nativeAmount: docImgNetFee.toString()
+            nativeAmount: docImgNetFeePrepped.toString()
           }
         ]
       };
