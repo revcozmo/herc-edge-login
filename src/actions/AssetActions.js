@@ -29,10 +29,10 @@ import {
   SEND_TRANS,
   TRANS_COMPLETE,
   SET_SET,
-  CLEAR_STATE,
+  CLEAR_STATE
 } from "./types";
 
-import axios from 'axios';
+import axios from "axios";
 import store from "../store";
 import firebase from "../constants/Firebase";
 const rootRef = firebase.database().ref();
@@ -46,14 +46,13 @@ import {
   WEB_SERVER_API_STORJ_UPLOAD,
   WEB_SERVER_API_CSV,
   WEB_SERVER_API_UPLOAD_DOCUMENT
-} from "../components/settings"
+} from "../components/settings";
 
 export function clearState() {
-  return{
-    type: CLEAR_STATE,
-  }
+  return {
+    type: CLEAR_STATE
+  };
 }
-
 
 export function getHercId() {
   return dispatch => {
@@ -78,7 +77,7 @@ export function gotHercId(hercId) {
 export function incHercId(hercid) {
   console.log(hercid, "hercid");
   let hercIdplus1 = parseInt(hercid) + 1;
-  console.log(hercIdplus1, 'incHercId Action: transformed hopefully plus one')
+  console.log(hercIdplus1, "incHercId Action: transformed hopefully plus one");
   return {
     type: INC_HERC_ID,
     hercIdplus1
@@ -88,67 +87,69 @@ export function incHercId(hercid) {
 export function getAssets(userName) {
   return dispatch => {
     let assetLabels = [];
-    assetRef.once("value")
+    assetRef
+      .once("value")
       .then(snapshot => {
-        console.log(snapshot.val(), " getAssets Action: what's in the database?")
+        console.log(
+          snapshot.val(),
+          " getAssets Action: what's in the database?"
+        );
         snapshot.forEach(asset => {
           assetLabels.push(
             asset.toJSON()
             // ipfsHash: asset.toJSON().ipfsHash,
             // chainId: asset.toJSON().chainID
           );
-        })
-      }).then(() => {
-        dispatch(gotListAssets(assetLabels))
+        });
       })
-  }
+      .then(() => {
+        dispatch(gotListAssets(assetLabels));
+      });
+  };
 }
 
-
 function gotListAssets(assetList) {
-  console.log("gotListAssetsAction", assetList)
-  return (
-    {
-      type: GOT_LIST_ASSETS,
-      assets: assetList
-    }
-  )
+  console.log("gotListAssetsAction", assetList);
+  return {
+    type: GOT_LIST_ASSETS,
+    assets: assetList
+  };
 }
 
 export function selectAsset(asset) {
-  console.log(asset, 'asset in Select')
-  console.log(asset, 'wtf')
+  console.log(asset, "asset in Select");
+  console.log(asset, "wtf");
   return {
     type: SELECT_ASSET,
     selectAsset: asset
-  }
+  };
 }
 
 export function getAssetDef(ipfsHash) {
   return dispatch => {
-    dispatch(gettingAssetDef(ipfsHash))
+    dispatch(gettingAssetDef(ipfsHash));
     return {
       type: GETTING_ASSET_DEF
-    }
-  }
+    };
+  };
 }
 
 export function gettingAssetDef(ipfsHash) {
   return dispatch => {
-    console.log(ipfsHash, "keeping it simple.")
+    console.log(ipfsHash, "keeping it simple.");
     let singleHash = ipfsHash;
-    axios.get(WEB_SERVER_API_IPFS_GET, { params: singleHash })
+    axios
+      .get(WEB_SERVER_API_IPFS_GET, { params: singleHash })
       .then(response => {
         let assetDef = response.data[0];
         console.log(assetDef, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
-        return assetDef
+        return assetDef;
       })
-      .then((assetDef) => dispatch(gotAssetDef(assetDef)))
+      .then(assetDef => dispatch(gotAssetDef(assetDef)))
       .catch(error => {
-        dispatch(assetDefError(error)),
-          console.log(err)
-      })
-  }
+        dispatch(assetDefError(error)), console.log(err);
+      });
+  };
 }
 
 export function gotAssetDef(assetDef) {
@@ -168,8 +169,6 @@ export function assetDefError(error) {
   };
 }
 
-
-
 export function addAsset(newAsset) {
   return {
     type: ADD_ASSET,
@@ -177,7 +176,8 @@ export function addAsset(newAsset) {
   };
 }
 
-export function settingHeader(assetHeader) { //assetForFirebase will be Name, hercID, Logo Optional
+export function settingHeader(assetHeader) {
+  //assetForFirebase will be Name, hercID, Logo Optional
   return dispatch => {
     console.log(assetHeader, "seewhatwe got, name, hercid, maybe logo");
     // let ipfsAsset = combinedObject.ipfsAsset;
@@ -189,116 +189,130 @@ export function settingHeader(assetHeader) { //assetForFirebase will be Name, he
 
     assetRef.child(assetHeader.Name).set(assetHeader);
     // console.log(ipfsAsset, 'needs stringing?');
-    dispatch({ type: SETTING_HEADER })
-  }
+    dispatch({ type: SETTING_HEADER });
+  };
 }
 
 export function settingHeaderError(error) {
   return {
     type: SETTING_HEADER_ERROR,
     error
-  }
+  };
 }
-
-
 
 export function confirmAssetStarted(assetForIPFS) {
   return dispatch => {
-    dispatch({ type: CONFIRM_STARTED })
+    dispatch({ type: CONFIRM_STARTED });
     let asset = assetForIPFS;
-    console.log(asset, "chance in confirmAssetStarted")
-    let username = store.getState().WalletActReducers.edge_account
+    console.log(asset, "chance in confirmAssetStarted");
+    let username = store.getState().WalletActReducers.edge_account;
 
-    rootRef.child('idology').child(username).once('value').then(snapshot => {
-      console.log(snapshot.val(), "chance snapshot")
-      var organization_name = snapshot.val().organizationName || asset.Name;
-      var dataObject = { key: 'asset', data: asset }
-      axios.post(WEB_SERVER_API_IPFS_ADD, JSON.stringify(dataObject))
-        .then(response => {
-          console.log("1 ipfsHash: ", response)
-          var ipfsHash = response.data.hash
-          return ipfsHash
-        })
-        .then(ipfsHash => {
-          var dataObject = JSON.stringify({ ipfsHash: ipfsHash, organizationName: organization_name })
-          /* This part creates a new factom chain */
-          axios.post(WEB_SERVER_API_FACTOM_CHAIN_ADD, dataObject)
-            .then(response => {
-              console.log("2 web server factom response: ", response)
-              var chainId = response.data
-              return chainId
-            })
-            .then(chainId => {
-              let dataObject = Object.assign({}, { chainId: chainId, ipfsHash: ipfsHash })
-              // if (asset.Logo) {
-              //     dataObject = Object.assign(dataObject, { Logo: asset.Logo })
-              // }
-              console.log("3 going into firebase: ", dataObject)
-              rootRef.child('assets').child(asset.Name).child('hashes').set(dataObject);
-              // rootRef.child('assets').child(asset.Name).child('chainId').set(dataObject.chainId);
+    rootRef
+      .child("idology")
+      .child(username)
+      .once("value")
+      .then(snapshot => {
+        console.log(snapshot.val(), "chance snapshot");
+        var organization_name = snapshot.val().organizationName || asset.Name;
+        var dataObject = { key: "asset", data: asset };
+        axios
+          .post(WEB_SERVER_API_IPFS_ADD, JSON.stringify(dataObject))
+          .then(response => {
+            console.log("1 ipfsHash: ", response);
+            var ipfsHash = response.data.hash;
+            return ipfsHash;
+          })
+          .then(ipfsHash => {
+            var dataObject = JSON.stringify({
+              ipfsHash: ipfsHash,
+              organizationName: organization_name
+            });
+            /* This part creates a new factom chain */
+            axios
+              .post(WEB_SERVER_API_FACTOM_CHAIN_ADD, dataObject)
+              .then(response => {
+                console.log("2 web server factom response: ", response);
+                var chainId = response.data;
+                return chainId;
+              })
+              .then(chainId => {
+                let dataObject = Object.assign(
+                  {},
+                  { chainId: chainId, ipfsHash: ipfsHash }
+                );
+                // if (asset.Logo) {
+                //     dataObject = Object.assign(dataObject, { Logo: asset.Logo })
+                // }
+                console.log("3 going into firebase: ", dataObject);
+                rootRef
+                  .child("assets")
+                  .child(asset.Name)
+                  .child("hashes")
+                  .set(dataObject);
+                // rootRef.child('assets').child(asset.Name).child('chainId').set(dataObject.chainId);
 
-              dispatch({ type: CONFIRM_ASSET_COMPLETE });
-              dispatch(getAssets())
-            }).catch(error => dispatch(factomError(error)))
-
-        })
-        .catch(err =>
-          dispatch(ipfsError(err)))
-    })
-  }
+                dispatch({ type: CONFIRM_ASSET_COMPLETE });
+                dispatch(getAssets());
+              })
+              .catch(error => dispatch(factomError(error)));
+          })
+          .catch(err => dispatch(ipfsError(err)));
+      });
+  };
 }
 
 export function gotIpfs(hash) {
   let assetName = store.getState().AssetReducers.newAsset.Name;
-  assetRef.child(assetName).child('ipfsHash').set(hash)
+  assetRef
+    .child(assetName)
+    .child("ipfsHash")
+    .set(hash);
   then(() => {
     return {
       type: GOT_IPFS,
       ipfs: hash
-    }
-
-  }).catch(error => dispatch(ipfsError(error)))
+    };
+  }).catch(error => dispatch(ipfsError(error)));
 }
 
 export function ipfsError(error) {
   return {
     type: IPFS_ERROR,
     error
-  }
+  };
 }
 
 export function gotFact(hash) {
   let assetName = store.getState().AssetReducers.newAsset.Name;
-  assetRef.child(assetName).child('chainId').set(hash)
+  assetRef
+    .child(assetName)
+    .child("chainId")
+    .set(hash);
   then(() => {
     return {
       type: GOT_FACT,
       chainId: hash
-    }
-
-  }).catch(error => dispatch(factomError(error)))
-
+    };
+  }).catch(error => dispatch(factomError(error)));
 
   return {
     type: GOT_IPFS,
     fctHash: hash
-  }
-
+  };
 }
 
 export function factomError(error) {
   return {
     type: FACTOM_ERROR,
     error
-  }
+  };
 }
 
 export function confirmAssetComplete() {
   return {
     type: CONFIRM_ASSET_COMPLETE
-  }
+  };
 }
-
 
 export function deleteAsset(key) {
   let delKey = key;
@@ -321,156 +335,211 @@ export function startTrans(trans) {
 export function sendTrans(transPrice) {
   // TODO: charge payment. trans = 0.000125
   return dispatch => {
-    dispatch({ type: SEND_TRANS })
+    dispatch({ type: SEND_TRANS });
 
-    let dTime = Date.now()
-    let transObject = store.getState().AssetReducers.trans
-    let organizationName = store.getState().WalletActReducers.organizationName
+    let dTime = Date.now();
+    let transObject = store.getState().AssetReducers.trans;
+    let organizationName = store.getState().WalletActReducers.organizationName;
 
     // let transObject = state.AssetReducers.selectedAsset.trans;
-    let header = Object.assign({},transObject.header, {
+    let header = Object.assign({}, transObject.header, {
       ...transObject.header,
       price: transPrice
     }); //tXlocation, hercId, price, name
 
     let data = transObject.data; //documents, images, properties, dTime
-    let keys = Object.keys(data) //[ 'dTime', 'documents', 'images', 'properties' ]
-    console.log(keys, "chance keys")
-    let promiseArray = []
+    let keys = Object.keys(data); //[ 'dTime', 'documents', 'images', 'properties' ]
+    console.log(keys, "chance keys");
+    let promiseArray = [];
 
     //Checks if documents, metrics, images and EDIT was added
     keys.forEach(key => {
       if (data[key].image) {
-        var base64 = data[key].image
-        var dataObject = Object.assign({}, { key: key }, { data: encodeURIComponent(base64) })
-        promiseArray.push(axios.post(WEB_SERVER_API_STORJ_UPLOAD, JSON.stringify(dataObject))
-          .then(response => { return response }) // {key: 'images', hash: 'QmU1D1eAeSLC5Dt4wVRR'}
-          .catch(error => { console.log(error) }))
-      } else if (data[key].content) {
-        let contentTypeName = {"content": encodeURIComponent(data[key].content), "type": data[key].type, "name": data[key].name}
-        var dataObject = Object.assign({}, { "key": key }, { "data": contentTypeName })
-        promiseArray.push(axios.post(WEB_SERVER_API_UPLOAD_DOCUMENT, JSON.stringify(dataObject))
-          .then(response => { return response })
-          .catch(error => { console.log(error) }))
-      } else if (Object.keys(data[key]).length != 0 && data[key].constructor === Object) {
-        var dataObject = Object.assign({}, { key: key }, { data: data[key] }) // {key: 'properties', data: data[key]}
+          console.log("***image has been found in the send trans!***")
+        var base64 = data[key].image;
+        var dataObject = Object.assign(
+          {},
+          { key: key },
+          { data: encodeURIComponent(base64) }
+        );
         promiseArray.push(
-          axios.post(WEB_SERVER_API_IPFS_ADD, JSON.stringify(dataObject))
-            .then(response => { return response }) // {key: 'properties', hash: 'QmU1D1eAeSLC5Dt4wVRR'}
-            .catch(error => { console.log(error) }))
+          axios
+            .post(WEB_SERVER_API_STORJ_UPLOAD, JSON.stringify(dataObject))
+            .then(response => {
+              return response;
+            }) // {key: 'images', hash: 'QmU1D1eAeSLC5Dt4wVRR'}
+            .catch(error => {
+              console.log(error);
+            })
+        );
+      } else if (data[key].content) {
+        console.log("***content has been found in the send trans!***")
+        let contentTypeName = {
+          content: encodeURIComponent(data[key].content),
+          type: data[key].type,
+          name: data[key].name
+        };
+        var dataObject = Object.assign(
+          {},
+          { key: key },
+          { data: contentTypeName }
+        );
+        console.log(dataObject, "this is the content data object***")
+        promiseArray.push(
+          axios
+            .post(WEB_SERVER_API_UPLOAD_DOCUMENT, JSON.stringify(dataObject))
+            .then(response => {
+              console.log(response, " this is the response after posting to the web server API upload document ****")
+              return response;
+            })
+            .catch(error => {
+              console.log(error);
+            })
+        );
+      } else if (
+        Object.keys(data[key]).length != 0 &&
+        data[key].constructor === Object
+      ) {
+        var dataObject = Object.assign({}, { key: key }, { data: data[key] }); // {key: 'properties', data: data[key]}
+        promiseArray.push(
+          axios
+            .post(WEB_SERVER_API_IPFS_ADD, JSON.stringify(dataObject))
+            .then(response => {
+              return response;
+            }) // {key: 'properties', hash: 'QmU1D1eAeSLC5Dt4wVRR'}
+            .catch(error => {
+              console.log(error);
+            })
+        );
       }
-    })
+    });
 
-  let chainId = store.getState().AssetReducers.selectedAsset.hashes.chainId;
-
+    let chainId = store.getState().AssetReducers.selectedAsset.hashes.chainId;
+    console.log(promiseArray, "this is the promise array")
     Promise.all(promiseArray)
       .then(results => {
-        console.log(results, 'send_trans result chance')
+        console.log(results, "send_trans result chance");
         // results = [{key: 'properties', hash: 'QmU1D1eAeSLC5Dt4wVRR'}, {key: 'images', hash: 'QmU1D1eAeSLC5Dt4wVRR'}]
         // TODO: add error handling for undefined results
-        var hashlist = results.map(result => { return result.data })
-        var factomEntry = { hash: hashlist, chainId: chainId, assetInfo: organizationName }
-        console.log(factomEntry, "chance factomEntry")
-        axios.post(WEB_SERVER_API_FACTOM_ENTRY_ADD, JSON.stringify(factomEntry))
-          .then(response => { //response.data = entryHash
-            var dataObject = {}
-            hashlist.map(hash => dataObject[hash.key] = hash.hash)
-            var firebaseHeader = Object.assign({}, header, { factomEntry: response.data })
-            rootRef.child('assets').child(firebaseHeader.name).child('transactions').child(dTime).set({ data: dataObject, header: firebaseHeader })
-            console.log("....finished writing to firebase.")
-            dispatch({type:TRANS_COMPLETE})
+        var hashlist = results.map(result => {
+          return result.data;
+        });
+        var factomEntry = {
+          hash: hashlist,
+          chainId: chainId,
+          assetInfo: organizationName
+        };
+        console.log(factomEntry, "chance factomEntry");
+        axios
+        .post(WEB_SERVER_API_FACTOM_ENTRY_ADD, JSON.stringify(factomEntry))
+          .then(response => {
+            console.log(response, "**** this is da RESPONSE in assetActions ****")
+            //response.data = entryHash
+            var dataObject = {};
+            hashlist.map(hash => (dataObject[hash.key] = hash.hash));
+            var firebaseHeader = Object.assign({}, header, {
+              factomEntry: response.data
+            });
+            rootRef
+              .child("assets")
+              .child(firebaseHeader.name)
+              .child("transactions")
+              .child(dTime)
+              .set({ data: dataObject, header: firebaseHeader });
+            console.log("....finished writing to firebase.");
+            dispatch({ type: TRANS_COMPLETE });
           })
-          .catch(err => { console.log(err) })
+          .catch(err => {
+            console.log(err);
+          });
       })
-      .catch(err => { console.log(err) })
-    }
+      .catch(err => {
+        console.log(err);
+      });
+  };
 
   //   return {
   //     type: TRANS_COMPLETE,
   //     data: trans
   //   };
   // }
-
 }
 
+export function addMetrics(newMetrics) {
+  return {
+    type: ADD_METRICS,
+    data: newMetrics
+  };
+}
 
-  export function addMetrics(newMetrics) {
-    return {
-      type: ADD_METRICS,
-      data: newMetrics
-    };
-  }
+export function addPhoto(imgObj) {
+  return {
+    type: ADD_PHOTO,
+    data: imgObj.image,
+    size: imgObj.size,
+    uri: imgObj.uri
+  };
+}
 
-  export function addPhoto(imgObj) {
-    return {
-      type: ADD_PHOTO,
-      data: imgObj.image,
-      size: imgObj.size,
-      uri: imgObj.uri
-    };
-  }
+export function addDoc(doc) {
+  let document = doc;
+  return {
+    type: ADD_DOC,
+    document
+  };
+}
 
-  export function addDoc(doc) {
-    let document = doc;
-    return {
-      type: ADD_DOC,
-      document
-    };
-  }
+export function setSet(item) {
+  return {
+    type: SET_SET,
+    item
+  };
+}
 
-  export function setSet(item) {
-    return {
-      type: SET_SET,
-      item
-    };
-  }
+export function getTrans(assetKey) {
+  return dispatch => {
+    dispatch({
+      type: GET_TRANS
+    });
 
-  export function getTrans(assetKey) {
-    return dispatch => {
-      dispatch({
-        type: GET_TRANS
-      });
-
-      console.log("getTrans action");
-      let assetTrans = [];
-      rootRef
-        .child("assets/" + assetKey + "/transactions")
-        .once("value")
-        .then(snapshot => {
-          snapshot.forEach(trans => {
-            console.log("object in getTrans!");
-            assetTrans.push({
-              data: trans.toJSON().data
-            });
+    console.log("getTrans action");
+    let assetTrans = [];
+    rootRef
+      .child("assets/" + assetKey + "/transactions")
+      .once("value")
+      .then(snapshot => {
+        snapshot.forEach(trans => {
+          console.log("object in getTrans!");
+          assetTrans.push({
+            data: trans.toJSON().data
           });
-        })
-        .then(() => dispatch(gotAssetTrans(assetTrans)));
-    };
-  }
+        });
+      })
+      .then(() => dispatch(gotAssetTrans(assetTrans)));
+  };
+}
 
-  export function gotAssetTrans(assetTrans) {
-    let transactions = assetTrans;
-    console.log("got the transactions list");
-    return {
-      type: GOT_ASSET_TRANS,
-      transactions
-    };
-  }
+export function gotAssetTrans(assetTrans) {
+  let transactions = assetTrans;
+  console.log("got the transactions list");
+  return {
+    type: GOT_ASSET_TRANS,
+    transactions
+  };
+}
 
-  export function getOriginTrans(trans) {
-    console.log(trans, "INSIDE get Origin");
-    return (
-      {
-        type: GET_ORIGIN_TRANS,
-        trans
-      }
-    )
-  }
+export function getOriginTrans(trans) {
+  console.log(trans, "INSIDE get Origin");
+  return {
+    type: GET_ORIGIN_TRANS,
+    trans
+  };
+}
 
-  export function getQRData(data) {
-    console.log(data, "this is actions getQRData");
-    return {
-      type: GET_QR_DATA,
-      data
-    }
-  }
+export function getQRData(data) {
+  console.log(data, "this is actions getQRData");
+  return {
+    type: GET_QR_DATA,
+    data
+  };
+}

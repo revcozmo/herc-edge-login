@@ -39,8 +39,7 @@ class SupplyChainTransactionReview extends Component {
     this._getDynamicHercValue().then(response =>
       this.setState({ hercValue: response })
     );
-    // console.log(this._getNetworkFee(), "this is the network fee from component did mount");
-    // console.log(this._getDynamicHercValue(), " this is the dynamic herc value, call made in component did mount");
+
     try {
       let balance = new BigNumber(this.props.watchBalance["HERC"]);
       this.setState({ balance: balance.times(1e-18).toFixed(6) });ac
@@ -62,15 +61,8 @@ class SupplyChainTransactionReview extends Component {
       console.log("this is the docprice", docPrice);
       let imgPrice = parseFloat(this._getImgPrice());
       console.log("this is the img price", imgPrice);
-      let burnAmount = parseFloat(this._getBurnAmount());
-      console.log("this is the burn amount", burnAmount);
       let networkFee = parseFloat(this._getNetworkFee());
       console.log("this is the network fee", networkFee);
-      let burnAmountPrepped = (burnAmount * 1000000000000000000).toFixed(0);
-      console.log(burnAmountPrepped, "this is the burn amount prepped")
-      let docImgNetFee = ((docPrice + imgPrice + networkFee) * 1000000000000000000).toFixed(0)
-      console.log(((docPrice + imgPrice + networkFee) * 1000000000000000000).toFixed(0), "this is docprice, img price and network fee times 18e1");
-      let dataFee = imgPrice + docPrice;
       let total = imgPrice + docPrice + networkFee;
       Alert.alert(
         "Confirm",
@@ -83,7 +75,6 @@ class SupplyChainTransactionReview extends Component {
           "\nNetwork Fee: \n" +
           networkFee.toFixed(18) +
           " HERC" +
-          // '\nSecurity Fee: \n' + burnAmount + ' HERC' +
           "\n\nTotal: \n" +
           total.toFixed(18) +
           " HERC" +
@@ -114,17 +105,14 @@ class SupplyChainTransactionReview extends Component {
     }
     let docPrice = parseFloat(this._getDocPrice());
     let imgPrice = parseFloat(this._getImgPrice());
-    let burnAmount = parseFloat(this._getBurnAmount());
-    // let dataFee = new BigNumber(this._getDocPrice() + this._getImgPrice());
     let networkFee = parseFloat(this._getNetworkFee());
-    let docImgNetFee = docPrice + imgPrice + networkFee;
-    let convertingDocImgNetFee = new BigNumber(docImgNetFee);
-    let total = docPrice + imgPrice + burnAmount + networkFee;
+    let docImgFee = docPrice + imgPrice
+    let total = docPrice + imgPrice + networkFee;
     let convertingTotal= new BigNumber(total); // don't have to times 1e18 because its already hercs
     let balance = new BigNumber(this.state.balance);
     let newbalance = balance.minus(convertingTotal);
-    let burnAmountPrepped = (burnAmount * 1000000000000000000).toFixed(0);
-    let docImgNetFeePrepped = (docImgNetFee * 1000000000000000000).toFixed(0)
+    let docImgFeePrepped = (docImgFee * Math.pow(10,18)).toFixed(0);
+    let networkFeePrepped = (networkFee * Math.pow(10,18)).toFixed(0);
 
     console.log("chance, do you have enough?", newbalance.isPositive());
 
@@ -149,12 +137,12 @@ class SupplyChainTransactionReview extends Component {
         currencyCode: "HERC",
         metadata: {
           name: "Transfer From Herc Wallet",
-          category: "Transfer:Wallet:Burn Amount"
+          category: "Transfer:Wallet:Network Fee"
         },
         spendTargets: [
           {
             publicAddress: TOKEN_ADDRESS,
-            nativeAmount: burnAmountPrepped.toString()
+            nativeAmount: networkFeePrepped.toString()
           }
         ]
       };
@@ -168,7 +156,7 @@ class SupplyChainTransactionReview extends Component {
         spendTargets: [
           {
             publicAddress: "0x1a2a618f83e89efbd9c9c120ab38c1c2ec9c4e76",
-            nativeAmount: docImgNetFeePrepped.toString()
+            nativeAmount: docImgFeePrepped.toString()
           }
         ]
       };
@@ -216,30 +204,16 @@ class SupplyChainTransactionReview extends Component {
   _sendTrans() {
     let docPrice = parseFloat(this._getDocPrice());
     let imgPrice = parseFloat(this._getImgPrice());
-    let burnAmount = parseFloat(this._getBurnAmount());
     let networkFee = parseFloat(this._getNetworkFee());
     let total = imgPrice + docPrice + networkFee;
 
     console.log(docPrice, imgPrice, networkFee, total, "chance price check on send trans");
     let convertingTotal = new BigNumber(total)
-    let newTotal = convertingTotal.toFixed(18)
+    let newTotal = convertingTotal.toFixed(6)
     this.props.sendTrans(newTotal);
   }
 
   _getNetworkFee = () => {
-
-        /// 12/16/18 docPrice of 200% of .000032 hercs.. That's .000128 hercs
-        // let transDat = this.props.transDat;
-
-        // if (transDat.documents) {
-        //   let docPrice = 0.000032;
-        //   let convertingPrice = new BigNumber(docPrice);
-        //   let newDocPrice = convertingPrice.toFixed(18);
-        //   return newDocPrice;
-        // } else {
-        //   let docPrice = 0;
-        //   return docPrice;
-        // }
     //Security Fee should be $ 0.000032 worth of hercs. The response should be in hercs.
     //Per Use Fee should be $ 0.000032 worth of hercs. The response should be in Hercs.
     //Network Fee is the combined value of security fee and per use fee. The response should be in Hercs.
@@ -265,51 +239,15 @@ class SupplyChainTransactionReview extends Component {
       .then(responseJson => {
         let responseObject = responseJson;
         let highPrice = responseObject.h;
-        // this.setState({
-        //    hercValue: highPrice
-        // })
         return highPrice;
       })
       .catch(error => {
         console.error(error);
       });
-
-    // let dynamicHercValue = 0.27154204;
-    // return dynamicHercValue;
   };
 
-  // _getPrices = () => {
-
-  //this function needs to be the doc price + img price + networkfee
-
-  // let transDat = this.props.transDat;
-  // let price = 0;
-  // let imgPrice = 0;
-  // let docPrice = 0;
-
-  // if (transDat.images) {
-  //     console.log("made it into transdat images")
-  //     imgPrice = ((transDat.images.size / 1024) * .00000002) / .4
-  // };
-
-  // if (transDat.documents) {
-  //     docPrice = .000032
-  // }
-
-  // price = (docPrice + imgPrice) + .000032;
-  // console.log(docPrice, imgPrice, price, 'chance price check')
-  // let convertingPrice = new BigNumber(price)
-  // let newPrice = convertingPrice.toFixed(6)
-
-  // return (
-  //     newPrice
-  // )
-  // }
-
   _getDocPrice = () => {
-    /// 12/16/18 docPrice of 200% of .000032 hercs.. That's .000128 hercs
     let transDat = this.props.transDat;
-
     if (transDat.documents) {
       let docPrice = 0.000032;
       let convertingPrice = new BigNumber(docPrice);
@@ -344,13 +282,6 @@ class SupplyChainTransactionReview extends Component {
       );
       return imgPrice;
     }
-  };
-
-  _getBurnAmount = () => {
-    let burnPrice = 0.000032;
-    let convertingPrice = new BigNumber(burnPrice);
-    let newBurnPrice = convertingPrice.toFixed(18);
-    return newBurnPrice;
   };
 
   _hasImage = transObj => {
@@ -393,11 +324,6 @@ class SupplyChainTransactionReview extends Component {
           </View>
         </View>
       );
-      console.log(
-        transInfo.price,
-        "transprice plus docprice",
-        this.state.docPrice
-      );
     }
     return <Text style={localStyles.revPropVal}>No Documents</Text>;
   };
@@ -425,7 +351,6 @@ class SupplyChainTransactionReview extends Component {
   };
 
   _goToMenu = () => {
-    // const { navigate } = this.props.navigate;
     this._changeModalVisibility(false);
     this.props.navigate("MenuOptions");
   };
@@ -433,14 +358,7 @@ class SupplyChainTransactionReview extends Component {
   render() {
     let trans = store.getState().AssetReducers.trans;
     let transInfo = trans.header;
-    // let fctPrice = this.state ? this.state.fctPrice : "";
     let transDat = trans.data;
-    console.log(
-      transInfo,
-      "transinfo in TransactionReviewrender",
-      transInfo.price,
-      "transdata"
-    );
     let locationImage =
       this.props.transInfo.tXLocation === "recipient"
         ? newRecipient
@@ -479,10 +397,7 @@ class SupplyChainTransactionReview extends Component {
         >
           <Image source={submit} style={localStyles.submitButton} />
         </TouchableHighlight>
-        {/* <View style={localStyles.feeContainer}>
-                    <Image style={localStyles.hercPillarIcon} source={fee} />
-                    <Text style={localStyles.teePrice}>{this._getPrices()}</Text>
-                </View> */}
+
         <Modal
           transparent={false}
           animationType={"none"}
@@ -516,7 +431,6 @@ class SupplyChainTransactionReview extends Component {
                   color="#091141"
                 />
               </View>
-
               {this.props.transDataFlags.confTransComplete && (
                 <View>
                   <Text style={modalStyle.wordsText}>
@@ -667,7 +581,6 @@ const mapStateToProps = state => ({
   transDataFlags: state.AssetReducers.transDataFlags,
   wallet: state.WalletActReducers.wallet,
   watchBalance: state.WalletActReducers.watchBalance
-  // price: state.dataReducer.prices.list.pricePerHercForFCT
 });
 
 const mapDispatchToProps = dispatch => ({
