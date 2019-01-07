@@ -32,7 +32,8 @@ class SupplyChainTransactionReview extends Component {
     this.state = {
       modalVisible: false,
       loading: false,
-      balance: null
+      balance: null,
+      hercValue: null
     };
   }
   componentDidMount = () => {
