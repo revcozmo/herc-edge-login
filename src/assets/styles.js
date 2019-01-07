@@ -23,14 +23,18 @@ module.exports = StyleSheet.create({
   //   marginBottom: 15,
   //   marginTop: 10
   // },
-  // headerText: {
-  //   fontFamily: "dinPro",
-  //   fontSize: 22,
-  //   alignSelf: "center",
-  //   fontWeight: "bold",
-  //   color: "black",
-  //   textAlign: "center"
-  // },
+  headerStyle: {
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  headerText: {
+    fontFamily: "Montserrat",
+    fontSize: 22,
+    alignSelf: "center",
+    fontWeight: "bold",
+    color: colorConstants.MainGray,
+    textAlign: "center"
+  },
   // backArrow: {
   //   width: 35,
   //   height: 30,

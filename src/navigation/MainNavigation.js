@@ -9,6 +9,8 @@ import {
 } from "react-native";
 import React, { Component } from "react";
 import { StackNavigator } from "react-navigation";
+import Icon from 'react-native-vector-icons/FontAwesome';
+import colors from "../assets/colorConstants";
 
 import BlockScanner from "../screens/BlockScanner";
 import Camera from "../screens/Camera";
@@ -86,11 +88,18 @@ let headerStyles = StyleSheet.create({
         textAlign: "center",
         marginTop: 2,
     },
+    sideHeaders: {
+        height: 20,
+        width: 20,
+        alignItems: 'flex-end',
+        marginTop: 10,
+        backgroundColor: colors.MainGray
+    }
 })
 
 
 const MainNavigator = StackNavigator({ //this will be "createStackNavigator" after upgrading react-navigation
-    ComponentTest: {screen: ComponentTest},
+    ComponentTest: { screen: ComponentTest },
     Login: { screen: Login },
     MenuOptions: { screen: MenuOptions },
     NewAssetLanding: { screen: NewAssetLanding },
@@ -99,7 +108,7 @@ const MainNavigator = StackNavigator({ //this will be "createStackNavigator" aft
 
     HiprLanding: { screen: HiprLanding },
     HiprAssets: { screen: HiprAssets },
-    HiprTransactions : { screen: HiprTransactions },
+    HiprTransactions: { screen: HiprTransactions },
     Hipr: { screen: Hipr },
 
     BlockScanner: { screen: BlockScanner },
@@ -130,48 +139,78 @@ const MainNavigator = StackNavigator({ //this will be "createStackNavigator" aft
     DocumentQRScanner: { screen: DocumentQRScanner },
 
 }, {
-    initialRouteName: 'ComponentTest',
+        initialRouteName: 'ComponentTest',
 
-    // initialRouteName: 'Login',
+        // initialRouteName: 'Login',
         navigationOptions: ({ navigation }) => ({
-
-            headerTitle:
-                <View style={headerStyles.header__container}>
-                    <View style={headerStyles.header__container__centeredBox}>
-                        <View style={headerStyles.header__image__box}>
-                            {/* <TouchableHighlight style={{justifyContent: "center"}} onPress={() => navigation.navigate("MenuOptions")}>
-                            </TouchableHighlight> */}
-                            <Image
-                                style={headerStyles.assetHeaderLogo}
-                                source={roundImage}
-                            />
-                        </View>
-                        <View style={headerStyles.header__text__box}>
-                            <Text style={headerStyles.headerText}>Main Options </Text>
-                        </View>
-                    </View>
-                </View>,
-
             headerStyle: {
-                height: Platform.OS === 'android' ? 60 : 100,
-                backgroundColor: 'white',
+                textAlign: 'center',
+                backgroundColor: "#091140",
+                justifyContent: 'center',
+                alignContent: 'center',
 
             },
+            title:
+                "Welcome",
+          
             headerTitleStyle: {
-                marginTop: Platform.OS === 'android' ? 20 : 0,
+                marginTop: Platform.OS === 'android' ? 25 : 0,
                 textAlign: 'center',
                 textAlignVertical: 'center',
-                backgroundColor: 'white',
+                backgroundColor: "#091140",
                 alignSelf: 'center',
+                fontFamily: "Monteserrat",
+                justifyContent: 'center',
+                color: 'white'
 
             },
-            headerRight: <TouchableHighlight onPress={() => navigation.navigate("Settings")}>
-            <Image source={DrawerIcon} style={styles.drawerIcon} />
-          </TouchableHighlight>
-          ,
-            headerLeft: <TouchableHighlight onPress={() => navigation.goBack()}>
-                <Image source={backArrow} style={styles.backArrow} />
+            headerRight: <TouchableHighlight style={headerStyles.sideHeaders} onPress={() => navigation.navigate("Settings")}>
+                <Icon name='heart' size={18} color={colors.MainGold} />
             </TouchableHighlight>
+            ,
+            headerLeft: <TouchableHighlight style={headerStyles.sideHeaders} onPress={() => navigation.goBack()}>
+                <Icon name='arrow-left' size={18} color={colors.MainGold} />
+            </TouchableHighlight>
+
+
+
+            //     headerTitle:
+            //         <View style={headerStyles.header__container}>
+            //             <View style={headerStyles.header__container__centeredBox}>
+            //                 <View style={headerStyles.header__image__box}>
+            //                     {/* <TouchableHighlight style={{justifyContent: "center"}} onPress={() => navigation.navigate("MenuOptions")}>
+            //                     </TouchableHighlight> */}
+            //                     <Image
+            //                         style={headerStyles.assetHeaderLogo}
+            //                         source={roundImage}
+            //                     />
+            //                 </View>
+            //                 <View style={headerStyles.header__text__box}>
+            //                     <Text style={headerStyles.headerText}>Main Options </Text>
+            //                 </View>
+            //             </View>
+            //         </View>,
+
+            //     headerStyle: {
+            //         height: Platform.OS === 'android' ? 60 : 100,
+            //         backgroundColor: 'white',
+
+            //     },
+            //     headerTitleStyle: {
+            //         marginTop: Platform.OS === 'android' ? 20 : 0,
+            //         textAlign: 'center',
+            //         textAlignVertical: 'center',
+            //         backgroundColor: 'white',
+            //         alignSelf: 'center',
+
+            //     },
+            //     headerRight: <TouchableHighlight onPress={() => navigation.navigate("Settings")}>
+            //     <Image source={DrawerIcon} style={styles.drawerIcon} />
+            //   </TouchableHighlight>
+            //   ,
+            //     headerLeft: <TouchableHighlight onPress={() => navigation.goBack()}>
+            //         <Image source={backArrow} style={styles.backArrow} />
+            //     </TouchableHighlight>
 
         })
     })
