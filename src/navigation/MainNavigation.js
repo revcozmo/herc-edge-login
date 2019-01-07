@@ -143,32 +143,27 @@ const MainNavigator = StackNavigator({ //this will be "createStackNavigator" aft
 
         // initialRouteName: 'Login',
         navigationOptions: ({ navigation }) => ({
-            headerStyle: {
-                textAlign: 'center',
-                backgroundColor: "#091140",
-                justifyContent: 'center',
-                alignContent: 'center',
+            // headerStyle: {
+            //     textAlign: 'center',
+            //     backgroundColor: "#091140",
+            //     justifyContent: 'center',
+            //     alignContent: 'center',
 
-            },
-            title:
-                "Welcome",
-          
-            headerTitleStyle: {
-                marginTop: Platform.OS === 'android' ? 25 : 0,
-                textAlign: 'center',
-                textAlignVertical: 'center',
-                backgroundColor: "#091140",
-                alignSelf: 'center',
-                fontFamily: "Monteserrat",
-                justifyContent: 'center',
-                color: 'white'
+            // },
+            headerStyle: styles.headerStyle,
+            title: "Welcome",
+            headerTitleStyle: styles.headerText,
+            // headerTitleStyle: {
+            //     color: 'white',
+            //     marginHorizontal: 0,
+            //     marginLeft: '22%'
 
-            },
-            headerRight: <TouchableHighlight style={headerStyles.sideHeaders} onPress={() => navigation.navigate("Settings")}>
+            // },
+            headerRight: <TouchableHighlight style={styles.sideHeaders} onPress={() => navigation.navigate("Settings")}>
                 <Icon name='heart' size={18} color={colors.MainGold} />
             </TouchableHighlight>
             ,
-            headerLeft: <TouchableHighlight style={headerStyles.sideHeaders} onPress={() => navigation.goBack()}>
+            headerLeft: <TouchableHighlight style={[styles.sideHeaders, styles.backArrow]} onPress={() => navigation.goBack()}>
                 <Icon name='arrow-left' size={18} color={colors.MainGold} />
             </TouchableHighlight>
 

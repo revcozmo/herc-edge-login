@@ -1,6 +1,7 @@
 "use strict";
-import { StyleSheet } from "react-native";
+import { StyleSheet, Platform } from "react-native";
 import colorConstants from "./colorConstants";
+import { platform } from "os";
 
 module.exports = StyleSheet.create({
 
@@ -25,25 +26,38 @@ module.exports = StyleSheet.create({
   // },
   headerStyle: {
     justifyContent: 'center',
-    alignItems: 'center'
+    textAlign: 'center',
+    alignItems: 'center',
+    height: Platform.OS === 'android' ? 60 : 100,
+    backgroundColor: colorConstants.MainBlue,
+    shadowColor: 'transparent',
+    paddingTop: 5,
+    
+    
   },
   headerText: {
+    paddingTop: 5,
+    marginLeft: '23%',
     fontFamily: "Montserrat",
     fontSize: 22,
-    alignSelf: "center",
+    // alignSelf: "center",
     fontWeight: "bold",
     color: colorConstants.MainGray,
-    textAlign: "center"
+    // textAlign: "center",
+    // alignItems: "center",
+    // justifyContent: "center"
+    
   },
-  // backArrow: {
-  //   width: 35,
-  //   height: 30,
-  //   marginLeft: 5
-  // },
+  sideHeaders: {
+    marginTop: 18,
+    width: 30,
+    height: 30, 
+  },
+  backArrow: {
+    marginLeft: 5
+  },
   // drawerIcon: {
-  //   width: 30,
-  //   height: 30,
-  //   marginRight: 25,
+  //   marginRight: 0,
   // },
   // assetHeaderLogo: {
   //   height: 45,

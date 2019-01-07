@@ -22,7 +22,7 @@
 //         shadowColor: 'transparent'
 //     },
 
-//     headerTitle= (<Text style={styles.headerText}>Register Asset</Text>),
+//     headerTitle= 'Register Asset'
 
 //     headerLeft= backArrow
 
