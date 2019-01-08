@@ -73,12 +73,16 @@ module.exports = StyleSheet.create({
   //   flexDirection: "row",
   //   marginLeft: "16%",
   // },
-  // container: {
-  //   flex: 1,
-  //   backgroundColor: "#ffffff",
-  //   alignItems: "center",
-  //   justifyContent: "center"
-  // },
+  container: {
+    width: '100%',
+    // backgroundColor: colorConstants.MainBlue,
+    backgroundColor: colorConstants.MainGray,
+    alignItems: "center",
+    justifyContent: "center",
+    // marginTop: 20,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20
+},
   // containerCenter: {
   //   width: "95%",
   //   height: "100%",

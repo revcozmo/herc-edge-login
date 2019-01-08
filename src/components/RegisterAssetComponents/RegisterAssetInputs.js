@@ -2,18 +2,12 @@ import React, { Component } from 'react';
 import {
     StyleSheet,
     View,
-    TextInput,
-    TouchableHighlight,
-    Text,
-    Dimensions
-
+    TextInput
 } from 'react-native';
-// import styles from "../../assets/styles";
+
+import Icon from 'react-native-vector-icons/FontAwesome';
 import colorConstants from "../../assets/colorConstants";
-import Icon from 'react-native-vector-icons';
-// import console = require('console');
-
-
+import { widthPercentageToDP, heightPercentageToDP } from '../../assets/responisiveUI';
 
 export function RegisterAssetInput(props) {
     return (
@@ -26,41 +20,56 @@ export function RegisterAssetInput(props) {
     )
 }
 
+export default class RegisterAssetPassword extends Component {
+    constructor(props) {
+        super(props);
+        console.log(props, "registerAssetPassword")
+        this.state = {
+            showPass: true
+        }
+    }
+    onHideShow = () => {
+        console.log("hidingshow")
+        this.setState({
+            showPass: !this.state.showPass
+        })
+    }
 
-// export function RegisterAssetPassword(props)  {
+    render() {
+        return (
+            <View style={localStyles.RegisterAssetInputPasswordContainer}>
 
-//         console.log(this.props)
-//         let hidePW = true;
+                <TextInput style={[localStyles.textInput, { flex: 1 }]}
+                    placeholder={this.props.placeholder}
+                    placeholder-text-color={colorConstants.MainBlue}
+                    underlineColorAndroid='transparent'
+                    secureTextEntry={this.state.showPass}
+                    onChangeText={pass => this.props.onChange(pass)}
 
+                />
+                <Icon.Button
+                    style={localStyles.eyeBallButton}
+                    color={colorConstants.MainBlue}
+                    name='eye'
+                    onPress={() => this.onHideShow()}
 
-//     return (
-//         <View style={localStyles.RegisterAssetInputPasswordContainer}>
-         
-//          <Text>{props.placeholder}</Text>
-//             {/* <TextInput style={localStyles.textInput}
-//                 placeholder={this.props.placeholder}
-//                 placeholder-text-color={colorConstants.MainBlue}
-//                 underlineColorAndroid='transparent'
-//                 secureTextEntry={hidePW}
-//                 onChangeText={pass => this.props.onChange(pass)}
+                >
+                </Icon.Button>
 
-//             /> */}
-//         </View>
-//                     // <Icon name='eye' size={18} color={colorConstants.MainGold} />
-//     )
-// }
-
-
-
-
-
-
+            </View>
+        )
+    }
+}
 
 const localStyles = StyleSheet.create({
     RegisterAssetInputPasswordContainer: {
         justifyContent: 'space-between',
         flexDirection: 'row',
-        backgroundColor: colorConstants.MainSubGreen,
+        backgroundColor: colorConstants.MainGold,
+        width: widthPercentageToDP('90'),
+        height: heightPercentageToDP('6'),
+        borderRadius: 8,
+
     },
     textInputContainer: {
         backgroundColor: colorConstants.MainGray,
@@ -69,12 +78,20 @@ const localStyles = StyleSheet.create({
         borderRadius: 8
     },
     textInput: {
-       width: '90%',
-       height: '18%',
+        width: widthPercentageToDP('90'),
+        height: heightPercentageToDP('6'),
         borderRadius: 2,
         backgroundColor: colorConstants.MainGold
 
     },
+    eyeBallButton: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingLeft: 5,
+        backgroundColor: colorConstants.MainGold,
+        height: heightPercentageToDP('6'),
+        borderRadius: 0,
+    }
     // width: (width * .9),
     // height: (height * .056),
 

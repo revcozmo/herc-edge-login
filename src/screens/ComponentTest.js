@@ -26,7 +26,9 @@ export default class ComponentTest extends Component {
     constructor(props) {
         super(props);
         console.log("componentTest")
-        var Dims = Dimensions.get('window');
+        this.state={
+            showPass: true
+        }
     }
 
     onChange = (pwChar) => {
@@ -36,13 +38,19 @@ export default class ComponentTest extends Component {
         });
     }
 
+    onHideShow = () => {
+        console.log("hidingshow")
+        this.setState({
+            showPass: !this.state.showPass
+        })
+    }
+
     render() {
         console.log(this.Dims)
         return (
 
             <View style={localStyles.container}>
-                <Icon.Button name="facebook" backgroundColor="#3b5998" onPress={this.loginWithFacebook}>
-                    Login with Facebook
+                <Icon.Button name="eye" backgroundColor="#3b5998" onPress={() => console.log("eyeball press")}>
             </Icon.Button>
 
 
@@ -55,10 +63,12 @@ export default class ComponentTest extends Component {
 
                 <View style={localStyles.PasswordInputContainer}>
                     <Text style={styles.passwordInputlabel}>MainGray!!!!</Text>
-                    {/* <RegisterAssetPassword placeholder='SecondplaceholderTest' onChange={this.onChange} /> */}
+                    <RegisterAssetPassword placeholder='SecondplaceholderTest' onChange={this.onChange} />
 
                 </View>
 
+                    <Icon.Button name="eye" backgroundColor="#3b5998" onPress={() => console.log("eyeball press")}>
+                    </Icon.Button>
 
 
 
@@ -75,9 +85,9 @@ const localStyles = StyleSheet.create({
         backgroundColor: colorConstants.MainGray,
         alignItems: "center",
         justifyContent: "center",
-        marginTop: 20,
-        borderTopLeftRadius: 2,
-        borderTopRightRadius: 2
+        // marginTop: 20,
+        borderTopLeftRadius: 20,
+        borderTopRightRadius: 20
     },
     passwordInputLabel: {
         fontSize: 10,
