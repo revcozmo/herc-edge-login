@@ -5,10 +5,13 @@ import {
   TouchableHighlight,
   Image,
   StyleSheet,
-  WebView
+  WebView,
+  ScrollView,
+  Dimensions
 } from "react-native";
 import styles from "../assets/styles";
 import { connect } from "react-redux";
+import round from "../assets/round";
 
 class BlockScanner extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -63,13 +66,14 @@ class BlockScanner extends Component {
           >
             <View style={headerStyles.header__container__centeredBox}>
               <View style={headerStyles.header__image__box}>
-                <Image
+                {/* <Image
                   style={headerStyles.assetHeaderLogo}
                   source={{ uri: params.logo }}
-                />
+                /> */}
               </View>
               <View style={headerStyles.header__text__box}>
-                <Text style={headerStyles.headerText}>{params.name}</Text>
+                {/* <Text style={headerStyles.headerText}>{params.name}</Text> */}
+                <Text>BlockScanner</Text>
               </View>
             </View>
           </TouchableHighlight>
@@ -86,17 +90,59 @@ class BlockScanner extends Component {
   }
 
   render() {
-
+    let screenHeight = Dimensions.get("window").height;
     return (
       <View style={localStyles.container}>
-          <WebView
+        {/* <WebViewrr
             source={{uri: 'https://etherscan.io/token/0x6251583e7d997df3604bc73b9779196e94a090ce'}}
             style={localStyles.webview}
             automaticallyAdjustContentInsets= {false}
             startInLoadingState={true}
             javaScriptEnabled={true}
             domStorageEnabled={true}
+          /> */}
+        <ScrollView style={{ flex: 1 }}>
+          <View
+            style={[localStyles.contentContainerA, { height: screenHeight }]}
+          >
+            <View style={localStyles.contentContainerA_Box}>
+              <View style={localStyles.contentContainerA_Box_TopRow}>
+                <Text style={{ color: "silver", margin: 10, fontSize: 12 }}>
+                  {" "}
+                  MARKET CAP OF $13.537 BILLION{" "}
+                </Text>
+              </View>
+              <View style={{borderColor: "red", borderWidth: 3, width: "50%", alignSelf: "center" }}>
+                <View style={localStyles.contentContainerA_Box_SecRow}>
+                  <Image source={round} style={{width: 20}} />
+                  <Text
+                    style={{ color: "white", fontSize: 16, fontWeight: "bold" }}
+                  >
+                    $0.453
+                  </Text>
+                  <Text
+                    style={{
+                      color: "rgb(127,209,39)",
+                      fontSize: 12,
+                      // marginHorizontal: 20,
+                      fontWeight: "normal"
+                    }}
+                  >
+                    3.23 %
+                  </Text>
+                </View>
+                <View style={localStyles.contentContainerA_Box_SecRow}>
+                  <Text style={{ color: "rgb(120,136,229)", textAlign: "center", alignSelf: "center" }}>
+                    @ 0.03243 BTC/Herc{" "}
+                  </Text>
+                </View>
+              </View>
+            </View>
+          </View>
+          <View
+            style={[localStyles.contentContainerB, { height: screenHeight }]}
           />
+        </ScrollView>
       </View>
     );
   }
@@ -123,6 +169,47 @@ const localStyles = StyleSheet.create({
     width: 200,
     justifyContent: "space-around",
     alignItems: "center"
+  },
+  contentContainerA: {
+    // alignContent: "center",
+    // justifyContent: "center",
+    alignSelf: "center",
+    width: "100%",
+    alignSelf: "center",
+
+    // height: {screenHeight},
+    backgroundColor: "rgb(11,22,88)"
+  },
+  contentContainerA_Box: {
+    marginTop: "10%",
+    // flex: 2,
+    alignSelf: "center",
+    // borderColor: "orange",
+    // borderWidth: 3,
+    width: "95%",
+    height: 200,
+    backgroundColor: "rgb(66,75,160)",
+    borderRadius: 5
+  },
+  contentContainerA_Box_TopRow: {
+    alignSelf: "center"
+    // width: "90%",
+    // borderColor: "white",
+    // borderWidth: 3,
+  },
+  contentContainerA_Box_SecRow: {
+    justifyContent: "space-around",
+    alignSelf: "center",
+    borderColor: "blue",
+    borderWidth: 3,
+    flexDirection: "row",
+    width: "100%"
+  },
+  contentContainerB: {
+    // alignContent: "center",
+    width: "100%",
+    alignSelf: "center",
+    height: "100%"
   },
   hercLogoHeader: {
     height: 45,
