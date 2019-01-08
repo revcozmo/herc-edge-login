@@ -31,7 +31,7 @@ module.exports = StyleSheet.create({
     height: Platform.OS === 'android' ? 60 : 100,
     backgroundColor: colorConstants.MainBlue,
     shadowColor: 'transparent',
-    paddingTop: 5,
+    paddingTop: 20,
     
     
   },

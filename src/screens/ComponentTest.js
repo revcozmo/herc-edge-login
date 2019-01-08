@@ -21,7 +21,7 @@ export default class ComponentTest extends Component {
 
     static navigationOptions =  {
         
-        headerTitle: "Register Asset"
+        header: <RegisterAssetHeader />
     }
 
     constructor(props) {
