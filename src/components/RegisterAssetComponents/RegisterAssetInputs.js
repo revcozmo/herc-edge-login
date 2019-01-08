@@ -11,8 +11,9 @@ import {
 // import styles from "../../assets/styles";
 import colorConstants from "../../assets/colorConstants";
 import Icon from 'react-native-vector-icons';
+// import console = require('console');
 
-var {height, width} = Dimensions.get('window');
+
 
 export function RegisterAssetInput(props) {
     return (
@@ -26,25 +27,28 @@ export function RegisterAssetInput(props) {
 }
 
 
-export function RegisterAssetPassword(props) {
-    let hidePW = true;
-    return (
-        <View style={localStyles.RegisterAssetInputPasswordContainer}>
-            <TextInput style={localStyles.textInput}
-                placeholder={props.placeholder}
-                placeholder-text-color={colorConstants.MainBlue}
-                underlineColorAndroid='transparent'
-                secureTextEntry={hidePW}
-                onChangeText={pass => props.onChange(pass)}
-                
-            />
-            <TouchableHighlight onPress={() => hidePW = !hidePW}>
-              <Text>eyeball</Text>
-            </TouchableHighlight>
-        </View>
-    )
-}
+// export function RegisterAssetPassword(props)  {
 
+//         console.log(this.props)
+//         let hidePW = true;
+
+
+//     return (
+//         <View style={localStyles.RegisterAssetInputPasswordContainer}>
+         
+//          <Text>{props.placeholder}</Text>
+//             {/* <TextInput style={localStyles.textInput}
+//                 placeholder={this.props.placeholder}
+//                 placeholder-text-color={colorConstants.MainBlue}
+//                 underlineColorAndroid='transparent'
+//                 secureTextEntry={hidePW}
+//                 onChangeText={pass => this.props.onChange(pass)}
+
+//             /> */}
+//         </View>
+//                     // <Icon name='eye' size={18} color={colorConstants.MainGold} />
+//     )
+// }
 
 
 
@@ -65,13 +69,14 @@ const localStyles = StyleSheet.create({
         borderRadius: 8
     },
     textInput: {
-        width: "90%",
-        height: (height * .12),
+       width: '90%',
+       height: '18%',
         borderRadius: 2,
         backgroundColor: colorConstants.MainGold
 
     },
-    
+    // width: (width * .9),
+    // height: (height * .056),
 
 
 })

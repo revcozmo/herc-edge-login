@@ -12,10 +12,8 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from "../assets/styles";
 import colorConstants from "../assets/colorConstants";
 import React, { Component } from 'react';
-import {RegisterAssetInput, RegisterAssetPassword} from "../components/RegisterAssetComponents/RegisterAssetInputs";
+import RegisterAssetPassword, { RegisterAssetInput } from "../components/RegisterAssetComponents/RegisterAssetInputs";
 import RegisterAssetHeader from "../components/RegisterAssetComponents/RegisterAssetHeader"
-import { white } from 'ansi-colors';
-import MainColors from '../assets/colorConstants';
 
 
 export default class ComponentTest extends Component {
@@ -28,7 +26,7 @@ export default class ComponentTest extends Component {
     constructor(props) {
         super(props);
         console.log("componentTest")
-        var {height, width} = Dimensions.get('window');
+        var Dims = Dimensions.get('window');
     }
 
     onChange = (pwChar) => {
@@ -39,19 +37,25 @@ export default class ComponentTest extends Component {
     }
 
     render() {
-
+        console.log(this.Dims)
         return (
+
             <View style={localStyles.container}>
+                <Icon.Button name="facebook" backgroundColor="#3b5998" onPress={this.loginWithFacebook}>
+                    Login with Facebook
+            </Icon.Button>
+
+
                 <StatusBar
                     barStyle={'light-content'}
                     translucent={true}
                 />
+                <Icon name='eye' size={18} color={colorConstants.MainGold} />
+                <RegisterAssetInput dims={this.Dims} placeholder={'hello'} />
 
-                <RegisterAssetInput placeholder={'hello'} />
-                
                 <View style={localStyles.PasswordInputContainer}>
                     <Text style={styles.passwordInputlabel}>MainGray!!!!</Text>
-                    <RegisterAssetPassword placeholder="SecondplaceholderTest" onChange={this.onChange} />
+                    {/* <RegisterAssetPassword placeholder='SecondplaceholderTest' onChange={this.onChange} /> */}
 
                 </View>
 
@@ -74,13 +78,13 @@ const localStyles = StyleSheet.create({
         marginTop: 20,
         borderTopLeftRadius: 2,
         borderTopRightRadius: 2
-        },
+    },
     passwordInputLabel: {
         fontSize: 10,
         color: 'white'
     },
     passwordInputContainer: {
-        
+
         justifyContent: 'flex-start',
         backgroundColor: colorConstants.MainSubCrownBlue
     }
