@@ -37,7 +37,7 @@ module.exports = StyleSheet.create({
   },
   headerText: {
     paddingTop: 5,
-    marginLeft: '23%',
+    marginLeft: 30,
     fontFamily: "Montserrat",
     fontSize: 22,
     // alignSelf: "center",

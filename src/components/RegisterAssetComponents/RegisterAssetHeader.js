@@ -10,7 +10,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import colors from "../../assets/colorConstants";
 
 
-
+{/* <Icon.Button /> for use once it's wired up */}
 export default RegisterAssetHeader = (navigation) => {
 
     return (
