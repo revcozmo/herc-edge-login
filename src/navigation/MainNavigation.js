@@ -47,6 +47,7 @@ import WebViewComponent from "../components/WebViewComponent";
 import DocumentStorage from "../screens/DocumentStorage";
 import DocumentQRScanner from "../screens/DocumentQRScanner";
 import ComponentTest from "../screens/ComponentTest";
+import RegAssetSplashTest from "../screens/RegAssetSplashTest";
 
 
 let headerStyles = StyleSheet.create({
@@ -99,6 +100,7 @@ let headerStyles = StyleSheet.create({
 
 
 const MainNavigator = StackNavigator({ //this will be "createStackNavigator" after upgrading react-navigation
+    RegAssetSplashTest: { screen: RegAssetSplashTest },
     ComponentTest: { screen: ComponentTest },
     Login: { screen: Login },
     MenuOptions: { screen: MenuOptions },
@@ -139,7 +141,7 @@ const MainNavigator = StackNavigator({ //this will be "createStackNavigator" aft
     DocumentQRScanner: { screen: DocumentQRScanner },
 
 }, {
-        initialRouteName: 'ComponentTest',
+        initialRouteName: 'RegAssetSplashTest',
 
         // initialRouteName: 'Login',
         navigationOptions: ({ navigation }) => ({
