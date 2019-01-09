@@ -15,6 +15,7 @@ export function RegisterAssetInput(props) {
             placeholder={props.placeholder}
             placeholder-text-color={colorConstants.MainBlue}
             underlineColorAndroid='transparent'
+            onChangeText={ (inputName) => props.onChangeText(inputName)}
 
         />
     )

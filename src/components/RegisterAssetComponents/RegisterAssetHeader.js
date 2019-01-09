@@ -4,9 +4,9 @@ import {
     View
 } from "react-native";
 import React, { Component } from "react";
-import { StackNavigator } from "react-navigation";
+// import { StackNavigator } from "react-navigation";
 // import styles from "../../assets/styles";
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 import colors from "../../assets/colorConstants";
 
 
@@ -16,9 +16,9 @@ export default RegisterAssetHeader = (navigation) => {
     return (
         <View style={headerStyles.header__container}>
 
-                <Icon style={headerStyles.sideHeaders} name='arrow-left' size={18} color={colors.MainGold} />
+                <Icon.Button onPress={() => navigation.navigate.goBack()} style={headerStyles.sideHeaders} name='arrow-left' size={18} color={colors.MainGold} />
 
-            <Text style={headerStyles.headerText}>textHere</Text>
+            <Text style={headerStyles.headerText}>Register Asset</Text>
 
                 <Icon style={headerStyles.sideHeaders} name='heart' size={18} color={colors.MainGold} />
 

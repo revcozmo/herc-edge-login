@@ -13,10 +13,10 @@ import styles from "../assets/styles";
 import colorConstants from "../assets/colorConstants";
 import React, { Component } from 'react';
 import RegisterAssetPassword, { RegisterAssetInput } from "../components/RegisterAssetComponents/RegisterAssetInputs";
-import RegisterAssetHeader from "../components/RegisterAssetComponents/RegisterAssetHeader"
+// import RegisterAssetHeader from "../components/RegisterAssetComponents/RegisterAssetHeader"
 
 
-export default class ComponentTest extends Component {
+export default class RegAssetTest extends Component {
 
     // static navigationOptions = {
 
@@ -40,16 +40,10 @@ export default class ComponentTest extends Component {
         });
     }
 
-    onChangeText = (metChar, name) => {
-        console.log('metChar', metChar, "changing metric text");
-        this.setState({
-            [name]: metChar
-        })
-    }
 
 
     render() {
-      
+        console.log(this.Dims)
         return (
             <View style={localStyles.container}>
 
@@ -58,9 +52,9 @@ export default class ComponentTest extends Component {
                 barStyle={'dark-content'}
                 translucent={true}
             />
-                <Icon.Button name="eye" backgroundColor="#3b5998" onPress={() => console.log("eyeball press")}>
+                {/* <Icon.Button name="eye" backgroundColor="#3b5998" onPress={() => console.log("eyeball press")}>
 
-                </Icon.Button>
+                </Icon.Button> */}
                 <View style={styles.modalBackground}>
                     <View style={styles.activityIndicatorWrapper}>
                         <Text>Modal1</Text>
@@ -68,10 +62,18 @@ export default class ComponentTest extends Component {
                 </View>
 
                 <Icon name='eye' size={18} color={colorConstants.MainGold} />
-                <RegisterAssetInput name={'Input1'} placeholder={'hello'} onChangeText={(metchar, name) => this.onChangeText(metchar, name)} />
+               
+                <RegisterAssetInput placeholder={'Asset Name'} />
+                <View style={localStyles.inputContainer}>
+                    <Text style={styles.inputlabel}>Asset Name</Text>
+                    <RegisterAssetInput placeholder={'Name'} /> onChange={this.onChange} />
 
-                <View style={localStyles.PasswordInputContainer}>
-                    <Text style={styles.passwordInputlabel}>MainGray!!!!</Text>
+                </View>
+
+
+
+                <View style={localStyles.inputContainer}>
+                    <Text style={styles.inputlabel}>Asset Password</Text>
                     <RegisterAssetPassword placeholder='SecondplaceholderTest' onChange={this.onChange} />
 
                 </View>
@@ -156,11 +158,11 @@ const localStyles = StyleSheet.create({
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20
     },
-    passwordInputLabel: {
+    inputLabel: {
         fontSize: 10,
         color: 'white'
     },
-    passwordInputContainer: {
+    inputContainer: {
 
         justifyContent: 'flex-start',
         backgroundColor: colorConstants.MainSubCrownBlue

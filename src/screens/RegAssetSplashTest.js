@@ -12,7 +12,7 @@ import styles from "../assets/styles";
 import colorConstants from "../assets/colorConstants";
 import React, { Component } from 'react';
 import { widthPercentageToDP, heightPercentageToDP } from '../assets/responisiveUI';
-
+import { StackNavigator } from "react-navigation";
 // const RegAssetSplash = require('../assets/register-asset.png')
 
 export default class RegAssetSplashTest extends Component {
@@ -24,13 +24,12 @@ export default class RegAssetSplashTest extends Component {
 
     constructor(props) {
         super(props);
-        console.log("componentTest")
-        this.state = {
-
-        }
+        console.log(this.navigation)
+       
     }
 
     render() {
+        const { navigate } = this.props.navigation;
         return (
             <View style={localStyles.baseContainer}>
                 <StatusBar
@@ -54,7 +53,7 @@ export default class RegAssetSplashTest extends Component {
                         Body of the CopyBody of the CopyBody of the CopyBody of the CopyBody of the Copy
                     </Text>
 
-                    <Button title='Continue' onPress={() => this.props.navigate('ComponentTest')}>ContinueButton</Button>
+                    <Button title='Continue' onPress={() => navigate('ComponentTest')}>ContinueButton</Button>
                 </View>
 
                 {/* //     <Icon.Button name="eye" backgroundColor="#3b5998" onPress={() => console.log("eyeball press")}>
