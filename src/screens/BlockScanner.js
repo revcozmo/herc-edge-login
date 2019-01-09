@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import styles from "../assets/styles";
 import { connect } from "react-redux";
-import round from "../assets/round";
+import round from "../assets/round.png";
 
 class BlockScanner extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -112,33 +112,94 @@ class BlockScanner extends Component {
                   MARKET CAP OF $13.537 BILLION{" "}
                 </Text>
               </View>
-              <View style={{borderColor: "red", borderWidth: 3, width: "50%", alignSelf: "center" }}>
-                <View style={localStyles.contentContainerA_Box_SecRow}>
-                  <Image source={round} style={{width: 20}} />
-                  <Text
-                    style={{ color: "white", fontSize: 16, fontWeight: "bold" }}
+              <View
+                style={{
+                  marginVertical: 10,
+                  alignSelf: "center",
+                  flexDirection: "row"
+                }}
+              >
+                <Image
+                  source={round}
+                  style={{ width: 40, height: 40, alignSelf: "center" }}
+                />
+                <View >
+                  <View
+                    style={[
+                      localStyles.contentContainerA_Box_SecRow,
+                      { width: 200 }
+                    ]}
                   >
-                    $0.453
-                  </Text>
-                  <Text
-                    style={{
-                      color: "rgb(127,209,39)",
-                      fontSize: 12,
-                      // marginHorizontal: 20,
-                      fontWeight: "normal"
-                    }}
-                  >
-                    3.23 %
-                  </Text>
+                    <Text
+                      style={{
+                        color: "white",
+                        fontSize: 16,
+                        fontWeight: "bold"
+                      }}
+                    >
+                      $0.453
+                    </Text>
+                    <Text
+                      style={{
+                        color: "rgb(102,245,7)",
+                        fontSize: 12,
+                        marginLeft: 20,
+                        fontWeight: "normal"
+                      }}
+                    >
+                      3.23 %
+                    </Text>
+                  </View>
+                  <View style={localStyles.contentContainerA_Box_SecRow}>
+                    <Text
+                      style={{
+                        color: "rgb(120,136,229)",
+                        textAlign: "center",
+                        alignSelf: "center"
+                      }}
+                    >
+                      @ 0.03243 BTC/Herc{" "}
+                    </Text>
+                  </View>
                 </View>
-                <View style={localStyles.contentContainerA_Box_SecRow}>
-                  <Text style={{ color: "rgb(120,136,229)", textAlign: "center", alignSelf: "center" }}>
-                    @ 0.03243 BTC/Herc{" "}
-                  </Text>
+              </View>
+              <View
+                style={{
+                  marginTop: 10,
+                  width: "100%",
+                  alignSelf: "center",
+                  flexDirection: "row"
+                }}
+              >
+                <View style={{ width: "50%" }}>
+                <Text style={{color: "white", marginLeft: 20, marginVertical: 5, fontSize: 12 }}>Last Block</Text>
+                <Text style={{color: "white", marginLeft: 20, marginVertical: 5, fontSize: 12 }}>6939883 (14.5s)</Text>
+                </View>
+                <View style={{ width: "50%" }}>
+                <Text style={{color: "white", marginLeft: 20, marginVertical: 5, fontSize:12 }}>Transactions</Text>
+                <Text style={{color: "white", marginLeft: 20, marginVertical: 5, fontSize: 12 }}>36433 M (6.8 TPS)</Text>
+                </View>
+              </View>
+              <View
+                style={{
+                  marginTop: 10,
+                  width: "100%",
+                  alignSelf: "center",
+                  flexDirection: "row",
+                }}
+              >
+                <View style={{ width: "50%", }}>
+                <Text style={{color: "white", marginLeft: 20, marginVertical: 5, fontSize: 12 }}>Hash Rate</Text>
+                <Text style={{color: "white", marginLeft: 20, marginVertical: 5, fontSize: 12 }}>172.204.85 GH/s</Text>
+                </View>
+                <View style={{ width: "50%" }}>
+                <Text style={{color: "white", marginLeft: 20, marginVertical: 5, fontSize:12 }}>Network Difficulty</Text>
+                <Text style={{color: "white", marginLeft: 20, marginVertical: 5, fontSize: 12 }}>2,239.23 TH</Text>
                 </View>
               </View>
             </View>
           </View>
+
           <View
             style={[localStyles.contentContainerB, { height: screenHeight }]}
           />
@@ -176,7 +237,6 @@ const localStyles = StyleSheet.create({
     alignSelf: "center",
     width: "100%",
     alignSelf: "center",
-
     // height: {screenHeight},
     backgroundColor: "rgb(11,22,88)"
   },
@@ -184,32 +244,24 @@ const localStyles = StyleSheet.create({
     marginTop: "10%",
     // flex: 2,
     alignSelf: "center",
-    // borderColor: "orange",
-    // borderWidth: 3,
     width: "95%",
-    height: 200,
-    backgroundColor: "rgb(66,75,160)",
+    height: 250,
+    backgroundColor: "rgb(57,66,157)",
     borderRadius: 5
   },
   contentContainerA_Box_TopRow: {
     alignSelf: "center"
-    // width: "90%",
-    // borderColor: "white",
-    // borderWidth: 3,
   },
   contentContainerA_Box_SecRow: {
     justifyContent: "space-around",
     alignSelf: "center",
-    borderColor: "blue",
-    borderWidth: 3,
-    flexDirection: "row",
-    width: "100%"
+    flexDirection: "row"
   },
   contentContainerB: {
     // alignContent: "center",
     width: "100%",
     alignSelf: "center",
-    height: "100%"
+    // height: "100%"
   },
   hercLogoHeader: {
     height: 45,
