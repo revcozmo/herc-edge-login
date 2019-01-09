@@ -105,7 +105,7 @@ class BlockScanner extends Component {
           <View
             style={[localStyles.contentContainerA, { height: screenHeight }]}
           >
-            <View style={localStyles.contentContainerA_Box}>
+            <View style={localStyles.contentContainerA_MarketCapBox}>
               <View style={localStyles.contentContainerA_Box_TopRow}>
                 <Text style={{ color: "silver", margin: 10, fontSize: 12 }}>
                   {" "}
@@ -123,7 +123,7 @@ class BlockScanner extends Component {
                   source={round}
                   style={{ width: 40, height: 40, alignSelf: "center" }}
                 />
-                <View >
+                <View>
                   <View
                     style={[
                       localStyles.contentContainerA_Box_SecRow,
@@ -172,12 +172,20 @@ class BlockScanner extends Component {
                 }}
               >
                 <View style={{ width: "50%" }}>
-                <Text style={{color: "white", marginLeft: 20, marginVertical: 5, fontSize: 12 }}>Last Block</Text>
-                <Text style={{color: "white", marginLeft: 20, marginVertical: 5, fontSize: 12 }}>6939883 (14.5s)</Text>
+                  <Text style={localStyles.contentContainerA_MarketCapBox_Text}>
+                    Last Block
+                  </Text>
+                  <Text style={localStyles.contentContainerA_MarketCapBox_Text}>
+                    6939883 (14.5s)
+                  </Text>
                 </View>
                 <View style={{ width: "50%" }}>
-                <Text style={{color: "white", marginLeft: 20, marginVertical: 5, fontSize:12 }}>Transactions</Text>
-                <Text style={{color: "white", marginLeft: 20, marginVertical: 5, fontSize: 12 }}>36433 M (6.8 TPS)</Text>
+                  <Text style={localStyles.contentContainerA_MarketCapBox_Text}>
+                    Transactions
+                  </Text>
+                  <Text style={localStyles.contentContainerA_MarketCapBox_Text}>
+                    36433 M (6.8 TPS)
+                  </Text>
                 </View>
               </View>
               <View
@@ -185,17 +193,98 @@ class BlockScanner extends Component {
                   marginTop: 10,
                   width: "100%",
                   alignSelf: "center",
-                  flexDirection: "row",
+                  flexDirection: "row"
                 }}
               >
-                <View style={{ width: "50%", }}>
-                <Text style={{color: "white", marginLeft: 20, marginVertical: 5, fontSize: 12 }}>Hash Rate</Text>
-                <Text style={{color: "white", marginLeft: 20, marginVertical: 5, fontSize: 12 }}>172.204.85 GH/s</Text>
+                <View style={{ width: "50%" }}>
+                  <Text style={localStyles.contentContainerA_MarketCapBox_Text}>
+                    Hash Rate
+                  </Text>
+                  <Text style={localStyles.contentContainerA_MarketCapBox_Text}>
+                    172.204.85 GH/s
+                  </Text>
                 </View>
                 <View style={{ width: "50%" }}>
-                <Text style={{color: "white", marginLeft: 20, marginVertical: 5, fontSize:12 }}>Network Difficulty</Text>
-                <Text style={{color: "white", marginLeft: 20, marginVertical: 5, fontSize: 12 }}>2,239.23 TH</Text>
+                  <Text style={localStyles.contentContainerA_MarketCapBox_Text}>
+                    Network Difficulty
+                  </Text>
+                  <Text style={localStyles.contentContainerA_MarketCapBox_Text}>
+                    2,239.23 TH
+                  </Text>
                 </View>
+              </View>
+            </View>
+            <View style={localStyles.contentContainerA_HercTransHistBox}>
+              <View>
+                <Text
+                  style={{
+                    color: "white",
+                    fontWeight: "bold",
+                    marginTop: 10,
+                    marginLeft: 25
+                  }}
+                >
+                  {" "}
+                  HERC Transaction History{" "}
+                </Text>
+              </View>
+              <View
+                style={
+                  localStyles.contentContainerA_HercTransHistBox_dateRangeRow
+                }
+              >
+                <TouchableHighlight
+                  style={
+                    localStyles.contentContainerA_HercTransHistBox_dateRangeRow_touchable
+                  }
+                >
+                  <Text
+                    style={
+                      localStyles.contentContainerA_HercTransHistBox_dateRangeRow_text
+                    }
+                  >
+                    Year
+                  </Text>
+                </TouchableHighlight>
+                <TouchableHighlight
+                  style={
+                    localStyles.contentContainerA_HercTransHistBox_dateRangeRow_touchable
+                  }
+                >
+                  <Text
+                    style={
+                      localStyles.contentContainerA_HercTransHistBox_dateRangeRow_text
+                    }
+                  >
+                    Month
+                  </Text>
+                </TouchableHighlight>
+                <TouchableHighlight
+                  style={
+                    localStyles.contentContainerA_HercTransHistBox_dateRangeRow_touchable
+                  }
+                >
+                  <Text
+                    style={
+                      localStyles.contentContainerA_HercTransHistBox_dateRangeRow_text
+                    }
+                  >
+                    Week
+                  </Text>
+                </TouchableHighlight>
+                <TouchableHighlight
+                  style={
+                    localStyles.contentContainerA_HercTransHistBox_dateRangeRow_touchable
+                  }
+                >
+                  <Text
+                    style={
+                      localStyles.contentContainerA_HercTransHistBox_dateRangeRow_text
+                    }
+                  >
+                    Day
+                  </Text>
+                </TouchableHighlight>
               </View>
             </View>
           </View>
@@ -240,7 +329,7 @@ const localStyles = StyleSheet.create({
     // height: {screenHeight},
     backgroundColor: "rgb(11,22,88)"
   },
-  contentContainerA_Box: {
+  contentContainerA_MarketCapBox: {
     marginTop: "10%",
     // flex: 2,
     alignSelf: "center",
@@ -257,10 +346,45 @@ const localStyles = StyleSheet.create({
     alignSelf: "center",
     flexDirection: "row"
   },
+  contentContainerA_MarketCapBox_Text: {
+    color: "white",
+    marginLeft: 20,
+    marginVertical: 5,
+    fontSize: 12
+  },
+  contentContainerA_HercTransHistBox: {
+    marginTop: "10%",
+    // flex: 2,
+    alignSelf: "center",
+    width: "95%",
+    height: 250,
+    backgroundColor: "rgb(29,30,102)",
+    borderRadius: 5
+  },
+  contentContainerA_HercTransHistBox_dateRangeRow: {
+    marginLeft: 20,
+    borderColor: "red",
+    borderWidth: 3,
+    flexDirection: "row",
+    marginVertical: 10
+  },
+  contentContainerA_HercTransHistBox_dateRangeRow_touchable: {
+    backgroundColor: "rgb(51,54,117)",
+    marginHorizontal: 5,
+    marginVertical: 2,
+    borderRadius: 10
+  },
+  contentContainerA_HercTransHistBox_dateRangeRow_text: {
+    color: "white",
+    fontSize: 10,
+    fontWeight: "bold",
+    marginHorizontal: 10,
+    marginVertical: 1
+  },
   contentContainerB: {
     // alignContent: "center",
     width: "100%",
-    alignSelf: "center",
+    alignSelf: "center"
     // height: "100%"
   },
   hercLogoHeader: {
