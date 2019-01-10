@@ -1,61 +1,73 @@
 "use strict";
 import { StyleSheet, Platform } from "react-native";
-import colorConstants from "./colorConstants";
-import { platform } from "os";
+import ColorConstants from "./colorConstants";
+
 
 module.exports = StyleSheet.create({
-
  
+  header__container: {
+    backgroundColor: ColorConstants.MainBlue,
+    flexDirection: 'row',
+    width: '100%',
+    height: Platform.OS === 'android' ? 60 : 100,
+    justifyContent: 'space-between',
+    alignContent: "center",
+    alignItems: "center",
+    shadowColor: 'transparent',
+    paddingTop: 20,
+    // marginTop: 20,
+},
 
-  // headerTitle: {
-  //   fontFamily: "dinPro",
-  //   display: "flex",
-  //   height: 70,
-  //   width: "100%",
-  //   alignSelf: "center",
-  //   alignContent: "center",
-  // },
-  // headerLogo: {
-  //   resizeMode: "contain",
-  //   height: 50,
-  //   width: 200,
-  //   alignSelf: "center",
-  //   flex: 1,
-  //   marginBottom: 15,
-  //   marginTop: 10
-  // },
+header_left: {
+    alignSelf: 'center'
+},
+header_right: {
+    alignSelf: 'center'
+},
+sideHeaders: {
+  alignSelf: 'center',
+    width: '20%',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    backgroundColor: ColorConstants.MainGray
+},
+  
   headerStyle: {
     justifyContent: 'center',
     // textAlign: 'center',
     alignItems: 'center',
     height: Platform.OS === 'android' ? 60 : 100,
-    backgroundColor: colorConstants.MainBlue,
+    backgroundColor: ColorConstants.MainBlue,
     shadowColor: 'transparent',
     paddingTop: 20,
-    
-    
   },
   headerText: {
-    paddingTop: 5,
-    marginLeft: 30,
+    // paddingTop: 5,
+    // marginLeft: 30,
     fontFamily: "Montserrat",
     fontSize: 22,
     alignSelf: "center",
     fontWeight: "bold",
-    color: colorConstants.MainGray,
-    // textAlign: "center",
+    color: ColorConstants.MainGray,
+    textAlign: "center",
     alignItems: "center",
     justifyContent: "center",
     alignContent: 'center'
     
   },
-  sideHeaders: {
-    marginTop: 18,
-    width: 30,
-    height: 30, 
-  },
+  
   backArrow: {
     marginLeft: 5
+  },
+  container: {
+    width: '100%',
+    // backgroundColor: ColorConstants.MainBlue,
+    backgroundColor: ColorConstants.MainGray,
+    alignItems: "center",
+    justifyContent: "center",
+    // marginTop: 20,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20
   },
   // drawerIcon: {
   //   marginRight: 0,
@@ -74,16 +86,6 @@ module.exports = StyleSheet.create({
   //   flexDirection: "row",
   //   marginLeft: "16%",
   // },
-  container: {
-    width: '100%',
-    // backgroundColor: colorConstants.MainBlue,
-    backgroundColor: colorConstants.MainGray,
-    alignItems: "center",
-    justifyContent: "center",
-    // marginTop: 20,
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20
-},
   // containerCenter: {
   //   width: "95%",
   //   height: "100%",

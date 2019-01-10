@@ -2,13 +2,10 @@ import {
     StyleSheet,
     Text,
     View,
-    StatusBar
 } from "react-native";
 import React, { Component } from "react";
-// import { StackNavigator } from "react-navigation";
-// import styles from "../../assets/styles";
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import colors from "../../assets/colorConstants";
+import ColorConstants from "../../assets/colorConstants";
 
 
 {/* <Icon.Button /> for use once it's wired up */ }
@@ -16,18 +13,13 @@ export default RegisterAssetHeader = (navigation) => {
 
     return (
         <View style={headerStyles.header__container}>
-
-            <StatusBar
-
-                barStyle={'dark-content'}
-                translucent={true}
-            />
-            <Icon.Button onPress={() => navigation.navigate.goBack()} style={headerStyles.sideHeaders} name='arrow-left' size={18} color={colors.MainGold} />
-
+            <View style={styles.sideHeaders}>
+                <Icon.Button onPress={() => navigation.navigate.goBack()} style={headerStyles.sideHeaders} name='arrow-left' size={18} color={ColorConstants.MainGold} />
+            </View>
             <Text style={headerStyles.headerText}>Register Asset</Text>
-
-            <Icon style={headerStyles.sideHeaders} name='heart' size={18} color={colors.MainGold} />
-
+            <View style={styles.sideHeaders}>
+                <Icon style={headerStyles.sideHeaders} name='heart' size={18} color={ColorConstants.MainGold} />
+            </View>
         </View>
     );
 }

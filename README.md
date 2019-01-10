@@ -18,10 +18,27 @@
 
 *  Loose Ends: Header(s) and Validate
 
+## `1.1.2019 - 1.11.2018`
+### UI Refactor
+ (🎩 @stefanbemelmans)
+  
+🔨 Improvements
 
+`herc-edge-login` 
 
+*  Begin standardizing UI and component styles
+    *  Started with RegAsset Flow
+        *  Password Input
+        *  Text Input
+        *  Base Body
+        *  Base Content
+        *  Header
+        *  Modals
+*  Evaluating react-native-transitions 
 
+*  Begin refactor of the navigation. This requires a significant update of the current navigation library.
 
+*  Resarched and discovered a solution to responsive UI components
 <!-- # [H]ERC Decentralized Application with Identity Powered by Https://Edge.App
 
 ![HERC Wallet](https://i.imgur.com/h0nwznp.png)

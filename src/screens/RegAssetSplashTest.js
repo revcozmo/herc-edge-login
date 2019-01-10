@@ -13,12 +13,11 @@ import colorConstants from "../assets/colorConstants";
 import React, { Component } from 'react';
 import { widthPercentageToDP, heightPercentageToDP } from '../assets/responisiveUI';
 import { StackNavigator } from "react-navigation";
-// const RegAssetSplash = require('../assets/register-asset.png')
-
+import RegAssetHeader from "../components/RegisterAssetComponents/RegisterAssetHeader";
 export default class RegAssetSplashTest extends Component {
 
-    static navigationOptions = () => ({
-        header: null
+    static navigationOptions = ({navigation}) => ({
+        header: <RegAssetHeader navigation={navigation} />
     })
 
     constructor(props) {
@@ -31,12 +30,6 @@ export default class RegAssetSplashTest extends Component {
         const { navigate } = this.props.navigation;
         return (
             <View style={localStyles.baseContainer}>
-                <StatusBar
-                    hidden={true}
-                // barStyle={'light-content'}
-
-                // translucent={true}
-
                 />
                 <View style={[localStyles.baseContainer,localStyles.splashTop]}>
                     <Image source={require('../assets/register-asset.png')}
