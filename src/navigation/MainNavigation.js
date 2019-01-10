@@ -11,7 +11,9 @@ import React, { Component } from "react";
 import { StackNavigator } from "react-navigation";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import colors from "../assets/colorConstants";
+// import RegAssetnavigator from "./RegisterAssetNavigation";
 
+import TestSplash from "../screens/TestSplash";
 import BlockScanner from "../screens/BlockScanner";
 import Camera from "../screens/Camera";
 import Confirm from "../screens/Confirm";
@@ -48,7 +50,8 @@ import DocumentStorage from "../screens/DocumentStorage";
 import DocumentQRScanner from "../screens/DocumentQRScanner";
 import ComponentTest from "../screens/ComponentTest";
 import RegAssetSplashTest from "../screens/RegAssetSplashTest";
-
+import WelcomeHeader from "../components/Headers/WelcomeHeader";
+// import RegAssetNav from "./RegisterAssetNavigation";
 
 let headerStyles = StyleSheet.create({
     header__container: {
@@ -100,6 +103,8 @@ let headerStyles = StyleSheet.create({
 
 
 const MainNavigator = StackNavigator({ //this will be "createStackNavigator" after upgrading react-navigation
+    // RegAssetNav: { screen: RegAssetNav },
+    TestSplash: { screen: TestSplash },
     RegAssetSplashTest: { screen: RegAssetSplashTest },
     ComponentTest: { screen: ComponentTest },
     Login: { screen: Login },
@@ -141,74 +146,11 @@ const MainNavigator = StackNavigator({ //this will be "createStackNavigator" aft
     DocumentQRScanner: { screen: DocumentQRScanner },
 
 }, {
-        initialRouteName: 'RegAssetSplashTest',
+        initialRouteName: 'TestSplash',
 
         // initialRouteName: 'Login',
         navigationOptions: ({ navigation }) => ({
-            // headerStyle: {
-            //     textAlign: 'center',
-            //     backgroundColor: "#091140",
-            //     justifyContent: 'center',
-            //     alignContent: 'center',
-
-            // },
-            headerStyle: styles.headerStyle,
-            title: "Welcome",
-            headerTitleStyle: styles.headerText,
-            // headerTitleStyle: {
-            //     color: 'white',
-            //     marginHorizontal: 0,
-            //     marginLeft: '22%'
-
-            // },
-            headerRight: <TouchableHighlight style={styles.sideHeaders} onPress={() => navigation.navigate("Settings")}>
-                <Icon name='heart' size={18} color={colors.MainGold} />
-            </TouchableHighlight>
-            ,
-            headerLeft: <TouchableHighlight style={[styles.sideHeaders, styles.backArrow]} onPress={() => navigation.goBack()}>
-                <Icon name='arrow-left' size={18} color={colors.MainGold} />
-            </TouchableHighlight>
-
-
-
-            //     headerTitle:
-            //         <View style={headerStyles.header__container}>
-            //             <View style={headerStyles.header__container__centeredBox}>
-            //                 <View style={headerStyles.header__image__box}>
-            //                     {/* <TouchableHighlight style={{justifyContent: "center"}} onPress={() => navigation.navigate("MenuOptions")}>
-            //                     </TouchableHighlight> */}
-            //                     <Image
-            //                         style={headerStyles.assetHeaderLogo}
-            //                         source={roundImage}
-            //                     />
-            //                 </View>
-            //                 <View style={headerStyles.header__text__box}>
-            //                     <Text style={headerStyles.headerText}>Main Options </Text>
-            //                 </View>
-            //             </View>
-            //         </View>,
-
-            //     headerStyle: {
-            //         height: Platform.OS === 'android' ? 60 : 100,
-            //         backgroundColor: 'white',
-
-            //     },
-            //     headerTitleStyle: {
-            //         marginTop: Platform.OS === 'android' ? 20 : 0,
-            //         textAlign: 'center',
-            //         textAlignVertical: 'center',
-            //         backgroundColor: 'white',
-            //         alignSelf: 'center',
-
-            //     },
-            //     headerRight: <TouchableHighlight onPress={() => navigation.navigate("Settings")}>
-            //     <Image source={DrawerIcon} style={styles.drawerIcon} />
-            //   </TouchableHighlight>
-            //   ,
-            //     headerLeft: <TouchableHighlight onPress={() => navigation.goBack()}>
-            //         <Image source={backArrow} style={styles.backArrow} />
-            //     </TouchableHighlight>
-
+           header: <WelcomeHeader navigation={navigation} />
         })
     })
 

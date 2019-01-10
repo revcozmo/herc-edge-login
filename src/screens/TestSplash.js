@@ -7,19 +7,15 @@ import {
     Image
 } from 'react-native';
 
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 import styles from "../assets/styles";
 import colorConstants from "../assets/colorConstants";
 import React, { Component } from 'react';
 import { widthPercentageToDP, heightPercentageToDP } from '../assets/responisiveUI';
 import { StackNavigator } from "react-navigation";
-// const RegAssetSplash = require('../assets/register-asset.png')
+// import RegStackNav from "../navigation/RegisterAssetNavigation";
 
-export default class RegAssetSplashTest extends Component {
-
-    static navigationOptions = () => ({
-        header: null
-    })
+export default class TestSplash extends Component {
 
     constructor(props) {
         super(props);
@@ -32,27 +28,26 @@ export default class RegAssetSplashTest extends Component {
         return (
             <View style={localStyles.baseContainer}>
                 <StatusBar
-                    hidden={true}
-                // barStyle={'light-content'}
-
-                // translucent={true}
-
+                    // hidden={true}
+                barStyle={'light-content'}
+                translucent={true}
+                backgroundColor={colorConstants.MainBlue}
                 />
                 <View style={[localStyles.baseContainer,localStyles.splashTop]}>
-                    <Image source={require('../assets/register-asset.png')}
+                    <Image source={require('../assets/hLogo.png')}
                         style={localStyles.splashImage}
                         resizeMode="contain"
                     />
                 </View>
                 <View style={[localStyles.baseContainer, localStyles.bodyContainer]}>
-                    <Text style={localStyles.CopyHeader}>Header for the copy</Text>
+                    {/* <Text style={localStyles.CopyHeader}>Header for the copy</Text>
                     <Text style={[localStyles.CopyHeader, localStyles.CopyBody]}>
                         Body of the CopyBody of the CopyBody of the CopyBody of the CopyBody of the Copy
                         Body of the CopyBody of the CopyBody of the CopyBody of the CopyBody of the Copy
                         Body of the CopyBody of the CopyBody of the CopyBody of the CopyBody of the Copy
-                    </Text>
+                    </Text> */}
 
-                    <Button title='Continue' onPress={() => navigate('ComponentTest')}>ContinueButton</Button>
+                    <Button title='Continue' onPress={() => navigate('RegAssetSplashTest')}>RegisterStackNavigator</Button>
                 </View>
 
                 {/* //     <Icon.Button name="eye" backgroundColor="#3b5998" onPress={() => console.log("eyeball press")}>
@@ -171,9 +166,9 @@ const localStyles = StyleSheet.create({
         borderRadius: 2,
         borderWidth: 2,
     },
-    // wordsText: {
-    //     textAlign: 'center',
-    // },
+    wordsText: {
+        textAlign: 'center',
+    },
     closeButtonContainer: {
         flexDirection: 'row',
         justifyContent: 'flex-end',

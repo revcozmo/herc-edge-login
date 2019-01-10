@@ -26,7 +26,7 @@ module.exports = StyleSheet.create({
   // },
   headerStyle: {
     justifyContent: 'center',
-    textAlign: 'center',
+    // textAlign: 'center',
     alignItems: 'center',
     height: Platform.OS === 'android' ? 60 : 100,
     backgroundColor: colorConstants.MainBlue,
@@ -40,12 +40,13 @@ module.exports = StyleSheet.create({
     marginLeft: 30,
     fontFamily: "Montserrat",
     fontSize: 22,
-    // alignSelf: "center",
+    alignSelf: "center",
     fontWeight: "bold",
     color: colorConstants.MainGray,
     // textAlign: "center",
-    // alignItems: "center",
-    // justifyContent: "center"
+    alignItems: "center",
+    justifyContent: "center",
+    alignContent: 'center'
     
   },
   sideHeaders: {
