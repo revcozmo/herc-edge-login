@@ -300,7 +300,7 @@ class BlockScanner extends Component {
                   borderColor: "yellow",
                   borderWidth: 1,
                   flexDirection: "row",
-                  marginTop: 10
+                  marginTop: 20
                 }}
               >
                 <TouchableHighlight
@@ -419,7 +419,7 @@ class BlockScanner extends Component {
                   // marginVertical: 10,
                   // marginTop: "10%",
                   justifyContent: "space-around",
-                  backgroundColor: "rgb(245,247,253)"
+                  backgroundColor: "#f2f3fb"
                 }}
               >
                 <Text
@@ -455,7 +455,7 @@ class BlockScanner extends Component {
               </View>
             </View>
             <View style={localStyles.contentContainerB_BlocksBox}>
-              <View style={{marginTop: 10, borderColor: "blue", borderWidth: 3 }}>
+              <View style={{marginTop: 20, borderColor: "blue", borderWidth: 3 }}>
                 <Text style={{color: "black", fontWeight:"bold", marginLeft: 5}}> HERC</Text>
               </View>
               <View style={{ flexDirection: "row", marginTop: 5 }}>
@@ -486,7 +486,7 @@ class BlockScanner extends Component {
               </View>
               <View style={{ flexDirection: "row", marginTop: 5 }}>
                 <TextInput style={{ borderColor: "gray", width: "75%", alignSelf: "center", backgroundColor: "rgb(245,247,253)"}} placeholder="Your email" underlineColorAndroid="transparent"  />
-                <TouchableHighlight style={{ backgroundColor: "rgb(120,136,229)", borderRadius: 5, justifyContent: "center", alignContent: "center", marginVertical: 2, height: 30, alignSelf: "center"  }}>
+                <TouchableHighlight style={{ backgroundColor: "#7888e5", borderRadius: 5, justifyContent: "center", alignContent: "center", marginVertical: 2, height: 30, alignSelf: "center"  }}>
                    <Text style={{alignSelf:"center", color: "white", fontWeight: "bold", marginHorizontal: 20, fontSize: 10,}}>Subscribe</Text> 
                 </TouchableHighlight>
               </View>
@@ -535,7 +535,7 @@ const localStyles = StyleSheet.create({
     alignSelf: "center",
     width: "95%",
     height: "40%",
-    backgroundColor: "rgb(57,66,157)",
+    backgroundColor: "#7888e5",
     borderRadius: 5
   },
   contentContainerA_Box_TopRow: {
@@ -583,13 +583,14 @@ const localStyles = StyleSheet.create({
     marginVertical: 1
   },
   contentContainerB: {
+    backgroundColor: "#f2f3fb",
     // alignContent: "center",
     width: "100%",
     alignSelf: "center"
     // height: "100%"
   },
   contentContainerB_BlocksBox: {
-    marginTop: 20,
+    marginTop: "12%",
     // flex: 2,
     alignSelf: "center",
     width: "95%",
