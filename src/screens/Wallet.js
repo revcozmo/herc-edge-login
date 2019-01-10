@@ -177,8 +177,11 @@ class Wallet extends React.Component {
   };
 
   render() {
-    // let currencyValue = this._updateWallet() === NaN ? "0.000000" : this._updateWallet();
-    let currencyValue = this._updateWallet() // julie
+    console.log(this._updateWallet())
+    let displayWallet = this.state.displayWallet
+    // let currencyValue = this._updateWallet() === NaN ? '0.000000' : this._updateWallet();
+    let currencyValue = this._updateWallet() // don't assume NaN means 0. It will freak out ppl with a lot of tokens
+    console.log(currencyValue, 'currencyValue in wallet.js')
     return (
       <ScrollView>
         <View style={styles.container}>
