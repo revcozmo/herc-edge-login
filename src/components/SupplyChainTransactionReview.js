@@ -5,7 +5,7 @@ import { StackNavigator } from 'react-navigation';
 import styles from '../assets/styles';
 import submit from "./buttons/submit.png"; // todo: turn into vector
 import { sendTrans } from "../actions/AssetActions";
-import fee from "../assets/hLogo.png";
+import fee from "../assets/hercLogoPillar.png";
 import newOriginator from "./buttons/originatorButton.png";// todo: turn into vector
 import newRecipient from "./buttons/recipientButton.png"; // todo: turn into vector
 import modalStyle from "../assets/confModalStyles";

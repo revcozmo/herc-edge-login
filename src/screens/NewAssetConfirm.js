@@ -4,10 +4,10 @@ import submit from "../components/buttons/submit.png"; // todo: turn into vector
 import logo from "../assets/round.png";
 import { connect } from "react-redux";
 import styles from "../assets/styles";
-import hercPillar from "../assets/hLogo.png";
+import hercPillar from "../assets/hercLogoPillar.png";
 import { incHercId, confirmAssetStarted, confirmAssetComplete, settingHeader, settingHeaderError } from "../actions/AssetActions"
 import modalStyle from "../assets/confModalStyles";
-import { TOKEN_ADDRESS } from "../components/settings"
+import { TOKEN_ADDRESS, DEVELOPERS } from "../components/settings"
 import BigNumber from 'bignumber.js';
 import firebase from "../constants/Firebase";
 
@@ -41,7 +41,6 @@ class NewAssetConfirm extends Component {
     }
 
     componentDidMount() {
-        this._getOrgName(this.props.edgeAccount)
         try {
           let balance = new BigNumber(this.props.watchBalance["HERC"])
           this.setState({ balance: balance.times(1e-18).toFixed(6) })
@@ -75,26 +74,6 @@ class NewAssetConfirm extends Component {
         this.setState({
             modalVisible: visible
         })
-    }
-
-
-    _getOrgName(edgeName) {
-        var organization_name;
-
-        var rootRef = firebase.database().ref('idology');
-
-        rootRef.child(edgeName)
-            .child('organizationName')
-            .once('value')
-            .then(snapshot => {
-                organization_name = snapshot.toJSON();
-            }).then(() => {
-
-                console.log(organization_name, 'dddddddddddddddddddddddddddddddd');
-                this.setState({
-                    orgName: organization_name
-                });
-            })
     }
 
     async uploadImageAsync(uri) {
@@ -141,15 +120,45 @@ class NewAssetConfirm extends Component {
       if (this.props.newAsset.Logo) {
           this.uploadImageAsync(this.props.newAsset.Logo.uri)
       } else {
-          this.props.confirmAsset(this.props.newAsset);
-          navigate('MenuOptions');
+        let newAsset = this.props.newAsset;
+        let fbAsset, ipfsAsset;
+
+        ipfsAsset = Object.assign({}, {
+            Name: newAsset.Name,
+            CoreProps: newAsset.CoreProps,
+            hercId: this.props.hercId,
+        });
+
+        fbAsset = {
+            hercId: this.props.hercId,
+            Name: newAsset.Name,
+            // Logo: downloadURL,
+            registeredUnder: this.state.orgName,
+            Password: newAsset.Password
+        }
+
+        console.log(ipfsAsset, fbAsset, "right before the send chance")
+
+        this.props.settingHeader(fbAsset);
+        this.props.confirmAssetStarted(ipfsAsset);
+        this.props.incHercId(this.props.hercId);
+
+        // this.props.confirmAssetStarted(this.props.newAsset); // Non-Logo makes malformed assets
+        const { navigate } = this.props.navigation;
+        navigate('MenuOptions');
       }
     }
 
     async _checkBalance(){
-      let price = new BigNumber(1000)
-      let balance = new BigNumber(this.state.balance)
-      let newbalance = balance.minus(price)
+      if (DEVELOPERS.includes(this.props.edgeAccount)){
+        // this is a developer
+        this._sendNewAsset()
+      } else {
+        // this is a non-developer
+        let price = new BigNumber(1000)
+        let balance = new BigNumber(this.state.balance)
+        let newbalance = balance.minus(price)
+      }
 
       console.log('do you have enough?', newbalance.isPositive())
 
@@ -166,7 +175,7 @@ class NewAssetConfirm extends Component {
       } else {
         Alert.alert(
           'You Meet the Minimum Balance!',
-          'Current Balance:'+ this.state.balance + ' HERC \n Do you wish to proceed?' ,
+          'Current Balance:'+ this.state.balance + ' HERC \nDo you wish to proceed?' ,
           [
             {text: 'Cancel', onPress: () => console.log('No Pressed'), style: 'cancel'},
             {text: 'Yes, Make an Asset', onPress: () => this._sendNewAsset()},
@@ -180,7 +189,7 @@ class NewAssetConfirm extends Component {
 
         Alert.alert(
           'Minimum Balance Requirement: 1000 HERC',
-          'Current Balance: \n'+ this.state.balance+ ' HERC \n Do you wish to check if your balance meets the minimum requirement?' ,
+          'Current Balance: \n'+ this.state.balance+ ' HERC \nDo you wish to check if your balance meets the minimum requirement?' ,
           [
             {text: 'No', onPress: () => console.log('No Pressed'), style: 'cancel'},
             {text: 'Yes', onPress: () => {this._checkBalance()} },
@@ -201,7 +210,7 @@ class NewAssetConfirm extends Component {
         let price = this.state.fctPrice;
         let hercId = this.props.hercId;
         let newAsset = this.props.newAsset;
-        let Logo, Organization, list;
+        let Logo, list;
         let Name = newAsset.Name;
         let password = this.props.newAsset.Password
 
@@ -211,9 +220,6 @@ class NewAssetConfirm extends Component {
         } else {
             Logo = (<Text style={styles.label}>No Image</Text>)
         }
-
-
-        Organization = (<Text style={styles.label}>{this.props.organization}</Text>);
 
         if (newAsset.hasOwnProperty('CoreProps')) {
             list = Object.getOwnPropertyNames(newAsset.CoreProps).map((x, i) => {
@@ -271,7 +277,7 @@ class NewAssetConfirm extends Component {
                             </TouchableHighlight>
                         </View>
                             {!this.props.dataFlags.confirmAssetComplete &&
-                                <Text style={modalStyle.wordsText}>Your Asset Information Is Being Written To The Blockchain</Text>
+                                <Text style={modalStyle.wordsText}>Your Asset Information Is Being Written To The Blockchain. {"\n"}This may take a while. Please be patient. At this point, you cannot cancel the transaction. You may return to Main Menu if you wish.</Text>
                             }
 
                             <View style={modalStyle.activityIndicatorWrapper}>
@@ -309,7 +315,6 @@ const mapStateToProps = (state) => ({
     wallet: state.WalletActReducers.wallet,
     dataFlags: state.AssetReducers.dataFlags,
     watchBalance: state.WalletActReducers.watchBalance,
-    organization: state.WalletActReducers.organizationName
 });
 
 const mapDispatchToProps = (dispatch) => ({
