@@ -209,42 +209,38 @@ export function confirmAssetStarted(assetForIPFS) {
     console.log(asset, "chance in confirmAssetStarted")
     let username = store.getState().WalletActReducers.edge_account
 
-    rootRef.child('idology').child(username).once('value').then(snapshot => {
-      console.log(snapshot.val(), "chance snapshot")
-      var organization_name = snapshot.val().organizationName || asset.Name;
-      var dataObject = { key: 'asset', data: asset }
-      axios.post(WEB_SERVER_API_IPFS_ADD, JSON.stringify(dataObject))
-        .then(response => {
-          console.log("1 ipfsHash: ", response)
-          var ipfsHash = response.data.hash
-          return ipfsHash
-        })
-        .then(ipfsHash => {
-          var dataObject = JSON.stringify({ ipfsHash: ipfsHash, organizationName: organization_name })
-          /* This part creates a new factom chain */
-          axios.post(WEB_SERVER_API_FACTOM_CHAIN_ADD, dataObject)
-            .then(response => {
-              console.log("2 web server factom response: ", response)
-              var chainId = response.data
-              return chainId
-            })
-            .then(chainId => {
-              let dataObject = Object.assign({}, { chainId: chainId, ipfsHash: ipfsHash })
-              // if (asset.Logo) {
-              //     dataObject = Object.assign(dataObject, { Logo: asset.Logo })
-              // }
-              console.log("3 going into firebase: ", dataObject)
-              rootRef.child('assets').child(asset.Name).child('hashes').set(dataObject);
-              // rootRef.child('assets').child(asset.Name).child('chainId').set(dataObject.chainId);
+    var dataObject = { key: 'asset', data: asset }
+    axios.post(WEB_SERVER_API_IPFS_ADD, JSON.stringify(dataObject))
+      .then(response => {
+        console.log("1/3 ipfsHash: ", response)
+        var ipfsHash = response.data.hash
+        return ipfsHash
+      })
+      .then(ipfsHash => {
+        var dataObject = JSON.stringify({ ipfsHash: ipfsHash })
+        /* This part creates a new factom chain */
+        axios.post(WEB_SERVER_API_FACTOM_CHAIN_ADD, dataObject)
+          .then(response => {
+            console.log("2/3 web server factom response: ", response)
+            var chainId = response.data
+            return chainId
+          })
+          .then(chainId => {
+            let dataObject = Object.assign({}, { chainId: chainId, ipfsHash: ipfsHash })
+            // if (asset.Logo) {
+            //     dataObject = Object.assign(dataObject, { Logo: asset.Logo })
+            // }
+            console.log("3/3 going into firebase: ", dataObject)
+            rootRef.child('assets').child(asset.Name).child('hashes').set(dataObject);
+            // rootRef.child('assets').child(asset.Name).child('chainId').set(dataObject.chainId);
 
-              dispatch({ type: CONFIRM_ASSET_COMPLETE });
-              dispatch(getAssets())
-            }).catch(error => dispatch(factomError(error)))
+            dispatch({ type: CONFIRM_ASSET_COMPLETE });
+            dispatch(getAssets())
+          }).catch(error => dispatch(factomError(error)))
 
-        })
-        .catch(err =>
-          dispatch(ipfsError(err)))
-    })
+      })
+      .catch(err =>
+        dispatch(ipfsError(err)))
   }
 }
 
@@ -325,7 +321,7 @@ export function sendTrans(transPrice) {
 
     let dTime = Date.now()
     let transObject = store.getState().AssetReducers.trans
-    let organizationName = store.getState().WalletActReducers.organizationName
+    // let organizationName = store.getState().WalletActReducers.organizationName
 
     // let transObject = state.AssetReducers.selectedAsset.trans;
     let header = Object.assign({},transObject.header, {
@@ -369,15 +365,15 @@ export function sendTrans(transPrice) {
         // results = [{key: 'properties', hash: 'QmU1D1eAeSLC5Dt4wVRR'}, {key: 'images', hash: 'QmU1D1eAeSLC5Dt4wVRR'}]
         // TODO: add error handling for undefined results
         var hashlist = results.map(result => { return result.data })
-        var factomEntry = { hash: hashlist, chainId: chainId, assetInfo: organizationName }
-        console.log(factomEntry, "chance factomEntry")
+        var factomEntry = { hash: hashlist, chainId: chainId }
+        console.log(factomEntry, "1/2 chance factomEntry")
         axios.post(WEB_SERVER_API_FACTOM_ENTRY_ADD, JSON.stringify(factomEntry))
           .then(response => { //response.data = entryHash
             var dataObject = {}
             hashlist.map(hash => dataObject[hash.key] = hash.hash)
             var firebaseHeader = Object.assign({}, header, { factomEntry: response.data })
             rootRef.child('assets').child(firebaseHeader.name).child('transactions').child(dTime).set({ data: dataObject, header: firebaseHeader })
-            console.log("....finished writing to firebase.")
+            console.log("2/2 ....finished writing to firebase.")
             dispatch({type:TRANS_COMPLETE})
           })
           .catch(err => { console.log(err) })
