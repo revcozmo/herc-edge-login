@@ -7,7 +7,8 @@ import {
   StyleSheet,
   WebView,
   ScrollView,
-  Dimensions
+  Dimensions,
+  TextInput
 } from "react-native";
 import styles from "../assets/styles";
 import { connect } from "react-redux";
@@ -190,7 +191,7 @@ class BlockScanner extends Component {
               </View>
               <View
                 style={{
-                  marginTop: 10,
+                  marginTop: "8%",
                   width: "100%",
                   alignSelf: "center",
                   flexDirection: "row"
@@ -291,7 +292,206 @@ class BlockScanner extends Component {
 
           <View
             style={[localStyles.contentContainerB, { height: screenHeight }]}
-          />
+          >
+            <View style={localStyles.contentContainerB_BlocksBox}>
+              {/* <View style={localStyles.contentContainerA_MarketCapBox}> */}
+              <View
+                style={{
+                  borderColor: "yellow",
+                  borderWidth: 1,
+                  flexDirection: "row",
+                  marginTop: 10
+                }}
+              >
+                <TouchableHighlight
+                  style={{
+                    backgroundColor: "rgb(241,243,252)",
+                    borderColor: "red",
+                    borderWidth: 1,
+                    borderRadius: 2,
+                    marginLeft: "1%",
+                    justifyContent: "center"
+                  }}
+                >
+                  <Text
+                    style={{
+                      textAlign: "center",
+                      marginHorizontal: 10,
+                      fontWeight: "bold",
+                      fontSize: 16,
+                      color: "rgb(122,138,229)"
+                    }}
+                  >
+                    Blocks
+                  </Text>
+                </TouchableHighlight>
+                <TouchableHighlight
+                  style={{
+                    backgroundColor: "rgb(241,243,252)",
+                    borderColor: "blue",
+                    borderWidth: 3,
+                    borderRadius: 2,
+                    marginLeft: "5%",
+                    justifyContent: "center"
+                  }}
+                >
+                  <Text
+                    style={{
+                      textAlign: "center",
+                      marginHorizontal: 10,
+                      fontWeight: "bold",
+                      fontSize: 16,
+                      color: "black"
+                    }}
+                  >
+                    Transactions
+                  </Text>
+                </TouchableHighlight>
+                <TouchableHighlight
+                  style={{
+                    backgroundColor: "white",
+                    borderColor: "silver",
+                    borderWidth: 1,
+                    borderRadius: 20,
+                    marginLeft: "8%",
+                    justifyContent: "center"
+                  }}
+                >
+                  <Text
+                    style={{
+                      textAlign: "center",
+                      backgroundColor: "white",
+                      marginHorizontal: 24,
+                      marginVertical: 6,
+                      color: "black",
+                      fontSize: 12
+                    }}
+                  >
+                    View all
+                  </Text>
+                </TouchableHighlight>
+              </View>
+              <View
+                style={{
+                  borderColor: "yellow",
+                  borderWidth: 1,
+                  flexDirection: "row",
+                  marginTop: "10%",
+                  justifyContent: "space-around"
+                }}
+              >
+                <Text
+                  style={{
+                    textAlign: "center",
+                    fontSize: 16,
+                    color: "black",
+                    marginVertical: 10
+                  }}
+                >
+                  Height
+                </Text>
+                <Text
+                  style={{
+                    textAlign: "center",
+                    fontSize: 16,
+                    color: "black",
+                    marginVertical: 10
+                  }}
+                >
+                  Age
+                </Text>
+                <Text
+                  style={{
+                    textAlign: "center",
+                    fontSize: 16,
+                    color: "black",
+                    marginVertical: 10
+                  }}
+                >
+                  txn
+                </Text>
+              </View>
+              <View
+                style={{
+                  borderColor: "yellow",
+                  borderWidth: 1,
+                  flexDirection: "row",
+                  // marginVertical: 10,
+                  // marginTop: "10%",
+                  justifyContent: "space-around",
+                  backgroundColor: "rgb(245,247,253)"
+                }}
+              >
+                <Text
+                  style={{
+                    textAlign: "center",
+                    fontSize: 16,
+                    color: "rgb(152,164,234)",
+                    marginVertical: 10
+                  }}
+                >
+                  6943229
+                </Text>
+                <Text
+                  style={{
+                    textAlign: "center",
+                    fontSize: 16,
+                    color: "black",
+                    marginVertical: 10
+                  }}
+                >
+                  28 secs ago
+                </Text>
+                <Text
+                  style={{
+                    textAlign: "center",
+                    fontSize: 16,
+                    color: "black",
+                    marginVertical: 10
+                  }}
+                >
+                  223
+                </Text>
+              </View>
+            </View>
+            <View style={localStyles.contentContainerB_BlocksBox}>
+              <View style={{marginTop: 10, borderColor: "blue", borderWidth: 3 }}>
+                <Text style={{color: "black", fontWeight:"bold", marginLeft: 5}}> HERC</Text>
+              </View>
+              <View style={{ flexDirection: "row", marginTop: 5 }}>
+                <Text style={{color: "silver", marginHorizontal: 5, fontWeight: "bold" }}> Privacy Policy</Text>
+                <Text style={{color: "silver", marginHorizontal: 5, fontWeight: "bold" }}> Terms Of Use</Text>
+                <Text style={{color: "silver", marginHorizontal: 5, fontWeight: "bold" }}> Metamask</Text>
+                <Text style={{color: "silver", marginHorizontal: 5, fontWeight: "bold" }}> F.A.Q.</Text>
+              </View>
+              <View style={{marginTop: 10, borderColor: "blue", borderWidth: 3 }}>
+                  <Text style={{color: "black", fontWeight:"bold", marginLeft: 5}}>COMPANY</Text>
+              </View>
+              <View style={{ flexDirection: "row", marginTop: 5 }}>
+                <Text style={{color: "silver", marginHorizontal: 5, fontWeight: "bold" }}> Buy HERC</Text>
+                <Text style={{color: "silver", marginHorizontal: 5, fontWeight: "bold" }}> Team</Text>
+                <Text style={{color: "silver", marginHorizontal: 5, fontWeight: "bold" }}> Roadmap</Text>
+                <Text style={{color: "silver", marginHorizontal: 5, fontWeight: "bold" }}> Whitepaper</Text>
+              </View>
+              <View style={{marginTop: 10, borderColor: "blue", borderWidth: 3 }}>
+                  <Text style={{color: "black", fontWeight:"bold", marginLeft: 5}}>Connect</Text>
+              </View>
+              <View style={{ flexDirection: "row", marginTop: 5 }}>
+                <Text style={{color: "silver", marginHorizontal: 5, fontWeight: "bold" }}> Telegram</Text>
+                <Text style={{color: "silver", marginHorizontal: 5, fontWeight: "bold" }}> Discord</Text>
+                <Text style={{color: "silver", marginHorizontal: 5, fontWeight: "bold" }}> Github</Text>
+              </View>
+              <View style={{ marginTop: 10, borderColor: "blue", borderWidth: 3 }}>
+                  <Text style={{ color: "black", fontWeight:"bold", marginLeft: 5,  }}>SUBSCRIBE</Text>
+              </View>
+              <View style={{ flexDirection: "row", marginTop: 5 }}>
+                <TextInput style={{ borderColor: "gray", width: "75%", alignSelf: "center", backgroundColor: "rgb(245,247,253)"}} placeholder="Your email" underlineColorAndroid="transparent"  />
+                <TouchableHighlight style={{ backgroundColor: "rgb(120,136,229)", borderRadius: 5, justifyContent: "center", alignContent: "center", marginVertical: 2, height: 30, alignSelf: "center"  }}>
+                   <Text style={{alignSelf:"center", color: "white", fontWeight: "bold", marginHorizontal: 20, fontSize: 10,}}>Subscribe</Text> 
+                </TouchableHighlight>
+              </View>
+            </View>
+          </View>
         </ScrollView>
       </View>
     );
@@ -330,15 +530,16 @@ const localStyles = StyleSheet.create({
     backgroundColor: "rgb(11,22,88)"
   },
   contentContainerA_MarketCapBox: {
-    marginTop: "10%",
+    marginTop: "12%",
     // flex: 2,
     alignSelf: "center",
     width: "95%",
-    height: 250,
+    height: "40%",
     backgroundColor: "rgb(57,66,157)",
     borderRadius: 5
   },
   contentContainerA_Box_TopRow: {
+    marginTop: 10,
     alignSelf: "center"
   },
   contentContainerA_Box_SecRow: {
@@ -353,11 +554,11 @@ const localStyles = StyleSheet.create({
     fontSize: 12
   },
   contentContainerA_HercTransHistBox: {
-    marginTop: "10%",
+    marginTop: "12%",
     // flex: 2,
     alignSelf: "center",
     width: "95%",
-    height: 250,
+    height: "40%",
     backgroundColor: "rgb(29,30,102)",
     borderRadius: 5
   },
@@ -386,6 +587,15 @@ const localStyles = StyleSheet.create({
     width: "100%",
     alignSelf: "center"
     // height: "100%"
+  },
+  contentContainerB_BlocksBox: {
+    marginTop: 20,
+    // flex: 2,
+    alignSelf: "center",
+    width: "95%",
+    height: "40%",
+    backgroundColor: "white",
+    borderRadius: 5
   },
   hercLogoHeader: {
     height: 45,
