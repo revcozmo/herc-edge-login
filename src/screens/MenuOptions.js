@@ -45,7 +45,7 @@ class MenuOptions extends Component {
         this.props.getOrganization();
 
         let alertLatestVersion = this.props.navigation.getParam('alertLatestVersion', 'false')
-        console.log("chance", alertLatestVersion)
+        console.log("alertLatestVersion jm:", alertLatestVersion)
 
         // if alertLatestVersion is true, trigger alert.
         if (alertLatestVersion &&  alertLatestVersion == true) {
@@ -73,7 +73,7 @@ class MenuOptions extends Component {
                             <Image style={localStyles.menuButton} source={registerAsset} />
                         </TouchableHighlight>
                     </View>
-                    
+
                     <TouchableHighlight disabled={!this.props.assets} style={localStyles.touchableHighlight}
                     onPress={() => navigate("Splash1")}>
                       <Image style={localStyles.menuButton} source={supplyChain} />

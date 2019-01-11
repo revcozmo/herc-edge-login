@@ -109,7 +109,7 @@ class NewAssetConfirm extends Component {
             Password: newAsset.Password
         }
 
-        console.log(ipfsAsset, fbAsset, "right before the send chance")
+        console.log("Right before sending to send_trans: jm", ipfsAsset, fbAsset)
 
         this.props.settingHeader(fbAsset);
         this.props.confirmAssetStarted(ipfsAsset);

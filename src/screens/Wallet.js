@@ -70,7 +70,7 @@ class Wallet extends React.Component {
   _updateWallet = () => {
     if (!this.props.watchBalance || !this.props.watchBalance.ETH) {
       let displayWallet = this.state.displayWallet;
-      console.log(this.props.wallet.balances[displayWallet], "chance")
+      console.log("Display Wallet: ",this.props.wallet.balances[displayWallet])
       let tempBalance = new BigNumber(this.props.wallet.balances[displayWallet])
         .times(1e-18)
         .toFixed(6);

@@ -331,7 +331,7 @@ export function sendTrans(transPrice) {
 
     let data = transObject.data; //documents, images, properties, dTime
     let keys = Object.keys(data) //[ 'dTime', 'documents', 'images', 'properties' ]
-    console.log(keys, "chance keys")
+    console.log("Keys in sendTrans Action jm", keys)
     let promiseArray = []
 
     //Checks if documents, metrics, images and EDIT was added
@@ -361,19 +361,19 @@ export function sendTrans(transPrice) {
 
     Promise.all(promiseArray)
       .then(results => {
-        console.log(results, 'send_trans result chance')
+        console.log('Results in send_trans action: jm', results)
         // results = [{key: 'properties', hash: 'QmU1D1eAeSLC5Dt4wVRR'}, {key: 'images', hash: 'QmU1D1eAeSLC5Dt4wVRR'}]
         // TODO: add error handling for undefined results
         var hashlist = results.map(result => { return result.data })
         var factomEntry = { hash: hashlist, chainId: chainId }
-        console.log(factomEntry, "1/2 chance factomEntry")
+        console.log("1/2 factomEntry jm", factomEntry)
         axios.post(WEB_SERVER_API_FACTOM_ENTRY_ADD, JSON.stringify(factomEntry))
           .then(response => { //response.data = entryHash
             var dataObject = {}
             hashlist.map(hash => dataObject[hash.key] = hash.hash)
             var firebaseHeader = Object.assign({}, header, { factomEntry: response.data })
             rootRef.child('assets').child(firebaseHeader.name).child('transactions').child(dTime).set({ data: dataObject, header: firebaseHeader })
-            console.log("2/2 ....finished writing to firebase.")
+            console.log("2/2 ....finished writing to firebase. jm")
             dispatch({type:TRANS_COMPLETE})
           })
           .catch(err => { console.log(err) })

@@ -83,7 +83,7 @@ class Login extends Component {
 
       Promise.all(promiseArray)
         .then(results => {
-          console.log(results[1].data, "chance latestAPK ")
+          console.log("Is this the latest APK?", results[1].data)
           const { navigate } = this.props.navigation;
 
           if (results[1].data && results[1].data == true) {
@@ -107,7 +107,7 @@ class Login extends Component {
           .then(async wallet => {
             wallet.watch('balances', (newBalances) =>
             {
-              console.log(newBalances, 'chance login.js newBalances')
+              console.log('NewBalances in login.js: jm', newBalances)
               this.props.updateBalances(newBalances)
             }
           );
