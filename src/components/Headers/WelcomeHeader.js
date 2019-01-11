@@ -4,7 +4,7 @@ import {
 } from "react-native";
 import React, { Component } from "react";
 import Icon from 'react-native-vector-icons/FontAwesome';
-import styles from "../../assets/styles";
+import styles from "./HeaderStyles";
 import ColorConstants from "../../assets/ColorConstants";
 
 {/* <Icon.Button /> for use once it's wired up */ }

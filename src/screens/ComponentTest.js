@@ -14,7 +14,7 @@ import styles from "../assets/styles";
 import ColorConstants from "../assets/ColorConstants";
 import React, { Component } from 'react';
 import RegisterAssetPassword, { RegisterAssetInput } from "../components/RegisterAssetComponents/RegisterAssetInputs";
-import RegisterAssetHeader from "../components/RegisterAssetComponents/RegisterAssetHeader"
+import RegisterAssetHeader from "../components/Headers/RegisterAssetHeader"
 import { widthPercentageToDP, heightPercentageToDP } from '../assets/responisiveUI';
 
 
@@ -46,6 +46,15 @@ export default class ComponentTest extends Component {
         console.log(this.state.showModal1, "showmodal1after");
     }
 
+    changeModal2 = () => {
+        console.log(this.state.showModal2, "showmodal2");
+        this.setState({
+            showModal2: !this.state.showModal2
+        })
+        console.log(this.state.showModal2, "showmodal2after");
+    }
+
+
     onChange = (pwChar) => {
         console.log(pwChar, 'incompoTest Passing functions')
         this.setState({
@@ -60,8 +69,8 @@ export default class ComponentTest extends Component {
         })
     }
 
-
     render() {
+
 
         return (
             <View style={localStyles.container}>
@@ -74,34 +83,14 @@ export default class ComponentTest extends Component {
                     onPress={() => this.changeModal1()}>
                 </Icon.Button>
 
-                <View style={styles.modalBackground}>
-                    <View style={styles.activityIndicatorWrapper}>
-                        <Text>Modal1</Text>
-                    </View>
-                </View>
+                <Icon.Button labelTitle="Modal2" name="camera" backgroundColor="#3b5998"
+                    onPress={() => this.changeModal2()}>
+                </Icon.Button>
+
 
                 <Icon name='eye' size={18} color={ColorConstants.MainGold} />
                 <RegisterAssetInput name={'Input1'} placeholder={'hello'} onChangeText={(metchar, name) => this.onChangeText(metchar, name)} />
-                <Modal
-                    style={localStyles.mStyle}
-                    transparent={true}
-                    animationType={'none'}
-                    visible={this.state.showModal1}
-                    onRequestClose={() => { console.log("modal closed") }}
-                >
-                    <View style={localStyles.modalBackground}>
-                        <Image source={{ uri: "https://cdn.dribbble.com/users/108183/screenshots/3488148/liquid_preloader_by_volorf.gif" }} style={{ height: 50, width: 50 }} />
-                        {/* <Image source={this.gif()} style={{ height: 50, width: 50 }} /> */}
-                        <Text style={localStyles.labelTitle}>Here's some Handy Info!</Text>
-                        <Icon.Button
-                            name="eye"
-                            style={styles.iconButton}
-                            color={ColorConstants.MainGold}
-                            backgroundColor="#3b5998"
-                            onPress={() => this.changeModal1()}>
-                        </Icon.Button>
-                    </View>
-                </Modal>
+
 
                 <View style={localStyles.PasswordInputContainer}>
                     <Text style={localStyles.passwordInputlabel}>MainGray!!!!</Text>
@@ -111,32 +100,103 @@ export default class ComponentTest extends Component {
 
                 <Icon.Button name="eye" backgroundColor="#3b5998" onPress={() => console.log("eyeball press")}>
                 </Icon.Button>
+                {/* Modal 1 */}
+                <Modal
+                    transparent={false}
+                    animationType={'slide'}
+                    visible={this.state.showModal1}
+                    onRequestClose={() => { console.log("modal closed") }}
+                >
+                    <View style={localStyles.modalLower}>
+
+                        <View style={localStyles.modalContent1}>
+                            <Image source={{ uri: "https://cdn.dribbble.com/users/108183/screenshots/3488148/liquid_preloader_by_volorf.gif" }} style={{ height: 50, width: 50 }} />
+                            {/* <Image source={this.gif()} style={{ height: 50, width: 50 }} /> */}
+                            <Text style={localStyles.labelTitle}>This is Modal1 Slide</Text>
+                            <View style={localStyles.iconButton}><Icon.Button
+                                name="eye"
+                                style={styles.iconButton}
+                                color={ColorConstants.MainGold}
+                                backgroundColor="#3b5998"
+                                onPress={() => this.changeModal1()}>
+                            </Icon.Button>
+                            </View>
+                        </View>
+                    </View>
+                </Modal>
+
+                {/* Modal 2 */}
+                <Modal
+                    style={localStyles.modal}
+                    transparent={true}
+                    animationType={'fade'}
+                    visible={this.state.showModal2}
+                    onRequestClose={() => { console.log("modal closed") }}
+                >
+                    <View style={localStyles.modal}>
+                        <View style={localStyles.modalContent2}>
+                            <Image source={{ uri: "https://cdn.dribbble.com/users/108183/screenshots/3488148/liquid_preloader_by_volorf.gif" }} style={{ height: 50, width: 50 }} />
+                            {/* <Image source={this.gif()} style={{ height: 50, width: 50 }} /> */}
+                            <Text style={localStyles.labelTitle}>This is Modal2 Fade</Text>
+                            <View style={localStyles.iconButton}>
+                                <Icon.Button
+                                    name="adjust"
+                                    color={ColorConstants.MainGold}
+                                    backgroundColor="#3b5998"
+                                    onPress={() => this.changeModal2()}>
+                                </Icon.Button>
+                            </View>
+                        </View>
+                    </View>
+                </Modal>
+
+
 
             </View>
         )
     }
-
 }
 const localStyles = StyleSheet.create({
-    mStyle: {
-        left: 110,
-        top: 265,
-        backgroundColor: ColorConstants.MainSubRed,
-        height: 200,
-        width: 200
+    iconButton: {
+        alignSelf: 'center',
+        height: widthPercentageToDP('5'),
+        width: heightPercentageToDP('5'),
     },
 
-
-    modalBackground1: {
-        // flex: 1,
-        height: heightPercentageToDP('20'),
-        width: widthPercentageToDP('20'),
-
+    modalCenter: {
         alignItems: 'center',
         flexDirection: 'column',
         justifyContent: 'center',
-        backgroundColor: ColorConstants.MainSubRed
+
     },
+
+    modalLower: {
+        width: '100%',
+        height: heightPercentageToDP('15'),
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        // alignContent: 'flex-end',
+        top: heightPercentageToDP('70'),
+        backgroundColor: 'blue',
+        borderRadius: 20
+    },
+
+    modalContent1: {
+        // flexDirection: 'column',
+        backgroundColor: ColorConstants.MainSubRed,
+        height: widthPercentageToDP('30'),
+        width: heightPercentageToDP('25'),
+        justifyContent: 'center',
+
+    },
+    modalContent2: {
+        backgroundColor: ColorConstants.MainSubRed,
+        height: widthPercentageToDP('30'),
+        width: heightPercentageToDP('25'),
+    },
+
+
     activityIndicatorWrapper: {
         backgroundColor: '#FFFFFF',
         height: 100,

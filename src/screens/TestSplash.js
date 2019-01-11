@@ -9,7 +9,7 @@ import {
 
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import styles from "../assets/styles";
-import colorConstants from "../assets/ColorConstants";
+import ColorConstants from "../assets/ColorConstants";
 import React, { Component } from 'react';
 import { widthPercentageToDP, heightPercentageToDP } from '../assets/responisiveUI';
 import { StackNavigator } from "react-navigation";
@@ -31,7 +31,7 @@ export default class TestSplash extends Component {
                     // hidden={true}
                 barStyle={'light-content'}
                 translucent={true}
-                backgroundColor={colorConstants.MainBlue}
+                backgroundColor={ColorConstants.MainBlue}
                 />
                 <View style={[localStyles.baseContainer,localStyles.splashTop]}>
                     <Image source={require('../assets/hLogo.png')}
@@ -59,7 +59,7 @@ export default class TestSplash extends Component {
             //         </View>
             //     </View>
 
-            //     <Icon name='eye' size={18} color={colorConstants.MainGold} />
+            //     <Icon name='eye' size={18} color={ColorConstants.MainGold} />
             //     <RegisterAssetInput dims={this.Dims} placeholder={'hello'} />
 
             //     <View style={localStyles.PasswordInputContainer}>
@@ -81,15 +81,15 @@ const localStyles = StyleSheet.create({
     baseContainer: {
         height: '100%',
         width: '100%',
-        backgroundColor: colorConstants.MainBlue,
+        backgroundColor: ColorConstants.MainBlue,
         alignItems: "center",
         justifyContent: "flex-start"
     },
 
     bodyContainer: {
         // width: '100%',
-        // backgroundColor: colorConstants.MainBlue,
-        backgroundColor: colorConstants.MainGray,
+        // backgroundColor: ColorConstants.MainBlue,
+        backgroundColor: ColorConstants.MainGray,
         // alignItems: "center",
         // justifyContent: "center",
         // marginTop: 20,
@@ -102,7 +102,7 @@ const localStyles = StyleSheet.create({
         height: heightPercentageToDP('48'),
         padding: 5,
         justifyContent: 'center'
-        // backgroundColor: colorConstants.MainBlue
+        // backgroundColor: ColorConstants.MainBlue
 
     },
     splashImage: {
@@ -186,7 +186,7 @@ const localStyles = StyleSheet.create({
     passwordInputContainer: {
 
         justifyContent: 'flex-start',
-        backgroundColor: colorConstants.MainSubCrownBlue
+        backgroundColor: ColorConstants.MainSubCrownBlue
     }
 
 })

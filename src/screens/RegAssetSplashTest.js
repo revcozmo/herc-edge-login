@@ -9,11 +9,11 @@ import {
 
 import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from "../assets/styles";
-import colorConstants from "../assets/ColorConstants";
+import ColorConstants from "../assets/ColorConstants";
 import React, { Component } from 'react';
 import { widthPercentageToDP, heightPercentageToDP } from '../assets/responisiveUI';
 import { StackNavigator } from "react-navigation";
-import RegAssetHeader from "../components/RegisterAssetComponents/RegisterAssetHeader";
+import RegAssetHeader from "../components/Headers/RegisterAssetHeader";
 export default class RegAssetSplashTest extends Component {
 
     static navigationOptions = ({navigation}) => ({
@@ -29,16 +29,16 @@ export default class RegAssetSplashTest extends Component {
     render() {
         const { navigate } = this.props.navigation;
         return (
-            <View style={localStyles.baseContainer}>
-                <View style={[localStyles.baseContainer,localStyles.splashTop]}>
+            <View style={styles.baseContainer}>
+                <View style={[styles.baseContainer,styles.splashTop]}>
                     <Image source={require('../assets/register-asset.png')}
-                        style={localStyles.splashImage}
+                        style={styles.splashImage}
                         resizeMode="contain"
                     />
                 </View>
-                <View style={[localStyles.baseContainer, localStyles.bodyContainer]}>
-                    <Text style={localStyles.CopyHeader}>Header for the copy</Text>
-                    <Text style={[localStyles.CopyHeader, localStyles.CopyBody]}>
+                <View style={[styles.baseContainer, styles.bodyContainer]}>
+                    <Text style={styles.CopyHeader}>Header for the copy</Text>
+                    <Text style={[styles.CopyHeader, styles.CopyBody]}>
                         Body of the CopyBody of the CopyBody of the CopyBody of the CopyBody of the Copy
                         Body of the CopyBody of the CopyBody of the CopyBody of the CopyBody of the Copy
                         Body of the CopyBody of the CopyBody of the CopyBody of the CopyBody of the Copy
@@ -56,7 +56,7 @@ export default class RegAssetSplashTest extends Component {
             //         </View>
             //     </View>
 
-            //     <Icon name='eye' size={18} color={colorConstants.MainGold} />
+            //     <Icon name='eye' size={18} color={ColorConstants.MainGold} />
             //     <RegisterAssetInput dims={this.Dims} placeholder={'hello'} />
 
             //     <View style={localStyles.PasswordInputContainer}>
@@ -78,15 +78,15 @@ const localStyles = StyleSheet.create({
     baseContainer: {
         height: '100%',
         width: '100%',
-        backgroundColor: colorConstants.MainBlue,
+        backgroundColor: ColorConstants.MainBlue,
         alignItems: "center",
         justifyContent: "flex-start"
     },
 
     bodyContainer: {
         // width: '100%',
-        // backgroundColor: colorConstants.MainBlue,
-        backgroundColor: colorConstants.MainGray,
+        // backgroundColor: ColorConstants.MainBlue,
+        backgroundColor: ColorConstants.MainGray,
         // alignItems: "center",
         // justifyContent: "center",
         // marginTop: 20,
@@ -99,7 +99,7 @@ const localStyles = StyleSheet.create({
         height: heightPercentageToDP('48'),
         padding: 5,
         justifyContent: 'center'
-        // backgroundColor: colorConstants.MainBlue
+        // backgroundColor: ColorConstants.MainBlue
 
     },
     splashImage: {
@@ -183,7 +183,7 @@ const localStyles = StyleSheet.create({
     passwordInputContainer: {
 
         justifyContent: 'flex-start',
-        backgroundColor: colorConstants.MainSubCrownBlue
+        backgroundColor: ColorConstants.MainSubCrownBlue
     }
 
 })

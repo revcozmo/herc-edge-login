@@ -6,7 +6,7 @@ import {
 import React, { Component } from "react";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import icon from 'react-native-vector-icons';
-import styles from "../../assets/styles";
+import styles from "./HeaderStyles";
 import ColorConstants from "../../assets/ColorConstants";
 
 const BackButton = (

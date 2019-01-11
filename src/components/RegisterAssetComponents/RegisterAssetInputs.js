@@ -6,14 +6,14 @@ import {
 } from 'react-native';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
-import colorConstants from "../../assets/ColorConstants";
+import ColorConstants from "../../assets/ColorConstants";
 import { widthPercentageToDP, heightPercentageToDP } from '../../assets/responisiveUI';
 
 export function RegisterAssetInput(props) {
     return (
         <TextInput style={localStyles.textInput}
             placeholder={props.placeholder}
-            placeholder-text-color={colorConstants.MainBlue}
+            placeholder-text-color={ColorConstants.MainBlue}
             underlineColorAndroid='transparent'
             onChangeText={ (inputName) => props.onChangeText(inputName)}
 
@@ -42,7 +42,7 @@ export default class RegisterAssetPassword extends Component {
 
                 <TextInput style={[localStyles.textInput, { flex: 1 }]}
                     placeholder={this.props.placeholder}
-                    placeholder-text-color={colorConstants.MainBlue}
+                    placeholder-text-color={ColorConstants.MainBlue}
                     underlineColorAndroid='transparent'
                     secureTextEntry={this.state.showPass}
                     onChangeText={pass => this.props.onChange(pass)}
@@ -50,7 +50,7 @@ export default class RegisterAssetPassword extends Component {
                 />
                 <Icon.Button
                     style={localStyles.eyeBallButton}
-                    color={colorConstants.MainBlue}
+                    color={ColorConstants.MainBlue}
                     name='eye'
                     onPress={() => this.onHideShow()}
 
@@ -66,14 +66,14 @@ const localStyles = StyleSheet.create({
     RegisterAssetInputPasswordContainer: {
         justifyContent: 'space-between',
         flexDirection: 'row',
-        backgroundColor: colorConstants.MainGold,
+        backgroundColor: ColorConstants.MainGold,
         width: widthPercentageToDP('90'),
         height: heightPercentageToDP('6'),
         borderRadius: 8,
 
     },
     textInputContainer: {
-        backgroundColor: colorConstants.MainGray,
+        backgroundColor: ColorConstants.MainGray,
         width: "90%",
         height: "25%",
         borderRadius: 8
@@ -82,14 +82,14 @@ const localStyles = StyleSheet.create({
         width: widthPercentageToDP('90'),
         height: heightPercentageToDP('6'),
         borderRadius: 2,
-        backgroundColor: colorConstants.MainGold
+        backgroundColor: ColorConstants.MainGold
 
     },
     eyeBallButton: {
         justifyContent: 'center',
         alignItems: 'center',
         paddingLeft: 5,
-        backgroundColor: colorConstants.MainGold,
+        backgroundColor: ColorConstants.MainGold,
         height: heightPercentageToDP('6'),
         borderRadius: 0,
     }

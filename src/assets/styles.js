@@ -1,78 +1,114 @@
 "use strict";
 import { StyleSheet, Platform } from "react-native";
 import ColorConstants from "./ColorConstants";
-
+import { widthPercentageToDP, heightPercentageToDP } from './responisiveUI';
 
 module.exports = StyleSheet.create({
- 
-  header__container: {
-    backgroundColor: ColorConstants.MainBlue,
-    flexDirection: 'row',
+
+  baseContainer: {
+    height: '100%',
     width: '100%',
-    height: Platform.OS === 'android' ? 60 : 100,
-    justifyContent: 'space-between',
-    alignContent: "center",
-    alignItems: "center",
-    shadowColor: 'transparent',
-    paddingTop: 20,
-    // marginTop: 20,
-},
-
-header_left: {
-    alignSelf: 'center'
-},
-header_right: {
-    alignSelf: 'center'
-},
-sideHeaders: {
-  alignSelf: 'center',
-    width: '20%',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    backgroundColor: ColorConstants.MainGray
-},
-  iconButton:{
-    alignSelf: 'center',
-    height: 18,
-    width: 18,
-
-  },
-
-  headerStyle: {
-    justifyContent: 'center',
-    // textAlign: 'center',
-    alignItems: 'center',
-    height: Platform.OS === 'android' ? 60 : 100,
     backgroundColor: ColorConstants.MainBlue,
-    shadowColor: 'transparent',
-    paddingTop: 20,
-  },
-  headerText: {
-    fontFamily: "Montserrat",
-    fontSize: 22,
-    alignSelf: "center",
-    fontWeight: "bold",
-    color: ColorConstants.MainGray,
-    textAlign: "center",
     alignItems: "center",
-    justifyContent: "center",
-    alignContent: 'center'
-    
+    justifyContent: "flex-start"
   },
-  
-  backArrow: {
-    marginLeft: 5
-  },
-  container: {
-    width: '100%',
+
+  bodyContainer: {
+    // width: '100%',
     // backgroundColor: ColorConstants.MainBlue,
     backgroundColor: ColorConstants.MainGray,
-    alignItems: "center",
-    justifyContent: "center",
+    // alignItems: "center",
+    // justifyContent: "center",
     // marginTop: 20,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20
   },
+
+  splashTop: {
+    width: widthPercentageToDP('98'),
+    height: heightPercentageToDP('48'),
+    padding: 5,
+    justifyContent: 'center'
+    // backgroundColor: ColorConstants.MainBlue
+
+  },
+  splashImage: {
+    width: widthPercentageToDP('60'),
+    height: heightPercentageToDP('60'),
+    // marginTop: 15
+    // flex: 1
+
+  },
+
+
+  CopyHeader: {
+    fontSize: 14,
+    textAlign: 'center',
+    margin: 5
+  },
+  copyBody: {
+    fontSize: 12
+
+  },
+
+  // header__container: {
+  //   backgroundColor: ColorConstants.MainBlue,
+  //   flexDirection: 'row',
+  //   width: '100%',
+  //   height: Platform.OS === 'android' ? 60 : 100,
+  //   justifyContent: 'space-between',
+  //   alignContent: "center",
+  //   alignItems: "center",
+  //   shadowColor: 'transparent',
+  //   paddingTop: 20,
+  //   // marginTop: 20,
+  // },
+
+  // header_left: {
+  //   alignSelf: 'center'
+  // },
+  // header_right: {
+  //   alignSelf: 'center'
+  // },
+  // sideHeaders: {
+  //   alignSelf: 'center',
+  //   width: '20%',
+  //   flexDirection: 'row',
+  //   justifyContent: 'center',
+  //   backgroundColor: ColorConstants.MainGray
+  // },
+  // iconButton: {
+  //   alignSelf: 'center',
+  //   height: 18,
+  //   width: 18,
+  // },
+
+  // headerStyle: {
+  //   justifyContent: 'center',
+  //   // textAlign: 'center',
+  //   alignItems: 'center',
+  //   height: Platform.OS === 'android' ? 60 : 100,
+  //   backgroundColor: ColorConstants.MainBlue,
+  //   shadowColor: 'transparent',
+  //   paddingTop: 20,
+  // },
+  // headerText: {
+  //   fontFamily: "Montserrat",
+  //   fontSize: 22,
+  //   alignSelf: "center",
+  //   fontWeight: "bold",
+  //   color: ColorConstants.MainGray,
+  //   textAlign: "center",
+  //   alignItems: "center",
+  //   justifyContent: "center",
+  //   alignContent: 'center'
+
+  // },
+
+  // backArrow: {
+  //   marginLeft: 5
+  // },
+
   // drawerIcon: {
   //   marginRight: 0,
   // },

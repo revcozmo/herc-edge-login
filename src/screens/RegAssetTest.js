@@ -11,7 +11,7 @@ import {
 
 import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from "../assets/styles";
-import colorConstants from "../assets/ColorConstants";
+import ColorConstants from "../assets/ColorConstants";
 import React, { Component } from 'react';
 import RegisterAssetPassword, { RegisterAssetInput } from "../components/RegisterAssetComponents/RegisterAssetInputs";
 // import RegisterAssetHeader from "../components/RegisterAssetComponents/RegisterAssetHeader"
@@ -62,7 +62,7 @@ export default class RegAssetTest extends Component {
                     </View>
                 </View>
                 <TouchableHighlight onPress={() => console.log("showing the modale") && this.setState({ showModal1: !this.state.showModal1 })}>
-                    <Icon name='eye' size={18} color={colorConstants.MainGold} />
+                    <Icon name='eye' size={18} color={ColorConstants.MainGold} />
                 </TouchableHighlight>
                 <RegisterAssetInput placeholder={'Asset Name'} />
                 <View style={localStyles.inputContainer}>
@@ -107,7 +107,7 @@ const localStyles = StyleSheet.create({
     },
     // container: {
     //     flex: 1,
-    //     backgroundColor: colorConstants.MainGray,
+    //     backgroundColor: ColorConstants.MainGray,
     //     alignItems: "center",
     //     justifyContent: "center"
     //   },
@@ -151,8 +151,8 @@ const localStyles = StyleSheet.create({
 
     container: {
         width: '100%',
-        // backgroundColor: colorConstants.MainBlue,
-        backgroundColor: colorConstants.MainGray,
+        // backgroundColor: ColorConstants.MainBlue,
+        backgroundColor: ColorConstants.MainGray,
         alignItems: "center",
         justifyContent: "center",
         // marginTop: 20,
@@ -166,7 +166,7 @@ const localStyles = StyleSheet.create({
     inputContainer: {
 
         justifyContent: 'flex-start',
-        backgroundColor: colorConstants.MainSubCrownBlue
+        backgroundColor: ColorConstants.MainSubCrownBlue
     }
 
 })
