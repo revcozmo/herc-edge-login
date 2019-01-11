@@ -9,7 +9,7 @@ import {
 
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import styles from "../assets/styles";
-import colorConstants from "../assets/colorConstants";
+import colorConstants from "../assets/ColorConstants";
 import React, { Component } from 'react';
 import { widthPercentageToDP, heightPercentageToDP } from '../assets/responisiveUI';
 import { StackNavigator } from "react-navigation";

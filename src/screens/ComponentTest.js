@@ -5,15 +5,17 @@ import {
     Text,
     View,
     StatusBar,
-    Modal
+    Modal,
+    Image
 } from 'react-native';
-
+import loadingGif from "../assets/icons/liquid_preloader_by_volorf.gif";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from "../assets/styles";
-import colorConstants from "../assets/colorConstants";
+import ColorConstants from "../assets/ColorConstants";
 import React, { Component } from 'react';
 import RegisterAssetPassword, { RegisterAssetInput } from "../components/RegisterAssetComponents/RegisterAssetInputs";
 import RegisterAssetHeader from "../components/RegisterAssetComponents/RegisterAssetHeader"
+import { widthPercentageToDP, heightPercentageToDP } from '../../assets/responisiveUI';
 
 
 export default class ComponentTest extends Component {
@@ -31,6 +33,14 @@ export default class ComponentTest extends Component {
             showModal2: false,
             showModal3: false,
         }
+    }
+
+    changeModal1 = () => {
+        console.log(this.state.showModal1, "showmodal1");
+        this.setState({
+            showModal1: !this.state.showModal1
+        })
+        console.log(this.state.showModal1, "showmodal1after");
     }
 
     onChange = (pwChar) => {
@@ -53,25 +63,44 @@ export default class ComponentTest extends Component {
         return (
             <View style={localStyles.container}>
                 <StatusBar
-
-                    barStyle={'dark-content'}
+                    barStyle={'light-content'}
                     translucent={true}
                 />
 
-                <Icon.Button name="eye" backgroundColor="#3b5998" onPress={() => console.log("eyeball press")}>
-
+                <Icon.Button name="eye" backgroundColor="#3b5998"
+                    onPress={() => this.changeModal1()}>
                 </Icon.Button>
+
                 <View style={styles.modalBackground}>
                     <View style={styles.activityIndicatorWrapper}>
                         <Text>Modal1</Text>
                     </View>
                 </View>
 
-                <Icon name='eye' size={18} color={colorConstants.MainGold} />
+                <Icon name='eye' size={18} color={ColorConstants.MainGold} />
                 <RegisterAssetInput name={'Input1'} placeholder={'hello'} onChangeText={(metchar, name) => this.onChangeText(metchar, name)} />
+                <Modal
+                    transparent={false}
+                    animationType={'none'}
+                    visible={this.state.showModal1}
+                    onRequestClose={() => { console.log("modal closed") }}
+                >
+                    <View style={localStyles.modalBackground}>
 
-                <View style={localStyles.PasswordInputContainer}>
-                    <Text style={styles.passwordInputlabel}>MainGray!!!!</Text>
+                        <Image source={require("https://cdn.dribbble.com/users/108183/screenshots/3488148/liquid_preloader_by_volorf.gif")} style={{ height: 50, width: 50 }} />
+                        <Text style={localStyles.labelTitle}>Here's some Handy Info!</Text>
+                        <Icon.Button
+                            name="eye"
+                            style={styles.iconButton}
+                            color={ColorConstants.MainGold}
+                            backgroundColor="#3b5998"
+                            onPress={() => this.changeModal1()}>
+                        </Icon.Button>
+                    </View>
+                </Modal>
+
+                <View style={locallocalStyles.PasswordInputContainer}>
+                    <Text style={localStyles.passwordInputlabel}>MainGray!!!!</Text>
                     <RegisterAssetPassword placeholder='SecondplaceholderTest' onChange={this.onChange} />
 
                 </View>
@@ -86,12 +115,15 @@ export default class ComponentTest extends Component {
 }
 const localStyles = StyleSheet.create({
 
-    modalBackground: {
-        flex: 1,
+    modalBackground1: {
+        // flex: 1,
+        height: heightPercentageToDP('20'),
+        width: widthPercentageToDP('20'),
+
         alignItems: 'center',
         flexDirection: 'column',
         justifyContent: 'space-around',
-        backgroundColor: '#00000040'
+        backgroundColor: ColorConstants.MainSubRed
     },
     activityIndicatorWrapper: {
         backgroundColor: '#FFFFFF',
@@ -124,22 +156,22 @@ const localStyles = StyleSheet.create({
 
     container: {
         width: '100%',
-        // backgroundColor: colorConstants.MainBlue,
-        backgroundColor: colorConstants.MainGray,
+        // backgroundColor: ColorConstants.MainBlue,
+        backgroundColor: ColorConstants.MainGray,
         alignItems: "center",
         justifyContent: "center",
         // marginTop: 20,
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20
     },
-    passwordInputLabel: {
+    labelTitle: {
         fontSize: 10,
         color: 'white'
     },
     passwordInputContainer: {
 
         justifyContent: 'flex-start',
-        backgroundColor: colorConstants.MainSubCrownBlue
+        backgroundColor: ColorConstants.MainSubCrownBlue
     }
 
 })

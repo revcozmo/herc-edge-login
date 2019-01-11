@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
-import colorConstants from "../../assets/colorConstants";
+import colorConstants from "../../assets/ColorConstants";
 import { widthPercentageToDP, heightPercentageToDP } from '../../assets/responisiveUI';
 
 export function RegisterAssetInput(props) {

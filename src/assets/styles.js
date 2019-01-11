@@ -1,6 +1,6 @@
 "use strict";
 import { StyleSheet, Platform } from "react-native";
-import ColorConstants from "./colorConstants";
+import ColorConstants from "./ColorConstants";
 
 
 module.exports = StyleSheet.create({
@@ -31,7 +31,13 @@ sideHeaders: {
     justifyContent: 'center',
     backgroundColor: ColorConstants.MainGray
 },
-  
+  iconButton:{
+    alignSelf: 'center',
+    height: 18,
+    width: 18,
+
+  },
+
   headerStyle: {
     justifyContent: 'center',
     // textAlign: 'center',
@@ -42,8 +48,6 @@ sideHeaders: {
     paddingTop: 20,
   },
   headerText: {
-    // paddingTop: 5,
-    // marginLeft: 30,
     fontFamily: "Montserrat",
     fontSize: 22,
     alignSelf: "center",

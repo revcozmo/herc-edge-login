@@ -4,77 +4,43 @@ import {
     View,
 } from "react-native";
 import React, { Component } from "react";
-import Icon from 'react-native-vector-icons/FontAwesome5';
-import ColorConstants from "../../assets/colorConstants";
+import Icon from 'react-native-vector-icons/FontAwesome';
+import icon from 'react-native-vector-icons';
+import styles from "../../assets/styles";
+import ColorConstants from "../../assets/ColorConstants";
 
+const BackButton = (
+    <Icon.Button
+        onPress={() => navigation.goBack()}
+        style={styles.iconButton}
+        name='arrow-left'
+        color={ColorConstants.MainGold}
+    />
+);
+
+const SettingsButton = (
+    <Icon.Button
+        onPress={() => console.log("pressed Where settings will be")}
+        style={styles.iconButton}
+        name='heart'
+        color={ColorConstants.MainGold}
+    />
+)
 
 {/* <Icon.Button /> for use once it's wired up */ }
 export default RegisterAssetHeader = (navigation) => {
-
+    console.log("regAssetHeader")
     return (
-        <View style={headerStyles.header__container}>
+        <View style={styles.header__container}>
             <View style={styles.sideHeaders}>
-                <Icon.Button onPress={() => navigation.navigate.goBack()} style={headerStyles.sideHeaders} name='arrow-left' size={18} color={ColorConstants.MainGold} />
+               {BackButton}
             </View>
-            <Text style={headerStyles.headerText}>Register Asset</Text>
+            <Text style={styles.headerText}>Register Asset</Text>
             <View style={styles.sideHeaders}>
-                <Icon style={headerStyles.sideHeaders} name='heart' size={18} color={ColorConstants.MainGold} />
+                {SettingsButton}
             </View>
         </View>
     );
 }
 
 
-
-let headerStyles = StyleSheet.create({
-    header__container: {
-        backgroundColor: 'blue',
-        flexDirection: 'row',
-        width: '100%',
-        height: 80,
-        justifyContent: 'space-between',
-        // alignContent: "center",
-        alignItems: "center",
-        marginTop: 20,
-    },
-
-    header_left: {
-        alignSelf: 'flex-start'
-    },
-    header_right: {
-        alignSelf: 'flex-end'
-    },
-    sideHeaders: {
-        // marginTop: 18,
-        width: 30,
-        height: 30,
-        // textAlign: 'center'
-    },
-    headerText: {
-        fontSize: 26,
-        alignSelf: "center",
-        fontWeight: "bold",
-        color: "white",
-        textAlign: "center",
-        marginTop: 20,
-    },
-    // header__container__centeredBox: {
-    //     height: "100%",
-    //     alignItems: "center",
-    //     flexDirection: 'row'
-    // },
-    // header__text__box: {
-    //     height: "100%",
-    //     marginBottom: 5,
-    //     marginLeft: 12,
-    // },
-    // header__image__box: {
-    //     height: "100%",
-    //     borderRadius: 100
-    // },
-    // assetHeaderLogo: {
-    //     height: 35,
-    //     width: 35,
-    //     borderRadius: 50,
-    // },
-})

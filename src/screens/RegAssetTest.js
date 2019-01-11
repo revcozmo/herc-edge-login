@@ -5,12 +5,13 @@ import {
     Text,
     View,
     StatusBar,
-    Modal
+    Modal,
+    TouchableHighlight
 } from 'react-native';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from "../assets/styles";
-import colorConstants from "../assets/colorConstants";
+import colorConstants from "../assets/ColorConstants";
 import React, { Component } from 'react';
 import RegisterAssetPassword, { RegisterAssetInput } from "../components/RegisterAssetComponents/RegisterAssetInputs";
 // import RegisterAssetHeader from "../components/RegisterAssetComponents/RegisterAssetHeader"
@@ -47,11 +48,11 @@ export default class RegAssetTest extends Component {
         return (
             <View style={localStyles.container}>
 
-            <StatusBar
+                <StatusBar
 
-                barStyle={'dark-content'}
-                translucent={true}
-            />
+                    barStyle={'light-content'}
+                    translucent={true}
+                />
                 {/* <Icon.Button name="eye" backgroundColor="#3b5998" onPress={() => console.log("eyeball press")}>
 
                 </Icon.Button> */}
@@ -60,9 +61,9 @@ export default class RegAssetTest extends Component {
                         <Text>Modal1</Text>
                     </View>
                 </View>
-
-                <Icon name='eye' size={18} color={colorConstants.MainGold} />
-               
+                <TouchableHighlight onPress={() => console.log("showing the modale") && this.setState({ showModal1: !this.state.showModal1 })}>
+                    <Icon name='eye' size={18} color={colorConstants.MainGold} />
+                </TouchableHighlight>
                 <RegisterAssetInput placeholder={'Asset Name'} />
                 <View style={localStyles.inputContainer}>
                     <Text style={styles.inputlabel}>Asset Name</Text>
@@ -118,7 +119,7 @@ const localStyles = StyleSheet.create({
         height: '50%',
         width: '90%',
         backgroundColor: '#00000040'
-    
+
     },
     activityIndicatorWrapper: {
         // backgroundColor: '#FFFFFF',
@@ -130,22 +131,22 @@ const localStyles = StyleSheet.create({
         justifyContent: 'space-around'
     },
     modalButton: {
-      margin: 10,
-      justifyContent: 'center',
-      alignSelf: 'center',
-      borderRadius:2,
-      borderWidth: 2,
+        margin: 10,
+        justifyContent: 'center',
+        alignSelf: 'center',
+        borderRadius: 2,
+        borderWidth: 2,
     },
-    wordsText:{
-      textAlign: 'center',
+    wordsText: {
+        textAlign: 'center',
     },
-    closeButtonContainer:{
-      flexDirection:'row',
-      justifyContent:'flex-end',
-      width: '80%',
+    closeButtonContainer: {
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+        width: '80%',
     },
-    closeButton:{
-      padding:15
+    closeButton: {
+        padding: 15
     },
 
     container: {

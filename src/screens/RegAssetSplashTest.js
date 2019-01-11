@@ -9,7 +9,7 @@ import {
 
 import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from "../assets/styles";
-import colorConstants from "../assets/colorConstants";
+import colorConstants from "../assets/ColorConstants";
 import React, { Component } from 'react';
 import { widthPercentageToDP, heightPercentageToDP } from '../assets/responisiveUI';
 import { StackNavigator } from "react-navigation";
@@ -30,7 +30,6 @@ export default class RegAssetSplashTest extends Component {
         const { navigate } = this.props.navigation;
         return (
             <View style={localStyles.baseContainer}>
-                />
                 <View style={[localStyles.baseContainer,localStyles.splashTop]}>
                     <Image source={require('../assets/register-asset.png')}
                         style={localStyles.splashImage}
