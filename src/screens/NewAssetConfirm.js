@@ -152,9 +152,11 @@ class NewAssetConfirm extends Component {
     async _checkBalance(){
       if (DEVELOPERS.includes(this.props.edgeAccount)){
         // this is a developer
+        console.log("You are a developer. jm")
         this._sendNewAsset()
       } else {
         // this is a non-developer
+        console.log("You are NOT a developer. jm")
         let price = new BigNumber(1000)
         let balance = new BigNumber(this.state.balance)
         let newbalance = balance.minus(price)
@@ -242,7 +244,6 @@ class NewAssetConfirm extends Component {
 
                     <Text style={styles.assetHeaderLabel}>{Name}</Text>
                     {Logo}
-                    <Text style={styles.assetHeaderLabel}>{Organization}</Text>
                     <Text style={styles.assetHeaderLabel}>HercID: {hercId}</Text>
                     <Text style={styles.assetHeaderLabel}>Password: {password}</Text>
                     <ScrollView style={{ paddingRight: 5, alignSelf: "center", width: "100%" }}>
