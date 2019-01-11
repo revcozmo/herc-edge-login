@@ -10,7 +10,7 @@ import {
 import React, { Component } from "react";
 import { StackNavigator } from "react-navigation";
 import Icon from 'react-native-vector-icons/FontAwesome';
-import colors from "../assets/colorConstants";
+import colors from "../assets/ColorConstants";
 // import RegAssetnavigator from "./RegisterAssetNavigation";
 
 import TestSplash from "../screens/TestSplash";

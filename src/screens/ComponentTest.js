@@ -15,7 +15,7 @@ import ColorConstants from "../assets/ColorConstants";
 import React, { Component } from 'react';
 import RegisterAssetPassword, { RegisterAssetInput } from "../components/RegisterAssetComponents/RegisterAssetInputs";
 import RegisterAssetHeader from "../components/RegisterAssetComponents/RegisterAssetHeader"
-import { widthPercentageToDP, heightPercentageToDP } from '../../assets/responisiveUI';
+import { widthPercentageToDP, heightPercentageToDP } from '../assets/responisiveUI';
 
 
 export default class ComponentTest extends Component {
@@ -35,6 +35,9 @@ export default class ComponentTest extends Component {
         }
     }
 
+    gif = () => {
+        return fetch("https://cdn.dribbble.com/users/108183/screenshots/3488148/liquid_preloader_by_volorf.gif");
+    }
     changeModal1 = () => {
         console.log(this.state.showModal1, "showmodal1");
         this.setState({
@@ -80,14 +83,15 @@ export default class ComponentTest extends Component {
                 <Icon name='eye' size={18} color={ColorConstants.MainGold} />
                 <RegisterAssetInput name={'Input1'} placeholder={'hello'} onChangeText={(metchar, name) => this.onChangeText(metchar, name)} />
                 <Modal
-                    transparent={false}
+                    style={localStyles.mStyle}
+                    transparent={true}
                     animationType={'none'}
                     visible={this.state.showModal1}
                     onRequestClose={() => { console.log("modal closed") }}
                 >
                     <View style={localStyles.modalBackground}>
-
-                        <Image source={require("https://cdn.dribbble.com/users/108183/screenshots/3488148/liquid_preloader_by_volorf.gif")} style={{ height: 50, width: 50 }} />
+                        <Image source={{ uri: "https://cdn.dribbble.com/users/108183/screenshots/3488148/liquid_preloader_by_volorf.gif" }} style={{ height: 50, width: 50 }} />
+                        {/* <Image source={this.gif()} style={{ height: 50, width: 50 }} /> */}
                         <Text style={localStyles.labelTitle}>Here's some Handy Info!</Text>
                         <Icon.Button
                             name="eye"
@@ -99,7 +103,7 @@ export default class ComponentTest extends Component {
                     </View>
                 </Modal>
 
-                <View style={locallocalStyles.PasswordInputContainer}>
+                <View style={localStyles.PasswordInputContainer}>
                     <Text style={localStyles.passwordInputlabel}>MainGray!!!!</Text>
                     <RegisterAssetPassword placeholder='SecondplaceholderTest' onChange={this.onChange} />
 
@@ -114,6 +118,14 @@ export default class ComponentTest extends Component {
 
 }
 const localStyles = StyleSheet.create({
+    mStyle: {
+        left: 110,
+        top: 265,
+        backgroundColor: ColorConstants.MainSubRed,
+        height: 200,
+        width: 200
+    },
+
 
     modalBackground1: {
         // flex: 1,
@@ -122,7 +134,7 @@ const localStyles = StyleSheet.create({
 
         alignItems: 'center',
         flexDirection: 'column',
-        justifyContent: 'space-around',
+        justifyContent: 'center',
         backgroundColor: ColorConstants.MainSubRed
     },
     activityIndicatorWrapper: {
