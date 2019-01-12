@@ -105,19 +105,21 @@ class SupplyChainTransactionReview extends Component {
     if (!this.state.balance) {
       return;
     }
-    let docPrice = parseFloat(this._getDocPrice());
-    let imgPrice = parseFloat(this._getImgPrice());
-    let networkFee = parseFloat(this._getNetworkFee());
-    let docImgFee = docPrice + imgPrice
-    let total = docPrice + imgPrice + networkFee;
-    let convertingTotal= new BigNumber(total); // don't have to times 1e18 because its already hercs
+    // let docPrice = parseFloat(this._getDocPrice());
+    // let imgPrice = parseFloat(this._getImgPrice());
+    // let networkFee = parseFloat(this._getNetworkFee());
+    // let docImgFee = docPrice + imgPrice
+    // let total = docPrice + imgPrice + networkFee;
+    // let convertingTotal= new BigNumber(total); // don't have to times 1e18 because its already hercs
     let balance = new BigNumber(this.state.balance);
-    let newbalance = balance.minus(convertingTotal);
+    
     // let docImgFeePrepped = (docImgFee * Math.pow(10,18)).toFixed(0);
     // let networkFeePrepped = (networkFee * Math.pow(10,18)).toFixed(0);
     let docImgFeePrepped = new BigNumber(this._getDocPrice()).plus(this._getImgPrice()).multipliedBy(1000000000000000000).toFixed(0);
     let networkFeePrepped = new BigNumber(this._getNetworkFee()).multipliedBy(1000000000000000000).toFixed(0);
-    
+    let totalBN = new BigNumber(this._getDocPrice()).plus(this._getImgPrice()).plus(this._getNetworkFee());
+    let newbalance = balance.minus(totalBN);
+
     console.log("chance, do you have enough?", newbalance.isPositive());
 
     if (newbalance.isNegative()) {
@@ -206,15 +208,18 @@ class SupplyChainTransactionReview extends Component {
   };
 
   _sendTrans() {
-    let docPrice = parseFloat(this._getDocPrice());
-    let imgPrice = parseFloat(this._getImgPrice());
-    let networkFee = parseFloat(this._getNetworkFee());
-    let total = imgPrice + docPrice + networkFee;
+    // let docPrice = parseFloat(this._getDocPrice());
+    // let imgPrice = parseFloat(this._getImgPrice());
+    // let networkFee = parseFloat(this._getNetworkFee());
+    // let total = imgPrice + docPrice + networkFee;
 
-    console.log(docPrice, imgPrice, networkFee, total, "chance price check on send trans");
-    let convertingTotal = new BigNumber(total)
-    let newTotal = convertingTotal.toFixed(6)
-    this.props.sendTrans(newTotal);
+    let totalBN = new BigNumber(this._getDocPrice()).plus(this._getImgPrice()).plus(this._getNetworkFee()).toFixed(18);
+
+    // console.log(docPrice, imgPrice, networkFee, total, "chance price check on send trans");
+    console.log(totalBN, "chance price check on send trans")
+    // let convertingTotal = new BigNumber(total)
+    // let newTotal = convertingTotal.toFixed(6)
+    this.props.sendTrans(totalBN);
   }
 
   _getNetworkFee = () => {
