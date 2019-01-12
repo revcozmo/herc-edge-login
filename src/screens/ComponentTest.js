@@ -35,8 +35,9 @@ export default class ComponentTest extends Component {
         }
     }
 
-    gif = () => {
-        return fetch("https://cdn.dribbble.com/users/108183/screenshots/3488148/liquid_preloader_by_volorf.gif");
+    gif = async () => {
+        let image = await fetch("https://cdn.dribbble.com/users/108183/screenshots/3488148/liquid_preloader_by_volorf.gif");
+        return image;
     }
     changeModal1 = () => {
         console.log(this.state.showModal1, "showmodal1");
@@ -70,7 +71,7 @@ export default class ComponentTest extends Component {
     }
 
     render() {
-
+        console.log(this.gif)
 
         return (
             <View style={localStyles.container}>
@@ -97,6 +98,7 @@ export default class ComponentTest extends Component {
                     <RegisterAssetPassword placeholder='SecondplaceholderTest' onChange={this.onChange} />
 
                 </View>
+                <Image source={this.gif()} style={{ height: 50, width: 50 }} />
 
                 <Icon.Button name="eye" backgroundColor="#3b5998" onPress={() => console.log("eyeball press")}>
                 </Icon.Button>
@@ -107,20 +109,38 @@ export default class ComponentTest extends Component {
                     visible={this.state.showModal1}
                     onRequestClose={() => { console.log("modal closed") }}
                 >
-                    <View style={localStyles.modalLower}>
+                    <View style={localStyles.lowerModalContainer}>
+                        {/* <Image source={require("https://cdn.dribbble.com/users/108183/screenshots/3488148/liquid_preloader_by_volorf.gif")} style={{ height: 50, width: 50 }} /> */}
 
-                        <View style={localStyles.modalContent1}>
-                            <Image source={{ uri: "https://cdn.dribbble.com/users/108183/screenshots/3488148/liquid_preloader_by_volorf.gif" }} style={{ height: 50, width: 50 }} />
-                            {/* <Image source={this.gif()} style={{ height: 50, width: 50 }} /> */}
-                            <Text style={localStyles.labelTitle}>This is Modal1 Slide</Text>
-                            <View style={localStyles.iconButton}><Icon.Button
-                                name="eye"
-                                style={styles.iconButton}
-                                color={ColorConstants.MainGold}
-                                backgroundColor="#3b5998"
-                                onPress={() => this.changeModal1()}>
-                            </Icon.Button>
+                        <Text style={localStyles.menuTitle}>This is camera Modal test</Text>
+                        <Text style={localStyles.labelTitle}>LabeltitleThis is Modal1 Slide</Text>
+                        <View style={localStyles.imageSourceContainer}>
+
+                        <View style={localStyles.sourceIconContainer}>
+                            <View style={localStyles.camSourceIcon}>
+                                <Icon.Button
+                                    name="camera"
+                                    size={20}
+                                    style={localStyles.iconButton}
+                                    color={ColorConstants.MainGold}
+                                    backgroundColor="#3b5998"
+                                    onPress={() => this.changeModal1()}>
+                                </Icon.Button>
+                                <Text style={localStyles.labelTitle}>Camera</Text>
                             </View>
+                        </View>
+                           
+                                <View style={localStyles.camSourceIcon}>
+                                    <Icon.Button
+                                        name="folder-open"
+                                        size={20}
+                                        style={localStyles.iconButton}
+                                        color={ColorConstants.MainGold}
+                                        backgroundColor="#3b5998"
+                                        onPress={() => this.changeModal1()}>
+                                    </Icon.Button>
+                                    <Text style={localStyles.labelTitle}>Gallery</Text>
+                                </View>
                         </View>
                     </View>
                 </Modal>
@@ -163,6 +183,14 @@ const localStyles = StyleSheet.create({
         width: heightPercentageToDP('5'),
     },
 
+    camSourceIcon: {
+        justifyContent: 'space-between',
+        alignSelf: 'center',
+        height: widthPercentageToDP('10'),
+        width: heightPercentageToDP('10'),
+
+    },
+
     modalCenter: {
         alignItems: 'center',
         flexDirection: 'column',
@@ -170,25 +198,37 @@ const localStyles = StyleSheet.create({
 
     },
 
-    modalLower: {
+    lowerModalContainer: {
         width: '100%',
-        height: heightPercentageToDP('15'),
-        flexDirection: 'row',
-        justifyContent: 'space-between',
+        height: heightPercentageToDP('30'),
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
         alignItems: 'center',
         // alignContent: 'flex-end',
-        top: heightPercentageToDP('70'),
+        top: heightPercentageToDP('55'),
         backgroundColor: 'blue',
         borderRadius: 20
     },
 
-    modalContent1: {
-        // flexDirection: 'column',
+    imageSourceContainer: {
+        flexDirection: 'row',
         backgroundColor: ColorConstants.MainSubRed,
-        height: widthPercentageToDP('30'),
-        width: heightPercentageToDP('25'),
-        justifyContent: 'center',
+        padding: 10,
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        width: '60%',
+        height: '60%',
+        borderWidth: 1,
 
+
+    },
+
+    sourceIconContainer: {
+        height: '100%',
+        alignItems: 'center',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        backgroundColor: ColorConstants.MainSubCrownBlue
     },
     modalContent2: {
         backgroundColor: ColorConstants.MainSubRed,
@@ -237,8 +277,15 @@ const localStyles = StyleSheet.create({
         borderTopRightRadius: 20
     },
     labelTitle: {
-        fontSize: 10,
-        color: 'white'
+        fontSize: 18,
+        color: 'white',
+        margin: 5
+    },
+    menuTitle: {
+        color: ColorConstants.MainBlue,
+        fontSize: 26,
+        margin: 5,
+
     },
     passwordInputContainer: {
 
