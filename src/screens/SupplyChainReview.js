@@ -64,10 +64,13 @@ class SupplyChainReview extends Component {
           <TouchableHighlight style={{ justifyContent: "center" }} onPress={() => navigation.navigate("MenuOptions")}>
             <View style={headerStyles.header__container__centeredBox}>
               <View style={headerStyles.header__image__box}>
+              { params.logo &&
                 <Image
-                  style={headerStyles.assetHeaderLogo}
-                  source={{ uri: params.logo }}
-                />
+                style={headerStyles.assetHeaderLogo}
+                source={{ uri: params.logo }}
+              />
+              }
+
               </View>
               <View style={headerStyles.header__text__box}>
                 <Text style={headerStyles.headerText}>{params.name}</Text>
@@ -90,18 +93,17 @@ class SupplyChainReview extends Component {
     super(props);
   }
   componentDidMount() {
+    console.log("jm: in SupplyChainReview")
     StatusBar.setBackgroundColor("#ffffff");
     StatusBar.setBarStyle("dark-content", true);
   }
   render() {
-    console.log(this.state, 'state', this.props, 'props')
     const { navigate } = this.props.navigation;
     let locationImage =
       this.props.transHeader.tXLocation === "recipient" ? recipient : originator;
     let logo = this.props.logo;
     let asset = this.props.transHeader;
     let hercId = this.props.hercId;
-
 
     return (
       <View style={styles.container}>
@@ -117,7 +119,6 @@ class SupplyChainReview extends Component {
               <Image style={styles.menuButton} source={camera} />
             </TouchableHighlight>
 
-            <Image source={{ uri: logo }} />
 
             <TouchableHighlight
               onPress={() =>

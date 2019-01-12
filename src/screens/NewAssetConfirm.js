@@ -105,7 +105,6 @@ class NewAssetConfirm extends Component {
             hercId: this.props.hercId,
             Name: newAsset.Name,
             Logo: downloadURL,
-            registeredUnder: this.state.orgName,
             Password: newAsset.Password
         }
 
@@ -133,11 +132,10 @@ class NewAssetConfirm extends Component {
             hercId: this.props.hercId,
             Name: newAsset.Name,
             // Logo: downloadURL,
-            registeredUnder: this.state.orgName,
             Password: newAsset.Password
         }
 
-        console.log(ipfsAsset, fbAsset, "right before the send chance")
+        console.log("Right before send_trans: jm\n", ipfsAsset, fbAsset)
 
         this.props.settingHeader(fbAsset);
         this.props.confirmAssetStarted(ipfsAsset);
@@ -160,32 +158,33 @@ class NewAssetConfirm extends Component {
         let price = new BigNumber(1000)
         let balance = new BigNumber(this.state.balance)
         let newbalance = balance.minus(price)
-      }
 
-      console.log('do you have enough?', newbalance.isPositive())
+        console.log('do you have enough?', newbalance.isPositive())
 
-      if (newbalance.isNegative()){
-        Alert.alert(
-          'Insufficient Funds',
-          'Current Balance:'+ this.state.balance + ' HERC' ,
-          [
-            {text: 'Top Up Hercs', onPress: () => Linking.openURL("https://purchase.herc.one/"), style: 'cancel'},
-            {text: 'Ok', onPress: () => console.log('OK Pressed')},
-          ],
-          { cancelable: true }
-        )
-      } else {
-        Alert.alert(
-          'You Meet the Minimum Balance!',
-          'Current Balance:'+ this.state.balance + ' HERC \nDo you wish to proceed?' ,
-          [
-            {text: 'Cancel', onPress: () => console.log('No Pressed'), style: 'cancel'},
-            {text: 'Yes, Make an Asset', onPress: () => this._sendNewAsset()},
-          ],
-          { cancelable: false }
-        )
+        if (newbalance.isNegative()){
+          Alert.alert(
+            'Insufficient Funds',
+            'Current Balance: '+ this.state.balance + ' HERC' ,
+            [
+              {text: 'Top Up Hercs', onPress: () => Linking.openURL("https://purchase.herc.one/"), style: 'cancel'},
+              {text: 'Ok', onPress: () => console.log('OK Pressed')},
+            ],
+            { cancelable: true }
+          )
+        } else {
+          Alert.alert(
+            'You Meet the Minimum Balance!',
+            'Current Balance:'+ this.state.balance + ' HERC \n Do you wish to proceed?' ,
+            [
+              {text: 'Cancel', onPress: () => console.log('No Pressed'), style: 'cancel'},
+              {text: 'Yes, Make an Asset', onPress: () => this._sendNewAsset()},
+            ],
+            { cancelable: false }
+          )
+        }
       }
     }
+
 
     _onPressSubmit() {
 

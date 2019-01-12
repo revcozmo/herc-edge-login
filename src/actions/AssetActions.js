@@ -179,16 +179,13 @@ export function addAsset(newAsset) {
 
 export function settingHeader(assetHeader) { //assetForFirebase will be Name, hercID, Logo Optional
   return dispatch => {
-    console.log(assetHeader, "seewhatwe got, name, hercid, maybe logo");
-    // let ipfsAsset = combinedObject.ipfsAsset;
-    // let fbAssetHdr = combinedObject.fbAssetHdr;
+    console.log(assetHeader, "seewhatwe got, name, hercid, maybe logo: jm");
 
-    let account = store.getState().WalletActReducers;
-    let edgeAccount = account.edge_account;
-    console.log(account, "variable");
+    // let account = store.getState().WalletActReducers;
+    // let edgeAccount = account.edge_account;
+    // console.log(account, "variable");
 
     assetRef.child(assetHeader.Name).set(assetHeader);
-    // console.log(ipfsAsset, 'needs stringing?');
     dispatch({ type: SETTING_HEADER })
   }
 }
@@ -257,6 +254,7 @@ export function gotIpfs(hash) {
 }
 
 export function ipfsError(error) {
+  // TODO: ipfsError should turn off confirmationScreenModal and popup an alert
   return {
     type: IPFS_ERROR,
     error
