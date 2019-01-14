@@ -124,11 +124,21 @@ class SupplyChainAssetList extends Component {
     });
   };
 
-  _onPasswordSubmit = () => {
+  _stagingAsset = async (asset) => {
+    await this.props.selectAsset(asset);
+    await this.props.getAssetDef(asset.hashes.ipfsHash)
+  }
 
+  _onPasswordSubmit = () => {
+    console.log("jm")
     if (this.state.password === this.state.asset.Password) {
-      this._selectAsset(this.state.asset);
+      let asset = this.state.asset
+      this._stagingAsset(asset)
       this._cancelPass();
+
+      const { navigate } = this.props.navigation;
+      navigate('SupplyChainTxRx', { logo: asset.Logo, name: asset.Name });
+
     } else {
       Alert.alert("Password Incorrect");
     }
@@ -140,20 +150,6 @@ class SupplyChainAssetList extends Component {
       password: ""
     });
   };
-
-
-  _selectAsset = asset => {
-    const { navigate } = this.props.navigation;
-    this.props.selectAsset(asset);
-    if (asset.ipfsHash) {
-      this.props.getAssetDef(asset.ipfsHash);
-    }
-    else { this.props.getAssetDef(asset.hashes.ipfsHash) }
-
-
-    navigate('SupplyChainTxRx', { logo: asset.Logo, name: asset.Name });
-
-  }
 
   render() {
 
