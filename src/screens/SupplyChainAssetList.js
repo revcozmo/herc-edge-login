@@ -116,7 +116,7 @@ class SupplyChainAssetList extends Component {
   }
 
   _showPass = asset => {
-    console.log(asset, "asset before pw enter in SupplyChainTxRx");
+    console.log(asset, "asset before pw enter in SupplyChainTxRx: jm");
 
     this.setState({
       showPass: true,

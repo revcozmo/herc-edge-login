@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { AppRegistry, Dimensions, StyleSheet, Text, TouchableOpacity, TouchableHighlight, View, Image } from 'react-native';
+import { AppRegistry, Dimensions, StyleSheet, Text, TouchableOpacity, TouchableHighlight, View, Image, ActivityIndicator } from 'react-native';
 import { RNCamera } from 'react-native-camera';
 import { relative } from 'path';
 
@@ -15,6 +15,7 @@ export default class Camera extends Component {
     const initial = null;
     this.state = {
       image: null,
+      // loading: false,
     };
   }
   _getSize = (data) => {
@@ -31,7 +32,12 @@ export default class Camera extends Component {
     const { params } = this.props.navigation.state;
     if (this.camera) {
       //picture orientation bug fix zube card #406
-      const options = { base64: true, fixOrientation: true }
+      const options = {
+        quality: 0,
+        skipProcessing: true,
+        base64: true,
+        fixOrientation: true
+      }
       try {
         const data = await this.camera.takePictureAsync(options);
         // this._getSize(data.base64);
@@ -44,7 +50,9 @@ export default class Camera extends Component {
 
         params.setPic(this.state.image);
         console.log("Camera: afterBase", data.uri, "Camera: size: ", this._getSize(data.base64));
-      } catch (err) { console.log('err: ', err)}
+      } catch (err) {
+        console.log('Camera Error: ', err)
+      }
     };
   }
 

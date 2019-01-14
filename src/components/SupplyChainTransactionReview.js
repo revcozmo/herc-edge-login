@@ -18,8 +18,8 @@ import { StackNavigator } from "react-navigation";
 import styles from "../assets/styles";
 import submit from "./buttons/submit.png"; // todo: turn into vector
 import { sendTrans } from "../actions/AssetActions";
-import fee from "../assets/hLogo.png";
-import newOriginator from "./buttons/originatorButton.png"; // todo: turn into vector
+import fee from "../assets/hercLogoPillar.png";
+import newOriginator from "./buttons/originatorButton.png";// todo: turn into vector
 import newRecipient from "./buttons/recipientButton.png"; // todo: turn into vector
 import modalStyle from "../assets/confModalStyles";
 import { TOKEN_ADDRESS } from "../components/settings";
@@ -112,7 +112,7 @@ class SupplyChainTransactionReview extends Component {
     // let total = docPrice + imgPrice + networkFee;
     // let convertingTotal= new BigNumber(total); // don't have to times 1e18 because its already hercs
     let balance = new BigNumber(this.state.balance);
-    
+
     // let docImgFeePrepped = (docImgFee * Math.pow(10,18)).toFixed(0);
     // let networkFeePrepped = (networkFee * Math.pow(10,18)).toFixed(0);
     let docImgFeePrepped = new BigNumber(this._getDocPrice()).plus(this._getImgPrice()).multipliedBy(1000000000000000000).toFixed(0);
