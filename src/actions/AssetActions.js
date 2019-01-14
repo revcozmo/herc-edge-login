@@ -359,6 +359,7 @@ export function sendTrans(transPrice) {
 
     Promise.all(promiseArray)
       .then(results => {
+        // sometimes results are [undefined] when Network Error
         console.log('Results in send_trans action: jm', results)
         // results = [{key: 'properties', hash: 'QmU1D1eAeSLC5Dt4wVRR'}, {key: 'images', hash: 'QmU1D1eAeSLC5Dt4wVRR'}]
         // TODO: add error handling for undefined results
