@@ -108,8 +108,10 @@ class SupplyChainTransactionReview extends Component {
     if (DEVELOPERS.includes(this.props.edgeAccount)){
       // this is a developer
       console.log("You are a developer. jm")
-      this._sendNewAsset()
+      this._sendTrans()
     } else {
+      // this is a non-developer
+      console.log("You are NOT a developer. jm")
       // let docPrice = parseFloat(this._getDocPrice());
       // let imgPrice = parseFloat(this._getImgPrice());
       // let networkFee = parseFloat(this._getNetworkFee());
