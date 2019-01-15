@@ -147,8 +147,21 @@ class DocUp extends Component {
           </View>
           }
 
-          <TouchableHighlight onPress={() => this._onSubmit()}>
-            <Image source={submit} style={localStyles.submitButton} />
+          <TouchableHighlight
+          style={{
+            backgroundColor: 'white',
+            fontSize: 18,
+            height: 40,
+            width: 80,
+            borderColor: "black",
+            borderWidth: 2,
+            margin: 5,
+            padding: 5,
+            justifyContent: "center"
+          }}
+            onPress={() => this._onSubmit()}
+          >
+            <Text>Submit</Text>
           </TouchableHighlight>
         </View>
       </View>

@@ -172,6 +172,7 @@ class TrackAssetList extends Component {
                 </View>
                 <View style={localStyles.buttonField}>
                   <TouchableHighlight onPress={() => this._onPasswordSubmit()}>
+                  <Text>Submit</Text>
                     <Image
                       style={[
                         localStyles.button,

@@ -16,7 +16,6 @@ import {
 import { connect } from "react-redux";
 import { StackNavigator } from "react-navigation";
 import styles from "../assets/styles";
-import submit from "./buttons/submit.png"; // todo: turn into vector
 import { sendTrans } from "../actions/AssetActions";
 import fee from "../assets/hercLogoPillar.png";
 import newOriginator from "./buttons/originatorButton.png";// todo: turn into vector
@@ -411,10 +410,21 @@ class SupplyChainTransactionReview extends Component {
         {this._hasList(transDat)}
 
         <TouchableHighlight
-          style={{ margin: 10 }}
+          style={{
+            // margin: 10,
+            backgroundColor: 'white',
+            fontSize: 18,
+            height: 40,
+            width: 80,
+            borderColor: "black",
+            borderWidth: 2,
+            margin: 5,
+            padding: 5,
+            justifyContent: "center"
+          }}
           onPress={() => this._onPressSubmit(transPrice)}
         >
-          <Image source={submit} style={localStyles.submitButton} />
+          <Text>Submit</Text>
         </TouchableHighlight>
 
         <Modal
@@ -477,12 +487,6 @@ const localStyles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "flex-start"
-  },
-  submitButton: {
-    height: 40,
-    width: 200,
-    resizeMode: "contain",
-    alignSelf: "center"
   },
   assetLocationLabel: {
     height: 30,
