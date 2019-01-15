@@ -298,8 +298,6 @@ class BlockScanner extends Component {
               {/* <View style={localStyles.contentContainerA_MarketCapBox}> */}
               <View
                 style={{
-                  borderColor: "yellow",
-                  borderWidth: 1,
                   flexDirection: "row",
                   marginTop: 20
                 }}
@@ -307,8 +305,6 @@ class BlockScanner extends Component {
                 <TouchableHighlight
                   style={{
                     backgroundColor: "rgb(241,243,252)",
-                    borderColor: "red",
-                    borderWidth: 1,
                     borderRadius: 2,
                     marginLeft: "1%",
                     justifyContent: "center"
@@ -329,8 +325,6 @@ class BlockScanner extends Component {
                 <TouchableHighlight
                   style={{
                     backgroundColor: "rgb(241,243,252)",
-                    borderColor: "blue",
-                    borderWidth: 3,
                     borderRadius: 2,
                     marginLeft: "5%",
                     justifyContent: "center"
@@ -374,8 +368,6 @@ class BlockScanner extends Component {
               </View>
               <View
                 style={{
-                  borderColor: "yellow",
-                  borderWidth: 1,
                   flexDirection: "row",
                   marginTop: "10%",
                   justifyContent: "space-around"
@@ -414,8 +406,6 @@ class BlockScanner extends Component {
               </View>
               <View
                 style={{
-                  borderColor: "yellow",
-                  borderWidth: 1,
                   flexDirection: "row",
                   // marginVertical: 10,
                   // marginTop: "10%",
@@ -457,7 +447,7 @@ class BlockScanner extends Component {
             </View>
             <View style={localStyles.contentContainerB_BlocksBox}>
               <View
-                style={{ marginTop: 20, borderColor: "blue", borderWidth: 3 }}
+                style={{ marginTop: 20}}
               >
                 <Text
                   style={{ color: "black", fontWeight: "bold", marginLeft: 5 }}
@@ -517,7 +507,7 @@ class BlockScanner extends Component {
                 </Text>
               </View>
               <View
-                style={{ marginTop: 10, borderColor: "blue", borderWidth: 3 }}
+                style={{ marginTop: 10}}
               >
                 <Text
                   style={{ color: "black", fontWeight: "bold", marginLeft: 5 }}
@@ -578,12 +568,12 @@ class BlockScanner extends Component {
                 </Text>
               </View>
               <View
-                style={{ marginTop: 10, borderColor: "blue", borderWidth: 3 }}
+                style={{ marginTop: 10}}
               >
                 <Text
                   style={{ color: "black", fontWeight: "bold", marginLeft: 5 }}
                 >
-                  Connect
+                  CONNECT
                 </Text>
               </View>
               <View style={{ flexDirection: "row", marginTop: 5 }}>
@@ -633,7 +623,7 @@ class BlockScanner extends Component {
                 </TouchableHighlight>
               </View>
               <View
-                style={{ marginTop: 10, borderColor: "blue", borderWidth: 3 }}
+                style={{ marginTop: 10}}
               >
                 <Text
                   style={{ color: "black", fontWeight: "bold", marginLeft: 5 }}
@@ -679,7 +669,7 @@ class BlockScanner extends Component {
             </View>
           </View>
           <View>
-            <Text style={{ fontSize: 12, alignSelf: "center", color: "black" }}>
+            <Text style={localStyles.copyrightText}>
               COPYRIGHT 2018 Hercules SEZC - All Rights Reserved.
             </Text>
           </View>
@@ -755,8 +745,6 @@ const localStyles = StyleSheet.create({
   },
   contentContainerA_HercTransHistBox_dateRangeRow: {
     marginLeft: 20,
-    borderColor: "red",
-    borderWidth: 3,
     flexDirection: "row",
     marginVertical: 10
   },
