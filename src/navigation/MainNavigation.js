@@ -146,7 +146,7 @@ const MainNavigator = StackNavigator({ //this will be "createStackNavigator" aft
     DocumentQRScanner: { screen: DocumentQRScanner },
 
 }, {
-        initialRouteName: 'TestSplash',
+        initialRouteName: 'ComponentTest',
 
         // initialRouteName: 'Login',
         navigationOptions: ({ navigation }) => ({

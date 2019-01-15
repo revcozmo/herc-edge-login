@@ -13,7 +13,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from "../assets/styles";
 import ColorConstants from "../assets/ColorConstants";
 import React, { Component } from 'react';
-import RegisterAssetPassword, { RegisterAssetInput } from "../components/RegisterAssetComponents/RegisterAssetInputs";
+import RegisterAssetPassword, { HercTextInput, HercTextInputWithLabel } from "../components/RegisterAssetComponents/RegisterAssetInputs";
 import RegisterAssetHeader from "../components/Headers/RegisterAssetHeader"
 import { widthPercentageToDP, heightPercentageToDP } from '../assets/responisiveUI';
 
@@ -33,12 +33,11 @@ export default class ComponentTest extends Component {
             showModal2: false,
             showModal3: false,
         }
+        this.localOnChange = this.localOnChange.bind(this);
+        this.pwChange = this.pwChange.bind(this);
     }
 
-    gif = async () => {
-        let image = await fetch("https://cdn.dribbble.com/users/108183/screenshots/3488148/liquid_preloader_by_volorf.gif");
-        return image;
-    }
+
     changeModal1 = () => {
         console.log(this.state.showModal1, "showmodal1");
         this.setState({
@@ -56,23 +55,22 @@ export default class ComponentTest extends Component {
     }
 
 
-    onChange = (pwChar) => {
+    pwChange = (pwChar) => {
         console.log(pwChar, 'incompoTest Passing functions')
         this.setState({
-            testText: pwChar
+            Password: pwChar
         });
     }
 
-    onChangeText = (metChar, name) => {
-        console.log('metChar', metChar, "changing metric text");
+    localOnChange = (inputValue, name) => {
+        console.log('inputValue', inputValue, "changing metric text", name);
         this.setState({
-            [name]: metChar
+            [name]: inputValue
         })
     }
 
     render() {
-        console.log(this.gif)
-        let TestImage = this.gif();
+
         return (
             <View style={localStyles.container}>
                 <StatusBar
@@ -89,19 +87,31 @@ export default class ComponentTest extends Component {
                 </Icon.Button>
 
 
-
+                {/* HercTextInput(name, placeholder, localOnChange) */}
                 <Icon name='eye' size={18} color={ColorConstants.MainGold} />
-                <RegisterAssetInput name={'Input1'} placeholder={'hello'} onChangeText={(metchar, name) => this.onChangeText(metchar, name)} />
+                {HercTextInput("Inpute1", 'testMetric1', this.localOnChange)}
+                {HercTextInput("Inpute2", 'testMetric2', this.localOnChange)}
+                {HercTextInput("Inpute3", 'testMetric3', this.localOnChange)}
+                {/* <HercTextInput name={'Input2'} placeholder={'testMetric2'} onChangeText={(value, name) => this.localOnChangeText(value, name)} />
+                <HercTextInput name={'Input3'} placeholder={'testMetric3'} onChangeText={(value, name) => this.localOnChangeText(value, name)} /> */}
 
+                {/* HercTextInputWithLabel(name, placeholder, label, localOnChange) */}
+                {HercTextInputWithLabel('Name', 'Asset Name', 'Asset Name', this.localOnChange)}
+
+                {HercTextInputWithLabel('Name2', 'Asset Name2', 'Asset Name2', this.localOnChange)}
 
                 <View style={localStyles.PasswordInputContainer}>
-                    <Text style={localStyles.passwordInputlabel}>MainGray!!!!</Text>
-                    <RegisterAssetPassword placeholder='SecondplaceholderTest' onChange={this.onChange} />
-
+                    <Text style={localStyles.passwordInputlabel}>Asset Password</Text>
+                    <RegisterAssetPassword
+                        placeholder='Asset Password'
+                        pwChange={this.pwChange}
+                    />
                 </View>
-                <Image source={TestImage} style={{ height: 50, width: 50 }} />
-                <Icon.Button name="eye" backgroundColor="#3b5998" onPress={() => console.log("eyeball press")}>
+
+                <Icon.Button name="eye" backgroundColor="#3b5998" onPress={() => console.log(this.state)}>
                 </Icon.Button>
+
+
                 {/* Modal 1 */}
                 <Modal
                     transparent={true}
@@ -146,7 +156,6 @@ export default class ComponentTest extends Component {
 
                 {/* Modal 2 */}
                 <Modal
-                    style={localStyles.modal}
                     transparent={true}
                     animationType={'fade'}
                     visible={this.state.showModal2}

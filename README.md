@@ -3,6 +3,14 @@
 ## I've changed the loading screen to save time styling components. 
 
 #  UI OverHaul!
+ needed Components:
+
+ *  [ ]  Big yellow button/register
+ *  [ ]  Asset Card  
+ *  [ ]  Modals:
+    *  Confirm
+    *  In process
+    *  Error
 
 ##  The way I imagine it working is like this:
 
