@@ -8,7 +8,7 @@ import {
     Modal,
     Image
 } from 'react-native';
-import loadingGif from "../assets/icons/liquid_preloader_by_volorf.gif";
+const loadingGif = require("../assets/icons/liquid_preloader_by_volorf.gif");
 import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from "../assets/styles";
 import ColorConstants from "../assets/ColorConstants";
@@ -72,7 +72,7 @@ export default class ComponentTest extends Component {
 
     render() {
         console.log(this.gif)
-
+        let TestImage = this.gif();
         return (
             <View style={localStyles.container}>
                 <StatusBar
@@ -89,6 +89,7 @@ export default class ComponentTest extends Component {
                 </Icon.Button>
 
 
+
                 <Icon name='eye' size={18} color={ColorConstants.MainGold} />
                 <RegisterAssetInput name={'Input1'} placeholder={'hello'} onChangeText={(metchar, name) => this.onChangeText(metchar, name)} />
 
@@ -98,49 +99,47 @@ export default class ComponentTest extends Component {
                     <RegisterAssetPassword placeholder='SecondplaceholderTest' onChange={this.onChange} />
 
                 </View>
-                <Image source={this.gif()} style={{ height: 50, width: 50 }} />
-
+                <Image source={TestImage} style={{ height: 50, width: 50 }} />
                 <Icon.Button name="eye" backgroundColor="#3b5998" onPress={() => console.log("eyeball press")}>
                 </Icon.Button>
                 {/* Modal 1 */}
                 <Modal
-                    transparent={false}
+                    transparent={true}
                     animationType={'slide'}
                     visible={this.state.showModal1}
                     onRequestClose={() => { console.log("modal closed") }}
                 >
                     <View style={localStyles.lowerModalContainer}>
-                        {/* <Image source={require("https://cdn.dribbble.com/users/108183/screenshots/3488148/liquid_preloader_by_volorf.gif")} style={{ height: 50, width: 50 }} /> */}
+                        <Text style={localStyles.menuTitle}>Choose Image Source</Text>
+                        {/* <Text style={localStyles.labelTitle}>LabeltitleThis is Modal1 Slide</Text> */}
 
-                        <Text style={localStyles.menuTitle}>This is camera Modal test</Text>
-                        <Text style={localStyles.labelTitle}>LabeltitleThis is Modal1 Slide</Text>
                         <View style={localStyles.imageSourceContainer}>
 
-                        <View style={localStyles.sourceIconContainer}>
-                            <View style={localStyles.camSourceIcon}>
-                                <Icon.Button
-                                    name="camera"
-                                    size={20}
-                                    style={localStyles.iconButton}
-                                    color={ColorConstants.MainGold}
-                                    backgroundColor="#3b5998"
-                                    onPress={() => this.changeModal1()}>
-                                </Icon.Button>
+                            <View style={localStyles.sourceIconContainer}>
+                                <View style={localStyles.camSourceIcon}>
+                                    <Icon
+                                        containerStyle={localStyles.iconButton}
+                                        name="camera"
+                                        size={20}
+                                        color="black"
+                                        onPress={() => this.changeModal1()}>
+                                    </Icon>
+                                </View>
                                 <Text style={localStyles.labelTitle}>Camera</Text>
                             </View>
-                        </View>
-                           
+
+                            <View style={localStyles.sourceIconContainer}>
                                 <View style={localStyles.camSourceIcon}>
-                                    <Icon.Button
+                                    <Icon
                                         name="folder-open"
                                         size={20}
-                                        style={localStyles.iconButton}
-                                        color={ColorConstants.MainGold}
-                                        backgroundColor="#3b5998"
+                                        containerStyle={localStyles.iconButton}
+                                        color="black"
                                         onPress={() => this.changeModal1()}>
-                                    </Icon.Button>
-                                    <Text style={localStyles.labelTitle}>Gallery</Text>
+                                    </Icon>
                                 </View>
+                                <Text style={localStyles.labelTitle}>Gallery</Text>
+                            </View>
                         </View>
                     </View>
                 </Modal>
@@ -161,8 +160,8 @@ export default class ComponentTest extends Component {
                             <View style={localStyles.iconButton}>
                                 <Icon.Button
                                     name="adjust"
-                                    color={ColorConstants.MainGold}
-                                    backgroundColor="#3b5998"
+                                    color="black"
+                                    backgroundColor={ColorConstants.MainGray}
                                     onPress={() => this.changeModal2()}>
                                 </Icon.Button>
                             </View>
@@ -177,19 +176,7 @@ export default class ComponentTest extends Component {
     }
 }
 const localStyles = StyleSheet.create({
-    iconButton: {
-        alignSelf: 'center',
-        height: widthPercentageToDP('5'),
-        width: heightPercentageToDP('5'),
-    },
 
-    camSourceIcon: {
-        justifyContent: 'space-between',
-        alignSelf: 'center',
-        height: widthPercentageToDP('10'),
-        width: heightPercentageToDP('10'),
-
-    },
 
     modalCenter: {
         alignItems: 'center',
@@ -200,25 +187,26 @@ const localStyles = StyleSheet.create({
 
     lowerModalContainer: {
         width: '100%',
-        height: heightPercentageToDP('30'),
+        height: heightPercentageToDP('40'),
         flexDirection: 'column',
         justifyContent: 'flex-start',
         alignItems: 'center',
         // alignContent: 'flex-end',
         top: heightPercentageToDP('55'),
-        backgroundColor: 'blue',
+        backgroundColor: ColorConstants.MainGray,
         borderRadius: 20
     },
 
     imageSourceContainer: {
         flexDirection: 'row',
-        backgroundColor: ColorConstants.MainSubRed,
+        backgroundColor: ColorConstants.MainGray,
         padding: 10,
+        paddingTop: 30,
         alignItems: 'center',
         justifyContent: 'space-between',
-        width: '60%',
-        height: '60%',
-        borderWidth: 1,
+        width: '50%',
+        height: '50%',
+        borderWidth: 0,
 
 
     },
@@ -228,8 +216,27 @@ const localStyles = StyleSheet.create({
         alignItems: 'center',
         flexDirection: 'column',
         justifyContent: 'space-between',
-        backgroundColor: ColorConstants.MainSubCrownBlue
+        backgroundColor: ColorConstants.MainGray
     },
+
+    iconButton: {
+        alignSelf: 'center',
+        marginLeft: 10,
+        backgroundColor: ColorConstants.MainGray
+        // height: widthPercentageToDP('5'),
+        // width: heightPercentageToDP('5'),
+
+    },
+
+    camSourceIcon: {
+        backgroundColor: ColorConstants.MainGray,
+        justifyContent: 'center',
+        alignSelf: 'center',
+        // height: widthPercentageToDP('10'),
+        // width: heightPercentageToDP('10'),
+
+    },
+
     modalContent2: {
         backgroundColor: ColorConstants.MainSubRed,
         height: widthPercentageToDP('30'),
@@ -278,7 +285,7 @@ const localStyles = StyleSheet.create({
     },
     labelTitle: {
         fontSize: 18,
-        color: 'white',
+        color: ColorConstants.MainBlue,
         margin: 5
     },
     menuTitle: {

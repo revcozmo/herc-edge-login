@@ -5,7 +5,8 @@ import {
 } from "react-native";
 import React, { Component } from "react";
 import Icon from 'react-native-vector-icons/FontAwesome';
-import icon from 'react-native-vector-icons';
+import Iconicon from 'react-native-vector-icons';
+import Icon1 from 'react-native-vector-icons/FontAwesome5';
 import styles from "./HeaderStyles";
 import ColorConstants from "../../assets/ColorConstants";
 
@@ -19,7 +20,7 @@ const BackButton = (
 );
 
 const SettingsButton = (
-    <Icon.Button
+    <Icon1.Button
         onPress={() => console.log("pressed Where settings will be")}
         style={styles.iconButton}
         name='heart'
