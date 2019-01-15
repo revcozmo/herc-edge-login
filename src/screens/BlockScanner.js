@@ -8,7 +8,8 @@ import {
   WebView,
   ScrollView,
   Dimensions,
-  TextInput
+  TextInput,
+  Linking
 } from "react-native";
 import styles from "../assets/styles";
 import { connect } from "react-redux";
@@ -455,42 +456,232 @@ class BlockScanner extends Component {
               </View>
             </View>
             <View style={localStyles.contentContainerB_BlocksBox}>
-              <View style={{marginTop: 20, borderColor: "blue", borderWidth: 3 }}>
-                <Text style={{color: "black", fontWeight:"bold", marginLeft: 5}}> HERC</Text>
+              <View
+                style={{ marginTop: 20, borderColor: "blue", borderWidth: 3 }}
+              >
+                <Text
+                  style={{ color: "black", fontWeight: "bold", marginLeft: 5 }}
+                >
+                  {" "}
+                  HERC
+                </Text>
               </View>
               <View style={{ flexDirection: "row", marginTop: 5 }}>
-                <Text style={{color: "silver", marginHorizontal: 5, fontWeight: "bold" }}> Privacy Policy</Text>
-                <Text style={{color: "silver", marginHorizontal: 5, fontWeight: "bold" }}> Terms Of Use</Text>
-                <Text style={{color: "silver", marginHorizontal: 5, fontWeight: "bold" }}> Metamask</Text>
-                <Text style={{color: "silver", marginHorizontal: 5, fontWeight: "bold" }}> F.A.Q.</Text>
+                <TouchableHighlight
+                  onPress={() => {
+                    Linking.openURL("https://herc.one/policy");
+                  }}
+                >
+                  <Text
+                    style={{ color: "silver", marginHorizontal: 5, fontWeight: "bold" }}
+                  >
+                    {" "}
+                    Privacy Policy
+                  </Text>
+                </TouchableHighlight>
+                <TouchableHighlight
+              onPress={() => {
+                Linking.openURL("https://herc.one/terms");
+              }}
+            >
+                <Text
+                  style={{
+                    color: "silver",
+                    marginHorizontal: 5,
+                    fontWeight: "bold"
+                  }}
+                >
+                  {" "}
+                  Terms Of Use
+                </Text>
+                </TouchableHighlight>
+                <Text
+                  style={{
+                    color: "silver",
+                    marginHorizontal: 5,
+                    fontWeight: "bold"
+                  }}
+                >
+                  {" "}
+                  Metamask
+                </Text>
+                <Text
+                  style={{
+                    color: "silver",
+                    marginHorizontal: 5,
+                    fontWeight: "bold"
+                  }}
+                >
+                  {" "}
+                  F.A.Q.
+                </Text>
               </View>
-              <View style={{marginTop: 10, borderColor: "blue", borderWidth: 3 }}>
-                  <Text style={{color: "black", fontWeight:"bold", marginLeft: 5}}>COMPANY</Text>
+              <View
+                style={{ marginTop: 10, borderColor: "blue", borderWidth: 3 }}
+              >
+                <Text
+                  style={{ color: "black", fontWeight: "bold", marginLeft: 5 }}
+                >
+                  COMPANY
+                </Text>
               </View>
               <View style={{ flexDirection: "row", marginTop: 5 }}>
-                <Text style={{color: "silver", marginHorizontal: 5, fontWeight: "bold" }}> Buy HERC</Text>
-                <Text style={{color: "silver", marginHorizontal: 5, fontWeight: "bold" }}> Team</Text>
-                <Text style={{color: "silver", marginHorizontal: 5, fontWeight: "bold" }}> Roadmap</Text>
-                <Text style={{color: "silver", marginHorizontal: 5, fontWeight: "bold" }}> Whitepaper</Text>
+              <TouchableHighlight
+                onPress={() => {
+                  Linking.openURL("https://purchase.herc.one");
+                }}
+              >
+                <Text
+                  style={{
+                    color: "silver",
+                    marginHorizontal: 5,
+                    fontWeight: "bold"
+                  }}
+                >
+                  {" "}
+                  Buy HERC
+                </Text>
+                </TouchableHighlight>
+                <TouchableHighlight onPress={() => {
+                  Linking.openURL("https://herc.one/#team-section");
+                }}>
+                <Text
+                  style={{
+                    color: "silver",
+                    marginHorizontal: 5,
+                    fontWeight: "bold"
+                  }}
+                >
+                  {" "}
+                  Team
+                </Text>
+                </TouchableHighlight>
+                <Text
+                  style={{
+                    color: "silver",
+                    marginHorizontal: 5,
+                    fontWeight: "bold"
+                  }}
+                >
+                  {" "}
+                  Roadmap
+                </Text>
+                <Text
+                  style={{
+                    color: "silver",
+                    marginHorizontal: 5,
+                    fontWeight: "bold"
+                  }}
+                >
+                  {" "}
+                  Whitepaper
+                </Text>
               </View>
-              <View style={{marginTop: 10, borderColor: "blue", borderWidth: 3 }}>
-                  <Text style={{color: "black", fontWeight:"bold", marginLeft: 5}}>Connect</Text>
+              <View
+                style={{ marginTop: 10, borderColor: "blue", borderWidth: 3 }}
+              >
+                <Text
+                  style={{ color: "black", fontWeight: "bold", marginLeft: 5 }}
+                >
+                  Connect
+                </Text>
               </View>
               <View style={{ flexDirection: "row", marginTop: 5 }}>
-                <Text style={{color: "silver", marginHorizontal: 5, fontWeight: "bold" }}> Telegram</Text>
-                <Text style={{color: "silver", marginHorizontal: 5, fontWeight: "bold" }}> Discord</Text>
-                <Text style={{color: "silver", marginHorizontal: 5, fontWeight: "bold" }}> Github</Text>
+              <TouchableHighlight
+              onPress={() => {
+                Linking.openURL("https://t.me/joinchat/E_FZdg4HNKlqnxKXEEeYxw");
+              }}
+            >
+                <Text
+                  style={{
+                    color: "silver",
+                    marginHorizontal: 5,
+                    fontWeight: "bold"
+                  }}
+                >
+                  {" "}
+                  Telegram
+                </Text>
+                </TouchableHighlight>
+                <TouchableHighlight onPress={() => {
+              Linking.openURL("https://discord.gg/ntWZ53W");
+            }}>
+                <Text
+                  style={{
+                    color: "silver",
+                    marginHorizontal: 5,
+                    fontWeight: "bold"
+                  }}
+                >
+                  {" "}
+                  Discord
+                </Text>
+                </TouchableHighlight>
+                <TouchableHighlight onPress={() => {
+                  Linking.openURL("https://github.com/HERCone");
+                }}>
+                <Text
+                  style={{
+                    color: "silver",
+                    marginHorizontal: 5,
+                    fontWeight: "bold"
+                  }}
+                >
+                  {" "}
+                  Github
+                </Text>
+                </TouchableHighlight>
               </View>
-              <View style={{ marginTop: 10, borderColor: "blue", borderWidth: 3 }}>
-                  <Text style={{ color: "black", fontWeight:"bold", marginLeft: 5,  }}>SUBSCRIBE</Text>
+              <View
+                style={{ marginTop: 10, borderColor: "blue", borderWidth: 3 }}
+              >
+                <Text
+                  style={{ color: "black", fontWeight: "bold", marginLeft: 5 }}
+                >
+                  SUBSCRIBE
+                </Text>
               </View>
               <View style={{ flexDirection: "row", marginTop: 5 }}>
-                <TextInput style={{ borderColor: "gray", width: "75%", alignSelf: "center", backgroundColor: "rgb(245,247,253)"}} placeholder="Your email" underlineColorAndroid="transparent"  />
-                <TouchableHighlight style={{ backgroundColor: "#7888e5", borderRadius: 5, justifyContent: "center", alignContent: "center", marginVertical: 2, height: 30, alignSelf: "center"  }}>
-                   <Text style={{alignSelf:"center", color: "white", fontWeight: "bold", marginHorizontal: 20, fontSize: 10,}}>Subscribe</Text> 
+                <TextInput
+                  style={{
+                    borderColor: "gray",
+                    width: "75%",
+                    alignSelf: "center",
+                    backgroundColor: "rgb(245,247,253)"
+                  }}
+                  placeholder="Your email"
+                  underlineColorAndroid="transparent"
+                />
+                <TouchableHighlight
+                  style={{
+                    backgroundColor: "#7888e5",
+                    borderRadius: 5,
+                    justifyContent: "center",
+                    alignContent: "center",
+                    marginVertical: 2,
+                    height: 30,
+                    alignSelf: "center"
+                  }}
+                >
+                  <Text
+                    style={{
+                      alignSelf: "center",
+                      color: "white",
+                      fontWeight: "bold",
+                      marginHorizontal: 20,
+                      fontSize: 10
+                    }}
+                  >
+                    Subscribe
+                  </Text>
                 </TouchableHighlight>
               </View>
             </View>
+          </View>
+          <View>
+            <Text style={{ fontSize: 12, alignSelf: "center", color: "black" }}>
+              COPYRIGHT 2018 Hercules SEZC - All Rights Reserved.
+            </Text>
           </View>
         </ScrollView>
       </View>
@@ -632,5 +823,10 @@ const localStyles = StyleSheet.create({
   },
   container: {
     flex: 1
+  },
+  copyrightText: {
+    fontSize: 12,
+    alignSelf: "center",
+    color: "black"
   }
 });
