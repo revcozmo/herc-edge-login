@@ -546,6 +546,9 @@ class BlockScanner extends Component {
                   Team
                 </Text>
                 </TouchableHighlight>
+                <TouchableHighlight onPress={() => {
+                  Linking.openURL("https://herc.one/#the-roadmap-section");
+                }}>
                 <Text
                   style={{
                     color: "silver",
@@ -556,6 +559,10 @@ class BlockScanner extends Component {
                   {" "}
                   Roadmap
                 </Text>
+                </TouchableHighlight>
+                <TouchableHighlight onPress={() => {
+                  Linking.openURL("https://s3.us-east-2.amazonaws.com/hercmedia/herc_2018_whitepaper.pdf");
+                }}>
                 <Text
                   style={{
                     color: "silver",
@@ -566,6 +573,7 @@ class BlockScanner extends Component {
                   {" "}
                   Whitepaper
                 </Text>
+                </TouchableHighlight>
               </View>
               <View
                 style={{ marginTop: 10}}
