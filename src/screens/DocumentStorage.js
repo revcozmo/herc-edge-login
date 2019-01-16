@@ -36,6 +36,7 @@ import BigNumber from "bignumber.js";
 import { addDocStorage, sendTrans } from "../actions/AssetActions";
 import { TOKEN_ADDRESS } from "../components/settings";
 import { captureRef } from "react-native-view-shot";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 console.disableYellowBox = true;
 
@@ -58,6 +59,7 @@ class DocumentStorage extends React.Component {
     const { params } = navigation.state;
     let headerStyles = StyleSheet.create({
       header__container: {
+        backgroundColor: "purple",
         display: "flex",
         height: 80,
         alignSelf: "center",
@@ -69,6 +71,7 @@ class DocumentStorage extends React.Component {
       },
       header__container__centeredBox: {
         height: "100%",
+        backgroundColor: "purple",
         alignItems: "center",
         flexDirection: "row"
       },
@@ -308,32 +311,44 @@ class DocumentStorage extends React.Component {
         const date = dataObjectKeys[curr].date;
         const filename = dataObjectKeys[curr].filename;
         const downloadURL = dataObjectKeys[curr].downloadURL;
+        const contentCopyIcon = (
+          <Icon
+            name="content-copy"
+            color="black"
+            size={14}
+            style={{ alignSelf: "center" }}
+          />
+        );
+
+        const shareIcon = (
+          <Icon
+            name="share-variant"
+            color="black"
+            size={14}
+            style={{ alignSelf: "center" }}
+          />
+        );
+
         return (
-          <View key={[ind]}>
-            <Text style={{ color: "white" }}>{date}</Text>
-            <Text style={{ color: "white" }}>{filename}</Text>
+          <View
+            key={[ind]}
+            style={{ backgroundColor: "#cbccd2", marginHorizontal: 10, marginVertical: 5, flexDirection: "row", justifyContent: "space-around", height: 35, alignItems: "center", borderRadius: 2 }}
+          >
+            {/* <Text style={{ color: "white" }}>{date}</Text> */}
+            <Text style={{ color: "black", fontSize: 14 }}>{filename}</Text>
             <TouchableHighlight
               onPress={() => {
                 this._writeToClipboard(downloadURL);
               }}
             >
-              <Text
-                style={{
-                  color: "white",
-                  margin: 10,
-                  backgroundColor: "#4c99ed",
-                  width: 200,
-                  lineHeight: 30,
-                  height: 30,
-                  borderRadius: 5,
-                  textAlign: "center",
-                  justifyContent: "center",
-                  alignContent: "center"
-                }}
-              >
-                {" "}
-                Copy Link
-              </Text>
+              {contentCopyIcon}
+            </TouchableHighlight>
+            <TouchableHighlight
+              onPress={() => {
+                this._writeToClipboard(downloadURL);
+              }}
+            >
+              {shareIcon}
             </TouchableHighlight>
           </View>
         );
@@ -539,12 +554,12 @@ class DocumentStorage extends React.Component {
     const result = captureRef(this._container, {
       format: "jpg",
       quality: 0.8
-    }).then(
-      uri => CameraRoll.saveToCameraRoll(uri, "photo"),
-      error => console.error("Oops, snapshot failed", error)
-    ).then(
-      result => Alert.alert("QR has been saved to gallery!")
-    );
+    })
+      .then(
+        uri => CameraRoll.saveToCameraRoll(uri, "photo"),
+        error => console.error("Oops, snapshot failed", error)
+      )
+      .then(result => Alert.alert("QR has been saved to gallery!"));
   };
 
   _requestExternalStoragePermission = async () => {
@@ -566,10 +581,50 @@ class DocumentStorage extends React.Component {
   };
 
   render() {
+    const fileIcon = (
+      <Icon
+        name="file"
+        color="white"
+        size={25}
+        style={{ alignSelf: "center" }}
+      />
+    );
+    const qrIcon = (
+      <Icon
+        name="qrcode"
+        color="white"
+        size={25}
+        style={{ alignSelf: "center" }}
+      />
+    );
     return (
-      <View style={styles.container}>
-        <View style={[styles.containerCenter, { flex: 1 }]}>
-          <TouchableHighlight
+      <View style={localStyles.containerOriginal}>
+        <View style={[localStyles.containerCenter, { flex: 1 }]}>
+          <View style={localStyles.rowContainerSelectDocScanQR}>
+            <TouchableHighlight
+              onPress={() => this._pickDocument()}
+              style={localStyles.goldTouchableHighlights}
+            >
+              <View>
+                {fileIcon}
+                <Text style={localStyles.goldTouchableHighlights__text}>
+                  Select Documents
+                </Text>
+              </View>
+            </TouchableHighlight>
+            <TouchableHighlight
+              onPress={() => this._takePic()}
+              style={localStyles.goldTouchableHighlights}
+            >
+              <View>
+                {qrIcon}
+                <Text style={localStyles.goldTouchableHighlights__text}>
+                  Scan A QR
+                </Text>
+              </View>
+            </TouchableHighlight>
+          </View>
+          {/* <TouchableHighlight
             style={{ marginTop: 10 }}
             onPress={() => this._pickDocument()}
           >
@@ -588,7 +643,7 @@ class DocumentStorage extends React.Component {
             >
               Select Document
             </Text>
-          </TouchableHighlight>
+          </TouchableHighlight> */}
           {this.state.document.name ? (
             <Text style={{ color: "silver", flexWrap: "wrap" }}>
               {" "}
@@ -627,7 +682,7 @@ class DocumentStorage extends React.Component {
           <View style={{ alignContent: "center", alignItems: "center" }}>
             <View
               style={{
-                padding: 10,
+                // padding: 10,
                 flexDirection: "column",
                 justifyContent: "center",
                 alignContent: "center",
@@ -744,7 +799,7 @@ class DocumentStorage extends React.Component {
             ) : null}
           </View>
 
-          {this.state.uploadDoc === true ? null : (
+          {/* {this.state.uploadDoc === true ? null : (
             <View style={{ alignContent: "center" }}>
               <Text style={{ color: "white", textAlign: "center" }}>OR</Text>
               <TouchableHighlight
@@ -768,28 +823,37 @@ class DocumentStorage extends React.Component {
                 </Text>
               </TouchableHighlight>
             </View>
-          )}
+          )} */}
 
           {this.state.uploadDoc === true ? null : (
-            <ScrollView style={{ height: "50%" }}>
-              <View style={{ marginTop: "20%", alignItems: "center" }}>
+            <ScrollView
+              style={{
+                height: "50%",
+                width: "100%",
+                // borderColor: "red",
+                // borderWidth: 3
+              }}
+            >
+              <View>
                 {this.state.uploadHistory ? (
                   <Text
                     style={{
-                      color: "white",
-                      fontSize: 18,
-                      textAlign: "center",
-                      marginVertical: 10
+                      color: "rgb(149,153,179)",
+                      fontSize: 14,
+                      textAlign: "left",
+                      fontWeight: "bold",
+                      marginLeft: 10,
+                      marginVertical: 15
                     }}
                   >
-                    HISTORY
+                    Your Documents
                   </Text>
                 ) : null}
                 {this._showUploadHistory()}
               </View>
             </ScrollView>
           )}
-          <View
+          {/* <View
             style={{
               flexDirection: "column",
               flex: 1,
@@ -798,8 +862,8 @@ class DocumentStorage extends React.Component {
               justifyContent: "flex-end",
               backgroundColor: "#091141"
             }}
-          >
-            <Image
+          > */}
+          {/* <Image
               source={hercLogo}
               style={{
                 resizeMode: "center",
@@ -807,8 +871,8 @@ class DocumentStorage extends React.Component {
                 width: "50%",
                 alignSelf: "center"
               }}
-            />
-          </View>
+            /> */}
+          {/* </View> */}
         </View>
       </View>
     );
@@ -816,11 +880,49 @@ class DocumentStorage extends React.Component {
 }
 
 const localStyles = StyleSheet.create({
+  containerOriginal: {
+    flex: 1,
+    backgroundColor: "#091140",
+    alignItems: "center",
+    justifyContent: "center"
+  },
   container: {
-    borderColor: "red",
-    borderWidth: 3,
+    // borderColor: "red",
+    // borderWidth: 3,
     flex: 1,
     flexDirection: "row"
+  },
+  containerCenter: {
+    width: "100%",
+    height: "100%",
+    backgroundColor: "white",
+    alignItems: "center",
+    justifyContent: "flex-start",
+    borderTopLeftRadius: 12,
+    borderTopRightRadius: 12
+  },
+  rowContainerSelectDocScanQR: {
+    marginHorizontal: 10,
+    marginTop: 20,
+    width: "100%",
+    // borderColor: "red",
+    // borderWidth: 3,
+    flexDirection: "row",
+    justifyContent: "space-around"
+  },
+  goldTouchableHighlights: {
+    justifyContent: "center",
+    height: 80,
+    borderRadius: 5,
+    backgroundColor: "#f4c736",
+    width: "40%",
+    flexDirection: "column"
+  },
+  goldTouchableHighlights__text: {
+    color: "white",
+    marginTop: 5,
+    alignSelf: "center",
+    fontWeight: "bold"
   },
   preview: {
     flex: 1
