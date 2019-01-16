@@ -2,9 +2,8 @@
 
 ### 1. Clone the repository
 
-`git clone https://github.com/HERCone/herc-edge-login.git`
-
-`cd herc-edge-login`
+  git clone https://github.com/HERCone/herc-edge-login.git
+  cd herc-edge-login
 
 ### 2. Install the dependencies
 
@@ -40,16 +39,17 @@
     Follow the instructions on:
     https://developer.android.com/ndk/guides/
 
-#### 3.6. Ninja 
+  #### 3.6. Ninja 
     apt-get install ninja-build
 
-#### 3.7. React native cli
+  #### 3.7. React native cli
     npm install -g react-native-cli
 
-#### 3.8. Genymotion 
+  #### 3.8. Genymotion 
     Download and install Genymotion by following instructions on:
     https://www.genymotion.com/fun-zone/
 
 ### 3. Build and run the application
-    react-native run android
+  
+  react-native run android
 
