@@ -10,31 +10,49 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import ColorConstants from "../../assets/ColorConstants";
 import { widthPercentageToDP, heightPercentageToDP } from '../../assets/responisiveUI';
 
-export function HercTextInput(name, placeholder, localOnChange) {
-    return (
-        <TextInput style={localStyles.textInput}
-            placeholder={placeholder}
-            placeholder-text-color={ColorConstants.MainBlue}
-            underlineColorAndroid='transparent'
-            onChangeText={(inputVal) => localOnChange(inputVal, name)}
 
-        />
-    )
+
+
+
+export class HercTextInput extends Component {
+    constructor(props) {
+        super(props);
+    }
+    render() {
+        let name = this.props.name;
+        return (
+            <TextInput style={localStyles.textInput}
+                placeholder={this.props.placeholder}
+                placeholder-text-color={ColorConstants.MainBlue}
+                underlineColorAndroid='transparent'
+                onChangeText={(inputVal) => this.props.localOnChange(inputVal, name)}
+
+            />
+        )
+    }
 }
 
-export function HercTextInputWithLabel(name, placeholder, label, localOnChange) {
-    return (
+export class HercTextInputWithLabel extends Component {
+    constructor(props) {
+        super(props);
+    }
+    render() {
+        return (
 
-        <View style={localStyles.PasswordInputContainer}>
-            <Text style={localStyles.passwordInputlabel}>{label}</Text>
-            {HercTextInput(name, placeholder, localOnChange)}
-        </View>
-    )
+            <View style={localStyles.PasswordInputContainer}>
+                <Text style={localStyles.passwordInputlabel}>{this.props.label}</Text>
+                <HercTextInput
+                    name={this.props.name}
+                    placeholder={this.props.placeholder}
+                    localOnChange={this.props.localOnChange}
+                />
+            </View>
+        )
+    }
+
 }
 
-
-
-export default class RegisterAssetPassword extends Component {
+export class RegisterAssetPassword extends Component {
     constructor(props) {
         super(props);
         console.log(props, "registerAssetPassword")
@@ -53,7 +71,7 @@ export default class RegisterAssetPassword extends Component {
         return (
             <View style={localStyles.RegisterAssetInputPasswordContainer}>
 
-                <TextInput style={[localStyles.textInput, {flex: 1}]}
+                <TextInput style={[localStyles.textInput, { flex: 1 }]}
                     placeholder={this.props.placeholder}
                     placeholder-text-color={ColorConstants.MainBlue}
                     underlineColorAndroid='transparent'
@@ -84,6 +102,7 @@ const localStyles = StyleSheet.create({
         width: widthPercentageToDP('90'),
         height: heightPercentageToDP('6'),
         borderRadius: 8,
+        margin: 5
 
     },
     textInputContainer: {

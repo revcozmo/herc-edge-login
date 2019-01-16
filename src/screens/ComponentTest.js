@@ -13,11 +13,12 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from "../assets/styles";
 import ColorConstants from "../assets/ColorConstants";
 import React, { Component } from 'react';
-import RegisterAssetPassword, { HercTextInput, HercTextInputWithLabel } from "../components/RegisterAssetComponents/RegisterAssetInputs";
+import { RegisterAssetPassword,  HercTextInput, HercTextInputWithLabel } from "../components/RegisterAssetComponents/RegisterAssetInputs";
 import RegisterAssetHeader from "../components/Headers/RegisterAssetHeader"
+import { AssetCard } from "../components/AssetCard";
 import { widthPercentageToDP, heightPercentageToDP } from '../assets/responisiveUI';
 
-
+const HercLogo = require('../assets/hLogo.png');
 export default class ComponentTest extends Component {
 
     static navigationOptions = {
@@ -32,9 +33,34 @@ export default class ComponentTest extends Component {
             showModal1: false,
             showModal2: false,
             showModal3: false,
+            CoreProps: {
+                Metric1: "",
+                Metric2: "",
+                Metric3: "",
+                Metric4: ""
+            }
         }
         this.localOnChange = this.localOnChange.bind(this);
         this.pwChange = this.pwChange.bind(this);
+    }
+
+    renderInputs = () => {
+        let coreProps = this.state.CoreProps;
+        let metrics = Object.keys(coreProps);
+        let metricInputs = [];
+        metrics.forEach((x) => {
+            // let name = x
+
+            metricInputs.push(<HercTextInput
+                key={x}
+                name={x}
+                placeholder={x}
+                localOnChange={this.localOnChange}
+            />
+            )
+        })
+        console.log(metricInputs);
+        return metricInputs;
     }
 
 
@@ -73,46 +99,58 @@ export default class ComponentTest extends Component {
         // tried to use this to darken the background when the camera source is open, works but leaves out the 
         // text inputs. Need to either, change the bg's of the TI's or restyle the body of the modal, 
         // restyle is probably better practice
-        
+        let TestAsset = {
+            Image: HercLogo,
+            Name: "Test Asset Name"
+        }
+
+        let metricInputs = this.renderInputs();
+
         // { backgroundColor: this.state.showModal1 ? 'rgba(0,0,0,0.5)' : ColorConstants.MainGray}
         return (
+
             <View style={localStyles.container}>
                 <StatusBar
                     barStyle={'light-content'}
                     translucent={true}
                 />
 
-                <Icon.Button name="eye" backgroundColor="#3b5998"
+                {AssetCard(TestAsset)}
+
+                {/* <Icon.Button name="eye" backgroundColor="#3b5998"
                     onPress={() => this.changeModal1()}>
                 </Icon.Button>
 
                 <Icon.Button labelTitle="Modal2" name="camera" backgroundColor="#3b5998"
                     onPress={() => this.changeModal2()}>
                 </Icon.Button>
-
-
-                {/* HercTextInput(name, placeholder, localOnChange) */}
-                <Icon name='eye' size={18} color={ColorConstants.MainGold} />
-                {HercTextInput("Inpute1", 'testMetric1', this.localOnChange)}
-                {HercTextInput("Inpute2", 'testMetric2', this.localOnChange)}
-                {HercTextInput("Inpute3", 'testMetric3', this.localOnChange)}
-                {/* <HercTextInput name={'Input2'} placeholder={'testMetric2'} onChangeText={(value, name) => this.localOnChangeText(value, name)} />
-                <HercTextInput name={'Input3'} placeholder={'testMetric3'} onChangeText={(value, name) => this.localOnChangeText(value, name)} /> */}
-
                 {/* HercTextInputWithLabel(name, placeholder, label, localOnChange) */}
-                {HercTextInputWithLabel('Name', 'Asset Name', 'Asset Name', this.localOnChange)}
-
-                {HercTextInputWithLabel('Name2', 'Asset Name2', 'Asset Name2', this.localOnChange)}
-
-                <View style={localStyles.PasswordInputContainer}>
+                {/* {HercTextInputWithLabel('Name', 'Asset Name', 'Asset Name', this.localOnChange)}
+*/}
+                <View style={localStyles.passwordInputContainer}>
                     <Text style={localStyles.passwordInputlabel}>Asset Password</Text>
                     <RegisterAssetPassword
                         placeholder='Asset Password'
                         pwChange={this.pwChange}
                     />
-
-                <Button title={"register"} name={'register'} onPress={() => console.log(this.state)} />
                 </View>
+
+
+                <HercTextInputWithLabel
+                    name='Asset Name'
+                    label='Asset Name'
+                    placeholder='Asset Name'
+                    localOnChange={this.localOnChange}
+                />
+
+                {/* Trying dynamically generated inputs that will rerender when you add one */}
+
+
+                {metricInputs}
+
+
+                {/* <Button title={"register"} name={'register'} onPress={() => console.log(this.state)} /> */}
+
 
 
                 {/* Modal 1 */}
