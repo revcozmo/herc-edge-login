@@ -51,9 +51,9 @@ export default class RegisterAssetPassword extends Component {
 
     render() {
         return (
-            <View style={localStyles.TextInput}>
+            <View style={localStyles.RegisterAssetInputPasswordContainer}>
 
-                <TextInput style={[localStyles.textInput, localStyles.flexRow]}
+                <TextInput style={[localStyles.textInput, {flex: 1}]}
                     placeholder={this.props.placeholder}
                     placeholder-text-color={ColorConstants.MainBlue}
                     underlineColorAndroid='transparent'
@@ -61,15 +61,16 @@ export default class RegisterAssetPassword extends Component {
                     onChangeText={pass => this.props.pwChange(pass)}
 
                 />
-                <Icon.Button
-                    style={localStyles.eyeBallButton}
-                    color={ColorConstants.MainBlue}
-                    name='eye'
-                    onPress={() => this.onHideShow()}
+                <View>
+                    <Icon.Button
+                        style={localStyles.eyeBallButton}
+                        color={ColorConstants.MainBlue}
+                        name='eye'
+                        onPress={() => this.onHideShow()}
 
-                >
-                </Icon.Button>
-
+                    >
+                    </Icon.Button>
+                </View>
             </View>
         )
     }
@@ -79,9 +80,9 @@ const localStyles = StyleSheet.create({
     RegisterAssetInputPasswordContainer: {
         justifyContent: 'space-between',
         flexDirection: 'row',
-        backgroundColor: ColorConstants.MainGold,
+        backgroundColor: ColorConstants.MainGray,
         width: widthPercentageToDP('90'),
-        height: heightPercentageToDP('7'),
+        height: heightPercentageToDP('6'),
         borderRadius: 8,
 
     },
@@ -93,7 +94,7 @@ const localStyles = StyleSheet.create({
     },
     textInput: {
         width: widthPercentageToDP('90'),
-        height: heightPercentageToDP('7'),
+        height: heightPercentageToDP('6'),
         borderRadius: 8,
         backgroundColor: ColorConstants.MainGray,
         margin: 5
@@ -110,6 +111,11 @@ const localStyles = StyleSheet.create({
     flexRow: {
         flex: 0,
         flexDirection: 'row'
+    },
+    passwordInputContainer: {
+
+        justifyContent: 'flex-start',
+        backgroundColor: ColorConstants.MainSubCrownBlue
     }
     // width: (width * .9),
     // height: (height * .056),

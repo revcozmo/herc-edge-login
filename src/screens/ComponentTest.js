@@ -6,7 +6,7 @@ import {
     View,
     StatusBar,
     Modal,
-    Image
+    Image,
 } from 'react-native';
 const loadingGif = require("../assets/icons/liquid_preloader_by_volorf.gif");
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -70,7 +70,11 @@ export default class ComponentTest extends Component {
     }
 
     render() {
-
+        // tried to use this to darken the background when the camera source is open, works but leaves out the 
+        // text inputs. Need to either, change the bg's of the TI's or restyle the body of the modal, 
+        // restyle is probably better practice
+        
+        // { backgroundColor: this.state.showModal1 ? 'rgba(0,0,0,0.5)' : ColorConstants.MainGray}
         return (
             <View style={localStyles.container}>
                 <StatusBar
@@ -106,10 +110,9 @@ export default class ComponentTest extends Component {
                         placeholder='Asset Password'
                         pwChange={this.pwChange}
                     />
-                </View>
 
-                <Icon.Button name="eye" backgroundColor="#3b5998" onPress={() => console.log(this.state)}>
-                </Icon.Button>
+                <Button title={"register"} name={'register'} onPress={() => console.log(this.state)} />
+                </View>
 
 
                 {/* Modal 1 */}
@@ -203,6 +206,7 @@ const localStyles = StyleSheet.create({
         // alignContent: 'flex-end',
         top: heightPercentageToDP('55'),
         backgroundColor: ColorConstants.MainGray,
+        // backgroundColor: 'rgba(0,0,0,0.5)',
         borderRadius: 20
     },
 
