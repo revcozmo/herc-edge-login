@@ -16,6 +16,59 @@ import { connect } from "react-redux";
 import round from "../assets/round.png";
 
 class BlockScanner extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      hercValue: null,
+      currentTime: null
+    };
+  }
+
+  componentDidMount = async () => {
+    var d = new Date();
+    var n = d.getTime();
+    this.setState({ currentTime: n })
+    this._getTxList();
+    
+    this._getDynamicHercValue().then(response => {
+      let shortenedResponse = parseFloat(response).toFixed(3);
+      this.setState({ hercValue: shortenedResponse });
+    });
+
+
+  };
+
+  _getDynamicHercValue = async () => {
+    return fetch(
+      "https://chart.anthemgold.com/service-1.0-SNAPSHOT/PRICE?symbol=HERCCOMMERCIAL&range=MINUTE_5",
+      {
+        method: "GET"
+      }
+    )
+      .then(response => response.json())
+      .then(responseJson => {
+        let responseObject = responseJson;
+        let highPrice = responseObject.h;
+        return highPrice;
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  };
+
+  _getTxList = async () => {
+    return fetch (
+      "https://api.etherscan.io/api?module=account&action=txlist&address=0x6251583e7d997df3604bc73b9779196e94a090ce&startblock=0&endblock=99999999&page=1&offset=10&sort=asc&apikey=Z4A2NZUA58J7CJCEEE87872SCC82BI88W1",
+      {
+        method: "GET"
+      }
+    ).then(response => response.json())
+    .then(responseJson => {
+      let responseObject = responseJson;
+      console.log(responseObject)
+    })
+  }
+
   static navigationOptions = ({ navigation }) => {
     const { params } = navigation.state;
     let headerStyles = StyleSheet.create({
@@ -84,13 +137,6 @@ class BlockScanner extends Component {
     };
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      block: null
-    };
-  }
-
   render() {
     let screenHeight = Dimensions.get("window").height;
     return (
@@ -139,7 +185,7 @@ class BlockScanner extends Component {
                         fontWeight: "bold"
                       }}
                     >
-                      $0.453
+                      {this.state.hercValue ? "$" + this.state.hercValue : null}
                     </Text>
                     <Text
                       style={{
@@ -446,9 +492,7 @@ class BlockScanner extends Component {
               </View>
             </View>
             <View style={localStyles.contentContainerB_BlocksBox}>
-              <View
-                style={{ marginTop: 20}}
-              >
+              <View style={{ marginTop: 20 }}>
                 <Text
                   style={{ color: "black", fontWeight: "bold", marginLeft: 5 }}
                 >
@@ -463,28 +507,35 @@ class BlockScanner extends Component {
                   }}
                 >
                   <Text
-                    style={{ color: "silver", marginHorizontal: 5, fontWeight: "bold" }}
+                    style={{
+                      color: "silver",
+                      marginHorizontal: 5,
+                      fontWeight: "bold"
+                    }}
                   >
                     {" "}
                     Privacy Policy
                   </Text>
                 </TouchableHighlight>
                 <TouchableHighlight
-              onPress={() => {
-                Linking.openURL("https://herc.one/terms");
-              }}
-            >
-                <Text
-                  style={{
-                    color: "silver",
-                    marginHorizontal: 5,
-                    fontWeight: "bold"
+                  onPress={() => {
+                    Linking.openURL("https://herc.one/terms");
                   }}
                 >
-                  {" "}
-                  Terms Of Use
-                </Text>
+                  <Text
+                    style={{
+                      color: "silver",
+                      marginHorizontal: 5,
+                      fontWeight: "bold"
+                    }}
+                  >
+                    {" "}
+                    Terms Of Use
+                  </Text>
                 </TouchableHighlight>
+                <TouchableHighlight onPress={ () => {
+                  Linking.openURL("https://herc.one/metamask")}
+                }>
                 <Text
                   style={{
                     color: "silver",
@@ -495,6 +546,10 @@ class BlockScanner extends Component {
                   {" "}
                   Metamask
                 </Text>
+                </TouchableHighlight>
+                <TouchableHighlight onPress={() => {
+                  Linking.openURL("https://herc.one/faq")}
+                }>
                 <Text
                   style={{
                     color: "silver",
@@ -505,10 +560,9 @@ class BlockScanner extends Component {
                   {" "}
                   F.A.Q.
                 </Text>
+                </TouchableHighlight>
               </View>
-              <View
-                style={{ marginTop: 10}}
-              >
+              <View style={{ marginTop: 10 }}>
                 <Text
                   style={{ color: "black", fontWeight: "bold", marginLeft: 5 }}
                 >
@@ -516,68 +570,74 @@ class BlockScanner extends Component {
                 </Text>
               </View>
               <View style={{ flexDirection: "row", marginTop: 5 }}>
-              <TouchableHighlight
-                onPress={() => {
-                  Linking.openURL("https://purchase.herc.one");
-                }}
-              >
-                <Text
-                  style={{
-                    color: "silver",
-                    marginHorizontal: 5,
-                    fontWeight: "bold"
+                <TouchableHighlight
+                  onPress={() => {
+                    Linking.openURL("https://purchase.herc.one");
                   }}
                 >
-                  {" "}
-                  Buy HERC
-                </Text>
+                  <Text
+                    style={{
+                      color: "silver",
+                      marginHorizontal: 5,
+                      fontWeight: "bold"
+                    }}
+                  >
+                    {" "}
+                    Buy HERC
+                  </Text>
                 </TouchableHighlight>
-                <TouchableHighlight onPress={() => {
-                  Linking.openURL("https://herc.one/#team-section");
-                }}>
-                <Text
-                  style={{
-                    color: "silver",
-                    marginHorizontal: 5,
-                    fontWeight: "bold"
+                <TouchableHighlight
+                  onPress={() => {
+                    Linking.openURL("https://herc.one/#team-section");
                   }}
                 >
-                  {" "}
-                  Team
-                </Text>
+                  <Text
+                    style={{
+                      color: "silver",
+                      marginHorizontal: 5,
+                      fontWeight: "bold"
+                    }}
+                  >
+                    {" "}
+                    Team
+                  </Text>
                 </TouchableHighlight>
-                <TouchableHighlight onPress={() => {
-                  Linking.openURL("https://herc.one/#the-roadmap-section");
-                }}>
-                <Text
-                  style={{
-                    color: "silver",
-                    marginHorizontal: 5,
-                    fontWeight: "bold"
+                <TouchableHighlight
+                  onPress={() => {
+                    Linking.openURL("https://herc.one/#the-roadmap-section");
                   }}
                 >
-                  {" "}
-                  Roadmap
-                </Text>
+                  <Text
+                    style={{
+                      color: "silver",
+                      marginHorizontal: 5,
+                      fontWeight: "bold"
+                    }}
+                  >
+                    {" "}
+                    Roadmap
+                  </Text>
                 </TouchableHighlight>
-                <TouchableHighlight onPress={() => {
-                  Linking.openURL("https://s3.us-east-2.amazonaws.com/hercmedia/herc_2018_whitepaper.pdf");
-                }}>
-                <Text
-                  style={{
-                    color: "silver",
-                    marginHorizontal: 5,
-                    fontWeight: "bold"
+                <TouchableHighlight
+                  onPress={() => {
+                    Linking.openURL(
+                      "https://s3.us-east-2.amazonaws.com/hercmedia/herc_2018_whitepaper.pdf"
+                    );
                   }}
                 >
-                  {" "}
-                  Whitepaper
-                </Text>
+                  <Text
+                    style={{
+                      color: "silver",
+                      marginHorizontal: 5,
+                      fontWeight: "bold"
+                    }}
+                  >
+                    {" "}
+                    Whitepaper
+                  </Text>
                 </TouchableHighlight>
               </View>
-              <View
-                style={{ marginTop: 10}}
-              >
+              <View style={{ marginTop: 10 }}>
                 <Text
                   style={{ color: "black", fontWeight: "bold", marginLeft: 5 }}
                 >
@@ -585,54 +645,58 @@ class BlockScanner extends Component {
                 </Text>
               </View>
               <View style={{ flexDirection: "row", marginTop: 5 }}>
-              <TouchableHighlight
-              onPress={() => {
-                Linking.openURL("https://t.me/joinchat/E_FZdg4HNKlqnxKXEEeYxw");
-              }}
-            >
-                <Text
-                  style={{
-                    color: "silver",
-                    marginHorizontal: 5,
-                    fontWeight: "bold"
+                <TouchableHighlight
+                  onPress={() => {
+                    Linking.openURL(
+                      "https://t.me/joinchat/E_FZdg4HNKlqnxKXEEeYxw"
+                    );
                   }}
                 >
-                  {" "}
-                  Telegram
-                </Text>
+                  <Text
+                    style={{
+                      color: "silver",
+                      marginHorizontal: 5,
+                      fontWeight: "bold"
+                    }}
+                  >
+                    {" "}
+                    Telegram
+                  </Text>
                 </TouchableHighlight>
-                <TouchableHighlight onPress={() => {
-              Linking.openURL("https://discord.gg/ntWZ53W");
-            }}>
-                <Text
-                  style={{
-                    color: "silver",
-                    marginHorizontal: 5,
-                    fontWeight: "bold"
+                <TouchableHighlight
+                  onPress={() => {
+                    Linking.openURL("https://discord.gg/ntWZ53W");
                   }}
                 >
-                  {" "}
-                  Discord
-                </Text>
+                  <Text
+                    style={{
+                      color: "silver",
+                      marginHorizontal: 5,
+                      fontWeight: "bold"
+                    }}
+                  >
+                    {" "}
+                    Discord
+                  </Text>
                 </TouchableHighlight>
-                <TouchableHighlight onPress={() => {
-                  Linking.openURL("https://github.com/HERCone");
-                }}>
-                <Text
-                  style={{
-                    color: "silver",
-                    marginHorizontal: 5,
-                    fontWeight: "bold"
+                <TouchableHighlight
+                  onPress={() => {
+                    Linking.openURL("https://github.com/HERCone");
                   }}
                 >
-                  {" "}
-                  Github
-                </Text>
+                  <Text
+                    style={{
+                      color: "silver",
+                      marginHorizontal: 5,
+                      fontWeight: "bold"
+                    }}
+                  >
+                    {" "}
+                    Github
+                  </Text>
                 </TouchableHighlight>
               </View>
-              <View
-                style={{ marginTop: 10}}
-              >
+              <View style={{ marginTop: 10 }}>
                 <Text
                   style={{ color: "black", fontWeight: "bold", marginLeft: 5 }}
                 >
