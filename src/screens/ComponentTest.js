@@ -113,6 +113,8 @@ export default class ComponentTest extends Component {
                 <StatusBar
                     barStyle={'light-content'}
                     translucent={true}
+                    backgroundColor='transparent'
+
                 />
 
                 {AssetCard(TestAsset)}
@@ -127,13 +129,13 @@ export default class ComponentTest extends Component {
                 {/* HercTextInputWithLabel(name, placeholder, label, localOnChange) */}
                 {/* {HercTextInputWithLabel('Name', 'Asset Name', 'Asset Name', this.localOnChange)}
 */}
-                <View style={localStyles.passwordInputContainer}>
-                    <Text style={localStyles.passwordInputlabel}>Asset Password</Text>
+                {/* <View style={localStyles.passwordInputContainer}>
+                    <Text style={localStyles.passwordInputlabel}>Asset Password</Text> */}
                     <RegisterAssetPassword
                         placeholder='Asset Password'
                         pwChange={this.pwChange}
                     />
-                </View>
+                {/* </View> */}
 
 
                 <HercTextInputWithLabel
@@ -237,14 +239,14 @@ const localStyles = StyleSheet.create({
 
     lowerModalContainer: {
         width: '100%',
-        height: heightPercentageToDP('40'),
+        height: '100%',
         flexDirection: 'column',
         justifyContent: 'flex-start',
         alignItems: 'center',
         // alignContent: 'flex-end',
         top: heightPercentageToDP('55'),
         backgroundColor: ColorConstants.MainGray,
-        // backgroundColor: 'rgba(0,0,0,0.5)',
+        backgroundColor: 'rgba(0,0,0,0.5)',
         borderRadius: 20
     },
 
@@ -329,7 +331,7 @@ const localStyles = StyleSheet.create({
         // backgroundColor: ColorConstants.MainBlue,
         backgroundColor: ColorConstants.MainGray,
         alignItems: "center",
-        justifyContent: "center",
+        justifyContent: "flex-start",
         // marginTop: 20,
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20
@@ -348,7 +350,7 @@ const localStyles = StyleSheet.create({
     passwordInputContainer: {
 
         justifyContent: 'flex-start',
-        backgroundColor: ColorConstants.MainSubCrownBlue
+        backgroundColor: ColorConstants.ElementBG
     }
 
 })

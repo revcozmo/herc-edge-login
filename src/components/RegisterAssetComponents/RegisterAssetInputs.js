@@ -39,8 +39,8 @@ export class HercTextInputWithLabel extends Component {
     render() {
         return (
 
-            <View style={localStyles.PasswordInputContainer}>
-                <Text style={localStyles.passwordInputlabel}>{this.props.label}</Text>
+            <View style={localStyles.passwordInputContainer}>
+                <Text style={localStyles.inputLabel}>{this.props.label}</Text>
                 <HercTextInput
                     name={this.props.name}
                     placeholder={this.props.placeholder}
@@ -69,25 +69,28 @@ export class RegisterAssetPassword extends Component {
 
     render() {
         return (
-            <View style={localStyles.RegisterAssetInputPasswordContainer}>
+            <View style={localStyles.passwordInputContainer}>
+                <Text style={localStyles.inputLabel}>Asset Password</Text>
+                <View style={localStyles.RegisterAssetInputPasswordContainer}>
 
-                <TextInput style={[localStyles.textInput, { flex: 1 }]}
-                    placeholder={this.props.placeholder}
-                    placeholder-text-color={ColorConstants.MainBlue}
-                    underlineColorAndroid='transparent'
-                    secureTextEntry={this.state.hidePass}
-                    onChangeText={pass => this.props.pwChange(pass)}
+                    <TextInput style={localStyles.labeledTextInput}
+                        placeholder={this.props.placeholder}
+                        placeholder-text-color={ColorConstants.MainBlue}
+                        underlineColorAndroid='transparent'
+                        secureTextEntry={this.state.hidePass}
+                        onChangeText={pass => this.props.pwChange(pass)}
 
-                />
-                <View>
-                    <Icon.Button
-                        style={localStyles.eyeBallButton}
-                        color={ColorConstants.MainBlue}
-                        name='eye'
-                        onPress={() => this.onHideShow()}
+                    />
+                    <View>
+                        <Icon.Button
+                            style={localStyles.eyeBallButton}
+                            color={ColorConstants.MainBlue}
+                            name='eye'
+                            onPress={() => this.onHideShow()}
 
-                    >
-                    </Icon.Button>
+                        >
+                        </Icon.Button>
+                    </View>
                 </View>
             </View>
         )
@@ -106,7 +109,8 @@ const localStyles = StyleSheet.create({
 
     },
     textInputContainer: {
-        backgroundColor: ColorConstants.MainGray,
+        backgroundColor: ColorConstants.ElementBG,
+        // backgroundColor: ColorConstants.MainGray,
         width: "90%",
         height: "25%",
         borderRadius: 8
@@ -115,14 +119,32 @@ const localStyles = StyleSheet.create({
         width: widthPercentageToDP('90'),
         height: heightPercentageToDP('6'),
         borderRadius: 8,
-        backgroundColor: ColorConstants.MainGray,
+        // backgroundColor: ColorConstants.MainGray,
+        backgroundColor: ColorConstants.ElementBG,
         margin: 5
+    },
+    labeledTextInput: {
+        width: widthPercentageToDP('90'),
+        height: heightPercentageToDP('6'),
+        borderRadius: 0,
+        // backgroundColor: ColorConstants.MainGray,
+        backgroundColor: ColorConstants.ElementBG,
+        margin: 0,
+        flex: 1
+    },
+
+
+    inputLabel: {
+        fontSize: 20,
+        color: ColorConstants.MainBlue,
+        marginLeft: 3
     },
     eyeBallButton: {
         justifyContent: 'center',
         alignItems: 'center',
         paddingLeft: 5,
-        backgroundColor: ColorConstants.MainGray,
+        backgroundColor: ColorConstants.ElementBG,
+        // backgroundColor: ColorConstants.MainGray,
         height: heightPercentageToDP('6'),
         borderRadius: 0,
     },
@@ -132,9 +154,13 @@ const localStyles = StyleSheet.create({
         flexDirection: 'row'
     },
     passwordInputContainer: {
-
+        width: widthPercentageToDP('90'),
         justifyContent: 'flex-start',
-        backgroundColor: ColorConstants.MainSubCrownBlue
+        backgroundColor: ColorConstants.ElementBG,
+        margin: 5,
+        padding: 2,
+        borderRadius: 8
+        // backgroundColor: ColorConstants.MainSubCrownBlue
     }
     // width: (width * .9),
     // height: (height * .056),

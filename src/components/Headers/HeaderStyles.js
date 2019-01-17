@@ -5,27 +5,25 @@ import ColorConstants from "../../assets/ColorConstants";
 
 module.exports = StyleSheet.create({
 
-    headerStyle: {
-        justifyContent: 'center',
-        // textAlign: 'center',
-        alignItems: 'center',
-        height: Platform.OS === 'android' ? 60 : 100,
-        backgroundColor: ColorConstants.MainBlue,
-        shadowColor: 'transparent',
-        paddingTop: 20,
+    headerCont: {
+        width: '100%',
+        height: '12%',
+        // flexDirection: 'row'
+    },
+    bgImage: {
+        flex: 1,
     },
 
     header__container: {
-        backgroundColor: ColorConstants.MainBlue,
+        // backgroundColor: ColorConstants.MainBlue,
         flexDirection: 'row',
         width: '100%',
-        height: Platform.OS === 'android' ? 60 : 100,
+        height: '100%',
         justifyContent: 'space-between',
         alignContent: "center",
         alignItems: "center",
         shadowColor: 'transparent',
-        paddingTop: 20,
-        // marginTop: 20,
+        marginTop: 5,
     },
 
     sideHeaders: {

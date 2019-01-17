@@ -2,6 +2,8 @@ let ColorConstants = {
      MainBlue: "#091140", 
     // Used > ( Fonts colors and some background)
     
+    // Used > Text input background
+    ElementBG: "#e2e6f9",
      MainGold: "#f4c736",
     // Used > ( Buttons bg colors and some background)
     
