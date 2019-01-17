@@ -20,14 +20,14 @@ class BlockScanner extends Component {
     super(props);
     this.state = {
       hercValue: null,
-      currentTime: null
+      marketCap: null,
+      txQuantity: null
     };
   }
 
   componentDidMount = async () => {
-    var d = new Date();
-    var n = d.getTime();
-    this.setState({ currentTime: n })
+    this._getMarketCap().then(res => this.setState({ marketCap: res }));
+    this._getTxQuantity().then(res => this.setState({ txQuantity: res }));
     this._getTxList();
     
     this._getDynamicHercValue().then(response => {
@@ -37,6 +37,19 @@ class BlockScanner extends Component {
 
 
   };
+
+  _getTxQuantity = async () => {
+    return fetch (
+      "http://api.ethplorer.io/getAddressInfo/0x6251583e7d997df3604bc73b9779196e94a090ce?apiKey=freekey",
+      {
+        method: "GET"
+      }
+    ).then(response => response.json())
+    .then(responseJson => {
+      let responseObject = responseJson;
+      return (responseObject.countTxs)
+    })
+  }
 
   _getDynamicHercValue = async () => {
     return fetch(
@@ -66,6 +79,19 @@ class BlockScanner extends Component {
     .then(responseJson => {
       let responseObject = responseJson;
       console.log(responseObject)
+    })
+  }
+
+  _getMarketCap = async () => {
+    return fetch (
+      "https://chart.anthemgold.com/bi-1.0-SNAPSHOT/Report",
+      {
+        method: "GET"
+      }
+    ).then(response => response.json())
+    .then(responseJson => {
+      let responseObject = responseJson;
+      return (responseObject.marketCapitalization)
     })
   }
 
@@ -157,7 +183,8 @@ class BlockScanner extends Component {
               <View style={localStyles.contentContainerA_Box_TopRow}>
                 <Text style={{ color: "silver", margin: 10, fontSize: 12 }}>
                   {" "}
-                  MARKET CAP OF $13.537 BILLION{" "}
+                  {this.state.marketCap ? "MARKET CAP OF $" + this.state.marketCap : null }
+                  
                 </Text>
               </View>
               <View
@@ -232,7 +259,7 @@ class BlockScanner extends Component {
                     Transactions
                   </Text>
                   <Text style={localStyles.contentContainerA_MarketCapBox_Text}>
-                    36433 M (6.8 TPS)
+                    {this.state.txQuantity ? this.state.txQuantity.toLocaleString() : null }
                   </Text>
                 </View>
               </View>
