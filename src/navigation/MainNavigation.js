@@ -11,7 +11,7 @@ import React, { Component } from "react";
 import { StackNavigator } from "react-navigation";
 
 import BlockScanner from "../screens/BlockScanner";
-import Camera from "../screens/Camera";
+import Camera from "../screens/CameraOld";
 import Confirm from "../screens/Confirm";
 import NewAssetLanding from "../screens/NewAssetLanding";
 import DocUp from "../screens/DocUp";
