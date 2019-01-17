@@ -7,9 +7,13 @@ import {
 } from 'react-native';
 import ColorConstants from "../assets/ColorConstants";
 import { widthPercentageToDP, heightPercentageToDP } from '../assets/responisiveUI';
-
-export function AssetCard(asset) {
-    console.log(asset);
+export default class AssetCard extends Component {
+    constructor(props){
+        super(props)
+    }
+    render(){
+        console.log(this.props.asset.Name);
+        let asset = this.props.asset;
     return (
         <View style={localStyles.assetCard}>
             <View style={localStyles.assetImageContainer}>
@@ -30,6 +34,7 @@ export function AssetCard(asset) {
         </View>
 
     )
+}
 }
 
 const localStyles = StyleSheet.create({

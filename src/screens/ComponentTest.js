@@ -15,7 +15,7 @@ import ColorConstants from "../assets/ColorConstants";
 import React, { Component } from 'react';
 import { RegisterAssetPassword,  HercTextInput, HercTextInputWithLabel, AddPhotoButton } from "../components/RegisterAssetComponents/RegisterAssetInputs";
 import RegisterAssetHeader from "../components/Headers/RegisterAssetHeader"
-import { AssetCard } from "../components/AssetCard";
+import  AssetCard from "../components/AssetCard";
 import { widthPercentageToDP, heightPercentageToDP } from '../assets/responisiveUI';
 
 const HercLogo = require('../assets/hLogo.png');
@@ -121,8 +121,7 @@ export default class ComponentTest extends Component {
 
                 />
 
-                {AssetCard(TestAsset)}
-
+                <AssetCard asset={TestAsset} />
                 {/* <Icon.Button name="eye" backgroundColor="#3b5998"
                     onPress={() => this.changeModal1()}>
                 </Icon.Button>

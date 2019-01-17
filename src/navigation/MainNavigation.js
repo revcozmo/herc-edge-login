@@ -12,7 +12,7 @@ import { StackNavigator } from "react-navigation";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import colors from "../assets/ColorConstants";
 // import RegAssetnavigator from "./RegisterAssetNavigation";
-
+import Settings2 from "../screens/Settings2";
 import TestSplash from "../screens/TestSplash";
 import BlockScanner from "../screens/BlockScanner";
 import Camera from "../screens/Camera";
@@ -104,6 +104,7 @@ let headerStyles = StyleSheet.create({
 
 const MainNavigator = StackNavigator({ //this will be "createStackNavigator" after upgrading react-navigation
     // RegAssetNav: { screen: RegAssetNav },
+    Settings2: { screen: Settings2 },
     TestSplash: { screen: TestSplash },
     RegAssetSplashTest: { screen: RegAssetSplashTest },
     ComponentTest: { screen: ComponentTest },
@@ -146,7 +147,7 @@ const MainNavigator = StackNavigator({ //this will be "createStackNavigator" aft
     DocumentQRScanner: { screen: DocumentQRScanner },
 
 }, {
-        initialRouteName: 'ComponentTest',
+        initialRouteName: 'Settings2',
 
         // initialRouteName: 'Login',
         navigationOptions: ({ navigation }) => ({
