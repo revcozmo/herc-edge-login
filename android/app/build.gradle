@@ -169,6 +169,7 @@ configurations.all {
 dependencies {
     compile project(':react-native-view-shot')
     compile project(':edge-login-ui-rn')
+    compile project(":rncamerakit")
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation project(':react-native-device-info')
     implementation project(':react-native-linear-gradient')
