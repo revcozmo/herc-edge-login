@@ -13,7 +13,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from "../assets/styles";
 import ColorConstants from "../assets/ColorConstants";
 import React, { Component } from 'react';
-import { RegisterAssetPassword,  HercTextInput, HercTextInputWithLabel } from "../components/RegisterAssetComponents/RegisterAssetInputs";
+import { RegisterAssetPassword,  HercTextInput, HercTextInputWithLabel, AddPhotoButton } from "../components/RegisterAssetComponents/RegisterAssetInputs";
 import RegisterAssetHeader from "../components/Headers/RegisterAssetHeader"
 import { AssetCard } from "../components/AssetCard";
 import { widthPercentageToDP, heightPercentageToDP } from '../assets/responisiveUI';
@@ -63,6 +63,10 @@ export default class ComponentTest extends Component {
         return metricInputs;
     }
 
+    onPressTest = () => {
+
+        console.log("I got Pressed!")
+    }
 
     changeModal1 = () => {
         console.log(this.state.showModal1, "showmodal1");
@@ -153,7 +157,7 @@ export default class ComponentTest extends Component {
 
                 {/* <Button title={"register"} name={'register'} onPress={() => console.log(this.state)} /> */}
 
-
+<AddPhotoButton onPress={this.onPressTest} />
 
                 {/* Modal 1 */}
                 <Modal

@@ -13,17 +13,22 @@ import { widthPercentageToDP, heightPercentageToDP } from '../../assets/responis
 
 
 export function AddPhotoButton(props) {
-    <TouchableHighlight onPress={props.onPress}>
-        <View style={localStyles.photoButton}>
+    return (
+
+        <View style={localStyles.addPhotoButton}>
+
             <Icon
-                style={localStyles.cameraIcon}
+                style={localStyles.cameraIconContainer}
                 color={ColorConstants.MainBlue}
                 name='camera'
                 onPress={() => console.log("camera press")}
             >
             </Icon>
+            <Text style={localStyles.buttonLabel}>Add a Photo</Text>
         </View>
-    </TouchableHighlight>
+
+
+    )
 }
 
 
@@ -59,8 +64,8 @@ export class HercTextInputWithLabel extends Component {
                         name={this.props.name}
                         placeholder={this.props.placeholder}
                         localOnChange={this.props.localOnChange}
-                        style={{margin: 0}}
-                   />
+                        style={{ margin: 0 }}
+                    />
                 </View>
             </View>
         )
@@ -127,6 +132,24 @@ const localStyles = StyleSheet.create({
         borderRadius: 8,
     },
 
+    addPhotoButton: {
+        height: heightPercentageToDP('8'),
+        width: widthPercentageToDP('80'),
+        backgroundColor: ColorConstants.ElementBG,
+        borderRadius: 8,
+        margin: 5,
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        padding: 5
+    },
+
+    cameraIconContainer: {
+        backgroundColor: ColorConstants.ElementBG,
+        borderRadius: 8,
+        marginLeft: '15%'
+
+    },
 
     RegisterAssetInputPasswordContainer: {
         justifyContent: 'space-between',
@@ -185,6 +208,14 @@ const localStyles = StyleSheet.create({
         marginLeft: 3,
         fontWeight: 'bold',
         height: 14
+    },
+    buttonLabel: {
+        fontSize: 12,
+        color: ColorConstants.MainBlue,
+        margin: 5,
+        marginLeft: '15%',
+       alignSelf: 'center'
+        
     },
 
 
