@@ -3,7 +3,8 @@ import {
     StyleSheet,
     View,
     TextInput,
-    Text
+    Text,
+    TouchableHighlight
 } from 'react-native';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -11,7 +12,19 @@ import ColorConstants from "../../assets/ColorConstants";
 import { widthPercentageToDP, heightPercentageToDP } from '../../assets/responisiveUI';
 
 
-
+export function AddPhotoButton(props) {
+    <TouchableHighlight onPress={props.onPress}>
+        <View style={localStyles.photoButton}>
+            <Icon
+                style={localStyles.cameraIcon}
+                color={ColorConstants.MainBlue}
+                name='camera'
+                onPress={() => console.log("camera press")}
+            >
+            </Icon>
+        </View>
+    </TouchableHighlight>
+}
 
 
 export class HercTextInput extends Component {
@@ -41,11 +54,14 @@ export class HercTextInputWithLabel extends Component {
 
             <View style={localStyles.passwordInputContainer}>
                 <Text style={localStyles.inputLabel}>{this.props.label}</Text>
-                <HercTextInput
-                    name={this.props.name}
-                    placeholder={this.props.placeholder}
-                    localOnChange={this.props.localOnChange}
-                />
+                <View style={localStyles.RegisterAssetInputPasswordContainer}>
+                    <HercTextInput
+                        name={this.props.name}
+                        placeholder={this.props.placeholder}
+                        localOnChange={this.props.localOnChange}
+                        style={{margin: 0}}
+                   />
+                </View>
             </View>
         )
     }
@@ -73,7 +89,7 @@ export class RegisterAssetPassword extends Component {
                 <Text style={localStyles.inputLabel}>Asset Password</Text>
                 <View style={localStyles.RegisterAssetInputPasswordContainer}>
 
-                    <TextInput style={localStyles.labeledTextInput}
+                    <TextInput style={localStyles.passwordTextInput}
                         placeholder={this.props.placeholder}
                         placeholder-text-color={ColorConstants.MainBlue}
                         underlineColorAndroid='transparent'
@@ -81,11 +97,12 @@ export class RegisterAssetPassword extends Component {
                         onChangeText={pass => this.props.pwChange(pass)}
 
                     />
-                    <View>
+                    <View style={localStyles.eyeballContainer}>
                         <Icon.Button
                             style={localStyles.eyeBallButton}
                             color={ColorConstants.MainBlue}
                             name='eye'
+
                             onPress={() => this.onHideShow()}
 
                         >
@@ -98,12 +115,25 @@ export class RegisterAssetPassword extends Component {
 }
 
 const localStyles = StyleSheet.create({
+
+    eyeballContainer: {
+        justifyContent: 'center',
+        backgroundColor: ColorConstants.ElementBG,
+        // height: heightPercentageToDP('6'),
+    },
+
+    eyeBallButton: {
+        backgroundColor: ColorConstants.ElementBG,
+        borderRadius: 8,
+    },
+
+
     RegisterAssetInputPasswordContainer: {
         justifyContent: 'space-between',
         flexDirection: 'row',
         backgroundColor: ColorConstants.MainGray,
         width: widthPercentageToDP('90'),
-        height: heightPercentageToDP('6'),
+        height: heightPercentageToDP('3.5'),
         borderRadius: 8,
         margin: 5
 
@@ -117,37 +147,46 @@ const localStyles = StyleSheet.create({
     },
     textInput: {
         width: widthPercentageToDP('90'),
-        height: heightPercentageToDP('6'),
+        height: heightPercentageToDP('5'),
         borderRadius: 8,
         // backgroundColor: ColorConstants.MainGray,
         backgroundColor: ColorConstants.ElementBG,
-        margin: 5
+        marginTop: 2.5,
+        marginBottom: 2.5,
+        marginLeft: 0,
+        marginRight: 0,
+        fontSize: 12,
+        alignSelf: 'center'
     },
     labeledTextInput: {
         width: widthPercentageToDP('90'),
-        height: heightPercentageToDP('6'),
+        height: heightPercentageToDP('5'),
         borderRadius: 0,
-        // backgroundColor: ColorConstants.MainGray,
         backgroundColor: ColorConstants.ElementBG,
         margin: 0,
-        flex: 1
+        fontSize: 12,
+        alignSelf: 'center'
+    },
+    passwordTextInput: {
+        width: widthPercentageToDP('90'),
+        height: heightPercentageToDP('5'),
+        borderRadius: 0,
+        backgroundColor: ColorConstants.ElementBG,
+        margin: 0,
+        flex: 1,
+        fontSize: 12,
+        alignSelf: 'center'
     },
 
 
     inputLabel: {
-        fontSize: 20,
+        fontSize: 12,
         color: ColorConstants.MainBlue,
-        marginLeft: 3
+        marginLeft: 3,
+        fontWeight: 'bold',
+        height: 14
     },
-    eyeBallButton: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        paddingLeft: 5,
-        backgroundColor: ColorConstants.ElementBG,
-        // backgroundColor: ColorConstants.MainGray,
-        height: heightPercentageToDP('6'),
-        borderRadius: 0,
-    },
+
 
     flexRow: {
         flex: 0,
@@ -155,9 +194,10 @@ const localStyles = StyleSheet.create({
     },
     passwordInputContainer: {
         width: widthPercentageToDP('90'),
+        height: heightPercentageToDP('6'),
         justifyContent: 'flex-start',
         backgroundColor: ColorConstants.ElementBG,
-        margin: 5,
+        margin: 6,
         padding: 2,
         borderRadius: 8
         // backgroundColor: ColorConstants.MainSubCrownBlue
