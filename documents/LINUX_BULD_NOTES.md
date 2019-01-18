@@ -70,7 +70,7 @@
     
 #### 3.2.1 Using node installer and Genymotion   
 `yarn install`  
-`react-native run android`  
+`react-native run-android`  
     
 #### 3.2.2 Using Android Studio and Genymotion  
 `yarn install`  
