@@ -8,44 +8,66 @@ import React, { Component } from "react";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from "./HeaderStyles";
 import ColorConstants from "../../assets/ColorConstants";
+import ComponentTest from "../../screens/ComponentTest";
 const bgImage = require("../../assets/main-bg.png")
 
-const BackButton = (
-    <Icon
-        onPress={() => navigation.goBack()}
-        style={[styles.iconButton, {marginLeft: 20}]}
-        name='arrow-left'
-        color={ColorConstants.MainGold}
-    />
-);
+class BackButton extends Component {
+    constructor(props) {
+        super(props);
 
-const SettingsButton = (
-    <Icon onPress={() => console.log("pressed Where settings will be")}
-        style={[styles.iconButton,{marginRight: 20}]}
-        name='heart'
-        color={ColorConstants.MainGold}
-    />
-)
+    }
+    render() {
+        const {navigate}  = this.props.navigation
+        console.log(navigate, "in back button")
+        return (
+            <Icon
+                onPress={() => navigate.goBack()}
+                style={[styles.iconButton, { marginLeft: 20 }]}
+                name='arrow-left'
+                color={ColorConstants.MainGold}
+            />)
+    }
+
+};
+
+class SettingsButton extends Component {
+    constructor(props) {
+        super(props);
+    }
+    render() {
+        const {navigate}  = this.props.navigation
+        console.log(navigate, "in settings button")
+        return (
+            <Icon onPress={() => navigate("settings")}
+                style={[styles.iconButton, { marginRight: 20 }]}
+                name='heart'
+                color={ColorConstants.MainGold}
+            />
+        );
+    }
+
+
+}
 
 {/* <Icon.Button /> for use once it's wired up */ }
 export default class Header extends Component {
     constructor(props) {
         super(props);
     }
-
+    // .navigation
     render() {
-        // const {navigation} = this.props.navigation
-        console.log("mulitPurposeHeader")
+        var outsideNav = this.props.navigation
+        // console.log(navigation, "mulitPurposeHeader")
         return (
             <View style={styles.headerCont}>
                 <ImageBackground source={bgImage} style={styles.bgImage}>
                     <View style={styles.header__container}>
                         <View style={styles.sideHeaders}>
-                            {BackButton}
+                            <BackButton navigation={outsideNav} />
                         </View>
                         <Text style={styles.headerText}>{this.props.headerTitle}</Text>
                         <View style={styles.sideHeaders}>
-                            {SettingsButton}
+                            <SettingsButton navigation={outsideNav}/>
                         </View>
                     </View>
                 </ImageBackground>

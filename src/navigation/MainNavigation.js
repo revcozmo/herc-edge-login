@@ -51,6 +51,7 @@ import DocumentQRScanner from "../screens/DocumentQRScanner";
 import ComponentTest from "../screens/ComponentTest";
 import RegAssetSplashTest from "../screens/RegAssetSplashTest";
 import WelcomeHeader from "../components/Headers/WelcomeHeader";
+import ColorConstants from "../assets/ColorConstants";
 // import RegAssetNav from "./RegisterAssetNavigation";
 
 let headerStyles = StyleSheet.create({
@@ -106,7 +107,11 @@ const MainNavigator = StackNavigator({ //this will be "createStackNavigator" aft
     // RegAssetNav: { screen: RegAssetNav },
     TestSplash: { screen: TestSplash },
     RegAssetSplashTest: { screen: RegAssetSplashTest },
-    ComponentTest: { screen: ComponentTest },
+    ComponentTest: {
+        screen: ComponentTest,
+        // headerMode: 'screen',
+        // cardStyle: { backgroundColor: ColorConstants.MainBlue }
+    },
     Login: { screen: Login },
     MenuOptions: { screen: MenuOptions },
     NewAssetLanding: { screen: NewAssetLanding },
@@ -146,11 +151,11 @@ const MainNavigator = StackNavigator({ //this will be "createStackNavigator" aft
     DocumentQRScanner: { screen: DocumentQRScanner },
 
 }, {
-        initialRouteName: 'ComponentTest',
+        initialRouteName: 'RegAssetSplashTest',
 
         // initialRouteName: 'Login',
         navigationOptions: ({ navigation }) => ({
-           header: <WelcomeHeader navigation={navigation} />
+            header: <WelcomeHeader navigation={navigation} />
         })
     })
 

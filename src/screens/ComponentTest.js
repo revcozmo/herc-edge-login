@@ -12,7 +12,7 @@ const loadingGif = require("../assets/icons/liquid_preloader_by_volorf.gif");
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import Modal from 'react-native-modal';
 import modalStyles from "../assets/modals/ModalStyles";
-// import styles from "../assets/styles";
+import styles from "../assets/styles";
 import ColorConstants from "../assets/ColorConstants";
 import React, { Component } from 'react';
 
@@ -23,13 +23,14 @@ import { widthPercentageToDP, heightPercentageToDP } from '../assets/responisive
 
 const HercLogo = require('../assets/hLogo.png');
 export default class ComponentTest extends Component {
-debugger;
-    static navigationOptions = {
-
-        header: <Header headerTitle="Register Asset" />
-    }
-
+    static navigationOptions = ({navigation}) => ({
+        
+        header: <Header headerTitle="Register Asset" navigation={navigation} />
+        
+    })
+    
     constructor(props) {
+        // console.log(this.props.navigation, "navigation??")
         super(props);
         console.log("componentTest")
         this.state = {
@@ -106,6 +107,8 @@ debugger;
     }
 
     render() {
+
+        console.log(this, "this this")
         // tried to use this to darken the background when the camera source is open, works but leaves out the 
         // text inputs. Need to either, change the bg's of the TI's or restyle the body of the modal, 
         // restyle is probably better practice
@@ -119,14 +122,14 @@ debugger;
         // { backgroundColor: this.state.showModal1 ? 'rgba(0,0,0,0.5)' : ColorConstants.MainGray}
         return (
 
-            <View style={[localStyles.container,{paddingTop: 22}]}>
+            <View style={styles.baseContainter}>
                 <StatusBar
                     barStyle={'light-content'}
                     translucent={true}
                     backgroundColor='transparent'
 
                 />
-
+                <View style={styles.bodyContainer}>
                 {/* {AssetCard(TestAsset)} */}
 
                 {/* <Icon.Button name="eye" backgroundColor="#3b5998"
@@ -230,7 +233,7 @@ debugger;
                 </Modal>
 
 
-
+                </View>
             </View >
         )
     }

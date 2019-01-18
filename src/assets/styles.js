@@ -10,7 +10,8 @@ module.exports = StyleSheet.create({
     width: '100%',
     backgroundColor: ColorConstants.MainBlue,
     alignItems: "center",
-    justifyContent: "flex-start"
+    justifyContent: "flex-start",
+    paddingTop: 20
   },
 
   bodyContainer: {
