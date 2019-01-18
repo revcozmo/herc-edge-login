@@ -157,7 +157,7 @@ export default class ComponentTest extends Component {
 
                 {/* <Button title={"register"} name={'register'} onPress={() => console.log(this.state)} /> */}
 
-<AddPhotoButton onPress={this.onPressTest} />
+<AddPhotoButton onPress={this.changeModal2} />
 
                 {/* Modal 1 */}
                 <Modal
