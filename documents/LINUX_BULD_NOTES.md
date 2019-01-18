@@ -22,24 +22,28 @@
 
 
   #### 2.3. JDK (at least version 8.0)
-  `add-apt-repository ppa:webupd8team/java -y`
-  `apt update`
-  `echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections`
-  `apt install -y oracle-java8-installer`
+  `sudo add-apt-repository ppa:webupd8team/java -y`  
+  `sudo apt update`  
+  `sudo echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections`  
+  `sudo apt install -y oracle-java8-installer`  
 
   #### 2.4. Android Studio
-  Follow the instructions on:
-  https://developer.android.com/studio/
-
+  Download the Android Studio Linux package from https://developer.android.com/studio/ and extract it.  
+  To launch Android Studio, in the extracted directory, run the following:  
+  `cd android-studio/bin`  
+  `./studio.sh`  
+  
   OR
     
   Use the Ubuntu Software to install Android Studio.
     
-  To set ANDROID_SDK_ROOT environment variable(if not set already), edit the '~/.bashrc' file and add the follwing:  
-    `export ANDROID_SDK_ROOT=$HOME/Android/Sdk`  
-    `export PATH=$PATH:$ANDROID_HOME/tools`  
-    `export PATH=$PATH:$ANDROID_HOME/platform-tools`  
-    `export PATH=$PATH:$ANDROID_HOME/tools/bin`  
+  To set ANDROID_SDK_ROOT environment variable(if not set already), run: 
+  `sudo gedit ~/.bashrc`   
+  And add the following to the text file:  
+  `export ANDROID_SDK_ROOT=$HOME/Android/Sdk`  
+  `export PATH=$PATH:$ANDROID_HOME/tools`  
+  `export PATH=$PATH:$ANDROID_HOME/platform-tools`  
+  `export PATH=$PATH:$ANDROID_HOME/tools/bin`  
 
   #### 2.5. Android NDK
   Follow the instructions on:
