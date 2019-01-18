@@ -22,8 +22,10 @@
 
 
   #### 2.3. JDK (at least version 8.0)
-  Follow instructions on:
-  https://docs.oracle.com/javase/8/docs/technotes/guides/install/linux_jdk.html
+  `add-apt-repository ppa:webupd8team/java -y`
+  `apt update`
+  `echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections`
+  `apt install -y oracle-java8-installer`
 
   #### 2.4. Android Studio
   Follow the instructions on:
