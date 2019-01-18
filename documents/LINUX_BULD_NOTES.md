@@ -46,10 +46,11 @@
   `export PATH=$PATH:$ANDROID_HOME/tools/bin`  
 
   #### 2.5. Android NDK
-  Follow the instructions on:
-  https://developer.android.com/ndk/guides/
+  Install Android NDK: https://developer.android.com/ndk/guides/#download-ndk
     
-  To set ANDROID_NDK_ROOT environment variable(if not set already), edit the '~/.bashrc' file and add the follwing:  
+  To set ANDROID_NDK_ROOT environment variable(if not set already), run: 
+  `sudo gedit ~/.bashrc`   
+  And add the following to the text file: 
   `export ANDROID_NDK_ROOT=$ANDROID_SDK_ROOT/ndk-bundle`  
     
   #### 2.6. Ninja 
@@ -59,8 +60,7 @@
   `npm install -g react-native-cli`  
 
   #### 2.8. Genymotion 
-  Download and install Genymotion by following instructions on:
-  https://www.genymotion.com/fun-zone/
+  Download and install Genymotion from https://www.genymotion.com/fun-zone/
 
 ### 3. Build and run the application
 #### 3.1. Run Genymotion
