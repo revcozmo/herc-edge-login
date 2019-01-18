@@ -13,11 +13,10 @@ import ColorConstants from "../assets/ColorConstants";
 import React, { Component } from 'react';
 import { widthPercentageToDP, heightPercentageToDP } from '../assets/responisiveUI';
 import { StackNavigator } from "react-navigation";
-import RegAssetHeader from "../components/Headers/RegisterAssetHeader";
 export default class RegAssetSplashTest extends Component {
 
     static navigationOptions = ({navigation}) => ({
-        header: <RegAssetHeader navigation={navigation} />
+        header: <RegAssetHeader navigation={this.props.navigation} />
     })
 
     constructor(props) {

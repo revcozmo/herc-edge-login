@@ -28,10 +28,11 @@ module.exports = StyleSheet.create({
 
     sideHeaders: {
         alignSelf: 'center',
-        width: '20%',
+        width: 20,
         flexDirection: 'row',
         justifyContent: 'center',
-        backgroundColor: ColorConstants.MainGray
+        alignItems: 'center',
+        // backgroundColor: ColorConstants.MainGray
     },
     iconButton: {
         alignSelf: 'center',

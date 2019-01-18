@@ -5,25 +5,28 @@ import {
     Text,
     View,
     StatusBar,
-    Modal,
+
     Image,
 } from 'react-native';
 const loadingGif = require("../assets/icons/liquid_preloader_by_volorf.gif");
-import Icon from 'react-native-vector-icons/FontAwesome';
-import styles from "../assets/styles";
+import Icon from 'react-native-vector-icons/FontAwesome5';
+import Modal from 'react-native-modal';
+import modalStyles from "../assets/modals/ModalStyles";
+// import styles from "../assets/styles";
 import ColorConstants from "../assets/ColorConstants";
 import React, { Component } from 'react';
-import { RegisterAssetPassword,  HercTextInput, HercTextInputWithLabel, AddPhotoButton } from "../components/RegisterAssetComponents/RegisterAssetInputs";
-import RegisterAssetHeader from "../components/Headers/RegisterAssetHeader"
+
+import { RegisterAssetPassword, HercTextInput, HercTextInputWithLabel, AddPhotoButton, AddMetricButton, RegisterButton } from "../components/RegisterAssetComponents/RegisterAssetInputs";
+import Header from "../components/Headers/Header"
 import { AssetCard } from "../components/AssetCard";
 import { widthPercentageToDP, heightPercentageToDP } from '../assets/responisiveUI';
 
 const HercLogo = require('../assets/hLogo.png');
 export default class ComponentTest extends Component {
-
+debugger;
     static navigationOptions = {
 
-        header: <RegisterAssetHeader />
+        header: <Header headerTitle="Register Asset" />
     }
 
     constructor(props) {
@@ -37,7 +40,10 @@ export default class ComponentTest extends Component {
                 Metric1: "",
                 Metric2: "",
                 Metric3: "",
-                Metric4: ""
+                Metric4: "",
+                Metric5: "",
+                Metric6: "",
+               
             }
         }
         this.localOnChange = this.localOnChange.bind(this);
@@ -113,7 +119,7 @@ export default class ComponentTest extends Component {
         // { backgroundColor: this.state.showModal1 ? 'rgba(0,0,0,0.5)' : ColorConstants.MainGray}
         return (
 
-            <View style={localStyles.container}>
+            <View style={[localStyles.container,{paddingTop: 22}]}>
                 <StatusBar
                     barStyle={'light-content'}
                     translucent={true}
@@ -121,7 +127,7 @@ export default class ComponentTest extends Component {
 
                 />
 
-                {AssetCard(TestAsset)}
+                {/* {AssetCard(TestAsset)} */}
 
                 {/* <Icon.Button name="eye" backgroundColor="#3b5998"
                     onPress={() => this.changeModal1()}>
@@ -135,10 +141,10 @@ export default class ComponentTest extends Component {
 */}
                 {/* <View style={localStyles.passwordInputContainer}>
                     <Text style={localStyles.passwordInputlabel}>Asset Password</Text> */}
-                    <RegisterAssetPassword
-                        placeholder='Asset Password'
-                        pwChange={this.pwChange}
-                    />
+                <RegisterAssetPassword
+                    placeholder='Asset Password'
+                    pwChange={this.pwChange}
+                />
                 {/* </View> */}
 
 
@@ -154,48 +160,47 @@ export default class ComponentTest extends Component {
 
                 {metricInputs}
 
+                <AddMetricButton onPress={this.changeModal1} />
 
-                {/* <Button title={"register"} name={'register'} onPress={() => console.log(this.state)} /> */}
+                <AddPhotoButton onPress={this.changeModal2} />
 
-<AddPhotoButton onPress={this.changeModal2} />
-
+                <RegisterButton onPress={this.onPressTest} />
                 {/* Modal 1 */}
                 <Modal
-                    transparent={true}
-                    animationType={'slide'}
-                    visible={this.state.showModal1}
+
+                    isvisible={this.state.showModal1}
                     onRequestClose={() => { console.log("modal closed") }}
                 >
-                    <View style={localStyles.lowerModalContainer}>
-                        <Text style={localStyles.menuTitle}>Choose Image Source</Text>
-                        {/* <Text style={localStyles.labelTitle}>LabeltitleThis is Modal1 Slide</Text> */}
+                    <View style={modalStyles.lowerModalContainer}>
+                        <Text style={modalStyles.menuTitle}>Choose Image Source</Text>
+                        {/* <Text style={modalStyles.labelTitle}>LabeltitleThis is Modal1 Slide</Text> */}
 
-                        <View style={localStyles.imageSourceContainer}>
+                        <View style={modalStyles.imageSourceContainer}>
 
-                            <View style={localStyles.sourceIconContainer}>
-                                <View style={localStyles.camSourceIcon}>
+                            <View style={modalStyles.sourceIconContainer}>
+                                <View style={modalStyles.camSourceIcon}>
                                     <Icon
-                                        containerStyle={localStyles.iconButton}
+                                        containerStyle={modalStyles.iconButton}
                                         name="camera"
                                         size={20}
                                         color="black"
                                         onPress={() => this.changeModal1()}>
                                     </Icon>
                                 </View>
-                                <Text style={localStyles.labelTitle}>Camera</Text>
+                                <Text style={modalStyles.labelTitle}>Camera</Text>
                             </View>
 
-                            <View style={localStyles.sourceIconContainer}>
-                                <View style={localStyles.camSourceIcon}>
+                            <View style={modalStyles.sourceIconContainer}>
+                                <View style={modalStyles.camSourceIcon}>
                                     <Icon
                                         name="folder-open"
                                         size={20}
-                                        containerStyle={localStyles.iconButton}
+                                        containerStyle={modalStyles.iconButton}
                                         color="black"
                                         onPress={() => this.changeModal1()}>
                                     </Icon>
                                 </View>
-                                <Text style={localStyles.labelTitle}>Gallery</Text>
+                                <Text style={modalStyles.labelTitle}>Gallery</Text>
                             </View>
                         </View>
                     </View>
@@ -203,17 +208,16 @@ export default class ComponentTest extends Component {
 
                 {/* Modal 2 */}
                 <Modal
-                    transparent={true}
                     animationType={'fade'}
-                    visible={this.state.showModal2}
+                    isVisible={this.state.showModal2}
                     onRequestClose={() => { console.log("modal closed") }}
                 >
-                    <View style={localStyles.modal}>
-                        <View style={localStyles.modalContent2}>
+                    <View style={modalStyles.modalCenter}>
+                        <View style={modalStyles.modalContent2}>
                             <Image source={{ uri: "https://cdn.dribbble.com/users/108183/screenshots/3488148/liquid_preloader_by_volorf.gif" }} style={{ height: 50, width: 50 }} />
                             {/* <Image source={this.gif()} style={{ height: 50, width: 50 }} /> */}
-                            <Text style={localStyles.labelTitle}>This is Modal2 Fade</Text>
-                            <View style={localStyles.iconButton}>
+                            <Text style={modalStyles.labelTitle}>This is Modal2 Fade</Text>
+                            <View style={modalStyles.iconButton}>
                                 <Icon.Button
                                     name="adjust"
                                     color="black"
@@ -227,32 +231,12 @@ export default class ComponentTest extends Component {
 
 
 
-            </View>
+            </View >
         )
     }
 }
+
 const localStyles = StyleSheet.create({
-
-
-    modalCenter: {
-        alignItems: 'center',
-        flexDirection: 'column',
-        justifyContent: 'center',
-
-    },
-
-    lowerModalContainer: {
-        width: '100%',
-        height: '100%',
-        flexDirection: 'column',
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-        // alignContent: 'flex-end',
-        top: heightPercentageToDP('55'),
-        backgroundColor: ColorConstants.MainGray,
-        backgroundColor: 'rgba(0,0,0,0.5)',
-        borderRadius: 20
-    },
 
     imageSourceContainer: {
         flexDirection: 'row',
@@ -294,11 +278,6 @@ const localStyles = StyleSheet.create({
 
     },
 
-    modalContent2: {
-        backgroundColor: ColorConstants.MainSubRed,
-        height: widthPercentageToDP('30'),
-        width: heightPercentageToDP('25'),
-    },
 
 
     activityIndicatorWrapper: {
@@ -332,6 +311,8 @@ const localStyles = StyleSheet.create({
 
     container: {
         width: '100%',
+        height: '100%',
+        flexDirection: 'column',
         // backgroundColor: ColorConstants.MainBlue,
         backgroundColor: ColorConstants.MainGray,
         alignItems: "center",

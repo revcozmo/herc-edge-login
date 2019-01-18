@@ -5,78 +5,84 @@ import {
     ImageBackground
 } from "react-native";
 import React, { Component } from "react";
-import Icon from 'react-native-vector-icons/FontAwesome5';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from "./HeaderStyles";
 import ColorConstants from "../../assets/ColorConstants";
 const bgImage = require("../../assets/main-bg.png")
 
 const BackButton = (
-    <Icon.Button
+    <Icon
         onPress={() => navigation.goBack()}
-        style={styles.iconButton}
+        style={[styles.iconButton, {marginLeft: 20}]}
         name='arrow-left'
         color={ColorConstants.MainGold}
     />
 );
 
 const SettingsButton = (
-    <Icon.Button
-        onPress={() => console.log("pressed Where settings will be")}
-        style={styles.iconButton}
+    <Icon onPress={() => console.log("pressed Where settings will be")}
+        style={[styles.iconButton,{marginRight: 20}]}
         name='heart'
         color={ColorConstants.MainGold}
     />
 )
 
 {/* <Icon.Button /> for use once it's wired up */ }
-export default RegisterAssetHeader = (navigation) => {
-    console.log("regAssetHeader")
-    return (
-        <View style={styles.headerCont}>
-            <ImageBackground source={bgImage} style={styles.bgImage}>
-            <View style={styles.header__container}>
-                <View style={styles.sideHeaders}>
-                    {BackButton}
-                </View>
-                <Text style={styles.headerText}>Register Asset</Text>
-                <View style={styles.sideHeaders}>
-                    {SettingsButton}
-                </View>
-            </View>
-            </ImageBackground>
-        </View>
-    );
-}
+export default class Header extends Component {
+    constructor(props) {
+        super(props);
+    }
 
+    render() {
+        // const {navigation} = this.props.navigation
+        console.log("mulitPurposeHeader")
+        return (
+            <View style={styles.headerCont}>
+                <ImageBackground source={bgImage} style={styles.bgImage}>
+                    <View style={styles.header__container}>
+                        <View style={styles.sideHeaders}>
+                            {BackButton}
+                        </View>
+                        <Text style={styles.headerText}>{this.props.headerTitle}</Text>
+                        <View style={styles.sideHeaders}>
+                            {SettingsButton}
+                        </View>
+                    </View>
+                </ImageBackground>
+            </View>
+        );
+    }
+}
 // const styles = StyleSheet.create({
 
 //     headerCont: {
-//         flex: 1
+//         width: '100%',
+//         height: '12%',
+//         // flexDirection: 'row'
 //     },
 //     bgImage: {
 //         flex: 1,
-//         resizeMode: 'cover'
 //     },
 
 //     header__container: {
 //         // backgroundColor: ColorConstants.MainBlue,
 //         flexDirection: 'row',
 //         width: '100%',
-//         height: '15%',
+//         height: '100%',
 //         justifyContent: 'space-between',
 //         alignContent: "center",
 //         alignItems: "center",
 //         shadowColor: 'transparent',
-//         paddingTop: 20,
-//         // marginTop: 20,
+//         marginTop: 5,
 //     },
 
 //     sideHeaders: {
 //         alignSelf: 'center',
-//         width: '20%',
+//         width: 20,
 //         flexDirection: 'row',
 //         justifyContent: 'center',
-//         backgroundColor: ColorConstants.MainGray
+//         alignItems: 'center',
+//         // backgroundColor: ColorConstants.MainGray
 //     },
 //     iconButton: {
 //         alignSelf: 'center',
@@ -100,6 +106,7 @@ export default RegisterAssetHeader = (navigation) => {
 //     backArrow: {
 //         marginLeft: 5
 //     }
+
 
 // });
 

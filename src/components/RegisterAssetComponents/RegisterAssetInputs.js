@@ -11,6 +11,15 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import ColorConstants from "../../assets/ColorConstants";
 import { widthPercentageToDP, heightPercentageToDP } from '../../assets/responisiveUI';
 
+export function RegisterButton(props) {
+    return (
+
+        <TouchableHighlight onPress={props.onPress} style={localStyles.registerButton}>
+            <Text style={localStyles.buttonLabel}>Register</Text>
+        </TouchableHighlight>
+    )
+}
+
 
 export function AddPhotoButton(props) {
     return (
@@ -21,12 +30,32 @@ export function AddPhotoButton(props) {
                 style={localStyles.cameraIconContainer}
                 color={ColorConstants.MainBlue}
                 name='camera'
-                onPress={() => console.log("camera press")}
+                onPress={props.onPress}
             >
             </Icon>
             <Text style={localStyles.buttonLabel}>Add a Photo</Text>
         </View>
 
+
+    )
+}
+
+export function AddMetricButton(props) {
+    return (
+
+        <View style={localStyles.addMetricButton}>
+
+            <Text style={[localStyles.buttonLabel,{marginLeft: 0}]}>Add a Metric</Text>
+            <View style={localStyles.cameraIconContainer}>
+                <Icon
+                    color={ColorConstants.MainBlue}
+                    name='plus-circle'
+                    onPress={props.onPress}
+                >
+                </Icon>
+
+            </View>
+        </View>
 
     )
 }
@@ -132,6 +161,33 @@ const localStyles = StyleSheet.create({
         borderRadius: 8,
     },
 
+    registerButton: {
+        height: heightPercentageToDP('4'),
+        width: widthPercentageToDP('90'),
+        backgroundColor: ColorConstants.MainGold,
+        borderRadius: 8,
+        margin: 5,
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: 5,
+        marginTop: 10,
+        // marginTop: heightPercentageToDP('20')
+    },
+    addMetricButton: {
+        height: heightPercentageToDP('4'),
+        width: widthPercentageToDP('90'),
+        backgroundColor: ColorConstants.ElementBG,
+        borderRadius: 8,
+        margin: 5,
+        marginTop: 20,
+        marginBottom: 20,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        paddingRight: '10%',
+        paddingLeft: '10%'
+    },
+
     addPhotoButton: {
         height: heightPercentageToDP('8'),
         width: widthPercentageToDP('80'),
@@ -139,15 +195,16 @@ const localStyles = StyleSheet.create({
         borderRadius: 8,
         margin: 5,
         flexDirection: 'row',
-        justifyContent: 'flex-start',
+        justifyContent: 'space-between',
         alignItems: 'center',
-        padding: 5
+        paddingRight: '10%',
+        paddingLeft: '10%'
     },
 
     cameraIconContainer: {
         backgroundColor: ColorConstants.ElementBG,
         borderRadius: 8,
-        marginLeft: '15%'
+        // marginLeft: '15%'
 
     },
 
@@ -174,8 +231,8 @@ const localStyles = StyleSheet.create({
         borderRadius: 8,
         // backgroundColor: ColorConstants.MainGray,
         backgroundColor: ColorConstants.ElementBG,
-        marginTop: 2.5,
-        marginBottom: 2.5,
+        marginTop: 5,
+        marginBottom: 5,
         marginLeft: 0,
         marginRight: 0,
         fontSize: 12,
@@ -213,9 +270,9 @@ const localStyles = StyleSheet.create({
         fontSize: 12,
         color: ColorConstants.MainBlue,
         margin: 5,
-        marginLeft: '15%',
-       alignSelf: 'center'
-        
+        // marginLeft: '15%',
+        alignSelf: 'center'
+
     },
 
 
