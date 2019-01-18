@@ -50,7 +50,7 @@
     
   To set ANDROID_NDK_ROOT environment variable(if not set already), run: 
   `sudo gedit ~/.bashrc`   
-  And add the following to the text file: 
+  And add the following to the text file:   
   `export ANDROID_NDK_ROOT=$ANDROID_SDK_ROOT/ndk-bundle`  
     
   #### 2.6. Ninja 
