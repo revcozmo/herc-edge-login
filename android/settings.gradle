@@ -17,8 +17,6 @@ include ':react-native-document-picker'
 project(':react-native-document-picker').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-document-picker/android')
 include ':react-native-device-info'
 project(':react-native-device-info').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-device-info/android')
-include ':react-native-camera-kit'
-project(':react-native-camera-kit').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-camera-kit/android')
 include ':react-native-camera'
 project(':react-native-camera').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-camera/android')
 include ':herc-edge-login-ui-rn'
@@ -35,8 +33,6 @@ include ':react-native-document-picker'
 project(':react-native-document-picker').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-document-picker/android')
 include ':react-native-image-picker'
 project(':react-native-image-picker').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-image-picker/android')
-include ':react-native-camera'
-project(':react-native-camera').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-camera/android')
 include ':react-native-image-picker'
 project(':react-native-image-picker').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-image-picker/android')
 include ':react-native-vector-icons'
