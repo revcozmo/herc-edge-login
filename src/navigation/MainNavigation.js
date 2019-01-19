@@ -10,11 +10,14 @@ import {
 import React, { Component } from "react";
 import { StackNavigator } from "react-navigation";
 
-import Icon from 'react-native-vector-icons/FontAwesome';
-import colors from "../assets/ColorConstants";
+
 // import RegAssetnavigator from "./RegisterAssetNavigation";
 
-import TestSplash from "../screens/Testing/TestSplash";
+import ComponentTest from "../screens/FramedScreens/RegAsset_1_Draft_1";
+import RegAssetSplashTest from "../screens/FramedScreens/RegAssetSplashTest_Draft_1";
+import RegAsset_2_Draft_1 from "../screens/Testing/RegAsset_2_Draft_1";
+
+
 import BlockScanner from "../screens/BlockScanner";
 import Camera from "../screens/Camera";
 import Confirm from "../screens/Confirm";
@@ -42,66 +45,16 @@ import Wallet from "../screens/Wallet";
 import Settings from "../screens/Settings";
 import QRCapture from "../screens/QRCapture";
 import QRCapture2 from "../screens/QRCapture2";
-import roundImage from "../assets/round.png"
-import styles from "../assets/styles";
-import backArrow from "../assets/icon_backarrow.png"; // TODO: turn into vector icon!
-import DrawerIcon from "../assets/icons/drawerIcon.png"; // TODO: turn into vector icon!
 import WebViewComponent from "../components/WebViewComponent";
 import DocumentStorage from "../screens/DocumentStorage";
 import DocumentQRScanner from "../screens/DocumentQRScanner";
-import ComponentTest from "../screens/FramedScreens/ComponentTest";
-import RegAssetSplashTest from "../screens/FramedScreens/RegAssetSplashTest";
+
+
 import Header from "../components/Headers/Header";
 import ColorConstants from "../assets/ColorConstants";
 // import RegAssetNav from "./RegisterAssetNavigation";
 
-// let headerStyles = StyleSheet.create({
-//     header__container: {
-//         display: "flex",
-//         height: 80,
-//         alignSelf: "center",
-//         flex: 1,
-//         alignContent: "center",
-//         alignItems: "center",
-//         marginTop: 40,
-//         paddingBottom: 20
-//     },
-//     header__container__centeredBox: {
-//         height: "100%",
-//         alignItems: "center",
-//         flexDirection: 'row'
-//     },
-//     header__text__box: {
-//         height: "100%",
-//         marginBottom: 5,
-//         marginLeft: 12,
-//     },
-//     header__image__box: {
-//         height: "100%",
-//         borderRadius: 100
-//     },
-//     assetHeaderLogo: {
-//         height: 35,
-//         width: 35,
-//         borderRadius: 50,
-//     },
-//     headerText: {
-//         fontFamily: "dinPro",
-//         fontSize: 26,
-//         alignSelf: "center",
-//         fontWeight: "bold",
-//         color: "black",
-//         textAlign: "center",
-//         marginTop: 2,
-//     },
-//     sideHeaders: {
-//         height: 20,
-//         width: 20,
-//         alignItems: 'flex-end',
-//         marginTop: 10,
-//         backgroundColor: colors.MainGray
-//     }
-// })
+
 
 
 const MainNavigator = StackNavigator({
@@ -119,7 +72,13 @@ const MainNavigator = StackNavigator({
             header: <Header headerTitle={"Register Asset"} navigation={navigation} />
         })
          },
-    TestSplash: { screen: TestSplash },
+    RegAsset_2_Draft_1: {
+        screen: RegAsset_2_Draft_1,
+        navigationOptions: ({ navigation }) => ({
+            header: <Header headerTitle={"Confirm Registration"} navigation={navigation} />
+        })      
+        },
+    
     Login: { screen: Login },
     MenuOptions: { screen: MenuOptions },
     NewAssetLanding: { screen: NewAssetLanding },
@@ -159,7 +118,7 @@ const MainNavigator = StackNavigator({
     DocumentQRScanner: { screen: DocumentQRScanner },
 
 }, {
-        initialRouteName: 'RegAssetSplashTest',
+        initialRouteName: 'RegAsset_2_Draft_1',
         //Needs to be finalized 
 
         // initialRouteName: 'Login',
