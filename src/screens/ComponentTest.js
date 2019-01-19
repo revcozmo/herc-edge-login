@@ -1,11 +1,8 @@
 import {
-    Button,
-    Platform,
     StyleSheet,
     Text,
     View,
     StatusBar,
-
     Image,
 } from 'react-native';
 const loadingGif = require("../assets/icons/liquid_preloader_by_volorf.gif");
@@ -23,9 +20,9 @@ import { widthPercentageToDP, heightPercentageToDP } from '../assets/responisive
 
 const HercLogo = require('../assets/hLogo.png');
 export default class ComponentTest extends Component {
-    static navigationOptions = ({navigation}) => ({
+    static navigationOptions = () => ({
         
-        header: <Header headerTitle="Register Asset" navigation={navigation} />
+        header: <Header headerTitle="Register Asset" />
         
     })
     
@@ -122,7 +119,7 @@ export default class ComponentTest extends Component {
         // { backgroundColor: this.state.showModal1 ? 'rgba(0,0,0,0.5)' : ColorConstants.MainGray}
         return (
 
-            <View style={styles.baseContainter}>
+            <View style={styles.baseContainer}>
                 <StatusBar
                     barStyle={'light-content'}
                     translucent={true}
@@ -130,20 +127,7 @@ export default class ComponentTest extends Component {
 
                 />
                 <View style={styles.bodyContainer}>
-                {/* {AssetCard(TestAsset)} */}
-
-                {/* <Icon.Button name="eye" backgroundColor="#3b5998"
-                    onPress={() => this.changeModal1()}>
-                </Icon.Button>
-
-                <Icon.Button labelTitle="Modal2" name="camera" backgroundColor="#3b5998"
-                    onPress={() => this.changeModal2()}>
-                </Icon.Button>
-                {/* HercTextInputWithLabel(name, placeholder, label, localOnChange) */}
-                {/* {HercTextInputWithLabel('Name', 'Asset Name', 'Asset Name', this.localOnChange)}
-*/}
-                {/* <View style={localStyles.passwordInputContainer}>
-                    <Text style={localStyles.passwordInputlabel}>Asset Password</Text> */}
+             
                 <RegisterAssetPassword
                     placeholder='Asset Password'
                     pwChange={this.pwChange}
@@ -157,8 +141,6 @@ export default class ComponentTest extends Component {
                     placeholder='Asset Name'
                     localOnChange={this.localOnChange}
                 />
-
-                {/* Trying dynamically generated inputs that will rerender when you add one */}
 
 
                 {metricInputs}

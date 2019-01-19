@@ -11,18 +11,16 @@ module.exports = StyleSheet.create({
     backgroundColor: ColorConstants.MainBlue,
     alignItems: "center",
     justifyContent: "flex-start",
-    paddingTop: 20
   },
-
+  
   bodyContainer: {
-    // width: '100%',
-    // backgroundColor: ColorConstants.MainBlue,
+    height: '100%',
+    width: '100%',
     backgroundColor: ColorConstants.MainGray,
-    // alignItems: "center",
-    // justifyContent: "center",
-    // marginTop: 20,
     borderTopLeftRadius: 20,
-    borderTopRightRadius: 20
+    borderTopRightRadius: 20,
+    paddingTop: 20
+
   },
 
   splashTop: {

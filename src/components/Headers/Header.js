@@ -7,67 +7,48 @@ import {
 import React, { Component } from "react";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from "./HeaderStyles";
+import { stackNavigator } from "react-navigation";
 import ColorConstants from "../../assets/ColorConstants";
 import ComponentTest from "../../screens/ComponentTest";
 const bgImage = require("../../assets/main-bg.png")
 
-class BackButton extends Component {
-    constructor(props) {
-        super(props);
-
-    }
-    render() {
-        const {navigate}  = this.props.navigation
-        console.log(navigate, "in back button")
-        return (
-            <Icon
-                onPress={() => navigate.goBack()}
-                style={[styles.iconButton, { marginLeft: 20 }]}
-                name='arrow-left'
-                color={ColorConstants.MainGold}
-            />)
-    }
-
-};
-
-class SettingsButton extends Component {
-    constructor(props) {
-        super(props);
-    }
-    render() {
-        const {navigate}  = this.props.navigation
-        console.log(navigate, "in settings button")
-        return (
-            <Icon onPress={() => navigate("settings")}
-                style={[styles.iconButton, { marginRight: 20 }]}
-                name='heart'
-                color={ColorConstants.MainGold}
-            />
-        );
-    }
 
 
-}
+/// Still stuck with header going back, it's there, just can't seem to put my finger on it
+
 
 {/* <Icon.Button /> for use once it's wired up */ }
 export default class Header extends Component {
     constructor(props) {
         super(props);
     }
-    // .navigation
+    _goBack = () => {
+        console.log(this.props.navigation, "trying to go back")
+        this.props.navigation.goBack();
+    }
+
+
     render() {
-        var outsideNav = this.props.navigation
-        // console.log(navigation, "mulitPurposeHeader")
+        console.log(this.props, "header")
         return (
             <View style={styles.headerCont}>
                 <ImageBackground source={bgImage} style={styles.bgImage}>
                     <View style={styles.header__container}>
                         <View style={styles.sideHeaders}>
-                            <BackButton navigation={outsideNav} />
+                            <Icon
+                                onPress={this._goBack}
+                                style={[styles.iconButton, { marginLeft: 20 }]}
+                                name='arrow-left'
+                                color={ColorConstants.MainGold}
+                            />
                         </View>
                         <Text style={styles.headerText}>{this.props.headerTitle}</Text>
                         <View style={styles.sideHeaders}>
-                            <SettingsButton navigation={outsideNav}/>
+                            <Icon onPress={() => this.props.navigation.navigate("settings")}
+                                style={[styles.iconButton, { marginRight: 20 }]}
+                                name='heart'
+                                color={ColorConstants.MainGold}
+                            />
                         </View>
                     </View>
                 </ImageBackground>
