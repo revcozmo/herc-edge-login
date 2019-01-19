@@ -12,31 +12,31 @@ import styles from "../../assets/styles";
 import ColorConstants from "../../assets/ColorConstants";
 import React, { Component } from 'react';
 import { widthPercentageToDP, heightPercentageToDP } from '../../assets/responisiveUI';
-import { StackNavigator, withNavigation } from "react-navigation";
+import { createStackNavigator } from "react-navigation";
 import Header from "../../components/Headers/Header";
 export default class RegAssetSplashTest extends Component {
 
-    static navigationOptions = () => ({
-        header: <Header headerTitle={"Register Asset"} navigation={this.props} />
-    })
 
     constructor(props) {
         super(props);
-        console.log(this.navigation)
-       
+        console.log(this.props, 'this props in regAssetSplash')
+
     }
+    static navigationOptions = () => ({
+        header: <Header headerTitle={"Register Asset"}  />
+    })
 
     onPress = () => {
         console.log("pressing to go");
         // const { navigate } = this.props.navigation;
-        
+
         this.props.navigation.navigate('ComponentTest');
     }
     render() {
         const { navigate } = this.props.navigation;
         return (
             <View style={styles.baseContainer}>
-                <View style={[styles.baseContainer,styles.splashTop]}>
+                <View style={[styles.baseContainer, styles.splashTop]}>
                     <Image source={require('../../assets/register-asset.png')}
                         style={styles.splashImage}
                         resizeMode="contain"

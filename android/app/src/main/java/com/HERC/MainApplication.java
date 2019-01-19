@@ -3,6 +3,17 @@ package com.HERC;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.oblador.vectoricons.VectorIconsPackage;
+import com.peel.react.TcpSocketsModule;
+import com.swmansion.rnscreens.RNScreensPackage;
+import com.bitgo.randombytes.RandomBytesPackage;
+import com.BV.LinearGradient.LinearGradientPackage;
+import com.imagepicker.ImagePickerPackage;
+import com.rnfs.RNFSPackage;
+import co.airbitz.fastcrypto.RNFastCryptoPackage;
+import com.reactnativedocumentpicker.ReactNativeDocumentPicker;
+import com.learnium.RNDeviceInfo.RNDeviceInfo;
+import org.reactnative.camera.RNCameraPackage;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.BV.LinearGradient.LinearGradientPackage;
 import com.reactnativedocumentpicker.ReactNativeDocumentPicker;
@@ -36,17 +47,19 @@ public class MainApplication extends Application implements ReactApplication {
       return Arrays.<ReactPackage>asList(
             new RNViewShotPackage(),
             new MainReactPackage(),
+            new VectorIconsPackage(),
+            new TcpSocketsModule(),
+            new RNScreensPackage(),
+            new RandomBytesPackage(),
+            new LinearGradientPackage(),
+            new ImagePickerPackage(),
+            new RNFSPackage(),
+            new RNFastCryptoPackage(),
+            new RNCameraPackage(),
             new RNDeviceInfo(),
             new LinearGradientPackage(),
             new ReactNativeDocumentPicker(),
-            new ImagePickerPackage(),
-            new RNCameraPackage(),
-            new VectorIconsPackage(),
-            new AbcCoreJsUiPackage(),
-            new TcpSocketsModule(),
-            new RandomBytesPackage(),
-            new RNFSPackage(),
-            new RNFastCryptoPackage()
+            new AbcCoreJsUiPackage()
       );
     }
 

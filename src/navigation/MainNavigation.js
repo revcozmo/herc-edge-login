@@ -8,7 +8,8 @@ import {
     View
 } from "react-native";
 import React, { Component } from "react";
-import { createStackNavigator } from "react-navigation";
+import { StackNavigator } from "react-navigation";
+
 import Icon from 'react-native-vector-icons/FontAwesome';
 import colors from "../assets/ColorConstants";
 // import RegAssetnavigator from "./RegisterAssetNavigation";
@@ -50,64 +51,75 @@ import DocumentStorage from "../screens/DocumentStorage";
 import DocumentQRScanner from "../screens/DocumentQRScanner";
 import ComponentTest from "../screens/FramedScreens/ComponentTest";
 import RegAssetSplashTest from "../screens/FramedScreens/RegAssetSplashTest";
-import WelcomeHeader from "../components/Headers/WelcomeHeader";
+import Header from "../components/Headers/Header";
 import ColorConstants from "../assets/ColorConstants";
 // import RegAssetNav from "./RegisterAssetNavigation";
 
-let headerStyles = StyleSheet.create({
-    header__container: {
-        display: "flex",
-        height: 80,
-        alignSelf: "center",
-        flex: 1,
-        alignContent: "center",
-        alignItems: "center",
-        marginTop: 40,
-        paddingBottom: 20
-    },
-    header__container__centeredBox: {
-        height: "100%",
-        alignItems: "center",
-        flexDirection: 'row'
-    },
-    header__text__box: {
-        height: "100%",
-        marginBottom: 5,
-        marginLeft: 12,
-    },
-    header__image__box: {
-        height: "100%",
-        borderRadius: 100
-    },
-    assetHeaderLogo: {
-        height: 35,
-        width: 35,
-        borderRadius: 50,
-    },
-    headerText: {
-        fontFamily: "dinPro",
-        fontSize: 26,
-        alignSelf: "center",
-        fontWeight: "bold",
-        color: "black",
-        textAlign: "center",
-        marginTop: 2,
-    },
-    sideHeaders: {
-        height: 20,
-        width: 20,
-        alignItems: 'flex-end',
-        marginTop: 10,
-        backgroundColor: colors.MainGray
-    }
-})
+// let headerStyles = StyleSheet.create({
+//     header__container: {
+//         display: "flex",
+//         height: 80,
+//         alignSelf: "center",
+//         flex: 1,
+//         alignContent: "center",
+//         alignItems: "center",
+//         marginTop: 40,
+//         paddingBottom: 20
+//     },
+//     header__container__centeredBox: {
+//         height: "100%",
+//         alignItems: "center",
+//         flexDirection: 'row'
+//     },
+//     header__text__box: {
+//         height: "100%",
+//         marginBottom: 5,
+//         marginLeft: 12,
+//     },
+//     header__image__box: {
+//         height: "100%",
+//         borderRadius: 100
+//     },
+//     assetHeaderLogo: {
+//         height: 35,
+//         width: 35,
+//         borderRadius: 50,
+//     },
+//     headerText: {
+//         fontFamily: "dinPro",
+//         fontSize: 26,
+//         alignSelf: "center",
+//         fontWeight: "bold",
+//         color: "black",
+//         textAlign: "center",
+//         marginTop: 2,
+//     },
+//     sideHeaders: {
+//         height: 20,
+//         width: 20,
+//         alignItems: 'flex-end',
+//         marginTop: 10,
+//         backgroundColor: colors.MainGray
+//     }
+// })
 
 
-const MainNavigator = createStackNavigator({ //this will be "createStackNavigator" after upgrading react-navigation
+const MainNavigator = StackNavigator({
     // RegAssetNav: { screen: RegAssetNav },
+    RegAssetSplashTest: {
+        screen: RegAssetSplashTest,
+        navigationOptions: ({ navigation }) => ({
+            header: <Header headerTitle={"Register Start"} navigation={navigation} />
+        })
+
+    },
+    ComponentTest: {
+         screen: ComponentTest,
+         navigationOptions: ({ navigation }) => ({
+            header: <Header headerTitle={"Register Asset"} navigation={navigation} />
+        })
+         },
     TestSplash: { screen: TestSplash },
-    RegAssetSplashTest: { screen: RegAssetSplashTest },
-    ComponentTest: { screen: ComponentTest },
     Login: { screen: Login },
     MenuOptions: { screen: MenuOptions },
     NewAssetLanding: { screen: NewAssetLanding },
@@ -148,7 +160,7 @@ const MainNavigator = createStackNavigator({ //this will be "createStackNavigato
 
 }, {
         initialRouteName: 'RegAssetSplashTest',
-//Needs to be finalized 
+        //Needs to be finalized 
 
         // initialRouteName: 'Login',
         // navigationOptions: ({ navigation }) => ({

@@ -36,7 +36,7 @@ const bgImage = require("../../assets/main-bg.png")
                     <View style={styles.header__container}>
                         <View style={styles.sideHeaders}>
                             <Icon
-                                onPress={this._goBack}
+                                onPress={() => this._goBack()}
                                 style={[styles.iconButton, { marginLeft: 20 }]}
                                 name='arrow-left'
                                 color={ColorConstants.MainGold}
@@ -56,4 +56,4 @@ const bgImage = require("../../assets/main-bg.png")
         );
     }
 }
-export default withNavigation(Header)
+export default Header;
