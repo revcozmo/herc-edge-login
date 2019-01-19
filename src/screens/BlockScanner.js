@@ -21,14 +21,14 @@ class BlockScanner extends Component {
     this.state = {
       hercValue: null,
       marketCap: null,
-      txQuantity: null
+      txQuantity: null,
+      totalSupply: null
     };
   }
 
   componentDidMount = async () => {
-    this._getMarketCap().then(res => this.setState({ marketCap: res }));
-    this._getTxQuantity().then(res => this.setState({ txQuantity: res }));
-    this._getTxList();
+    this._getMarketCapTotalSupply();
+    this._getTxList_txQuantity();
     
     this._getDynamicHercValue().then(response => {
       let shortenedResponse = parseFloat(response).toFixed(3);
@@ -36,20 +36,24 @@ class BlockScanner extends Component {
     });
 
 
+    console.log(this.state)
+
   };
 
-  _getTxQuantity = async () => {
-    return fetch (
-      "http://api.ethplorer.io/getAddressInfo/0x6251583e7d997df3604bc73b9779196e94a090ce?apiKey=freekey",
-      {
-        method: "GET"
-      }
-    ).then(response => response.json())
-    .then(responseJson => {
-      let responseObject = responseJson;
-      return (responseObject.countTxs)
-    })
-  }
+  // _getTxQuantity = async () => {
+  //   return fetch (
+  //     "http://api.ethplorer.io/getAddressInfo/0x6251583e7d997df3604bc73b9779196e94a090ce?apiKey=freekey",
+  //     {
+  //       method: "GET"
+  //     }
+  //   ).then(response => response.json())
+  //   .then(responseJson => {
+  //     let responseObject = responseJson;
+  //     let txQuantity = 
+  //     this.setState({ txQuantity: res })
+  //     return (responseObject.countTxs)
+  //   })
+  // }
 
   _getDynamicHercValue = async () => {
     return fetch(
@@ -69,20 +73,24 @@ class BlockScanner extends Component {
       });
   };
 
-  _getTxList = async () => {
+  _getTxList_txQuantity = async () => {
     return fetch (
-      "https://api.etherscan.io/api?module=account&action=txlist&address=0x6251583e7d997df3604bc73b9779196e94a090ce&startblock=0&endblock=99999999&page=1&offset=10&sort=asc&apikey=Z4A2NZUA58J7CJCEEE87872SCC82BI88W1",
+      "https://api.etherscan.io/api?module=account&action=txlist&address=0x6251583e7d997df3604bc73b9779196e94a090ce&startblock=0&endblock=99999999&sort=asc&apikey=Z4A2NZUA58J7CJCEEE87872SCC82BI88W1",
       {
         method: "GET"
       }
     ).then(response => response.json())
     .then(responseJson => {
       let responseObject = responseJson;
-      console.log(responseObject)
+      let txQuantity = responseObject.result.length;
+      let lastTransaction = responseObject.result[txQuantity - 1];
+      let lastBlock = lastTransaction.blockNumber;
+      console.log(lastBlock, txQuantity, "this is last block and tx quantity")
+      this.setState({ lastBlock, txQuantity })
     })
   }
 
-  _getMarketCap = async () => {
+  _getMarketCapTotalSupply = async () => {
     return fetch (
       "https://chart.anthemgold.com/bi-1.0-SNAPSHOT/Report",
       {
@@ -91,7 +99,10 @@ class BlockScanner extends Component {
     ).then(response => response.json())
     .then(responseJson => {
       let responseObject = responseJson;
-      return (responseObject.marketCapitalization)
+      let marketCap = responseObject.marketCapitalization;
+      let supply = responseObject.circulatingSupply;
+      let totalSupply = parseFloat(supply).toFixed(3);
+      this.setState({ marketCap, totalSupply })
     })
   }
 
@@ -251,7 +262,7 @@ class BlockScanner extends Component {
                     Last Block
                   </Text>
                   <Text style={localStyles.contentContainerA_MarketCapBox_Text}>
-                    6939883 (14.5s)
+                    {this.state.lastBlock}
                   </Text>
                 </View>
                 <View style={{ width: "50%" }}>
@@ -273,10 +284,10 @@ class BlockScanner extends Component {
               >
                 <View style={{ width: "50%" }}>
                   <Text style={localStyles.contentContainerA_MarketCapBox_Text}>
-                    Hash Rate
+                    Total Supply
                   </Text>
                   <Text style={localStyles.contentContainerA_MarketCapBox_Text}>
-                    172.204.85 GH/s
+                    { this.state.totalSupply ? this.state.totalSupply : null }
                   </Text>
                 </View>
                 <View style={{ width: "50%" }}>
