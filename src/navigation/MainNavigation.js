@@ -8,7 +8,7 @@ import {
     View
 } from "react-native";
 import React, { Component } from "react";
-import { StackNavigator } from "react-navigation";
+import { createStackNavigator } from "react-navigation";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import colors from "../assets/ColorConstants";
 // import RegAssetnavigator from "./RegisterAssetNavigation";
@@ -103,7 +103,7 @@ let headerStyles = StyleSheet.create({
 })
 
 
-const MainNavigator = StackNavigator({ //this will be "createStackNavigator" after upgrading react-navigation
+const MainNavigator = createStackNavigator({ //this will be "createStackNavigator" after upgrading react-navigation
     // RegAssetNav: { screen: RegAssetNav },
     TestSplash: { screen: TestSplash },
     RegAssetSplashTest: { screen: RegAssetSplashTest },

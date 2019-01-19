@@ -5,7 +5,7 @@ import {
     StatusBar,
     Image,
 } from 'react-native';
-const loadingGif = require("../assets/icons/liquid_preloader_by_volorf.gif");
+const loadingGif = require("../../assets/icons/liquid_preloader_by_volorf.gif");
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import Modal from 'react-native-modal';
 import modalStyles from "../../assets/modals/ModalStyles";
@@ -18,7 +18,7 @@ import Header from "../../components/Headers/Header"
 import { AssetCard } from "../../components/AssetCard";
 import { widthPercentageToDP, heightPercentageToDP } from '../../assets/responisiveUI';
 
-const HercLogo = require('../assets/hLogo.png');
+const HercLogo = require('../../assets/hLogo.png');
 export default class ComponentTest extends Component {
     static navigationOptions = () => ({
         

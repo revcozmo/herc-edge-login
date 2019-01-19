@@ -34,7 +34,7 @@ export default class TestSplash extends Component {
                 backgroundColor={ColorConstants.MainBlue}
                 />
                 <View style={[localStyles.baseContainer,localStyles.splashTop]}>
-                    <Image source={require('../assets/hLogo.png')}
+                    <Image source={require('../../assets/hLogo.png')}
                         style={localStyles.splashImage}
                         resizeMode="contain"
                     />
