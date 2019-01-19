@@ -23,7 +23,7 @@ export default class RegAssetSplashTest extends Component {
 
     }
     static navigationOptions = () => ({
-        header: <Header headerTitle={"Register Asset"}  />
+        header: <Header headerTitle={"Register Asset"} />
     })
 
     onPress = () => {
@@ -43,11 +43,13 @@ export default class RegAssetSplashTest extends Component {
                     />
                 </View>
                 <View style={[styles.baseContainer, styles.bodyContainer]}>
-                    <Text style={styles.CopyHeader}>Header for the copy</Text>
-                    <Text style={[styles.CopyHeader, styles.CopyBody]}>
-                        Body of the CopyBody of the CopyBody of the CopyBody of the CopyBody of the Copy
-                        Body of the CopyBody of the CopyBody of the CopyBody of the CopyBody of the Copy
-                        Body of the CopyBody of the CopyBody of the CopyBody of the CopyBody of the Copy
+
+                    <Text style={localStyles.copyHeader}>
+                        Register your value chain asset for full lifecycle management with a complete view.
+                     </Text>
+                    
+                    <Text style={localStyles.copyBody}>
+                        Upon registry you can create full asset history, define, organize and track metrics, conduct asset deployment, and measure asset performance.
                     </Text>
 
                     <Button title='Continue' onPress={this.onPress}>ContinueButton</Button>
@@ -117,14 +119,20 @@ const localStyles = StyleSheet.create({
     },
 
 
-    CopyHeader: {
-        fontSize: 14,
+    copyHeader: {
+        fontSize: 16,
         textAlign: 'center',
-        margin: 5
+        margin: 5,
+        fontWeight: 'bold',
+        color: ColorConstants.MainBlue
+
     },
     copyBody: {
-        fontSize: 12
-
+        fontSize: 14,
+        fontStyle: 'italic',
+        textAlign: 'center',
+        color: ColorConstants.MainBlue,
+        margin: 5,
     },
     modalBackground: {
         flex: 1,
