@@ -14,7 +14,7 @@ import { StackNavigator } from "react-navigation";
 // import RegAssetnavigator from "./RegisterAssetNavigation";
 
 import ComponentTest from "../screens/FramedScreens/RegAsset_1_Draft_1";
-import RegAssetSplashTest from "../screens/FramedScreens/RegAssetSplashTest_Draft_1";
+import RegAssetSplashTest from "../screens/FramedScreens/RegAssetSplash_Draft_1";
 import RegAsset_2_Draft_1 from "../screens/Testing/RegAsset_2_Draft_1";
 
 

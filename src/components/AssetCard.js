@@ -13,18 +13,18 @@ export function AssetCard(asset) {
     return (
         <View style={localStyles.assetCard}>
             <View style={localStyles.assetImageContainer}>
-                <Image source={asset.Image} style={localStyles.assetImage} />
+                <Image source={asset.asset.Logo} style={localStyles.assetImage} />
             </View>
 
             <View style={localStyles.cardMain}>
-                <View style={localStyles.cardContent}>
+                <View style={localStyles.cardContentLeft}>
 
                     <Text style={localStyles.assetLabel}>Asset Name</Text>
-                    <Text style={localStyles.assetName}>{asset.Name}</Text>
+                    <Text style={localStyles.assetName}>{asset.asset.Name}</Text>
                 </View>
-                <View style={localStyles.cardContent}>
-                    <Text style={localStyles.assetLabel}>Additional Info</Text>
-                    <Text style={localStyles.assetName}>{asset.Name}</Text>
+                <View style={localStyles.cardContentRight}>
+                    <Text style={localStyles.assetLabel}>Herc ID</Text>
+                    <Text style={localStyles.assetName}>{asset.asset.HercId}</Text>
                 </View>
             </View>
         </View>
@@ -39,7 +39,7 @@ const localStyles = StyleSheet.create({
         width: widthPercentageToDP('90'),
         height: heightPercentageToDP('10'),
         borderRadius: 6,
-        backgroundColor: ColorConstants.MainSubCrownBlue,
+        backgroundColor: ColorConstants.MainGray,
         margin: 5,
         flexDirection: 'row',
         justifyContent: 'space-around',
@@ -48,7 +48,7 @@ const localStyles = StyleSheet.create({
     assetImageContainer: {
         height: '90%',
         width: '25%',
-        backgroundColor: ColorConstants.MainGray,
+        backgroundColor: ColorConstants.MainBlue,
         justifyContent: 'center',
         alignItems: 'center'
     },
@@ -56,6 +56,7 @@ const localStyles = StyleSheet.create({
         width: '100%',
         height: '100%',
         resizeMode: 'contain'
+
     },
     cardMain: {
         flexDirection: 'row',
@@ -65,19 +66,28 @@ const localStyles = StyleSheet.create({
         padding: 5
 
     },
-    cardContent: {
+    cardContentLeft: {
         flexDirection: 'column',
         width: '50%',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    cardContentRight: {
+        flexDirection: 'column',
+        width: '50%',
+        justifyContent: 'center',
+        alignItems: 'center'
     },
    
     assetName: {
-        fontSize: 13,
+        fontSize: 14,
         color: ColorConstants.MainBlue,
-        margin: 2
+        margin: 2,
+        textAlign: 'left'
     },
     assetLabel: {
-        color: ColorConstants.MainBlue,
-        fontSize: 14,
+        color: ColorConstants.MainSubGray,
+        fontSize: 12,
         margin: 2,
         marginRight: 3,
         textAlign: 'left'

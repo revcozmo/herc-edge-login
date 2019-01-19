@@ -45,7 +45,7 @@ export function AddMetricButton(props) {
 
         <View style={localStyles.addMetricButton}>
 
-            <Text style={[localStyles.buttonLabel,{marginLeft: 0}]}>Add a Metric</Text>
+            <Text style={[localStyles.buttonLabel, { marginLeft: 0 }]}>Add a Metric</Text>
             <View style={localStyles.cameraIconContainer}>
                 <Icon
                     color={ColorConstants.MainBlue}
@@ -86,7 +86,7 @@ export class HercTextInputWithLabel extends Component {
     render() {
         return (
 
-            <View style={localStyles.passwordInputContainer}>
+            <View style={localStyles.textFieldContainer}>
                 <Text style={localStyles.inputLabel}>{this.props.label}</Text>
                 <View style={localStyles.RegisterAssetInputPasswordContainer}>
                     <HercTextInput
@@ -102,6 +102,42 @@ export class HercTextInputWithLabel extends Component {
 
 }
 
+export class HercTextField extends Component {
+    constructor(props) {
+        super(props);
+    }
+    render() {
+        return (
+            <Text
+                style={localStyles.textInput}
+                placeholder={this.props.placeholder}
+                placeholder-text-color={ColorConstants.MainBlue}
+            />
+        )
+    }
+}
+
+export class HercTextDisplayWithLabel extends Component {
+    constructor(props) {
+        super(props);
+    }
+    render() {
+        return (
+
+            <View style={localStyles.textFieldContainer}>
+                <Text style={localStyles.inputLabel}>{this.props.label}</Text>
+                <View style={localStyles.RegisterAssetInputPasswordContainer}>
+                    <HercTextField
+                        name={this.props.name}
+                        placeholder={this.props.placeholder}
+                        style={{ margin: 0 }}
+                    />
+                </View>
+            </View>
+        )
+    }
+
+}
 export class RegisterAssetPassword extends Component {
     constructor(props) {
         super(props);
@@ -119,7 +155,7 @@ export class RegisterAssetPassword extends Component {
 
     render() {
         return (
-            <View style={localStyles.passwordInputContainer}>
+            <View style={localStyles.textFieldContainer}>
                 <Text style={localStyles.inputLabel}>Asset Password</Text>
                 <View style={localStyles.RegisterAssetInputPasswordContainer}>
 
@@ -162,7 +198,7 @@ const localStyles = StyleSheet.create({
     },
 
     registerButton: {
-        height: heightPercentageToDP('4'),
+        height: 40,
         width: widthPercentageToDP('90'),
         backgroundColor: ColorConstants.MainGold,
         borderRadius: 8,
@@ -280,7 +316,7 @@ const localStyles = StyleSheet.create({
         flex: 0,
         flexDirection: 'row'
     },
-    passwordInputContainer: {
+    textFieldContainer: {
         width: widthPercentageToDP('90'),
         height: heightPercentageToDP('6'),
         justifyContent: 'flex-start',

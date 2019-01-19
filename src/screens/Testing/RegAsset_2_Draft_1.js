@@ -6,83 +6,60 @@ import {
     View,
     StatusBar,
     Modal,
-    TouchableHighlight
+    TouchableHighlight,
+    Image
 } from 'react-native';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from "../../assets/styles";
 import ColorConstants from "../../assets/ColorConstants";
 import React, { Component } from 'react';
-import RegisterAssetPassword, { RegisterAssetInput } from "../../components/RegisterAssetComponents/RegisterAssetInputs";
+const hercRound = require("../../assets/hercLogoBreak.png")
+import { AssetCard } from "../../components/AssetCard";
+import {RegisterButton} from "../../components/RegisterAssetComponents/RegisterAssetInputs";
 // import RegisterAssetHeader from "../components/RegisterAssetComponents/RegisterAssetHeader"
 
 
-export default class RegAssetTest extends Component {
-
-    // static navigationOptions = {
-
-    //     header: <RegisterAssetHeader />
-    // }
+export default class RegAsset_2_Draft_1 extends Component {
 
     constructor(props) {
         super(props);
         console.log("componentTest")
-        this.state = {
-            showModal1: false,
-            showModal2: false,
-            showModal3: false,
-        }
+
     }
-
-    onChange = (pwChar) => {
-        console.log(pwChar, 'incompoTest Passing functions')
-        this.setState({
-            testText: pwChar
-        });
+    onPress = () => {
+        console.log("Whattup Parsec!");
     }
-
-
 
     render() {
-        console.log(this.Dims)
+        let asset = {
+            Logo: hercRound,
+            Name: "Tester Asset",
+            HercId: '42'
+        }
         return (
-            <View style={localStyles.container}>
+            <View style={styles.baseContainer}>
 
                 <StatusBar
-
                     barStyle={'light-content'}
                     translucent={true}
+                    backgroundColor='transparent'
                 />
                 {/* <Icon.Button name="eye" backgroundColor="#3b5998" onPress={() => console.log("eyeball press")}>
 
                 </Icon.Button> */}
-                <View style={styles.modalBackground}>
-                    <View style={styles.activityIndicatorWrapper}>
-                        <Text>Modal1</Text>
-                    </View>
-                </View>
-                <TouchableHighlight onPress={() => console.log("showing the modale") && this.setState({ showModal1: !this.state.showModal1 })}>
-                    <Icon name='eye' size={18} color={ColorConstants.MainGold} />
-                </TouchableHighlight>
-                <RegisterAssetInput placeholder={'Asset Name'} />
-                <View style={localStyles.inputContainer}>
-                    <Text style={styles.inputlabel}>Asset Name</Text>
-                    <RegisterAssetInput placeholder={'Name'} /> onChange={this.onChange} />
+                <View style={styles.bodyContainer}>
+                    <AssetCard asset={asset} />
 
+
+                    <RegisterButton onPress={this.onPress} />
                 </View>
 
-
-
-                <View style={localStyles.inputContainer}>
-                    <Text style={styles.inputlabel}>Asset Password</Text>
-                    <RegisterAssetPassword placeholder='SecondplaceholderTest' onChange={this.onChange} />
-
-                </View>
-
-                <Icon.Button name="eye" backgroundColor="#3b5998" onPress={() => console.log("eyeball press")}>
-                </Icon.Button>
 
             </View>
+
+
+
         )
     }
 

@@ -12,11 +12,10 @@ import modalStyles from "../../assets/modals/ModalStyles";
 import styles from "../../assets/styles";
 import ColorConstants from "../../assets/ColorConstants";
 import React, { Component } from 'react';
-import { createStackNavigator } from 'react-navigation';
+import { StackNavigator } from 'react-navigation';
 import { RegisterAssetPassword, HercTextInput, HercTextInputWithLabel, AddPhotoButton, AddMetricButton, RegisterButton } from "../../components/RegisterAssetComponents/RegisterAssetInputs";
-import Header from "../../components/Headers/Header"
-import { AssetCard } from "../../components/AssetCard";
 import { widthPercentageToDP, heightPercentageToDP } from '../../assets/responisiveUI';
+import { register } from 'ethers/wordlists/wordlist';
 
 const HercLogo = require('../../assets/hLogo.png');
 export default class ComponentTest extends Component {

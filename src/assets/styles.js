@@ -19,7 +19,9 @@ module.exports = StyleSheet.create({
     backgroundColor: ColorConstants.MainGray,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
-    paddingTop: 20
+    paddingTop: 20,
+    alignItems: "center",
+    justifyContent: "flex-start",
 
   },
 
