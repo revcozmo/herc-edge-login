@@ -10,10 +10,10 @@ import {
 } from 'react-native';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
-import styles from "../assets/styles";
-import ColorConstants from "../assets/ColorConstants";
+import styles from "../../assets/styles";
+import ColorConstants from "../../assets/ColorConstants";
 import React, { Component } from 'react';
-import RegisterAssetPassword, { RegisterAssetInput } from "../components/RegisterAssetComponents/RegisterAssetInputs";
+import RegisterAssetPassword, { RegisterAssetInput } from "../../components/RegisterAssetComponents/RegisterAssetInputs";
 // import RegisterAssetHeader from "../components/RegisterAssetComponents/RegisterAssetHeader"
 
 

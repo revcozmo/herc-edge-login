@@ -8,10 +8,10 @@ import {
 } from 'react-native';
 
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import styles from "../assets/styles";
-import ColorConstants from "../assets/ColorConstants";
+import styles from "../../assets/styles";
+import ColorConstants from "../../assets/ColorConstants";
 import React, { Component } from 'react';
-import { widthPercentageToDP, heightPercentageToDP } from '../assets/responisiveUI';
+import { widthPercentageToDP, heightPercentageToDP } from '../../assets/responisiveUI';
 import { StackNavigator } from "react-navigation";
 // import RegStackNav from "../navigation/RegisterAssetNavigation";
 

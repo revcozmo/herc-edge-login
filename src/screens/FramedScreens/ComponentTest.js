@@ -8,21 +8,21 @@ import {
 const loadingGif = require("../assets/icons/liquid_preloader_by_volorf.gif");
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import Modal from 'react-native-modal';
-import modalStyles from "../assets/modals/ModalStyles";
-import styles from "../assets/styles";
-import ColorConstants from "../assets/ColorConstants";
+import modalStyles from "../../assets/modals/ModalStyles";
+import styles from "../../assets/styles";
+import ColorConstants from "../../assets/ColorConstants";
 import React, { Component } from 'react';
 
-import { RegisterAssetPassword, HercTextInput, HercTextInputWithLabel, AddPhotoButton, AddMetricButton, RegisterButton } from "../components/RegisterAssetComponents/RegisterAssetInputs";
-import Header from "../components/Headers/Header"
-import { AssetCard } from "../components/AssetCard";
-import { widthPercentageToDP, heightPercentageToDP } from '../assets/responisiveUI';
+import { RegisterAssetPassword, HercTextInput, HercTextInputWithLabel, AddPhotoButton, AddMetricButton, RegisterButton } from "../../components/RegisterAssetComponents/RegisterAssetInputs";
+import Header from "../../components/Headers/Header"
+import { AssetCard } from "../../components/AssetCard";
+import { widthPercentageToDP, heightPercentageToDP } from '../../assets/responisiveUI';
 
 const HercLogo = require('../assets/hLogo.png');
 export default class ComponentTest extends Component {
     static navigationOptions = () => ({
         
-        header: <Header headerTitle="Register Asset" />
+        header: <Header headerTitle="Register Asset" navigation={this.props.navigation} />
         
     })
     
@@ -105,18 +105,9 @@ export default class ComponentTest extends Component {
 
     render() {
 
-        console.log(this, "this this")
-        // tried to use this to darken the background when the camera source is open, works but leaves out the 
-        // text inputs. Need to either, change the bg's of the TI's or restyle the body of the modal, 
-        // restyle is probably better practice
-        let TestAsset = {
-            Image: HercLogo,
-            Name: "Test Asset Name"
-        }
 
         let metricInputs = this.renderInputs();
 
-        // { backgroundColor: this.state.showModal1 ? 'rgba(0,0,0,0.5)' : ColorConstants.MainGray}
         return (
 
             <View style={styles.baseContainer}>
@@ -128,28 +119,28 @@ export default class ComponentTest extends Component {
                 />
                 <View style={styles.bodyContainer}>
              
-                <RegisterAssetPassword
-                    placeholder='Asset Password'
-                    pwChange={this.pwChange}
-                />
-                {/* </View> */}
+                    <RegisterAssetPassword
+                        placeholder='Asset Password'
+                        pwChange={this.pwChange}
+                    />
+            
 
 
-                <HercTextInputWithLabel
-                    name='Asset Name'
-                    label='Asset Name'
-                    placeholder='Asset Name'
-                    localOnChange={this.localOnChange}
-                />
+                    <HercTextInputWithLabel
+                        name='Asset Name'
+                        label='Asset Name'
+                        placeholder='Asset Name'
+                        localOnChange={this.localOnChange}
+                    />
 
 
-                {metricInputs}
+                    {metricInputs}
 
-                <AddMetricButton onPress={this.changeModal1} />
+                    <AddMetricButton onPress={this.changeModal1} />
 
-                <AddPhotoButton onPress={this.changeModal2} />
+                    <AddPhotoButton onPress={this.changeModal2} />
 
-                <RegisterButton onPress={this.onPressTest} />
+                    <RegisterButton onPress={this.onPressTest} />
                 {/* Modal 1 */}
                 <Modal
 

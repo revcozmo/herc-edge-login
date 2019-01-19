@@ -13,7 +13,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import colors from "../assets/ColorConstants";
 // import RegAssetnavigator from "./RegisterAssetNavigation";
 
-import TestSplash from "../screens/TestSplash";
+import TestSplash from "../screens/Testing/TestSplash";
 import BlockScanner from "../screens/BlockScanner";
 import Camera from "../screens/Camera";
 import Confirm from "../screens/Confirm";
@@ -48,8 +48,8 @@ import DrawerIcon from "../assets/icons/drawerIcon.png"; // TODO: turn into vect
 import WebViewComponent from "../components/WebViewComponent";
 import DocumentStorage from "../screens/DocumentStorage";
 import DocumentQRScanner from "../screens/DocumentQRScanner";
-import ComponentTest from "../screens/ComponentTest";
-import RegAssetSplashTest from "../screens/RegAssetSplashTest";
+import ComponentTest from "../screens/FramedScreens/ComponentTest";
+import RegAssetSplashTest from "../screens/FramedScreens/RegAssetSplashTest";
 import WelcomeHeader from "../components/Headers/WelcomeHeader";
 import ColorConstants from "../assets/ColorConstants";
 // import RegAssetNav from "./RegisterAssetNavigation";
@@ -107,11 +107,7 @@ const MainNavigator = StackNavigator({ //this will be "createStackNavigator" aft
     // RegAssetNav: { screen: RegAssetNav },
     TestSplash: { screen: TestSplash },
     RegAssetSplashTest: { screen: RegAssetSplashTest },
-    ComponentTest: {
-        screen: ComponentTest,
-        // headerMode: 'screen',
-        // cardStyle: { backgroundColor: ColorConstants.MainBlue }
-    },
+    ComponentTest: { screen: ComponentTest },
     Login: { screen: Login },
     MenuOptions: { screen: MenuOptions },
     NewAssetLanding: { screen: NewAssetLanding },
@@ -152,11 +148,12 @@ const MainNavigator = StackNavigator({ //this will be "createStackNavigator" aft
 
 }, {
         initialRouteName: 'RegAssetSplashTest',
+//Needs to be finalized 
 
         // initialRouteName: 'Login',
-        navigationOptions: ({ navigation }) => ({
-            header: <WelcomeHeader navigation={navigation} />
-        })
+        // navigationOptions: ({ navigation }) => ({
+        //     header: <WelcomeHeader navigation={navigation} />
+        // })
     })
 
 export default MainNavigator;

@@ -8,16 +8,16 @@ import {
 } from 'react-native';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
-import styles from "../assets/styles";
-import ColorConstants from "../assets/ColorConstants";
+import styles from "../../assets/styles";
+import ColorConstants from "../../assets/ColorConstants";
 import React, { Component } from 'react';
-import { widthPercentageToDP, heightPercentageToDP } from '../assets/responisiveUI';
-import { StackNavigator } from "react-navigation";
-import Header from "../components/Headers/Header";
+import { widthPercentageToDP, heightPercentageToDP } from '../../assets/responisiveUI';
+import { StackNavigator, withNavigation } from "react-navigation";
+import Header from "../../components/Headers/Header";
 export default class RegAssetSplashTest extends Component {
 
-    static navigationOptions = ({navigation}) => ({
-        header: <Header headerTitle={"Register Asset"} navigation={navigation} />
+    static navigationOptions = () => ({
+        header: <Header headerTitle={"Register Asset"} navigation={this.props} />
     })
 
     constructor(props) {
