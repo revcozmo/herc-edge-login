@@ -16,8 +16,14 @@ import ColorConstants from "../../assets/ColorConstants";
 import React, { Component } from 'react';
 const hercRound = require("../../assets/hercLogoBreak.png")
 import { AssetCard } from "../../components/AssetCard";
-import {RegisterButton} from "../../components/RegisterAssetComponents/RegisterAssetInputs";
-// import RegisterAssetHeader from "../components/RegisterAssetComponents/RegisterAssetHeader"
+import {
+    BasePasswordInput,
+    HercTextFieldWithLabel,
+    RegisterButton,
+    HercTextField,
+    HercTextInput,
+    HercTextInputWithLabel,
+} from '../../components/RegisterAssetComponents/RegisterAssetInputs';
 
 
 export default class RegAsset_2_Draft_1 extends Component {
@@ -25,10 +31,46 @@ export default class RegAsset_2_Draft_1 extends Component {
     constructor(props) {
         super(props);
         console.log("componentTest")
+        this.state = {
+
+            passTest: "TesterPassword",
+            CoreProps: {
+                metric1: "Length",
+                metric2: "Width",
+                metrci3: "Color",
+                metric4: "Number Of Feet",
+                metric5: "Number Of Eyes"
+
+            }
+        }
 
     }
     onPress = () => {
-        console.log("Whattup Parsec!");
+        this.props.navigation.navigate()
+    }
+
+    pwChange = (char) => {
+        this.setState({
+            pasword: char
+        })
+    }
+    renderMetrics = () => {
+        let coreProps = this.state.CoreProps;
+        let metrics = Object.keys(coreProps);
+        let numOfMetrics = metrics.length;
+        let metricList = [];
+        metrics.forEach((x, i) => {
+
+            metricList.push(
+                <HercTextFieldWithLabel
+                    key={x}
+                    label={"Metric " + (i + 1)}
+                    text={coreProps[x]}
+                />
+            )
+        })
+        console.log(metrics, "metrics from state");
+        return metricList;
     }
 
     render() {
@@ -37,6 +79,8 @@ export default class RegAsset_2_Draft_1 extends Component {
             Name: "Tester Asset",
             HercId: '42'
         }
+
+        let metricList = this.renderMetrics();
         return (
             <View style={styles.baseContainer}>
 
@@ -51,8 +95,17 @@ export default class RegAsset_2_Draft_1 extends Component {
                 <View style={styles.bodyContainer}>
                     <AssetCard asset={asset} />
 
+                    <HercTextField 
+                    text={"HercTextField"}
+                    style={{ height: heightPercentageToDP('5') }} />
 
+                    <HercTextFieldWithLabel text={"testTextforLabel"} label={"testLabelforText"} />
+                    <HercTextInputWithLabel placeholder={"TExtINputwith label"} label={"label for text INput"} />
+                    <BasePasswordInput label={"TesterPasswordLabel"} value={this.state.passTest} pwChange={this.pwChange} />
+                    {/* {metricList} */}
+<HercTextInput placeholder={"testINputer"} />
                     <RegisterButton onPress={this.onPress} />
+
                 </View>
 
 

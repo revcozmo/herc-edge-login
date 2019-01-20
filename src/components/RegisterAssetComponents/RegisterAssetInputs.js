@@ -60,6 +60,37 @@ export function AddMetricButton(props) {
     )
 }
 
+export class HercTextField extends Component {
+    constructor(props) {
+        super(props);
+    }
+    render() {
+        return (
+            <View style={localStyles.textFieldContainer}>
+                <Text style={localStyles.textField}>
+                    {this.props.text}
+                </Text>
+            </View>
+        )
+    }
+}
+
+export class HercTextFieldWithLabel extends Component {
+    constructor(props) {
+        super(props);
+    }
+    render() {
+        return (
+
+            <View style={localStyles.textFieldContainer}>
+                <Text style={localStyles.textLabel}>{this.props.label}</Text>
+                <Text style={localStyles.textField}>{this.props.text}</Text>
+            </View>
+        )
+    }
+
+}
+
 
 export class HercTextInput extends Component {
     constructor(props) {
@@ -68,13 +99,15 @@ export class HercTextInput extends Component {
     render() {
         let name = this.props.name;
         return (
-            <TextInput style={localStyles.textInput}
+            <View style={localStyles.textFieldContainer}>
+            <TextInput style={localStyles.textField}
                 placeholder={this.props.placeholder}
-                placeholder-text-color={ColorConstants.MainBlue}
+                placeholder-text-color={ColorConstants.MainSubGray}
                 underlineColorAndroid='transparent'
                 onChangeText={(inputVal) => this.props.localOnChange(inputVal, name)}
 
             />
+            </View>
         )
     }
 }
@@ -86,59 +119,23 @@ export class HercTextInputWithLabel extends Component {
     render() {
         return (
 
-            <View style={localStyles.textFieldContainer}>
-                <Text style={localStyles.inputLabel}>{this.props.label}</Text>
-                <View style={localStyles.RegisterAssetInputPasswordContainer}>
-                    <HercTextInput
-                        name={this.props.name}
-                        placeholder={this.props.placeholder}
-                        localOnChange={this.props.localOnChange}
-                        style={{ margin: 0 }}
-                    />
-                </View>
+            <View style={[localStyles.textFieldContainer,{paddingTop: 9}]}>
+
+                <Text style={localStyles.textLabel}>{this.props.label}</Text>
+                <TextInput
+                    name={this.props.name}
+                    placeholder={this.props.placeholder}
+                    localOnChange={this.props.localOnChange}
+                    style={localStyles.labeledTextInput}
+                />
             </View>
         )
     }
 
 }
 
-export class HercTextField extends Component {
-    constructor(props) {
-        super(props);
-    }
-    render() {
-        return (
-            <Text
-                style={localStyles.textInput}
-                placeholder={this.props.placeholder}
-                placeholder-text-color={ColorConstants.MainBlue}
-            />
-        )
-    }
-}
 
-export class HercTextDisplayWithLabel extends Component {
-    constructor(props) {
-        super(props);
-    }
-    render() {
-        return (
-
-            <View style={localStyles.textFieldContainer}>
-                <Text style={localStyles.inputLabel}>{this.props.label}</Text>
-                <View style={localStyles.RegisterAssetInputPasswordContainer}>
-                    <HercTextField
-                        name={this.props.name}
-                        placeholder={this.props.placeholder}
-                        style={{ margin: 0 }}
-                    />
-                </View>
-            </View>
-        )
-    }
-
-}
-export class RegisterAssetPassword extends Component {
+export class BasePasswordInput extends Component {
     constructor(props) {
         super(props);
         console.log(props, "registerAssetPassword")
@@ -155,8 +152,8 @@ export class RegisterAssetPassword extends Component {
 
     render() {
         return (
-            <View style={localStyles.textFieldContainer}>
-                <Text style={localStyles.inputLabel}>Asset Password</Text>
+            <View style={[localStyles.textFieldContainer,{paddingTop: 9}]}>
+                <Text style={localStyles.textLabel}>Asset Password</Text>
                 <View style={localStyles.RegisterAssetInputPasswordContainer}>
 
                     <TextInput style={localStyles.passwordTextInput}
@@ -165,7 +162,7 @@ export class RegisterAssetPassword extends Component {
                         underlineColorAndroid='transparent'
                         secureTextEntry={this.state.hidePass}
                         onChangeText={pass => this.props.pwChange(pass)}
-
+                        value={this.props.value || ""}
                     />
                     <View style={localStyles.eyeballContainer}>
                         <Icon.Button
@@ -254,34 +251,65 @@ const localStyles = StyleSheet.create({
         margin: 5
 
     },
-    textInputContainer: {
-        backgroundColor: ColorConstants.ElementBG,
-        // backgroundColor: ColorConstants.MainGray,
-        width: "90%",
-        height: "25%",
-        borderRadius: 8
-    },
     textInput: {
-        width: widthPercentageToDP('90'),
-        height: heightPercentageToDP('5'),
         borderRadius: 8,
         // backgroundColor: ColorConstants.MainGray,
         backgroundColor: ColorConstants.ElementBG,
-        marginTop: 5,
-        marginBottom: 5,
+        marginTop: 0,
+        marginBottom: 0,
+        paddingLeft: 5,
+        textAlign: 'left',
         marginLeft: 0,
         marginRight: 0,
-        fontSize: 12,
-        alignSelf: 'center'
+        fontSize: 17,
+        height: 40,
+        width: '100%'
+        // alignSelf: 'center'
     },
-    labeledTextInput: {
+    textInputContainer: {
+        flex: 0,
         width: widthPercentageToDP('90'),
         height: heightPercentageToDP('5'),
-        borderRadius: 0,
+        justifyContent: 'center',
+        alignItems: 'flex-start',
+        backgroundColor: ColorConstants.ElementBG,
+        margin: 5,
+        paddingLeft: 5,
+        borderRadius: 8
+    },
+    textField: {
+        color: ColorConstants.MainBlue,
+        width: '100%',
+        marginLeft: 0,
+        marginRight: 0,
+        // fontSize: 14,
+        paddingLeft: 5,
+        textAlign: 'left',
+        fontSize: 17,
+        borderRadius: 8,
+        // backgroundColor: ColorConstants.MainGray
+    },
+    textFieldContainer: {
+        flex: 0,
+        width: widthPercentageToDP('90'),
+        height: heightPercentageToDP('6'),
+        justifyContent: 'center',
+        alignItems: 'flex-start',
+        backgroundColor: ColorConstants.ElementBG,
+        margin: 5,
+        paddingLeft: 5,
+        borderRadius: 8
+        // backgroundColor: ColorConstants.MainSubCrownBlue
+    },
+   
+
+    labeledTextInput: {
+        color: ColorConstants.MainBlue,
+        width: '100%',
+        borderRadius: 8,
         backgroundColor: ColorConstants.ElementBG,
         margin: 0,
-        fontSize: 12,
-        alignSelf: 'center'
+        fontSize: 17,
     },
     passwordTextInput: {
         width: widthPercentageToDP('90'),
@@ -290,17 +318,16 @@ const localStyles = StyleSheet.create({
         backgroundColor: ColorConstants.ElementBG,
         margin: 0,
         flex: 1,
-        fontSize: 12,
+        fontSize: 17,
         alignSelf: 'center'
     },
 
 
-    inputLabel: {
+    textLabel: {
         fontSize: 12,
-        color: ColorConstants.MainBlue,
+        color: ColorConstants.MainSubGray,
         marginLeft: 3,
-        fontWeight: 'bold',
-        height: 14
+        fontWeight: 'normal',
     },
     buttonLabel: {
         fontSize: 12,
@@ -311,21 +338,11 @@ const localStyles = StyleSheet.create({
 
     },
 
-
     flexRow: {
         flex: 0,
         flexDirection: 'row'
     },
-    textFieldContainer: {
-        width: widthPercentageToDP('90'),
-        height: heightPercentageToDP('6'),
-        justifyContent: 'flex-start',
-        backgroundColor: ColorConstants.ElementBG,
-        margin: 6,
-        padding: 2,
-        borderRadius: 8
-        // backgroundColor: ColorConstants.MainSubCrownBlue
-    }
+
     // width: (width * .9),
     // height: (height * .056),
 
