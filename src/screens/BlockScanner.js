@@ -22,22 +22,21 @@ class BlockScanner extends Component {
       hercValue: null,
       marketCap: null,
       txQuantity: null,
-      totalSupply: null
+      totalSupply: null,
+      lastTenTxnHashs: null
     };
   }
 
   componentDidMount = async () => {
     this._getMarketCapTotalSupply();
     this._getTxList_txQuantity();
-    
+
     this._getDynamicHercValue().then(response => {
       let shortenedResponse = parseFloat(response).toFixed(3);
       this.setState({ hercValue: shortenedResponse });
     });
 
-
-    console.log(this.state)
-
+    console.log(this.state);
   };
 
   // _getTxQuantity = async () => {
@@ -49,7 +48,7 @@ class BlockScanner extends Component {
   //   ).then(response => response.json())
   //   .then(responseJson => {
   //     let responseObject = responseJson;
-  //     let txQuantity = 
+  //     let txQuantity =
   //     this.setState({ txQuantity: res })
   //     return (responseObject.countTxs)
   //   })
@@ -74,37 +73,49 @@ class BlockScanner extends Component {
   };
 
   _getTxList_txQuantity = async () => {
-    return fetch (
+    return fetch(
       "https://api.etherscan.io/api?module=account&action=txlist&address=0x6251583e7d997df3604bc73b9779196e94a090ce&startblock=0&endblock=99999999&sort=asc&apikey=Z4A2NZUA58J7CJCEEE87872SCC82BI88W1",
       {
         method: "GET"
       }
-    ).then(response => response.json())
-    .then(responseJson => {
-      let responseObject = responseJson;
-      let txQuantity = responseObject.result.length;
-      let lastTransaction = responseObject.result[txQuantity - 1];
-      let lastBlock = lastTransaction.blockNumber;
-      console.log(lastBlock, txQuantity, "this is last block and tx quantity")
-      this.setState({ lastBlock, txQuantity })
-    })
-  }
+    )
+      .then(response => response.json())
+      .then(responseJson => {
+        let responseObject = responseJson;
+        let txQuantity = responseObject.result.length;
+        let txList = responseObject.result;
+        let lastTransaction = responseObject.result[txQuantity - 1];
+        let lastBlock = lastTransaction.blockNumber;
+        console.log(
+          lastBlock,
+          txQuantity,
+          "this is last block and tx quantity"
+        );
+        var i;
+        let lastTenTxnHashs = [];
+        for (i = 1; i < 11; i++) {
+          // txArr.push(responseObject.result[txQuantity - i])
+          lastTenTxnHashs.push(responseObject.result[txQuantity - i].hash);
+          // console.log(responseObject.result[txQuantity - i].hash);
+        }
+         console.log(lastTenTxnHashs);
+        this.setState({ lastBlock, txQuantity, lastTenTxnHashs });
+      });
+  };
 
   _getMarketCapTotalSupply = async () => {
-    return fetch (
-      "https://chart.anthemgold.com/bi-1.0-SNAPSHOT/Report",
-      {
-        method: "GET"
-      }
-    ).then(response => response.json())
-    .then(responseJson => {
-      let responseObject = responseJson;
-      let marketCap = responseObject.marketCapitalization;
-      let supply = responseObject.circulatingSupply;
-      let totalSupply = parseFloat(supply).toFixed(3);
-      this.setState({ marketCap, totalSupply })
+    return fetch("https://chart.anthemgold.com/bi-1.0-SNAPSHOT/Report", {
+      method: "GET"
     })
-  }
+      .then(response => response.json())
+      .then(responseJson => {
+        let responseObject = responseJson;
+        let marketCap = responseObject.marketCapitalization;
+        let supply = responseObject.circulatingSupply;
+        let totalSupply = parseFloat(supply).toFixed(3);
+        this.setState({ marketCap, totalSupply });
+      });
+  };
 
   static navigationOptions = ({ navigation }) => {
     const { params } = navigation.state;
@@ -194,8 +205,9 @@ class BlockScanner extends Component {
               <View style={localStyles.contentContainerA_Box_TopRow}>
                 <Text style={{ color: "silver", margin: 10, fontSize: 12 }}>
                   {" "}
-                  {this.state.marketCap ? "MARKET CAP OF $" + this.state.marketCap : null }
-                  
+                  {this.state.marketCap
+                    ? "MARKET CAP OF $" + this.state.marketCap
+                    : null}
                 </Text>
               </View>
               <View
@@ -270,7 +282,9 @@ class BlockScanner extends Component {
                     Transactions
                   </Text>
                   <Text style={localStyles.contentContainerA_MarketCapBox_Text}>
-                    {this.state.txQuantity ? this.state.txQuantity.toLocaleString() : null }
+                    {this.state.txQuantity
+                      ? this.state.txQuantity.toLocaleString()
+                      : null}
                   </Text>
                 </View>
               </View>
@@ -287,7 +301,7 @@ class BlockScanner extends Component {
                     Total Supply
                   </Text>
                   <Text style={localStyles.contentContainerA_MarketCapBox_Text}>
-                    { this.state.totalSupply ? this.state.totalSupply : null }
+                    {this.state.totalSupply ? this.state.totalSupply : null}
                   </Text>
                 </View>
                 <View style={{ width: "50%" }}>
@@ -571,33 +585,37 @@ class BlockScanner extends Component {
                     Terms Of Use
                   </Text>
                 </TouchableHighlight>
-                <TouchableHighlight onPress={ () => {
-                  Linking.openURL("https://herc.one/metamask")}
-                }>
-                <Text
-                  style={{
-                    color: "silver",
-                    marginHorizontal: 5,
-                    fontWeight: "bold"
+                <TouchableHighlight
+                  onPress={() => {
+                    Linking.openURL("https://herc.one/metamask");
                   }}
                 >
-                  {" "}
-                  Metamask
-                </Text>
+                  <Text
+                    style={{
+                      color: "silver",
+                      marginHorizontal: 5,
+                      fontWeight: "bold"
+                    }}
+                  >
+                    {" "}
+                    Metamask
+                  </Text>
                 </TouchableHighlight>
-                <TouchableHighlight onPress={() => {
-                  Linking.openURL("https://herc.one/faq")}
-                }>
-                <Text
-                  style={{
-                    color: "silver",
-                    marginHorizontal: 5,
-                    fontWeight: "bold"
+                <TouchableHighlight
+                  onPress={() => {
+                    Linking.openURL("https://herc.one/faq");
                   }}
                 >
-                  {" "}
-                  F.A.Q.
-                </Text>
+                  <Text
+                    style={{
+                      color: "silver",
+                      marginHorizontal: 5,
+                      fontWeight: "bold"
+                    }}
+                  >
+                    {" "}
+                    F.A.Q.
+                  </Text>
                 </TouchableHighlight>
               </View>
               <View style={{ marginTop: 10 }}>
