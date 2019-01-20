@@ -1,15 +1,16 @@
-# Building the Android version of the project. 
+# Building the Android version of the project
 
 For a number of these steps, two options will be provided; The first will involve installing from various sources and will attempt to closely follow the original build notes. The second section will feature as many steps as possible done through HomeBrew to enable a _mostly_ CLI setup from scratch.
 
-## Install homebrew 
+## Install homebrew
+
 First install [Homebrew](https://brew.sh/) using this site.
 
 ## Installation from source websites
 
-#### Install nodejs (v 8.4+) and npm (v 5.3+)
+### Install nodejs (v 8.4+) and npm (v 5.3+)
 
-Install with homebrew: 
+Install with homebrew:
 
 ```bash
     brew install node
@@ -17,7 +18,7 @@ Install with homebrew:
 
 Or alternatively download nodejs directly from their website:
 
-```
+```bash
     https://nodejs.org/en/download/  
 ```
 
@@ -27,11 +28,14 @@ Or alternatively download nodejs directly from their website:
     npm install -g react-native-cli
 ```
 
-#### Install Watchman 
-```
+#### Install Watchman
+
+```bash
 brew install watchman
 ```
+
 #### Checkout to master branch and install node_modules
+
 This project uses Yarn to manage its dependancies rather than NPM, you may choose to use either but Yarn is recommended. 
 
 ```bash
@@ -54,6 +58,7 @@ brew cask install java android-sdk
 ```
 
 ##### Android NDK HOME
+
 The `ANDROID_NDK_HOME` environment variable needs to be set to the path of the NDK. You should also have a `ANDROID_HOME ` environment variable for general android work that you can leverage to compose the `ANDROID_NDK_HOME`.
 
 > Important Note: Depending on how you installed android SDK (Home brew vs webstie installer), you will need to have a different `ANDROID_HOME` setting as the two installations have different locations.
@@ -117,15 +122,16 @@ Ensure to accept the license agreements for the SDK platform version you want to
 sdkmanager "platforms;android-27" "build-tools;27.0.3"
 ```
 
-#### Choosing a virtual device image :
+#### Choosing a virtual device image
+
 There are a list of virtual devices at your disposal with various sizes and memory provisions. Depending on your build machine, you may need to select a smaller screensize emulator with less RAM for best reaults. 
 
 You have options for how you want to run virtual devices. You can try to manage it with `avdmanager` and `emulator`. Or, you can manage with genymotion.
 
-
 ##### Genymotion
 
 Install genymotion with homebrew:
+
 ```bash
 brew cask install genymotion
 ```
@@ -136,7 +142,8 @@ During writing this guide virtualbox failed installing on both Sierra and Mojave
 
 You should now have genymotion available as a System app which you can open using spotlight or directly from application. You may be given a warning when opening which will show it was gotten with homebrew.
 
-##### Running on Genymotion 
+##### Running on Genymotion
+
 To get genymotion working you may need ot sign into an account with an existing license or select personal use once signed in, an EULA may need to be approved if you never used this tool before.
 
 Ensure your android sdk is set on genymotion to the right location. To check this, head to the word `Genymotion` in the top left of your menu bar with the tool open and then select Preferences. From there you should be in settings Settings, where you can see ADB in the sidemenu. Select custom android sdk location and add the `ANDROID_HOME` location that we set earlier. 
@@ -148,7 +155,7 @@ You should now be able to select a virtual device to boot up using Genymotion. A
 Lastly, run the react native app in the emulator
 
 ```bash
-react-native android
+react-native run-android
 ```
 
 ##### Avdmanager and Emulator
@@ -160,9 +167,11 @@ avdmanager list avd
 ```
 
 Once you have located a emulator you want to use, take its name and paste into this command :
+
 ```bash
 emulator -avd <NAME>
 ```
+
 Where `<NAME>` is to be replaced with your desired device name. 
 
 > Note: This will take some time.
@@ -170,16 +179,15 @@ Where `<NAME>` is to be replaced with your desired device name.
 Lastly, run the react native app in the emulator
 
 ```bash
-react-native android
+react-native run-android
 ```
 
+This will launch a Metro Bunlder instance in a terminal
 
-This will launch a Metro Bunlder instance in a terminal 
-
-
-###### Appendices 
+###### Appendices
 
 When trying to run the build, did you encounter a CMAKE error for the fast-crypto package ? It might be due to you needing the `ninja` tool. Install it and try running your command again.
+
 ```bash
 brew install ninja
 
