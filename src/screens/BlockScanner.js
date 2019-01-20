@@ -15,6 +15,35 @@ import styles from "../assets/styles";
 import { connect } from "react-redux";
 import round from "../assets/round.png";
 
+class TransactionList extends Component {
+  state = {
+    transactions: []
+  };
+
+  componentDidMount() {
+    // this.fetchTransactions(this.props.id).then(this.refreshList);
+    
+  }
+  componentWillReceiveProps(props) {
+    const { transactionList} = this.props;
+    // const { refresh, id } = this.props;
+    if (props.transactionList !== transactionList) {
+      console.log(this.props)
+      this.setState({ transactions: this.props.transactionList})
+    }
+  }
+    refreshTransactionList = res =>
+      this.setState({ transaction: res.data.transactions });
+
+    render() {
+      return (
+      <View>
+        <Text>hello, this is the transactionList component</Text>
+      </View>
+    )}
+  
+}
+
 class BlockScanner extends Component {
   constructor(props) {
     super(props);
@@ -23,19 +52,18 @@ class BlockScanner extends Component {
       marketCap: null,
       txQuantity: null,
       totalSupply: null,
-      lastTenTxnHashs: null
+      txnArr: [],
+      transactionsLoaded: false
     };
   }
 
   componentDidMount = async () => {
-    this._getMarketCapTotalSupply();
-    this._getTxList_txQuantity();
-
     this._getDynamicHercValue().then(response => {
       let shortenedResponse = parseFloat(response).toFixed(3);
       this.setState({ hercValue: shortenedResponse });
     });
-
+    this._getMarketCapTotalSupply();
+    this._getTxList_txQuantity();
     console.log(this.state);
   };
 
@@ -86,21 +114,41 @@ class BlockScanner extends Component {
         let txList = responseObject.result;
         let lastTransaction = responseObject.result[txQuantity - 1];
         let lastBlock = lastTransaction.blockNumber;
-        console.log(
-          lastBlock,
-          txQuantity,
-          "this is last block and tx quantity"
-        );
         var i;
         let lastTenTxnHashs = [];
         for (i = 1; i < 11; i++) {
-          // txArr.push(responseObject.result[txQuantity - i])
           lastTenTxnHashs.push(responseObject.result[txQuantity - i].hash);
-          // console.log(responseObject.result[txQuantity - i].hash);
         }
-         console.log(lastTenTxnHashs);
-        this.setState({ lastBlock, txQuantity, lastTenTxnHashs });
+        this.setState({ lastBlock, txQuantity });
+        return lastTenTxnHashs;
+      })
+      .then(res => {
+        let lastTenTxnHashs = res;
+        console.log(lastTenTxnHashs)
+        let txnArr = [];
+        lastTenTxnHashs.map((curHash, ind) => {
+          fetch(
+            "http://api.ethplorer.io/getTxInfo/" + curHash + "?apiKey=freekey",
+            {
+              method: "GET"
+            }
+          )
+            .then(res => {
+              console.log(res)
+              debugger;
+              let les = res;
+              txnArr.push(les);
+            });
+        });
+        this.setState({  txnArr: txnArr });
+        return txnArr;
+        // console.log(txnArr);
       });
+    // .then(res => {
+    //   let yes = res;
+    //   this.setState({ txnArr: yes })
+    //   console.log(this.state.txnArr)
+    // })
   };
 
   _getMarketCapTotalSupply = async () => {
@@ -115,6 +163,14 @@ class BlockScanner extends Component {
         let totalSupply = parseFloat(supply).toFixed(3);
         this.setState({ marketCap, totalSupply });
       });
+  };
+
+  _renderTransactions = () => {
+    console.log("in render transaction", this.state.txnArr.length);
+    if (this.state.txnArr.length > 1) {
+      console.log(this.state.txnArr);
+      return <Text>{this.state.txnArr.length} </Text>;
+    }
   };
 
   static navigationOptions = ({ navigation }) => {
@@ -502,45 +558,8 @@ class BlockScanner extends Component {
                   txn
                 </Text>
               </View>
-              <View
-                style={{
-                  flexDirection: "row",
-                  // marginVertical: 10,
-                  // marginTop: "10%",
-                  justifyContent: "space-around",
-                  backgroundColor: "#f2f3fb"
-                }}
-              >
-                <Text
-                  style={{
-                    textAlign: "center",
-                    fontSize: 16,
-                    color: "rgb(152,164,234)",
-                    marginVertical: 10
-                  }}
-                >
-                  6943229
-                </Text>
-                <Text
-                  style={{
-                    textAlign: "center",
-                    fontSize: 16,
-                    color: "black",
-                    marginVertical: 10
-                  }}
-                >
-                  28 secs ago
-                </Text>
-                <Text
-                  style={{
-                    textAlign: "center",
-                    fontSize: 16,
-                    color: "black",
-                    marginVertical: 10
-                  }}
-                >
-                  223
-                </Text>
+              <View >
+                <TransactionList transactionList={ this.state.txnArr } />
               </View>
             </View>
             <View style={localStyles.contentContainerB_BlocksBox}>
@@ -944,5 +963,12 @@ const localStyles = StyleSheet.create({
     fontSize: 12,
     alignSelf: "center",
     color: "black"
+  },
+  purpleHorizontalTransaction: {
+    flexDirection: "row",
+    // marginVertical: 10,
+    // marginTop: "10%",
+    justifyContent: "space-around",
+    backgroundColor: "#f2f3fb"
   }
 });
