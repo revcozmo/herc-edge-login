@@ -14,6 +14,7 @@ import React, { Component } from 'react';
 import { widthPercentageToDP, heightPercentageToDP } from '../../assets/responisiveUI';
 import { createStackNavigator } from "react-navigation";
 import Header from "../../components/Headers/Header";
+
 export default class RegAssetSplashTest extends Component {
 
 
@@ -22,15 +23,15 @@ export default class RegAssetSplashTest extends Component {
         console.log(this.props, 'this props in regAssetSplash')
 
     }
-    static navigationOptions = () => ({
-        header: <Header headerTitle={"Register Asset"} />
-    })
+    // static navigationOptions = () => ({
+    //     header: <Header headerTitle={"Register Asset"} />
+    // })
 
     onPress = () => {
-        console.log("pressing to go");
+        console.log("pressing to go in RegAssetSplashDraft1");
         // const { navigate } = this.props.navigation;
 
-        this.props.navigation.navigate('ComponentTest');
+        this.props.navigation.navigate('RegAsset1');
     }
     render() {
         const { navigate } = this.props.navigation;

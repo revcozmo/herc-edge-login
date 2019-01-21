@@ -12,7 +12,7 @@ import styles from "../../assets/styles";
 import ColorConstants from "../../assets/ColorConstants";
 import React, { Component } from 'react';
 import { widthPercentageToDP, heightPercentageToDP } from '../../assets/responisiveUI';
-import { StackNavigator } from "react-navigation";
+import { createStackNavigator } from "react-navigation";
 // import RegStackNav from "../navigation/RegisterAssetNavigation";
 
 export default class TestSplash extends Component {
@@ -31,7 +31,7 @@ export default class TestSplash extends Component {
                     // hidden={true}
                 barStyle={'light-content'}
                 translucent={true}
-                backgroundColor={ColorConstants.MainBlue}
+                backgroundColor={'transparent'}
                 />
                 <View style={[localStyles.baseContainer,localStyles.splashTop]}>
                     <Image source={require('../../assets/hLogo.png')}
@@ -47,7 +47,7 @@ export default class TestSplash extends Component {
                         Body of the CopyBody of the CopyBody of the CopyBody of the CopyBody of the Copy
                     </Text> */}
 
-                    <Button title='Continue' onPress={() => navigate('RegAssetSplashTest')}>RegisterStackNavigator</Button>
+                    <Button title='Continue' onPress={() => navigate('RegAssetNav')}>RegistercreateStackNavigator</Button>
                 </View>
 
                 {/* //     <Icon.Button name="eye" backgroundColor="#3b5998" onPress={() => console.log("eyeball press")}>

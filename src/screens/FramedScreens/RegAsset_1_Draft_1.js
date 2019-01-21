@@ -12,13 +12,11 @@ import modalStyles from "../../assets/modals/ModalStyles";
 import styles from "../../assets/styles";
 import ColorConstants from "../../assets/ColorConstants";
 import React, { Component } from 'react';
-import { StackNavigator } from 'react-navigation';
-import { RegisterAssetPassword, HercTextInput, HercTextInputWithLabel, AddPhotoButton, AddMetricButton, RegisterButton } from "../../components/RegisterAssetComponents/RegisterAssetInputs";
+import { createStackNavigator } from 'react-navigation';
+import { BasePasswordInput, HercTextInput, HercTextInputWithLabel, AddPhotoButton, AddMetricButton, RegisterButton } from "../../components/RegisterAssetComponents/RegisterAssetInputs";
 import { widthPercentageToDP, heightPercentageToDP } from '../../assets/responisiveUI';
-import { register } from 'ethers/wordlists/wordlist';
 
-const HercLogo = require('../../assets/hLogo.png');
-export default class ComponentTest extends Component {
+export default class RegAsset1 extends Component {
 
     constructor(props) {
         // console.log(this.props.navigation, "navigation??")
@@ -121,7 +119,7 @@ export default class ComponentTest extends Component {
                 />
                 <View style={styles.bodyContainer}>
 
-                    <RegisterAssetPassword
+                    <BasePasswordInput
                         placeholder='Asset Password'
                         pwChange={this.pwChange}
                     />

@@ -8,14 +8,14 @@ import {
     View
 } from "react-native";
 import React, { Component } from "react";
-import { StackNavigator } from "react-navigation";
+import { createStackNavigator } from "react-navigation";
 
 
-// import RegAssetnavigator from "./RegisterAssetNavigation";
+import RegAssetNavigator from "./RegisterAssetNavigation";
 
-import ComponentTest from "../screens/FramedScreens/RegAsset_1_Draft_1";
-import RegAssetSplashTest from "../screens/FramedScreens/RegAssetSplash_Draft_1";
-import RegAsset_2_Draft_1 from "../screens/Testing/RegAsset_2_Draft_1";
+// import ComponentTest from "../screens/FramedScreens/RegAsset_1_Draft_1";
+// import RegAssetSplashTest from "../screens/FramedScreens/RegAssetSplash_Draft_1";
+// import RegAsset_2_Draft_1 from "../screens/Testing/RegAsset_2_Draft_1";
 
 
 import BlockScanner from "../screens/BlockScanner";
@@ -49,35 +49,35 @@ import WebViewComponent from "../components/WebViewComponent";
 import DocumentStorage from "../screens/DocumentStorage";
 import DocumentQRScanner from "../screens/DocumentQRScanner";
 
+import TestSplash from "../screens/Testing/TestSplash"
 
 import Header from "../components/Headers/Header";
 import ColorConstants from "../assets/ColorConstants";
-// import RegAssetNav from "./RegisterAssetNavigation";
+// import RegAssetNavigator from "./RegisterAssetNavigation";
 
 
 
 
-const MainNavigator = StackNavigator({
-    // RegAssetNav: { screen: RegAssetNav },
-    RegAssetSplashTest: {
-        screen: RegAssetSplashTest,
+const MainNavigator = createStackNavigator({
+    RegAssetNav: {
+         screen: RegAssetNavigator,
+        //  navigationOptions: ({ navigation }) => ({
+        //     header: <Header headerTitle={'Register Asset'} navigation={navigation} />
+        // }) 
+     },
+    TestSplash: {
+        screen: TestSplash,
         navigationOptions: ({ navigation }) => ({
-            header: <Header headerTitle={"Register Start"} navigation={navigation} />
+            header: <Header headerTitle={'Welcome'} navigation={navigation} />
         })
-
     },
-    ComponentTest: {
-         screen: ComponentTest,
-         navigationOptions: ({ navigation }) => ({
-            header: <Header headerTitle={"Register Asset"} navigation={navigation} />
-        })
-         },
-    RegAsset_2_Draft_1: {
-        screen: RegAsset_2_Draft_1,
-        navigationOptions: ({ navigation }) => ({
-            header: <Header headerTitle={"Confirm Registration"} navigation={navigation} />
-        })      
-        },
+   
+    // RegAsset_2_Draft_1: {
+    //     screen: RegAsset_2_Draft_1,
+    //     navigationOptions: ({ navigation }) => ({
+    //         header: <Header headerTitle={"Confirm Registration"} navigation={navigation} />
+    //     })      
+    //     },
     
     Login: { screen: Login },
     MenuOptions: { screen: MenuOptions },
@@ -118,13 +118,13 @@ const MainNavigator = StackNavigator({
     DocumentQRScanner: { screen: DocumentQRScanner },
 
 }, {
-        initialRouteName: 'RegAsset_2_Draft_1',
+        initialRouteName: 'TestSplash',
+        
+            headerMode: 'screen',
         //Needs to be finalized 
 
         // initialRouteName: 'Login',
-        // navigationOptions: ({ navigation }) => ({
-        //     header: <WelcomeHeader navigation={navigation} />
-        // })
+       
     })
 
 export default MainNavigator;
