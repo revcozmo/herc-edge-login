@@ -1,3 +1,4 @@
+'use strict';
 import React, { Component } from 'react';
 import { AppRegistry, Dimensions, StyleSheet, Text, TouchableOpacity, TouchableHighlight, View, Image, ActivityIndicator } from 'react-native';
 import { RNCamera } from 'react-native-camera';
@@ -33,7 +34,6 @@ export default class Camera extends Component {
   }
 
   takePicture = async () => {
-    console.log("taking");
     const { params } = this.props.navigation.state;
     if (this.camera) {
       const options = {
@@ -43,7 +43,6 @@ export default class Camera extends Component {
       }
       try {
         const data = await this.camera.takePictureAsync(options);
-        // this._getSize(data.base64);
         let image = Object.assign({}, {
           uri: data.uri,
           size: this._getSize(data.base64),
@@ -52,12 +51,20 @@ export default class Camera extends Component {
         this.setState({ image })
 
         params.setPic(this.state.image);
-        console.log("Camera: afterBase", data.uri, "Camera: size: ", this._getSize(data.base64));
+        console.log("Camera: afterBase: ", data.uri, "\nCamera: size: ", this._getSize(data.base64));
       } catch (err) {
         console.log('Camera Error: ', err)
       }
     };
   }
+
+ //  takePicture = async function() {
+ //   if (this.camera) {
+ //     const options = { quality: 0, base64: true, fixOrientation: true };
+ //     const data = await this.camera.takePictureAsync(options);
+ //     console.log(data.uri);
+ //   }
+ // };
 
   renderCamera() {
     return (
@@ -66,14 +73,20 @@ export default class Camera extends Component {
           this.camera = cam;
         }}
         style={styles.preview}
+        type={RNCamera.Constants.Type.back}
         flashMode={RNCamera.Constants.FlashMode.off}
         permissionDialogTitle={'Permission to use camera'}
-        permissionDialogMessage={'We need your permission to use your camera phone'}>
+        permissionDialogMessage={'We need your permission to use your camera phone'}
+        onGoogleVisionBarcodesDetected={({ barcodes }) => {
+            console.log(barcodes);
+          }}
+        >
         <TouchableHighlight
           style={styles.capture}
           onPress={this.takePicture.bind(this)}
-          underlayColor="rgba(255, 255, 255, 0.5)">
-          <View />
+          underlayColor="rgba(255, 255, 255, 0.5)"
+          >
+          <View/>
         </TouchableHighlight>
       </RNCamera>
     );

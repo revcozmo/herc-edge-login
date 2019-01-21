@@ -129,7 +129,7 @@ const MainNavigator = StackNavigator({ //this will be "createStackNavigator" aft
     DocumentQRScanner: { screen: DocumentQRScanner },
 
 }, {
-        initialRouteName: 'Login',
+        initialRouteName: 'NewAssetForm',
         navigationOptions: ({ navigation }) => ({
 
             headerTitle:
