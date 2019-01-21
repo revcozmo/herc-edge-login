@@ -14,34 +14,39 @@ import {
 import styles from "../assets/styles";
 import { connect } from "react-redux";
 import round from "../assets/round.png";
+const axios = require("axios");
 
 class TransactionList extends Component {
   state = {
-    transactions: []
+    transactions: null
   };
 
   componentDidMount() {
     // this.fetchTransactions(this.props.id).then(this.refreshList);
-    
+    this.refreshTransactionList();
   }
   componentWillReceiveProps(props) {
-    const { transactionList} = this.props;
+    const { transactionList } = this.props;
     // const { refresh, id } = this.props;
     if (props.transactionList !== transactionList) {
-      console.log(this.props)
-      this.setState({ transactions: this.props.transactionList})
+      console.log(this.props);
+      this.setState({ transactions: this.props.transactionList });
     }
   }
-    refreshTransactionList = res =>
-      this.setState({ transaction: res.data.transactions });
+  refreshTransactionList = res =>
+    this.setState({ transaction: this.props.transactionList });
 
-    render() {
-      return (
+  render() {
+    return (
       <View>
-        <Text>hello, this is the transactionList component</Text>
+        <Text>
+          {this.state.transactions
+            ? this.state.transactions.blockNumber
+            : "nothing"}
+        </Text>
       </View>
-    )}
-  
+    );
+  }
 }
 
 class BlockScanner extends Component {
@@ -58,12 +63,11 @@ class BlockScanner extends Component {
   }
 
   componentDidMount = async () => {
-    this._getDynamicHercValue().then(response => {
-      let shortenedResponse = parseFloat(response).toFixed(3);
-      this.setState({ hercValue: shortenedResponse });
-    });
+    this._getDynamicHercValue();
     this._getMarketCapTotalSupply();
-    this._getTxList_txQuantity();
+    // this._getTxList_txQuantity()
+    // this._getTransactionData();
+    this._justDoIt();
     console.log(this.state);
   };
 
@@ -83,17 +87,14 @@ class BlockScanner extends Component {
   // }
 
   _getDynamicHercValue = async () => {
-    return fetch(
-      "https://chart.anthemgold.com/service-1.0-SNAPSHOT/PRICE?symbol=HERCCOMMERCIAL&range=MINUTE_5",
-      {
-        method: "GET"
-      }
-    )
-      .then(response => response.json())
-      .then(responseJson => {
-        let responseObject = responseJson;
-        let highPrice = responseObject.h;
-        return highPrice;
+    axios
+      .get(
+        "https://chart.anthemgold.com/service-1.0-SNAPSHOT/PRICE?symbol=HERCCOMMERCIAL&range=MINUTE_5"
+      )
+      .then(result => {
+        let highPrice = result.data.h;
+        let shortenedResponse = parseFloat(highPrice).toFixed(3);
+        this.setState({ hercValue: shortenedResponse });
       })
       .catch(error => {
         console.error(error);
@@ -101,75 +102,120 @@ class BlockScanner extends Component {
   };
 
   _getTxList_txQuantity = async () => {
-    return fetch(
-      "https://api.etherscan.io/api?module=account&action=txlist&address=0x6251583e7d997df3604bc73b9779196e94a090ce&startblock=0&endblock=99999999&sort=asc&apikey=Z4A2NZUA58J7CJCEEE87872SCC82BI88W1",
-      {
-        method: "GET"
-      }
-    )
-      .then(response => response.json())
-      .then(responseJson => {
-        let responseObject = responseJson;
+    return axios
+      .get(
+        "https://api.etherscan.io/api?module=account&action=txlist&address=0x6251583e7d997df3604bc73b9779196e94a090ce&startblock=0&endblock=99999999&sort=asc&apikey=Z4A2NZUA58J7CJCEEE87872SCC82BI88W1"
+      )
+      .then(response => {
+        let responseObject = response.data;
         let txQuantity = responseObject.result.length;
         let txList = responseObject.result;
         let lastTransaction = responseObject.result[txQuantity - 1];
         let lastBlock = lastTransaction.blockNumber;
         var i;
         let lastTenTxnHashs = [];
-        for (i = 1; i < 11; i++) {
+        for (i = 1; i < 2; i++) {
           lastTenTxnHashs.push(responseObject.result[txQuantity - i].hash);
         }
-        this.setState({ lastBlock, txQuantity });
+        this.setState({ lastBlock, txQuantity, lastTenTxnHashs });
         return lastTenTxnHashs;
-      })
-      .then(res => {
-        let lastTenTxnHashs = res;
-        console.log(lastTenTxnHashs)
-        let txnArr = [];
-        lastTenTxnHashs.map((curHash, ind) => {
-          fetch(
-            "http://api.ethplorer.io/getTxInfo/" + curHash + "?apiKey=freekey",
-            {
-              method: "GET"
-            }
-          )
-            .then(res => {
-              console.log(res)
-              debugger;
-              let les = res;
-              txnArr.push(les);
-            });
-        });
-        this.setState({  txnArr: txnArr });
-        return txnArr;
-        // console.log(txnArr);
       });
-    // .then(res => {
-    //   let yes = res;
-    //   this.setState({ txnArr: yes })
-    //   console.log(this.state.txnArr)
-    // })
   };
 
+  _getTransactionData = async hashes => {
+    console.log("hashes", hashes);
+    let txnArr = [];
+    // let lastTenTxnHashs = this.state.lastTenTxnHashs;
+    hashes.map((curHash, ind) => {
+      axios
+        .get("http://api.ethplorer.io/getTxInfo/" + curHash + "?apiKey=freekey")
+        .then(res => {
+          let nice = res.data.operations[0];
+
+          // debugger;
+          let height = res.data.blockNumber;
+          let value = nice.value;
+          let to = nice.to;
+          let from = nice.from;
+          console.log(height, value, to, from);
+          this.setState({
+            ...this.state.txnArr,
+            txnArr: [{ height: height, value: value, to: to, from: from }]
+          });
+          console.log(this.state);
+          // txnArr.push(les);
+        });
+    });
+
+    // this.setState({  txnArr: txnArr });
+  };
+
+  _justDoIt = async () => {
+    await this._getTxList_txQuantity()
+      .then(hashes => {
+        this._getTransactionData(hashes);
+      })
+      .then(res => console.log(this.state));
+  };
+  // .then(res => {
+  //   let lastTenTxnHashs = res;
+  //   console.log(lastTenTxnHashs)
+  //   let txnArr = [];
+  //   lastTenTxnHashs.map((curHash, ind) => {
+  //     fetch(
+  //       "http://api.ethplorer.io/getTxInfo/" + curHash + "?apiKey=freekey",
+  //       {
+  //         method: "GET"
+  //       }
+  //     )
+  //       .then(res => {
+  //         console.log(res)
+  //         // debugger;
+  //         let les = res;
+  //         txnArr.push(les);
+  //       });
+  //   });
+  //   this.setState({  txnArr: txnArr });
+  //   return txnArr;
+  //   // console.log(txnArr);
+  // });
+  // .then(res => {
+  //   let yes = res;
+  //   this.setState({ txnArr: yes })
+  //   console.log(this.state.txnArr)
+  // })
+
   _getMarketCapTotalSupply = async () => {
-    return fetch("https://chart.anthemgold.com/bi-1.0-SNAPSHOT/Report", {
-      method: "GET"
-    })
-      .then(response => response.json())
-      .then(responseJson => {
-        let responseObject = responseJson;
-        let marketCap = responseObject.marketCapitalization;
-        let supply = responseObject.circulatingSupply;
+    axios
+      .get("https://chart.anthemgold.com/bi-1.0-SNAPSHOT/Report")
+      .then(response => {
+        console.log(response);
+        let marketCap = response.data.marketCapitalization;
+        let supply = response.data.circulatingSupply;
         let totalSupply = parseFloat(supply).toFixed(3);
         this.setState({ marketCap, totalSupply });
+      })
+      .catch(err => {
+        console.log("erroring out here");
+        console.error(err);
       });
   };
 
   _renderTransactions = () => {
-    console.log("in render transaction", this.state.txnArr.length);
-    if (this.state.txnArr.length > 1) {
-      console.log(this.state.txnArr);
-      return <Text>{this.state.txnArr.length} </Text>;
+    if (this.state.txnArr[0]) {
+      return this.state.txnArr.map((curr, ind) => {
+        console.log(curr);
+
+        return (
+          <View key={ind} style={{ flexDirection: "row" }}>
+            <Text style={localStyles.transaction_Text}>{curr.from} ...</Text>
+            <Text style={localStyles.transaction_Text}>{curr.to} ...</Text>
+            <Text style={localStyles.transaction_Text}>{curr.value}</Text>
+          </View>
+        );
+      });
+    } else {
+      return <Text style={{textAlign: "center" }}>LOADING</Text>;
     }
   };
 
@@ -535,7 +581,7 @@ class BlockScanner extends Component {
                     marginVertical: 10
                   }}
                 >
-                  Height
+                  From
                 </Text>
                 <Text
                   style={{
@@ -545,7 +591,7 @@ class BlockScanner extends Component {
                     marginVertical: 10
                   }}
                 >
-                  Age
+                  To
                 </Text>
                 <Text
                   style={{
@@ -555,11 +601,12 @@ class BlockScanner extends Component {
                     marginVertical: 10
                   }}
                 >
-                  txn
+                  Value
                 </Text>
               </View>
-              <View >
-                <TransactionList transactionList={ this.state.txnArr } />
+              <View style={{ flex: 1, borderColor: "red", borderWidth: 3 }}>
+                {/* <TransactionList transactionList={ this.state.txnArr } /> */}
+                {this._renderTransactions()}
               </View>
             </View>
             <View style={localStyles.contentContainerB_BlocksBox}>
@@ -970,5 +1017,13 @@ const localStyles = StyleSheet.create({
     // marginTop: "10%",
     justifyContent: "space-around",
     backgroundColor: "#f2f3fb"
+  },
+  transaction_Text: {
+    fontSize: 10,
+    color: "black",
+    margin: 2,
+    flex: 1,
+    height: 14,
+    textAlign: "center"
   }
 });
