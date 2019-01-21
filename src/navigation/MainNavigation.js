@@ -12,7 +12,7 @@ import { StackNavigator } from "react-navigation";
 
 import BlockScanner from "../screens/BlockScanner";
 import Camera from "../screens/Camera";
-// import CameraNew from "../screens/CameraNew";
+import CameraScreen from "../screens/CameraScreen";
 import Confirm from "../screens/Confirm";
 import NewAssetLanding from "../screens/NewAssetLanding";
 import DocUp from "../screens/DocUp";
@@ -111,7 +111,7 @@ const MainNavigator = StackNavigator({ //this will be "createStackNavigator" aft
     SupplyChainReview: { screen: SupplyChainReview },
     ImageUpload: { screen: ImageUpload },
     Camera: { screen: Camera },
-    // CameraNew: { screen: CameraNew },
+    CameraScreen: { screen: CameraScreen },
     DocUp: { screen: DocUp },
     EdiT: { screen: EdiT },
     MetricInput: { screen: MetricInput },
@@ -129,7 +129,7 @@ const MainNavigator = StackNavigator({ //this will be "createStackNavigator" aft
     DocumentQRScanner: { screen: DocumentQRScanner },
 
 }, {
-        initialRouteName: 'NewAssetForm',
+        initialRouteName: 'Login',
         navigationOptions: ({ navigation }) => ({
 
             headerTitle:

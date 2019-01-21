@@ -36,10 +36,8 @@ export default class Camera extends Component {
     console.log("taking");
     const { params } = this.props.navigation.state;
     if (this.camera) {
-      //picture orientation bug fix zube card #406
       const options = {
         quality: 0,
-        skipProcessing: true,
         base64: true,
         fixOrientation: true
       }
