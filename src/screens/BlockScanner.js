@@ -63,12 +63,13 @@ class BlockScanner extends Component {
   }
 
   componentDidMount = async () => {
-    this._getDynamicHercValue();
-    this._getMarketCapTotalSupply();
+    await this._justDoIt();
+    await this._getMarketCapTotalSupply();
     // this._getTxList_txQuantity()
     // this._getTransactionData();
-    this._justDoIt();
-    console.log(this.state);
+    
+    
+    this.setState({ loaded: true }, console.log(this.state))
   };
 
   // _getTxQuantity = async () => {
@@ -114,7 +115,7 @@ class BlockScanner extends Component {
         let lastBlock = lastTransaction.blockNumber;
         var i;
         let lastTenTxnHashs = [];
-        for (i = 1; i < 2; i++) {
+        for (i = 1; i < 11; i++) {
           lastTenTxnHashs.push(responseObject.result[txQuantity - i].hash);
         }
         this.setState({ lastBlock, txQuantity, lastTenTxnHashs });
@@ -124,38 +125,46 @@ class BlockScanner extends Component {
 
   _getTransactionData = async hashes => {
     console.log("hashes", hashes);
-    let txnArr = [];
-    // let lastTenTxnHashs = this.state.lastTenTxnHashs;
-    hashes.map((curHash, ind) => {
-      axios
-        .get("http://api.ethplorer.io/getTxInfo/" + curHash + "?apiKey=freekey")
-        .then(res => {
-          let nice = res.data.operations[0];
+    return new Promise( resolve => {
+      let txnArr = [];
 
-          // debugger;
-          let height = res.data.blockNumber;
-          let value = nice.value;
-          let to = nice.to;
-          let from = nice.from;
-          console.log(height, value, to, from);
-          this.setState({
-            ...this.state.txnArr,
-            txnArr: [{ height: height, value: value, to: to, from: from }]
-          });
-          console.log(this.state);
-          // txnArr.push(les);
-        });
-    });
+      hashes.map((curHash, ind) => {
+        axios
+         .get("http://api.ethplorer.io/getTxInfo/" + curHash + "?apiKey=freekey")
+         .then(res => {
+           let nice = res.data.operations[0];
+           let height = res.data.blockNumber;
+           let value = nice.value;
+           let to = nice.to;
+           let from = nice.from;
+           // this.setState({
+           //   ...this.state.txnArr,
+           //   txnArr: [{ height: height, value: value, to: to, from: from }]
+           // });
+           // console.log(this.state);
+          //  txnArr.push({to: to, from:from, value:value});
 
-    // this.setState({  txnArr: txnArr });
+          this.setState(prevState => ({
+            txnArr: [...prevState.txnArr, {to: to}]
+          }))
+         }).catch(err => console.error(err))
+     })
+
+    //  return txnArr;
+    })
+
+    // Promise.all(Mapping).then(res => console.log(res))
+
+    console.log(txnArr, "txarr")
+   this.setState({  txnArr: txnArr });
+  //  return "bullshit"
   };
 
   _justDoIt = async () => {
     await this._getTxList_txQuantity()
       .then(hashes => {
         this._getTransactionData(hashes);
-      })
-      .then(res => console.log(this.state));
+      }).then(res => console.log(res)).then(blah => this._getDynamicHercValue())
   };
   // .then(res => {
   //   let lastTenTxnHashs = res;
@@ -191,7 +200,7 @@ class BlockScanner extends Component {
       .then(response => {
         console.log(response);
         let marketCap = response.data.marketCapitalization;
-        let supply = response.data.circulatingSupply;
+        let supply = response.data.aggregateSupplies;
         let totalSupply = parseFloat(supply).toFixed(3);
         this.setState({ marketCap, totalSupply });
       })
@@ -202,15 +211,16 @@ class BlockScanner extends Component {
   };
 
   _renderTransactions = () => {
-    if (this.state.txnArr[0]) {
+    if (this.state.loaded) {
+      console.log(this.state.txnArr);
       return this.state.txnArr.map((curr, ind) => {
-        console.log(curr);
+        console.log("making it to line 206");
 
         return (
-          <View key={ind} style={{ flexDirection: "row" }}>
-            <Text style={localStyles.transaction_Text}>{curr.from} ...</Text>
-            <Text style={localStyles.transaction_Text}>{curr.to} ...</Text>
-            <Text style={localStyles.transaction_Text}>{curr.value}</Text>
+          <View key={ind} style={{ flexDirection: "row", borderColor: "red", borderWidth: 3 }}>
+            {/* <Text style={[localStyles.transaction_Text]}>{curr.from}</Text><Text style={{ fontSize: 10 }}>...</Text> */}
+            <Text style={localStyles.transaction_Text}>{curr.to}</Text><Text style={{ fontSize: 10 }}>...</Text>
+            {/* <Text style={localStyles.transaction_Text}>{curr.value}</Text> */}
           </View>
         );
       });
@@ -498,12 +508,15 @@ class BlockScanner extends Component {
               {/* <View style={localStyles.contentContainerA_MarketCapBox}> */}
               <View
                 style={{
+                  borderColor: "yellow",
+                  borderWidth: 3,
                   flexDirection: "row",
-                  marginTop: 20
+                  marginTop: 15
                 }}
               >
                 <TouchableHighlight
                   style={{
+
                     backgroundColor: "rgb(241,243,252)",
                     borderRadius: 2,
                     marginLeft: "1%",
@@ -568,8 +581,10 @@ class BlockScanner extends Component {
               </View>
               <View
                 style={{
+                  borderColor: "green",
+                  borderWidth: 3,
                   flexDirection: "row",
-                  marginTop: "10%",
+                  marginTop: 10,
                   justifyContent: "space-around"
                 }}
               >
@@ -604,10 +619,14 @@ class BlockScanner extends Component {
                   Value
                 </Text>
               </View>
-              <View style={{ flex: 1, borderColor: "red", borderWidth: 3 }}>
+              
+              <View style={{ flex:1 , flexDirection: "column", borderColor: "blue", borderWidth: 3, }}>
                 {/* <TransactionList transactionList={ this.state.txnArr } /> */}
-                {this._renderTransactions()}
+                <ScrollView>
+                <View style={{flex: 1}}>{this._renderTransactions()}</View></ScrollView>
+                
               </View>
+              
             </View>
             <View style={localStyles.contentContainerB_BlocksBox}>
               <View style={{ marginTop: 20 }}>
@@ -956,6 +975,8 @@ const localStyles = StyleSheet.create({
     marginVertical: 1
   },
   contentContainerB: {
+    borderColor: "orange",
+    borderWidth: 3,
     backgroundColor: "#f2f3fb",
     // alignContent: "center",
     width: "100%",
@@ -963,6 +984,8 @@ const localStyles = StyleSheet.create({
     // height: "100%"
   },
   contentContainerB_BlocksBox: {
+    borderColor: "purple",
+    borderWidth: 3,
     marginTop: "12%",
     // flex: 2,
     alignSelf: "center",
@@ -1021,7 +1044,7 @@ const localStyles = StyleSheet.create({
   transaction_Text: {
     fontSize: 10,
     color: "black",
-    margin: 2,
+    marginLeft: 2,
     flex: 1,
     height: 14,
     textAlign: "center"
