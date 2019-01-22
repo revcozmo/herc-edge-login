@@ -1,4 +1,12 @@
 rootProject.name = 'HERC'
+include ':edge-login-ui-rn'
+project(':edge-login-ui-rn').projectDir = new File(rootProject.projectDir, '../node_modules/edge-login-ui-rn/android')
+include ':herc-edge-login-ui-rn'
+project(':herc-edge-login-ui-rn').projectDir = new File(rootProject.projectDir, '../node_modules/herc-edge-login-ui-rn/android')
+include ':edge-login-ui-rn'
+project(':edge-login-ui-rn').projectDir = new File(rootProject.projectDir, '../node_modules/edge-login-ui-rn/android')
+include ':edge-login-ui-rn'
+project(':edge-login-ui-rn').projectDir = new File(rootProject.projectDir, '../node_modules/edge-login-ui-rn/android')
 include ':react-native-camera'
 project(':react-native-camera').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-camera/android')
 include ':edge-login-ui-rn'
@@ -13,8 +21,8 @@ include ':react-native-image-picker'
 project(':react-native-image-picker').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-image-picker/android')
 include ':react-native-vector-icons'
 project(':react-native-vector-icons').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-vector-icons/android')
-include ':herc-edge-login-ui-rn'
-project(':herc-edge-login-ui-rn').projectDir = new File(rootProject.projectDir, '../node_modules/herc-edge-login-ui-rn/android')
+//include ':herc-edge-login-ui-rn'
+//project(':herc-edge-login-ui-rn').projectDir = new File(rootProject.projectDir, '../node_modules/herc-edge-login-ui-rn/android')
 include ':react-native-tcp'
 project(':react-native-tcp').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-tcp/android')
 include ':react-native-randombytes'
