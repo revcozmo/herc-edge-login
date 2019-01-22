@@ -1,8 +1,9 @@
 'use strict';
 import React, { Component } from 'react';
-import { AppRegistry, Dimensions, StyleSheet, Text, TouchableOpacity, TouchableHighlight, View, Image, ActivityIndicator } from 'react-native';
+import { AppRegistry, Dimensions, StyleSheet, Text, TouchableOpacity, TouchableHighlight, View, Image, ActivityIndicator, Modal } from 'react-native';
 import { RNCamera } from 'react-native-camera';
 import { relative } from 'path';
+import modalStyle from "../assets/confModalStyles";
 
 export default class Camera extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -15,22 +16,13 @@ export default class Camera extends Component {
     super(props);
     const initial = null;
     this.state = {
-      image: null,
-      // loading: false,
+      capturing: false
     };
   }
 
-  componentDidMount(){
-    console.log("Camera component mounted: jm")
-  }
-
   _getSize = (data) => {
-    console.log('Camera: getting size');
-    let string = data;
-    let size = atob(string);
-    console.log("Camera: size =" + size.length);
+    let size = atob(data);
     return (size.length);
-
   }
 
   takePicture = async () => {
@@ -41,30 +33,18 @@ export default class Camera extends Component {
         base64: true,
         fixOrientation: true
       }
-      try {
-        const data = await this.camera.takePictureAsync(options);
-        let image = Object.assign({}, {
-          uri: data.uri,
-          size: this._getSize(data.base64),
-          string: "data:image/jpg;base64," + data.base64
-        })
-        this.setState({ image })
-
-        params.setPic(this.state.image);
-        console.log("Camera: afterBase: ", data.uri, "\nCamera: size: ", this._getSize(data.base64));
-      } catch (err) {
-        console.log('Camera Error: ', err)
-      }
+      const data = await this.camera.takePictureAsync(options);
+      let image = Object.assign({}, {
+        uri: data.uri,
+        size: this._getSize(data.base64),
+        string: "data:image/jpg;base64," + data.base64
+      })
+      this.setState({ image }, () => {
+        params.setPic(this.state.image)
+      })
+      this.setState({ capturing: false })
     };
   }
-
- //  takePicture = async function() {
- //   if (this.camera) {
- //     const options = { quality: 0, base64: true, fixOrientation: true };
- //     const data = await this.camera.takePictureAsync(options);
- //     console.log(data.uri);
- //   }
- // };
 
   renderCamera() {
     return (
@@ -109,9 +89,25 @@ export default class Camera extends Component {
   }
 
   render() {
-    console.log(Object.keys(this.state), "thisStatein Render")
+    console.log("jm Main")
     return (
       <View style={styles.container}>
+        <Modal
+            transparent={false}
+            animationType={'none'}
+            visible={this.state.capturing}
+            onRequestClose={() => { console.log("modal closed") }}
+        >
+            <View style={modalStyle.container}>
+                <View style={modalStyle.modalBackground}>
+                    <View style={modalStyle.activityIndicatorWrapper}>
+                    <Text>Snapping Photo</Text>
+                        <ActivityIndicator
+                            animating={this.state.capturing} size="large" color="#091141" />
+                    </View>
+                </View>
+            </View>
+        </Modal>
         {this.state.image ? this.renderImage() : this.renderCamera()}
       </View>
     );
@@ -119,6 +115,13 @@ export default class Camera extends Component {
 }
 
 const styles = StyleSheet.create({
+  activityIndicatorContainer: {
+    flex: 1,
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(255, 255, 255, 0.5)',
+  },
   container: {
     flex: 1,
     alignItems: 'center',
