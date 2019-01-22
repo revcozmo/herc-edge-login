@@ -20,9 +20,8 @@ import {
     BasePasswordInput,
     HercTextFieldWithLabel,
     RegisterButton,
-    HercTextField,
-    HercTextInput,
-    HercTextInputWithLabel,
+    CostDisplay
+   
 } from '../../components/RegisterAssetComponents/RegisterAssetInputs';
 
 
@@ -94,17 +93,17 @@ export default class RegAsset_2_Draft_1 extends Component {
                 </Icon.Button> */}
                 <View style={styles.bodyContainer}>
                     <AssetCard asset={asset} />
+                    <BasePasswordInput value={this.state.passTest} />
 
-                    <HercTextField 
-                    text={"HercTextField"}
-                    style={{ height: heightPercentageToDP('5') }} />
 
-                    <HercTextFieldWithLabel text={"testTextforLabel"} label={"testLabelforText"} />
-                    <HercTextInputWithLabel placeholder={"TExtINputwith label"} label={"label for text INput"} />
-                    <BasePasswordInput label={"TesterPasswordLabel"} value={this.state.passTest} pwChange={this.pwChange} />
-                    {/* {metricList} */}
-<HercTextInput placeholder={"testINputer"} />
-                    <RegisterButton onPress={this.onPress} />
+                    {metricList}
+                  
+                    <View style={localStyles.pageBottom}>
+                     <CostDisplay amount={'1,000'} />
+                     
+                        <RegisterButton onPress={this.onPress} />
+                    </View>
+
 
                 </View>
 
@@ -118,7 +117,14 @@ export default class RegAsset_2_Draft_1 extends Component {
 
 }
 const localStyles = StyleSheet.create({
-
+    pageBottom: {
+        flex: 1,
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        padding: 20,
+        alignItems: 'center',
+        alignContent: 'center'
+    },
     modalBackground: {
         flex: 1,
         alignItems: 'center',

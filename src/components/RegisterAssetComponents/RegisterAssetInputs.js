@@ -4,12 +4,31 @@ import {
     View,
     TextInput,
     Text,
-    TouchableHighlight
+    TouchableHighlight,
+    Image
 } from 'react-native';
 
+const hercSVGIcon = require('../../assets/icons/hercicon.svg');
+const hercpngIcon = require('../../assets/icons/hercIcon.png');
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ColorConstants from "../../assets/ColorConstants";
 import { widthPercentageToDP, heightPercentageToDP } from '../../assets/responisiveUI';
+
+export function CostDisplay(props) {
+
+    return (
+        <View style={[localStyles.textFieldContainer, { backgroundColor: ColorConstants.MainBlue }]}>
+            <Text style={localStyles.textLabel}>Amount</Text>
+
+            <View style={localStyles.flexRow}>
+                <Text style={[localStyles.textFieldText, { color: 'white'}]}>{props.amount}</Text>
+                <Image source={hercpngIcon} style={{ height: 20, width: 20, borderRadius: 20, resizeMode: 'contain' }} />
+            </View>
+        </View>
+
+    )
+
+}
 
 export function RegisterButton(props) {
     return (
@@ -100,13 +119,13 @@ export class HercTextInput extends Component {
         let name = this.props.name;
         return (
             <View style={localStyles.textFieldContainer}>
-            <TextInput style={localStyles.textField}
-                placeholder={this.props.placeholder}
-                placeholder-text-color={ColorConstants.MainSubGray}
-                underlineColorAndroid='transparent'
-                onChangeText={(inputVal) => this.props.localOnChange(inputVal, name)}
+                <TextInput style={localStyles.textField}
+                    placeholder={this.props.placeholder}
+                    placeholder-text-color={ColorConstants.MainSubGray}
+                    underlineColorAndroid='transparent'
+                    onChangeText={(inputVal) => this.props.localOnChange(inputVal, name)}
 
-            />
+                />
             </View>
         )
     }
@@ -119,7 +138,7 @@ export class HercTextInputWithLabel extends Component {
     render() {
         return (
 
-            <View style={[localStyles.textFieldContainer,{paddingTop: 9}]}>
+            <View style={[localStyles.textFieldContainer, { paddingTop: 9 }]}>
 
                 <Text style={localStyles.textLabel}>{this.props.label}</Text>
                 <TextInput
@@ -152,7 +171,7 @@ export class BasePasswordInput extends Component {
 
     render() {
         return (
-            <View style={[localStyles.textFieldContainer,{paddingTop: 9}]}>
+            <View style={[localStyles.textFieldContainer, { paddingTop: 9 }]}>
                 <Text style={localStyles.textLabel}>Asset Password</Text>
                 <View style={localStyles.RegisterAssetInputPasswordContainer}>
 
@@ -182,7 +201,19 @@ export class BasePasswordInput extends Component {
 }
 
 const localStyles = StyleSheet.create({
-
+    costDisplay: {
+        height: 40,
+        width: widthPercentageToDP('90'),
+        backgroundColor: ColorConstants.MainBlue,
+        borderRadius: 8,
+        margin: 5,
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: 5,
+        marginTop: 10,
+        alignSelf: 'center'
+        // marginTop: heightPercentageToDP('20')
+    },
     eyeballContainer: {
         justifyContent: 'center',
         backgroundColor: ColorConstants.ElementBG,
@@ -204,6 +235,7 @@ const localStyles = StyleSheet.create({
         alignItems: 'center',
         padding: 5,
         marginTop: 10,
+        alignSelf: 'center'
         // marginTop: heightPercentageToDP('20')
     },
     addMetricButton: {
@@ -289,6 +321,18 @@ const localStyles = StyleSheet.create({
         borderRadius: 8,
         // backgroundColor: ColorConstants.MainGray
     },
+    textFieldText: {
+        color: ColorConstants.MainBlue,
+        marginLeft: 5,
+        marginRight: 5,
+        paddingLeft: 5,
+        // fontSize: 14,
+        textAlign: 'left',
+        fontSize: 17,
+        borderRadius: 8,
+        alignItems: 'center'
+        // backgroundColor: ColorConstants.MainGray
+    },
     textFieldContainer: {
         flex: 0,
         width: widthPercentageToDP('90'),
@@ -301,7 +345,7 @@ const localStyles = StyleSheet.create({
         borderRadius: 8
         // backgroundColor: ColorConstants.MainSubCrownBlue
     },
-   
+
 
     labeledTextInput: {
         color: ColorConstants.MainBlue,
@@ -339,8 +383,11 @@ const localStyles = StyleSheet.create({
     },
 
     flexRow: {
-        flex: 0,
-        flexDirection: 'row'
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        alignItems: 'center'
+
     },
 
     // width: (width * .9),
