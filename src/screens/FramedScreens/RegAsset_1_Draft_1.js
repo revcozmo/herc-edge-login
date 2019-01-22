@@ -40,14 +40,7 @@ export default class RegAsset1 extends Component {
         this.pwChange = this.pwChange.bind(this);
     }
   
-    // static navigationOptions = {
-
-    //     header: <Header headerTitle="Register Asset" navigation={this.props.navigation} />
-
-    // }
-
-
-
+  
     renderInputs = () => {
         let coreProps = this.state.CoreProps;
         let metrics = Object.keys(coreProps);
@@ -142,6 +135,7 @@ export default class RegAsset1 extends Component {
 
                     <RegisterButton onPress={this.onPressTest} />
                     {/* Modal 1 */}
+                  
                     <Modal
 
                         isvisible={this.state.showModal1}

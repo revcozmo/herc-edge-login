@@ -61,9 +61,6 @@ import ColorConstants from "../assets/ColorConstants";
 const MainNavigator = createStackNavigator({
     RegAssetNav: {
          screen: RegAssetNavigator,
-        //  navigationOptions: ({ navigation }) => ({
-        //     header: <Header headerTitle={'Register Asset'} navigation={navigation} />
-        // }) 
      },
     TestSplash: {
         screen: TestSplash,

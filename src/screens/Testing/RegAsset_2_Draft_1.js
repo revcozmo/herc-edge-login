@@ -10,7 +10,6 @@ import {
     Image
 } from 'react-native';
 
-import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from "../../assets/styles";
 import ColorConstants from "../../assets/ColorConstants";
 import React, { Component } from 'react';
@@ -21,7 +20,7 @@ import {
     HercTextFieldWithLabel,
     RegisterButton,
     CostDisplay
-   
+
 } from '../../components/RegisterAssetComponents/RegisterAssetInputs';
 
 
@@ -45,7 +44,7 @@ export default class RegAsset_2_Draft_1 extends Component {
 
     }
     onPress = () => {
-        this.props.navigation.navigate()
+        this.props.navigation.navigate.goBack()
     }
 
     pwChange = (char) => {
@@ -78,7 +77,7 @@ export default class RegAsset_2_Draft_1 extends Component {
             Name: "Tester Asset",
             HercId: '42'
         }
-
+console.log(this.props.navigation, 'where are the params')
         let metricList = this.renderMetrics();
         return (
             <View style={styles.baseContainer}>
@@ -88,19 +87,17 @@ export default class RegAsset_2_Draft_1 extends Component {
                     translucent={true}
                     backgroundColor='transparent'
                 />
-                {/* <Icon.Button name="eye" backgroundColor="#3b5998" onPress={() => console.log("eyeball press")}>
 
-                </Icon.Button> */}
                 <View style={styles.bodyContainer}>
                     <AssetCard asset={asset} />
                     <BasePasswordInput value={this.state.passTest} />
 
 
                     {metricList}
-                  
+
                     <View style={localStyles.pageBottom}>
-                     <CostDisplay amount={'1,000'} />
-                     
+                        <CostDisplay amount={'1,000'} />
+
                         <RegisterButton onPress={this.onPress} />
                     </View>
 
