@@ -20,6 +20,8 @@ module.exports = StyleSheet.create({
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     paddingTop: 20,
+    paddingLeft: 20,
+    paddingRight: 20,
     alignItems: "center",
     justifyContent: "flex-start",
 
