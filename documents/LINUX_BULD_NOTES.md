@@ -27,7 +27,7 @@
   `sudo echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections`  
   `sudo apt install -y oracle-java8-installer`  
 
-  #### 2.4. Android Studio
+  #### 2.4. Android Studio (version 3.3)
   Download the Android Studio Linux package from https://developer.android.com/studio/ and extract it.  
   To launch Android Studio, in the extracted directory, run the following:  
   `cd android-studio/bin`  
@@ -45,7 +45,7 @@
   `export PATH=$PATH:$ANDROID_HOME/platform-tools`  
   `export PATH=$PATH:$ANDROID_HOME/tools/bin`  
 
-  #### 2.5. Android NDK
+  #### 2.5. Android NDK (version 18.1.5063045)
   Install Android NDK: https://developer.android.com/ndk/guides/#download-ndk
     
   To set ANDROID_NDK_ROOT environment variable(if not set already), run: 
@@ -53,13 +53,13 @@
   And add the following to the text file:   
   `export ANDROID_NDK_ROOT=$ANDROID_SDK_ROOT/ndk-bundle`  
     
-  #### 2.6. Ninja 
+  #### 2.6. Ninja (version 1.8.2)
   `apt-get install ninja-build`  
 
-  #### 2.7. React native cli
+  #### 2.7. React native cli (version 2.0.1)
   `npm install -g react-native-cli`  
 
-  #### 2.8. Genymotion 
+  #### 2.8. Genymotion (version 3.0.0)
   Download and install Genymotion from https://www.genymotion.com/fun-zone/
 
 ### 3. Build and run the application
