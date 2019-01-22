@@ -53,29 +53,23 @@ import TestSplash from "../screens/Testing/TestSplash"
 
 import Header from "../components/Headers/Header";
 import ColorConstants from "../assets/ColorConstants";
-// import RegAssetNavigator from "./RegisterAssetNavigation";
 
 
 
 
 const MainNavigator = createStackNavigator({
-    RegAssetNav: {
-         screen: RegAssetNavigator,
-     },
     TestSplash: {
         screen: TestSplash,
         navigationOptions: ({ navigation }) => ({
             header: <Header headerTitle={'Welcome'} navigation={navigation} />
-        })
+        }),
+
     },
-   
-    // RegAsset_2_Draft_1: {
-    //     screen: RegAsset_2_Draft_1,
-    //     navigationOptions: ({ navigation }) => ({
-    //         header: <Header headerTitle={"Confirm Registration"} navigation={navigation} />
-    //     })      
-    //     },
-    
+    RegAssetNav: {
+        screen: RegAssetNavigator,
+
+    },
+
     Login: { screen: Login },
     MenuOptions: { screen: MenuOptions },
     NewAssetLanding: { screen: NewAssetLanding },
@@ -116,12 +110,12 @@ const MainNavigator = createStackNavigator({
 
 }, {
         initialRouteName: 'TestSplash',
-        
-            headerMode: 'screen',
+
+        headerMode: 'screen',
         //Needs to be finalized 
 
         // initialRouteName: 'Login',
-       
+
     })
 
 export default MainNavigator;

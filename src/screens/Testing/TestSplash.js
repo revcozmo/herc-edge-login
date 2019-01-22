@@ -7,13 +7,11 @@ import {
     Image
 } from 'react-native';
 
-import Icon from 'react-native-vector-icons/FontAwesome5';
 import styles from "../../assets/styles";
 import ColorConstants from "../../assets/ColorConstants";
 import React, { Component } from 'react';
 import { widthPercentageToDP, heightPercentageToDP } from '../../assets/responisiveUI';
 import { createStackNavigator } from "react-navigation";
-// import RegStackNav from "../navigation/RegisterAssetNavigation";
 
 export default class TestSplash extends Component {
 
@@ -22,6 +20,11 @@ export default class TestSplash extends Component {
         console.log(this.navigation)
        
     }
+
+onPress = () => {
+    console.log("inTestSplash")
+    this.props.navigation.navigate('RegAssetNav')
+}
 
     render() {
         const { navigate } = this.props.navigation;
@@ -40,37 +43,12 @@ export default class TestSplash extends Component {
                     />
                 </View>
                 <View style={[localStyles.baseContainer, localStyles.bodyContainer]}>
-                    {/* <Text style={localStyles.CopyHeader}>Header for the copy</Text>
-                    <Text style={[localStyles.CopyHeader, localStyles.CopyBody]}>
-                        Body of the CopyBody of the CopyBody of the CopyBody of the CopyBody of the Copy
-                        Body of the CopyBody of the CopyBody of the CopyBody of the CopyBody of the Copy
-                        Body of the CopyBody of the CopyBody of the CopyBody of the CopyBody of the Copy
-                    </Text> */}
+                  
 
-                    <Button title='Continue' onPress={() => navigate('RegAssetNav')}>RegistercreateStackNavigator</Button>
+                    <Button title='Continue' onPress={this.onPress} />
                 </View>
 
-                {/* //     <Icon.Button name="eye" backgroundColor="#3b5998" onPress={() => console.log("eyeball press")}>
-
-            //     </Icon.Button>
-            //     <View style={styles.modalBackground}>
-            //         <View style={styles.activityIndicatorWrapper}>
-            //             <Text>Modal1</Text>
-            //         </View>
-            //     </View>
-
-            //     <Icon name='eye' size={18} color={ColorConstants.MainGold} />
-            //     <RegisterAssetInput dims={this.Dims} placeholder={'hello'} />
-
-            //     <View style={localStyles.PasswordInputContainer}>
-            //         <Text style={styles.passwordInputlabel}>MainGray!!!!</Text>
-            //         <RegisterAssetPassword placeholder='SecondplaceholderTest' onChange={this.onChange} />
-
-            //     </View>
-
-            //     <Icon.Button name="eye" backgroundColor="#3b5998" onPress={() => console.log("eyeball press")}>
-            //     </Icon.Button> */}
-
+          
             </View>
         )
     }

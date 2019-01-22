@@ -12,9 +12,12 @@ import ColorConstants from "../../assets/ColorConstants";
 import React, { Component } from 'react';
 import { widthPercentageToDP, heightPercentageToDP } from '../../assets/responisiveUI';
 import { createStackNavigator } from "react-navigation";
+import RegHeader from "../../components/Headers/Header";
 
 export default class RegAssetSplashTest extends Component {
-
+//  navigationOptions = ({ navigation }) => ({
+//             header: <RegHeader headerTitle={"Register Asset"} params={goBackTo = 'RegAssetSplash1'} navigation={navigation} />
+//         })
 
     constructor(props) {
         super(props);
