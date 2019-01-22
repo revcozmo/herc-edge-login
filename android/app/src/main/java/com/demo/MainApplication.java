@@ -19,7 +19,6 @@ import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
 import fr.greweb.reactnativeviewshot.RNViewShotPackage;
-import com.wix.RNCameraKit.RNCameraKitPackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -47,8 +46,7 @@ public class MainApplication extends Application implements ReactApplication {
             new TcpSocketsModule(),
             new RandomBytesPackage(),
             new RNFSPackage(),
-            new RNFastCryptoPackage(),
-            new RNCameraKitPackage()
+            new RNFastCryptoPackage()
       );
     }
 

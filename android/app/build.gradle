@@ -169,7 +169,6 @@ configurations.all {
 dependencies {
     implementation project(':herc-edge-login-ui-rn')
     implementation project(':edge-login-ui-rn')
-    implementation project(':rncamerakit')
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation project(':react-native-device-info')
     implementation project(':react-native-linear-gradient')

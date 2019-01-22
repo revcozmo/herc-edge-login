@@ -2,10 +2,10 @@
 yarn.lock
 
 #auto-generated apk artifacts
-/android/build/
-/android/app/build/
-/android/app/src/main/assets/index.bundle
-/android/app/src/main/assets/index.bundle.meta
+android/build/
+android/app/build/
+android/app/src/main/assets/index.bundle
+android/app/src/main/assets/index.bundle.meta
 
 #this is where the idology API login information is stored
 src/components/settings.js
