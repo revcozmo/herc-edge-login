@@ -23,9 +23,9 @@ const bgImage = require("../../assets/main-bg.png")
     }
     _goBack = () => {
         let navigation = this.props;
-        let goBackTo = navigation.params.goBackTo
+        // let goBackTo = navigation.params.goBackTo
         console.log(navigation, "trying to go back")
-        navigation.goBack(goBackTo);
+        navigation.goBack();
     }
 
 

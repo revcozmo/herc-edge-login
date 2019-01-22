@@ -31,16 +31,16 @@ export default class RegAsset1 extends Component {
                 Metric2: "",
                 Metric3: "",
                 Metric4: "",
-                Metric5: "",
-                Metric6: "",
+                // Metric5: "",
+                // Metric6: "",
 
             }
         }
         this.localOnChange = this.localOnChange.bind(this);
         this.pwChange = this.pwChange.bind(this);
     }
-  
-  
+
+
     renderInputs = () => {
         let coreProps = this.state.CoreProps;
         let metrics = Object.keys(coreProps);
@@ -63,6 +63,7 @@ export default class RegAsset1 extends Component {
     onPressTest = () => {
 
         console.log("I got Pressed!")
+        this.props.navigation.navigate('RegAsset2');
     }
 
     changeModal1 = () => {
@@ -135,18 +136,17 @@ export default class RegAsset1 extends Component {
 
                     <RegisterButton onPress={this.onPressTest} />
                     {/* Modal 1 */}
-                  
-                    <Modal
 
-                        isvisible={this.state.showModal1}
+                    <Modal
+                        backdropColor={'rgba(0,0,0,0.5)'}
+                        isVisible={this.state.showModal1}
                         onRequestClose={() => { console.log("modal closed") }}
                     >
-                        <View style={modalStyles.lowerModalContainer}>
+                        <View style={modalStyles.imageSourceContainer}>
                             <Text style={modalStyles.menuTitle}>Choose Image Source</Text>
                             {/* <Text style={modalStyles.labelTitle}>LabeltitleThis is Modal1 Slide</Text> */}
 
-                            <View style={modalStyles.imageSourceContainer}>
-
+                            <View style={modalStyles.lowerModalContainer}>
                                 <View style={modalStyles.sourceIconContainer}>
                                     <View style={modalStyles.camSourceIcon}>
                                         <Icon

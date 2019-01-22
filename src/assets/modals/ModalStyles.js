@@ -4,50 +4,51 @@ import { widthPercentageToDP, heightPercentageToDP } from '../responisiveUI';
 
 module.exports = StyleSheet.create({
 
-    modalCenter: {
+    modalLower: {
         alignItems: 'center',
         flexDirection: 'column',
-        justifyContent: 'center',
+        justifyContent: 'flex-end',
         flex: 1
     },
 
     lowerModalContainer: {
       
-        flexDirection: 'column',
-        justifyContent: 'flex-start',
-        alignItems: 'center',
+        flexDirection: 'row',
+        // justifyContent: 'flex-end',
+        // alignItems: 'center',
         // alignContent: 'flex-end',
         backgroundColor: ColorConstants.MainGray,
-        backgroundColor: 'rgba(0,0,0,0.5)',
+        // backgroundColor: 'rgba(0,0,0,0.5)',
         borderRadius: 20
     },
+    
+    imageSourceContainer: {
+        flexDirection: 'column',
+        backgroundColor: ColorConstants.MainGray,
+        padding: 10,
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '100%',
+        height: '30%',
+        borderWidth: 0,
+        borderRadius:  8
 
+
+    },
+    sourceIconContainer: {
+        height: '60%',
+        width: '30%',
+        alignItems: 'center',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        backgroundColor: ColorConstants.MainGray
+    },
     modalContent2: {
         backgroundColor: ColorConstants.MainSubRed,
         height: widthPercentageToDP('30'),
         width: heightPercentageToDP('25'),
     },
 
-    imageSourceContainer: {
-        flexDirection: 'row',
-        backgroundColor: ColorConstants.MainGray,
-        padding: 10,
-        paddingTop: 30,
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        width: '50%',
-        height: '50%',
-        borderWidth: 0,
-
-
-    },
-    sourceIconContainer: {
-        height: '100%',
-        alignItems: 'center',
-        flexDirection: 'column',
-        justifyContent: 'space-between',
-        backgroundColor: ColorConstants.MainGray
-    },
 
     container: {
         width: '100%',
@@ -76,10 +77,11 @@ module.exports = StyleSheet.create({
 
     camSourceIcon: {
         backgroundColor: ColorConstants.MainGray,
-        justifyContent: 'center',
-        alignSelf: 'center',
-        // height: widthPercentageToDP('10'),
-        // width: heightPercentageToDP('10'),
+        justifyContent: 'space-between',
+        alignSelf: 'flex-start',
+        flexDirection: 'column',
+
+        
 
     },
 

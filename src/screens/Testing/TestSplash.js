@@ -23,7 +23,7 @@ export default class TestSplash extends Component {
 
 onPress = () => {
     console.log("inTestSplash")
-    this.props.navigation.navigate('RegAssetNav')
+    this.props.navigation.navigate('RegAssetSplashTest')
 }
 
     render() {

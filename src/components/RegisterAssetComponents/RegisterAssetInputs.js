@@ -278,30 +278,30 @@ const localStyles = StyleSheet.create({
         flexDirection: 'row',
         backgroundColor: ColorConstants.MainGray,
         width: widthPercentageToDP('90'),
-        height: heightPercentageToDP('3.5'),
+        height: heightPercentageToDP('4'),
         borderRadius: 8,
         margin: 5
 
     },
-    textInput: {
-        borderRadius: 8,
-        // backgroundColor: ColorConstants.MainGray,
-        backgroundColor: ColorConstants.ElementBG,
-        marginTop: 0,
-        marginBottom: 0,
-        paddingLeft: 5,
-        textAlign: 'left',
-        marginLeft: 0,
-        marginRight: 0,
-        fontSize: 17,
-        height: 40,
-        width: '100%'
-        // alignSelf: 'center'
-    },
+    // textInput: {
+    //     borderRadius: 8,
+    //     // backgroundColor: ColorConstants.MainGray,
+    //     backgroundColor: ColorConstants.ElementBG,
+    //     marginTop: 0,
+    //     marginBottom: 0,
+    //     paddingLeft: 5,
+    //     textAlign: 'left',
+    //     marginLeft: 0,
+    //     marginRight: 0,
+    //     fontSize: 17,
+    //     height: 40,
+    //     width: '100%'
+    //     // alignSelf: 'center'
+    // },
     textInputContainer: {
         flex: 0,
         width: widthPercentageToDP('90'),
-        height: heightPercentageToDP('5'),
+        height: heightPercentageToDP('6'),
         justifyContent: 'center',
         alignItems: 'flex-start',
         backgroundColor: ColorConstants.ElementBG,
@@ -319,24 +319,19 @@ const localStyles = StyleSheet.create({
         textAlign: 'left',
         fontSize: 17,
         borderRadius: 8,
-        // backgroundColor: ColorConstants.MainGray
+        height: heightPercentageToDP('6'),
     },
     textFieldText: {
         color: ColorConstants.MainBlue,
-        marginLeft: 5,
         marginRight: 5,
         paddingLeft: 5,
-        // fontSize: 14,
         textAlign: 'left',
         fontSize: 17,
-        borderRadius: 8,
-        alignItems: 'center'
-        // backgroundColor: ColorConstants.MainGray
     },
     textFieldContainer: {
         flex: 0,
         width: widthPercentageToDP('90'),
-        height: heightPercentageToDP('6'),
+        height: heightPercentageToDP('5.5'),
         justifyContent: 'center',
         alignItems: 'flex-start',
         backgroundColor: ColorConstants.ElementBG,
@@ -354,10 +349,11 @@ const localStyles = StyleSheet.create({
         backgroundColor: ColorConstants.ElementBG,
         margin: 0,
         fontSize: 17,
+        height: heightPercentageToDP('5.5')
     },
     passwordTextInput: {
         width: widthPercentageToDP('90'),
-        height: heightPercentageToDP('5'),
+        height: heightPercentageToDP('5.5'),
         borderRadius: 0,
         backgroundColor: ColorConstants.ElementBG,
         margin: 0,
