@@ -12,7 +12,8 @@ module.exports = StyleSheet.create({
     },
 
     lowerModalContainer: {
-      
+        alignItems: 'center',
+        justifyContent: 'center',
         flexDirection: 'row',
         // justifyContent: 'flex-end',
         // alignItems: 'center',
@@ -36,7 +37,7 @@ module.exports = StyleSheet.create({
 
     },
     sourceIconContainer: {
-        height: '60%',
+        height: '30%',
         width: '30%',
         alignItems: 'center',
         flexDirection: 'column',
@@ -49,18 +50,7 @@ module.exports = StyleSheet.create({
         width: heightPercentageToDP('25'),
     },
 
-
-    container: {
-        width: '100%',
-        height: '100%',
-        // backgroundColor: ColorConstants.MainBlue,
-        backgroundColor: ColorConstants.MainGray,
-        alignItems: "center",
-        justifyContent: "flex-start",
-        // marginTop: 20,
-        borderTopLeftRadius: 20,
-        borderTopRightRadius: 20
-    },
+   
 
     labelTitle: {
         fontSize: 18,

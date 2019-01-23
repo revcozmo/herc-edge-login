@@ -319,7 +319,8 @@ const localStyles = StyleSheet.create({
         textAlign: 'left',
         fontSize: 17,
         borderRadius: 8,
-        height: heightPercentageToDP('6'),
+        height: heightPercentageToDP('4.95'),
+        paddingBottom:0
     },
     textFieldText: {
         color: ColorConstants.MainBlue,
@@ -331,13 +332,14 @@ const localStyles = StyleSheet.create({
     textFieldContainer: {
         flex: 0,
         width: widthPercentageToDP('90'),
-        height: heightPercentageToDP('5.5'),
+        height: heightPercentageToDP('6'),
         justifyContent: 'center',
         alignItems: 'flex-start',
         backgroundColor: ColorConstants.ElementBG,
         margin: 5,
         paddingLeft: 5,
-        borderRadius: 8
+        borderRadius: 8,
+        paddingBottom: 10
         // backgroundColor: ColorConstants.MainSubCrownBlue
     },
 
@@ -368,6 +370,7 @@ const localStyles = StyleSheet.create({
         color: ColorConstants.MainSubGray,
         marginLeft: 3,
         fontWeight: 'normal',
+        marginTop: 10
     },
     buttonLabel: {
         fontSize: 12,
