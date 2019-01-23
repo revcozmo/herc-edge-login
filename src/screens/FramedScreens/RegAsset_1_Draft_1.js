@@ -45,7 +45,7 @@ export default class RegAsset1 extends Component {
         let coreProps = this.state.CoreProps;
         let metrics = Object.keys(coreProps);
         let metricInputs = [];
-        metrics.forEach((x) => {
+        metrics.map((x) => {
             // let name = x
 
             metricInputs.push(<HercTextInput
@@ -133,8 +133,12 @@ export default class RegAsset1 extends Component {
                     <AddMetricButton onPress={this.changeModal1} />
 
                     <AddPhotoButton onPress={this.changeModal2} />
+                    <View style={[styles.pageBottom, {justifyContent: 'flex-end'}]}>
+                     <View style={{height: 100, width: 100, backgroundColor: 'blue'}}></View>
+                     
+                        <RegisterButton onPress={this.onPressTest} />
+                    </View>
 
-                    <RegisterButton onPress={this.onPressTest} />
                     {/* Modal 1 */}
 
                     <Modal
@@ -142,63 +146,41 @@ export default class RegAsset1 extends Component {
                         isVisible={this.state.showModal1}
                         onRequestClose={() => { console.log("modal closed") }}
                     >
-                        <View style={modalStyles.imageSourceContainer}>
-                            <Text style={modalStyles.menuTitle}>Choose Image Source</Text>
-                            {/* <Text style={modalStyles.labelTitle}>LabeltitleThis is Modal1 Slide</Text> */}
+                        <View style={modalStyles.modalLower}>
+                            <View style={modalStyles.imageSourceContainer}>
+                                <Text style={modalStyles.menuTitle}>Choose Image Source</Text>
 
-                            <View style={modalStyles.lowerModalContainer}>
-                                <View style={modalStyles.sourceIconContainer}>
-                                    <View style={modalStyles.camSourceIcon}>
-                                        <Icon
-                                            containerStyle={modalStyles.iconButton}
-                                            name="camera"
-                                            size={20}
-                                            color="black"
-                                            onPress={() => this.changeModal1()}>
-                                        </Icon>
-                                    </View>
-                                    <Text style={modalStyles.labelTitle}>Camera</Text>
-                                </View>
+                                <View style={modalStyles.lowerModalContainer}>
+                                    <View style={modalStyles.sourceIconContainer}>
 
-                                <View style={modalStyles.sourceIconContainer}>
-                                    <View style={modalStyles.camSourceIcon}>
-                                        <Icon
-                                            name="folder-open"
-                                            size={20}
-                                            containerStyle={modalStyles.iconButton}
-                                            color="black"
-                                            onPress={() => this.changeModal1()}>
-                                        </Icon>
+                                        <View style={modalStyles.camSourceIcon}>
+                                            <Icon
+                                                containerStyle={modalStyles.iconButton}
+                                                name="camera"
+                                                size={20}
+                                                color="black"
+                                                onPress={() => this.changeModal1()}>
+                                            </Icon>
+                                        </View>
+                                        <Text style={modalStyles.labelTitle}>Camera</Text>
                                     </View>
-                                    <Text style={modalStyles.labelTitle}>Gallery</Text>
+
+                                    <View style={modalStyles.sourceIconContainer}>
+                                        <View style={modalStyles.camSourceIcon}>
+                                            <Icon
+                                                name="folder-open"
+                                                size={20}
+                                                containerStyle={modalStyles.iconButton}
+                                                color="black"
+                                                onPress={() => this.changeModal1()}>
+                                            </Icon>
+                                        </View>
+                                        <Text style={modalStyles.labelTitle}>Gallery</Text>
+                                    </View>
                                 </View>
                             </View>
                         </View>
                     </Modal>
-
-                    {/* Modal 2 */}
-                    <Modal
-                        animationType={'fade'}
-                        isVisible={this.state.showModal2}
-                        onRequestClose={() => { console.log("modal closed") }}
-                    >
-                        <View style={modalStyles.modalCenter}>
-                            <View style={modalStyles.modalContent2}>
-                                <Image source={{ uri: "https://cdn.dribbble.com/users/108183/screenshots/3488148/liquid_preloader_by_volorf.gif" }} style={{ height: 50, width: 50 }} />
-                                {/* <Image source={this.gif()} style={{ height: 50, width: 50 }} /> */}
-                                <Text style={modalStyles.labelTitle}>This is Modal2 Fade</Text>
-                                <View style={modalStyles.iconButton}>
-                                    <Icon.Button
-                                        name="adjust"
-                                        color="black"
-                                        backgroundColor={ColorConstants.MainGray}
-                                        onPress={() => this.changeModal2()}>
-                                    </Icon.Button>
-                                </View>
-                            </View>
-                        </View>
-                    </Modal>
-
 
                 </View>
             </View >

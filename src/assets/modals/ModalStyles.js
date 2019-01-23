@@ -13,11 +13,8 @@ module.exports = StyleSheet.create({
 
     lowerModalContainer: {
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'space-between',
         flexDirection: 'row',
-        // justifyContent: 'flex-end',
-        // alignItems: 'center',
-        // alignContent: 'flex-end',
         backgroundColor: ColorConstants.MainGray,
         // backgroundColor: 'rgba(0,0,0,0.5)',
         borderRadius: 20
@@ -26,7 +23,7 @@ module.exports = StyleSheet.create({
     imageSourceContainer: {
         flexDirection: 'column',
         backgroundColor: ColorConstants.MainGray,
-        padding: 10,
+        paddingTop: 30,
         alignItems: 'center',
         justifyContent: 'center',
         width: '100%',
@@ -37,13 +34,20 @@ module.exports = StyleSheet.create({
 
     },
     sourceIconContainer: {
-        height: '30%',
+        height: '70%',
         width: '30%',
         alignItems: 'center',
         flexDirection: 'column',
         justifyContent: 'space-between',
         backgroundColor: ColorConstants.MainGray
     },
+    camSourceIcon: {
+        backgroundColor: ColorConstants.MainGray,
+        // justifyContent: 'space-between',
+        // alignSelf: 'flex-start',
+        // flexDirection: 'column',
+    },
+
     modalContent2: {
         backgroundColor: ColorConstants.MainSubRed,
         height: widthPercentageToDP('30'),
@@ -65,14 +69,5 @@ module.exports = StyleSheet.create({
 
     },
 
-    camSourceIcon: {
-        backgroundColor: ColorConstants.MainGray,
-        justifyContent: 'space-between',
-        alignSelf: 'flex-start',
-        flexDirection: 'column',
-
-        
-
-    },
 
 })

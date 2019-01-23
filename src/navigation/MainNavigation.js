@@ -11,11 +11,11 @@ import React, { Component } from "react";
 import { createStackNavigator } from "react-navigation";
 
 
-// import RegAssetNavigator from "./RegisterAssetNavigation";
+import RegAssetNavigator from "./RegisterAssetNavigation";
 
-import RegAsset1 from "../screens/FramedScreens/RegAsset_1_Draft_1";
-import RegAssetSplashTest from "../screens/FramedScreens/RegAssetSplash_Draft_1";
-import RegAsset2 from "../screens/Testing/RegAsset_2_Draft_1";
+// import RegAsset1 from "../screens/FramedScreens/RegAsset_1_Draft_1";
+// import RegAssetSplashTest from "../screens/FramedScreens/RegAssetSplash_Draft_1";
+// import RegAsset2 from "../screens/Testing/RegAsset_2_Draft_1";
 
 
 import BlockScanner from "../screens/BlockScanner";
@@ -60,29 +60,32 @@ import ColorConstants from "../assets/ColorConstants";
 const MainNavigator = createStackNavigator({
     TestSplash: {
         screen: TestSplash,
-       
-    },
-    RegAsset1: {
-        screen: RegAsset1,
-        navigationOptions: ({ navigation }) => ({
-            header: <Header headerTitle={"Register Asset1"} navigation={navigation} />
+         navigationOptions: ({ navigation }) => ({
+            header: <Header headerTitle={'Welcome'} navigation={navigation} />
         })
        
     },
-    RegAsset2: {
-        screen: RegAsset2,
-        navigationOptions: ({ navigation }) => ({
-            header: <Header headerTitle={"Register Asset2"} navigation={navigation} />
-        })
-       
-    },
-    RegAssetSplashTest: {
-        screen: RegAssetSplashTest,
+    RegAssetNav: {
+        screen: RegAssetNavigator,
         navigationOptions: ({ navigation }) => ({
             header: <Header headerTitle={"Register Asset"} navigation={navigation} />
         })
        
     },
+    // RegAsset2: {
+    //     screen: RegAsset2,
+    //     navigationOptions: ({ navigation }) => ({
+    //         header: <Header headerTitle={"Register Asset2"} navigation={navigation} />
+    //     })
+       
+    // },
+    // RegAssetSplashTest: {
+    //     screen: RegAssetSplashTest,
+    //     navigationOptions: ({ navigation }) => ({
+    //         header: <Header headerTitle={"Register Asset"} navigation={navigation} />
+    //     })
+       
+    // },
     // RegAssetNav: {
     //     screen: RegAssetNavigator,
 
@@ -129,9 +132,9 @@ const MainNavigator = createStackNavigator({
 }, {
         initialRouteName: 'TestSplash',
         headerMode: 'screen',
-        navigationOptions: ({ navigation }) => ({
-            header: <Header headerTitle={'Welcome'} navigation={navigation} />
-        })
+        // navigationOptions: ({ navigation }) => ({
+        //     header: <Header headerTitle={'Welcome'} navigation={navigation} />
+        // })
      
     })
 
