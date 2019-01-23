@@ -8,7 +8,15 @@ import {
     View
 } from "react-native";
 import React, { Component } from "react";
-import { StackNavigator } from "react-navigation";
+import { createStackNavigator } from "react-navigation";
+
+
+import RegAssetNavigator from "./RegisterAssetNavigation";
+
+// import RegAsset1 from "../screens/FramedScreens/RegAsset_1_Draft_1";
+// import RegAssetSplashTest from "../screens/FramedScreens/RegAssetSplash_Draft_1";
+// import RegAsset2 from "../screens/Testing/RegAsset_2_Draft_1";
+
 
 import BlockScanner from "../screens/BlockScanner";
 import Camera from "../screens/Camera";
@@ -37,57 +45,52 @@ import Wallet from "../screens/Wallet";
 import Settings from "../screens/Settings";
 import QRCapture from "../screens/QRCapture";
 import QRCapture2 from "../screens/QRCapture2";
-import roundImage from "../assets/round.png"
-import styles from "../assets/styles";
-import backArrow from "../assets/icon_backarrow.png"; // TODO: turn into vector icon!
-import DrawerIcon from "../assets/icons/drawerIcon.png"; // TODO: turn into vector icon!
 import WebViewComponent from "../components/WebViewComponent";
 import DocumentStorage from "../screens/DocumentStorage";
 import DocumentQRScanner from "../screens/DocumentQRScanner";
 
-let headerStyles = StyleSheet.create({
-    header__container: {
-        display: "flex",
-        height: 80,
-        alignSelf: "center",
-        flex: 1,
-        alignContent: "center",
-        alignItems: "center",
-        marginTop: 40,
-        paddingBottom: 20
-    },
-    header__container__centeredBox: {
-        height: "100%",
-        alignItems: "center",
-        flexDirection: 'row'
-    },
-    header__text__box: {
-        height: "100%",
-        marginBottom: 5,
-        marginLeft: 12,
-    },
-    header__image__box: {
-        height: "100%",
-        borderRadius: 100
-    },
-    assetHeaderLogo: {
-        height: 35,
-        width: 35,
-        borderRadius: 50,
-    },
-    headerText: {
-        fontFamily: "dinPro",
-        fontSize: 26,
-        alignSelf: "center",
-        fontWeight: "bold",
-        color: "black",
-        textAlign: "center",
-        marginTop: 2,
-    },
-})
+import TestSplash from "../screens/Testing/TestSplash"
+
+import Header from "../components/Headers/Header";
+import ColorConstants from "../assets/ColorConstants";
 
 
-const MainNavigator = StackNavigator({ //this will be "createStackNavigator" after upgrading react-navigation
+
+
+const MainNavigator = createStackNavigator({
+    TestSplash: {
+        screen: TestSplash,
+         navigationOptions: ({ navigation }) => ({
+            header: <Header headerTitle={'Welcome'} navigation={navigation} />
+        })
+       
+    },
+    RegAssetNav: {
+        screen: RegAssetNavigator,
+        navigationOptions: ({ navigation }) => ({
+            header: <Header headerTitle={"Register Asset"} navigation={navigation} />
+        })
+       
+    },
+    // RegAsset2: {
+    //     screen: RegAsset2,
+    //     navigationOptions: ({ navigation }) => ({
+    //         header: <Header headerTitle={"Register Asset2"} navigation={navigation} />
+    //     })
+       
+    // },
+    // RegAssetSplashTest: {
+    //     screen: RegAssetSplashTest,
+    //     navigationOptions: ({ navigation }) => ({
+    //         header: <Header headerTitle={"Register Asset"} navigation={navigation} />
+    //     })
+       
+    // },
+    // RegAssetNav: {
+    //     screen: RegAssetNavigator,
+
+    // },
+
     Login: { screen: Login },
     MenuOptions: { screen: MenuOptions },
     NewAssetLanding: { screen: NewAssetLanding },
@@ -96,7 +99,7 @@ const MainNavigator = StackNavigator({ //this will be "createStackNavigator" aft
 
     HiprLanding: { screen: HiprLanding },
     HiprAssets: { screen: HiprAssets },
-    HiprTransactions : { screen: HiprTransactions },
+    HiprTransactions: { screen: HiprTransactions },
     Hipr: { screen: Hipr },
 
     BlockScanner: { screen: BlockScanner },
@@ -127,48 +130,12 @@ const MainNavigator = StackNavigator({ //this will be "createStackNavigator" aft
     DocumentQRScanner: { screen: DocumentQRScanner },
 
 }, {
-        initialRouteName: 'Login',
-        navigationOptions: ({ navigation }) => ({
-
-            headerTitle:
-                <View style={headerStyles.header__container}>
-                    <View style={headerStyles.header__container__centeredBox}>
-                        <View style={headerStyles.header__image__box}>
-                            {/* <TouchableHighlight style={{justifyContent: "center"}} onPress={() => navigation.navigate("MenuOptions")}>
-                            </TouchableHighlight> */}
-                            <Image
-                                style={headerStyles.assetHeaderLogo}
-                                source={roundImage}
-                            />
-                        </View>
-                        <View style={headerStyles.header__text__box}>
-                            <Text style={headerStyles.headerText}>Main Options </Text>
-                        </View>
-                    </View>
-                </View>,
-
-            headerStyle: {
-                height: Platform.OS === 'android' ? 60 : 100,
-                backgroundColor: 'white',
-
-            },
-            headerTitleStyle: {
-                marginTop: Platform.OS === 'android' ? 20 : 0,
-                textAlign: 'center',
-                textAlignVertical: 'center',
-                backgroundColor: 'white',
-                alignSelf: 'center',
-
-            },
-            headerRight: <TouchableHighlight onPress={() => navigation.navigate("Settings")}>
-            <Image source={DrawerIcon} style={styles.drawerIcon} />
-          </TouchableHighlight>
-          ,
-            headerLeft: <TouchableHighlight onPress={() => navigation.goBack()}>
-                <Image source={backArrow} style={styles.backArrow} />
-            </TouchableHighlight>
-
-        })
+        initialRouteName: 'TestSplash',
+        headerMode: 'screen',
+        // navigationOptions: ({ navigation }) => ({
+        //     header: <Header headerTitle={'Welcome'} navigation={navigation} />
+        // })
+     
     })
 
 export default MainNavigator;

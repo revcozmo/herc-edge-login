@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Platform, StyleSheet, Text, View, TouchableHighlight, Image, Picker, ScrollView } from 'react-native';
 import { connect } from "react-redux";
-import { StackNavigator } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation';
 import styles from '../assets/styles';
 import edits from '../reducers/Edi-T-Sets';
 import { setSet } from '../actions/AssetActions';

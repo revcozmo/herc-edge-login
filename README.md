@@ -1,23 +1,55 @@
+#  This branch:
 #  UI OverHaul!
+## I've changed the loading screen to save time styling components. 
 
 ##  The way I imagine it working is like this:
-
 *  We shall consider this branch "Master"
 *  To Build something, create a new branch with your name, Date if you want, and what the branch is for. For instance, to start I will probably do something like ```Stack-SharedComponents``` and in it would be whatever components could be shared accross pages, probably inputs and labels etc. When I was finished I would put in a PR to merge with this branch and have it reviewed. 
 *  Try and keep commits small, maybe a page worth at a time...easier to debug, I'm bad at this, but I will do my best.
 
 ###  Flows are as follows:
 
-*  stack: Register, Track, Supply Chain
+*  stack: [x] Register, Track, Supply Chain
 *  Mark: Doc Storage, Etherscan, Login
 *  Ahmer:  Wallet, Settings
 
-*  Loose Ends: Header(s) and Validate
+*  Loose Ends: Validate
 
+## `1.12.2019 - 1.21.2018`
+### UI Refactor
+ (🎩 @stefanbemelmans)
+  
+🔨 Improvements
 
+`herc-edge-login`
+* Established the 3 step Framing, Wiring, Polish process, but maybe should be Framing, Polish, Wiring as polishing will require a lot of   refreshes and having to login each time could be frustrating. 
 
+*  Register Flow minus modals is ready for stage 2
+*  Upgraded Navigation, in the process of separating the navigation stacks
+*  Converted the SVG icon into a PNG icon
+*  Majority of the Components and buttons are built
 
+## `1.1.2019 - 1.11.2018`
+### UI Refactor
+ (🎩 @stefanbemelmans)
+  
+🔨 Improvements
 
+`herc-edge-login` 
+
+*  Begin standardizing UI and component styles
+    *  Started with RegAsset Flow
+        *  Password Input
+        *  Text Input
+        *  Base Body
+        *  Base Content
+        *  Header
+        *  Modals
+*  Evaluating react-native-transitions 
+
+*  Begin refactor of the navigation. This requires a significant update of the current navigation library.
+
+*  Resarched and discovered a solution to responsive UI components
 <!-- # [H]ERC Decentralized Application with Identity Powered by Https://Edge.App
 
 ![HERC Wallet](https://i.imgur.com/h0nwznp.png)
