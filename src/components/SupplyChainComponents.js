@@ -14,7 +14,7 @@ import { widthPercentageToDP, heightPercentageToDP } from '../assets/responisive
 
 
 
-export function AddAssetButton(props) {
+export function AddAssetButton() {
     return (
 
         <View style={localStyles.addMetricButton}>

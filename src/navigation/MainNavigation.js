@@ -11,7 +11,6 @@ import React, { Component } from "react";
 import { createStackNavigator } from "react-navigation";
 
 
-import RegAssetNavigator from "./RegisterAssetNavigation";
 
 // import RegAsset1 from "../screens/FramedScreens/RegAsset_1_Draft_1";
 // import RegAssetSplashTest from "../screens/FramedScreens/RegAssetSplash_Draft_1";
@@ -55,7 +54,8 @@ import TestSplash from "../screens/Testing/TestSplash"
 
 import Header from "../components/Headers/Header";
 
-import SupplyChainSplash from "../screens/Testing/SupplyChainSplash";
+import RegAssetNavigator from "./RegisterAssetNavigation";
+import SupplyChainNav from "./SupplyChainNavigation";
 
 
 const MainNavigator = createStackNavigator({
@@ -73,8 +73,8 @@ const MainNavigator = createStackNavigator({
         })
        
     },
-    SupplyChain: {
-        screen: SupplyChainMenu,
+    SupplyChainNav: {
+        screen: SupplyChainNav,
         navigationOptions: ({ navigation }) => ({
             header: <Header headerTitle={"Supply Chain"} navigation={navigation} />
         })
@@ -131,7 +131,7 @@ const MainNavigator = createStackNavigator({
     DocumentQRScanner: { screen: DocumentQRScanner },
 
 }, {
-        initialRouteName: 'SupplyChain',
+        initialRouteName: 'SupplyChainNav',
         headerMode: 'screen',
         // navigationOptions: ({ navigation }) => ({
         //     header: <Header headerTitle={'Supply Chain'} navigation={navigation} />

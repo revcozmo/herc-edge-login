@@ -5,7 +5,6 @@ import {
     StatusBar,
     Image,
 } from 'react-native';
-const loadingGif = require("../../assets/icons/liquid_preloader_by_volorf.gif");
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import Modal from 'react-native-modal';
 import modalStyles from "../../assets/modals/ModalStyles";
@@ -13,12 +12,12 @@ import styles from "../../assets/styles";
 import ColorConstants from "../../assets/ColorConstants";
 import React, { Component } from 'react';
 import testerAssets from "../../components/TesterAssets";
-
-import AssetCard from "../../components/AssetCard";
+import { AddAssetbutton } from "../../components/SupplyChainComponents"
+import { AssetCard } from "../../components/AssetCard";
 // AssetCard props = Name, Logo, HercId
 import { widthPercentageToDP, heightPercentageToDP } from '../../assets/responisiveUI';
 
-export default class RegAsset1 extends Component {
+export default class SupplyChainSplash extends Component {
 
     constructor(props) {
         // console.log(this.props.navigation, "navigation??")
@@ -37,7 +36,7 @@ export default class RegAsset1 extends Component {
             // let name = x
 
             assetList.push(
-                {AssetCard(x)}
+                <AssetCard asset={x} />
             )
         })
 
@@ -85,7 +84,6 @@ export default class RegAsset1 extends Component {
     render() {
 
 
-        let metricInputs = this.renderInputs();
 
         return (
 
@@ -98,20 +96,14 @@ export default class RegAsset1 extends Component {
                 />
                 <View style={styles.bodyContainer}>
 
-                    <RegisterButton onPress={this.onPressTest} />
+                    <AddAssetbutton />
 
 
+                    {renderAssets()}
+
+                    <Text>Hello</Text>
 
 
-                    {metricInputs}
-
-                    <AddMetricButton onPress={this.changeModal1} />
-
-                    <AddPhotoButton onPress={this.changeModal2} />
-                    <View style={[styles.pageBottom, { justifyContent: 'flex-end' }]}>
-                        <View style={{ height: 100, width: 100, backgroundColor: 'blue' }}></View>
-
-                    </View>
 
                     {/* Modal 1 */}
 
