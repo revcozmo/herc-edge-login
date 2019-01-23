@@ -31,7 +31,9 @@ export default class Camera extends Component {
       const options = {
         quality: 0,
         base64: true,
-        fixOrientation: true
+        fixOrientation: true,
+        width: 200,
+        pauseAfterCapture: true
       }
       const data = await this.camera.takePictureAsync(options);
       let image = Object.assign({}, {
@@ -80,7 +82,9 @@ export default class Camera extends Component {
           style={styles.preview}/>
         <Text
           style={styles.cancel}
-          onPress={() => this.setState({ image: null })}>Cancel</Text>
+          onPress={() =>
+            this.setState({ image: null }, () => this.camera.resumePreview()
+            )}>Cancel</Text>
         <Text
           style={styles.accept}
           onPress={() => this.props.navigation.goBack()}>Accept</Text>
