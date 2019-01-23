@@ -14,6 +14,11 @@ import {
 import styles from "../assets/styles";
 import { connect } from "react-redux";
 import round from "../assets/round.png";
+import CustomModal from "../components/CustomModal";
+
+
+const BigNumber = require('bignumber.js');
+
 const axios = require("axios");
 
 class TransactionList extends Component {
@@ -57,6 +62,7 @@ class BlockScanner extends Component {
       marketCap: null,
       txQuantity: null,
       totalSupply: null,
+      holdersCount: null,
       txnArr: [],
       transactionsLoaded: false
     };
@@ -65,6 +71,7 @@ class BlockScanner extends Component {
   componentDidMount = async () => {
     await this._justDoIt();
     await this._getMarketCapTotalSupply();
+    await this._getHoldersCount();
     // this._getTxList_txQuantity()
     // this._getTransactionData();
     
@@ -86,6 +93,14 @@ class BlockScanner extends Component {
   //     return (responseObject.countTxs)
   //   })
   // }
+
+  _getHoldersCount = async () => {
+    axios.get("http://api.ethplorer.io/getAddressInfo/0x6251583e7d997df3604bc73b9779196e94a090ce?apiKey=freekey")
+    .then( result => {
+      let holdersCount = result.data.tokenInfo.holdersCount;
+      this.setState({ holdersCount })
+    })
+  }
 
   _getDynamicHercValue = async () => {
     axios
@@ -145,7 +160,7 @@ class BlockScanner extends Component {
           //  txnArr.push({to: to, from:from, value:value});
 
           this.setState(prevState => ({
-            txnArr: [...prevState.txnArr, {to: to}]
+            txnArr: [...prevState.txnArr, { to: to, from:from, value: value }]
           }))
          }).catch(err => console.error(err))
      })
@@ -155,8 +170,8 @@ class BlockScanner extends Component {
 
     // Promise.all(Mapping).then(res => console.log(res))
 
-    console.log(txnArr, "txarr")
-   this.setState({  txnArr: txnArr });
+  //   console.log(txnArr, "txarr")
+  //  this.setState({  txnArr: txnArr });
   //  return "bullshit"
   };
 
@@ -215,12 +230,15 @@ class BlockScanner extends Component {
       console.log(this.state.txnArr);
       return this.state.txnArr.map((curr, ind) => {
         console.log("making it to line 206");
+        let revalue = new BigNumber(curr.value).shiftedBy(-18);
+        let fixedRevalue = revalue.toFixed(18);
+        console.log(fixedRevalue)
 
         return (
           <View key={ind} style={{ flexDirection: "row", borderColor: "red", borderWidth: 3 }}>
-            {/* <Text style={[localStyles.transaction_Text]}>{curr.from}</Text><Text style={{ fontSize: 10 }}>...</Text> */}
-            <Text style={localStyles.transaction_Text}>{curr.to}</Text><Text style={{ fontSize: 10 }}>...</Text>
-            {/* <Text style={localStyles.transaction_Text}>{curr.value}</Text> */}
+            <Text style={[localStyles.transaction_Text]}>{curr.from}</Text>
+            <Text style={localStyles.transaction_Text}>{curr.to}</Text>
+            <Text style={localStyles.transaction_Text}>{fixedRevalue}</Text>
           </View>
         );
       });
@@ -311,7 +329,7 @@ class BlockScanner extends Component {
           /> */}
         <ScrollView style={{ flex: 1 }}>
           <View
-            style={[localStyles.contentContainerA, { height: screenHeight }]}
+            style={[localStyles.contentContainerA, { height: 400 }]}
           >
             <View style={localStyles.contentContainerA_MarketCapBox}>
               <View style={localStyles.contentContainerA_Box_TopRow}>
@@ -326,7 +344,9 @@ class BlockScanner extends Component {
                 style={{
                   marginVertical: 10,
                   alignSelf: "center",
-                  flexDirection: "row"
+                  flexDirection: "row",
+                  borderColor: "purple",
+                  borderWidth: 3
                 }}
               >
                 <Image
@@ -337,7 +357,7 @@ class BlockScanner extends Component {
                   <View
                     style={[
                       localStyles.contentContainerA_Box_SecRow,
-                      { width: 200 }
+                      // { width: 200 }
                     ]}
                   >
                     <Text
@@ -349,7 +369,7 @@ class BlockScanner extends Component {
                     >
                       {this.state.hercValue ? "$" + this.state.hercValue : null}
                     </Text>
-                    <Text
+                    {/* <Text
                       style={{
                         color: "rgb(102,245,7)",
                         fontSize: 12,
@@ -358,10 +378,10 @@ class BlockScanner extends Component {
                       }}
                     >
                       3.23 %
-                    </Text>
+                    </Text> */}
                   </View>
-                  <View style={localStyles.contentContainerA_Box_SecRow}>
-                    <Text
+                  {/* <View style={localStyles.contentContainerA_Box_SecRow}> */}
+                    {/* <Text
                       style={{
                         color: "rgb(120,136,229)",
                         textAlign: "center",
@@ -369,8 +389,8 @@ class BlockScanner extends Component {
                       }}
                     >
                       @ 0.03243 BTC/Herc{" "}
-                    </Text>
-                  </View>
+                    </Text> */}
+                  {/* </View> */}
                 </View>
               </View>
               <View
@@ -418,16 +438,16 @@ class BlockScanner extends Component {
                 </View>
                 <View style={{ width: "50%" }}>
                   <Text style={localStyles.contentContainerA_MarketCapBox_Text}>
-                    Network Difficulty
+                    Holders Count
                   </Text>
                   <Text style={localStyles.contentContainerA_MarketCapBox_Text}>
-                    2,239.23 TH
+                    {this.state.holdersCount ? this.state.holdersCount : null }
                   </Text>
                 </View>
               </View>
             </View>
-            <View style={localStyles.contentContainerA_HercTransHistBox}>
-              <View>
+            {/* <View style={localStyles.contentContainerA_HercTransHistBox}> */}
+              {/* <View>
                 <Text
                   style={{
                     color: "white",
@@ -439,13 +459,13 @@ class BlockScanner extends Component {
                   {" "}
                   HERC Transaction History{" "}
                 </Text>
-              </View>
-              <View
+              </View> */}
+              {/* <View
                 style={
                   localStyles.contentContainerA_HercTransHistBox_dateRangeRow
                 }
-              >
-                <TouchableHighlight
+              > */}
+                {/* <TouchableHighlight
                   style={
                     localStyles.contentContainerA_HercTransHistBox_dateRangeRow_touchable
                   }
@@ -457,8 +477,8 @@ class BlockScanner extends Component {
                   >
                     Year
                   </Text>
-                </TouchableHighlight>
-                <TouchableHighlight
+                </TouchableHighlight> */}
+                {/* <TouchableHighlight
                   style={
                     localStyles.contentContainerA_HercTransHistBox_dateRangeRow_touchable
                   }
@@ -470,8 +490,8 @@ class BlockScanner extends Component {
                   >
                     Month
                   </Text>
-                </TouchableHighlight>
-                <TouchableHighlight
+                </TouchableHighlight> */}
+                {/* <TouchableHighlight
                   style={
                     localStyles.contentContainerA_HercTransHistBox_dateRangeRow_touchable
                   }
@@ -483,8 +503,8 @@ class BlockScanner extends Component {
                   >
                     Week
                   </Text>
-                </TouchableHighlight>
-                <TouchableHighlight
+                </TouchableHighlight> */}
+                {/* <TouchableHighlight
                   style={
                     localStyles.contentContainerA_HercTransHistBox_dateRangeRow_touchable
                   }
@@ -496,48 +516,22 @@ class BlockScanner extends Component {
                   >
                     Day
                   </Text>
-                </TouchableHighlight>
-              </View>
-            </View>
+                </TouchableHighlight> */}
+              {/* </View> */}
+            {/* </View> */}
           </View>
 
           <View
-            style={[localStyles.contentContainerB, { height: screenHeight }]}
+            style={[localStyles.contentContainerB, { flex:1 }]}
           >
-            <View style={localStyles.contentContainerB_BlocksBox}>
+            <View style={localStyles.contentContainerB_TransactionsBox}>
               {/* <View style={localStyles.contentContainerA_MarketCapBox}> */}
               <View
-                style={{
-                  borderColor: "yellow",
-                  borderWidth: 3,
-                  flexDirection: "row",
-                  marginTop: 15
-                }}
+                style={localStyles.rowContainingTransactionViewAll}
               >
                 <TouchableHighlight
                   style={{
-
-                    backgroundColor: "rgb(241,243,252)",
-                    borderRadius: 2,
-                    marginLeft: "1%",
-                    justifyContent: "center"
-                  }}
-                >
-                  <Text
-                    style={{
-                      textAlign: "center",
-                      marginHorizontal: 10,
-                      fontWeight: "bold",
-                      fontSize: 16,
-                      color: "rgb(122,138,229)"
-                    }}
-                  >
-                    Blocks
-                  </Text>
-                </TouchableHighlight>
-                <TouchableHighlight
-                  style={{
-                    backgroundColor: "rgb(241,243,252)",
+                    backgroundColor: "white",
                     borderRadius: 2,
                     marginLeft: "5%",
                     justifyContent: "center"
@@ -548,7 +542,7 @@ class BlockScanner extends Component {
                       textAlign: "center",
                       marginHorizontal: 10,
                       fontWeight: "bold",
-                      fontSize: 16,
+                      fontSize: 12,
                       color: "black"
                     }}
                   >
@@ -563,6 +557,9 @@ class BlockScanner extends Component {
                     borderRadius: 20,
                     marginLeft: "8%",
                     justifyContent: "center"
+                  }}
+                  onPress={() => {
+                    Linking.openURL("https://etherscan.io/token/0x6251583e7d997df3604bc73b9779196e94a090ce");
                   }}
                 >
                   <Text
@@ -591,7 +588,7 @@ class BlockScanner extends Component {
                 <Text
                   style={{
                     textAlign: "center",
-                    fontSize: 16,
+                    fontSize: 12,
                     color: "black",
                     marginVertical: 10
                   }}
@@ -601,7 +598,7 @@ class BlockScanner extends Component {
                 <Text
                   style={{
                     textAlign: "center",
-                    fontSize: 16,
+                    fontSize: 12,
                     color: "black",
                     marginVertical: 10
                   }}
@@ -611,7 +608,7 @@ class BlockScanner extends Component {
                 <Text
                   style={{
                     textAlign: "center",
-                    fontSize: 16,
+                    fontSize: 12,
                     color: "black",
                     marginVertical: 10
                   }}
@@ -620,15 +617,15 @@ class BlockScanner extends Component {
                 </Text>
               </View>
               
-              <View style={{ flex:1 , flexDirection: "column", borderColor: "blue", borderWidth: 3, }}>
+              <View style={{ flexDirection: "column", borderColor: "blue", borderWidth: 3, marginBottom: 2 }}>
                 {/* <TransactionList transactionList={ this.state.txnArr } /> */}
-                <ScrollView>
-                <View style={{flex: 1}}>{this._renderTransactions()}</View></ScrollView>
+               
+                {this._renderTransactions()}
                 
               </View>
               
             </View>
-            <View style={localStyles.contentContainerB_BlocksBox}>
+            <View style={localStyles.contentContainerB_FooterBox}>
               <View style={{ marginTop: 20 }}>
                 <Text
                   style={{ color: "black", fontWeight: "bold", marginLeft: 5 }}
@@ -837,15 +834,15 @@ class BlockScanner extends Component {
                   </Text>
                 </TouchableHighlight>
               </View>
-              <View style={{ marginTop: 10 }}>
+              {/* <View style={{ marginTop: 10 }}>
                 <Text
                   style={{ color: "black", fontWeight: "bold", marginLeft: 5 }}
                 >
                   SUBSCRIBE
                 </Text>
-              </View>
-              <View style={{ flexDirection: "row", marginTop: 5 }}>
-                <TextInput
+              </View> */}
+              {/* <View style={{ flexDirection: "row", marginTop: 5 }}> */}
+                {/* <TextInput
                   style={{
                     borderColor: "gray",
                     width: "75%",
@@ -854,8 +851,8 @@ class BlockScanner extends Component {
                   }}
                   placeholder="Your email"
                   underlineColorAndroid="transparent"
-                />
-                <TouchableHighlight
+                /> */}
+                {/* <TouchableHighlight
                   style={{
                     backgroundColor: "#7888e5",
                     borderRadius: 5,
@@ -865,8 +862,8 @@ class BlockScanner extends Component {
                     height: 30,
                     alignSelf: "center"
                   }}
-                >
-                  <Text
+                > */}
+                  {/* <Text
                     style={{
                       alignSelf: "center",
                       color: "white",
@@ -876,9 +873,9 @@ class BlockScanner extends Component {
                     }}
                   >
                     Subscribe
-                  </Text>
-                </TouchableHighlight>
-              </View>
+                  </Text> */}
+                {/* </TouchableHighlight> */}
+              {/* </View> */}
             </View>
           </View>
           <View>
@@ -886,6 +883,9 @@ class BlockScanner extends Component {
               COPYRIGHT 2018 Hercules SEZC - All Rights Reserved.
             </Text>
           </View>
+          {/* <View>
+            <CustomModal/>
+          </View> */}
         </ScrollView>
       </View>
     );
@@ -924,22 +924,28 @@ const localStyles = StyleSheet.create({
     backgroundColor: "rgb(11,22,88)"
   },
   contentContainerA_MarketCapBox: {
+    borderColor: "yellow",
+    borderWidth: 3,
     marginTop: "12%",
     // flex: 2,
     alignSelf: "center",
     width: "95%",
-    height: "40%",
+    height: 300,
     backgroundColor: "#7888e5",
     borderRadius: 5
   },
   contentContainerA_Box_TopRow: {
+    borderColor: "orange",
+    borderWidth: 3,
     marginTop: 10,
     alignSelf: "center"
   },
   contentContainerA_Box_SecRow: {
-    justifyContent: "space-around",
-    alignSelf: "center",
-    flexDirection: "row"
+    borderColor: "red",
+    borderWidth: 3,
+    // justifyContent: "space-around",
+    // alignSelf: "center",
+    // flexDirection: "row"
   },
   contentContainerA_MarketCapBox_Text: {
     color: "white",
@@ -983,16 +989,35 @@ const localStyles = StyleSheet.create({
     alignSelf: "center"
     // height: "100%"
   },
-  contentContainerB_BlocksBox: {
+  contentContainerB_TransactionsBox: {
+    flexDirection: "column",
     borderColor: "purple",
     borderWidth: 3,
     marginTop: "12%",
-    // flex: 2,
+    // flex: 1,
     alignSelf: "center",
     width: "95%",
-    height: "40%",
+    backgroundColor: "white",
+    borderRadius: 5,
+    height: 350
+  },
+  contentContainerB_FooterBox: {
+    flexDirection: "column",
+    borderColor: "purple",
+    borderWidth: 3,
+    marginTop: "12%",
+    // flex: 1,
+    alignSelf: "center",
+    width: "95%",
     backgroundColor: "white",
     borderRadius: 5
+  },
+  rowContainingTransactionViewAll: {
+    borderColor: "yellow",
+    borderWidth: 3,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: 15
   },
   hercLogoHeader: {
     height: 45,
@@ -1044,7 +1069,7 @@ const localStyles = StyleSheet.create({
   transaction_Text: {
     fontSize: 10,
     color: "black",
-    marginLeft: 2,
+    margin: 2,
     flex: 1,
     height: 14,
     textAlign: "center"
