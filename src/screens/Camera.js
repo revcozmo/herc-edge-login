@@ -89,7 +89,6 @@ export default class Camera extends Component {
   }
 
   render() {
-    console.log("jm Main")
     return (
       <View style={styles.container}>
         <Modal
