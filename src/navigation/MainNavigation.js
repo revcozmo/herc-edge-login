@@ -34,10 +34,12 @@ import MenuOptions from "../screens/MenuOptions";
 import NewAssetConfirm from "../screens/NewAssetConfirm";
 import HiprLanding from "../screens/HiprLanding";
 import TrackAssetOptions from "../screens/TrackAssetOptions";
+
 import SupplyChainAssetList from "../screens/SupplyChainAssetList";
 import SupplyChainTxRx from "../screens/SupplyChainTxRx";
 import SupplyChainReview from "../screens/SupplyChainReview";
 import NewAssetForm from "../screens/NewAssetForm";
+
 import TrackAssetList from "../screens/TrackAssetList";
 import TxSwiperContainer from "../screens/TxSwiperContainer";
 import TxSwiper from "../components/TxSwiper";
@@ -52,9 +54,8 @@ import DocumentQRScanner from "../screens/DocumentQRScanner";
 import TestSplash from "../screens/Testing/TestSplash"
 
 import Header from "../components/Headers/Header";
-import ColorConstants from "../assets/ColorConstants";
 
-
+import SupplyChainSplash from "../screens/Testing/SupplyChainSplash";
 
 
 const MainNavigator = createStackNavigator({
@@ -72,13 +73,13 @@ const MainNavigator = createStackNavigator({
         })
        
     },
-    // RegAsset2: {
-    //     screen: RegAsset2,
-    //     navigationOptions: ({ navigation }) => ({
-    //         header: <Header headerTitle={"Register Asset2"} navigation={navigation} />
-    //     })
+    SupplyChain: {
+        screen: SupplyChainMenu,
+        navigationOptions: ({ navigation }) => ({
+            header: <Header headerTitle={"Supply Chain"} navigation={navigation} />
+        })
        
-    // },
+    },
     // RegAssetSplashTest: {
     //     screen: RegAssetSplashTest,
     //     navigationOptions: ({ navigation }) => ({
@@ -130,10 +131,10 @@ const MainNavigator = createStackNavigator({
     DocumentQRScanner: { screen: DocumentQRScanner },
 
 }, {
-        initialRouteName: 'TestSplash',
+        initialRouteName: 'SupplyChain',
         headerMode: 'screen',
         // navigationOptions: ({ navigation }) => ({
-        //     header: <Header headerTitle={'Welcome'} navigation={navigation} />
+        //     header: <Header headerTitle={'Supply Chain'} navigation={navigation} />
         // })
      
     })
