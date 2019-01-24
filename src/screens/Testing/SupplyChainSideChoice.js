@@ -8,13 +8,13 @@ import {
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import Modal from 'react-native-modal';
 import modalStyles from "../../assets/modals/ModalStyles";
+
 import styles from "../../assets/styles";
 import ColorConstants from "../../assets/ColorConstants";
 import React, { Component } from 'react';
-import testerAssets from "../../components/TesterAssets";
-import { AddAssetbutton } from "../../components/SupplyChainComponents"
-import { AssetCard } from "../../components/AssetCard";
-// AssetCard props = Name, Logo, HercId
+
+const OrigImage = require('../../assets/SupplyChainAssets/originator.png')
+const RecipImage = require('../../assets/SupplyChainAssets/recipient.png')
 import { widthPercentageToDP, heightPercentageToDP } from '../../assets/responisiveUI';
 
 export default class SupplyChainSideChoice extends Component {
@@ -24,12 +24,12 @@ export default class SupplyChainSideChoice extends Component {
         super(props);
         console.log("componentTest")
 
-        this.localOnChange = this.localOnChange.bind(this);
-        this.pwChange = this.pwChange.bind(this);
+        // this.localOnChange = this.localOnChange.bind(this);
+        // this.pwChange = this.pwChange.bind(this);
     }
 
 
-   
+
     onPressTest = () => {
 
         console.log("I got Pressed!")
@@ -44,32 +44,30 @@ export default class SupplyChainSideChoice extends Component {
     //     console.log(this.state.showModal1, "showmodal1after");
     // }
 
-    changeModal2 = () => {
-        console.log(this.state.showModal2, "showmodal2");
-        this.setState({
-            showModal2: !this.state.showModal2
-        })
-        console.log(this.state.showModal2, "showmodal2after");
-    }
+    // changeModal2 = () => {
+    //     console.log(this.state.showModal2, "showmodal2");
+    //     this.setState({
+    //         showModal2: !this.state.showModal2
+    //     })
+    //     console.log(this.state.showModal2, "showmodal2after");
+    // }
 
 
-    pwChange = (pwChar) => {
-        console.log(pwChar, 'incompoTest Passing functions')
-        this.setState({
-            Password: pwChar
-        });
-    }
+    // pwChange = (pwChar) => {
+    //     console.log(pwChar, 'incompoTest Passing functions')
+    //     this.setState({
+    //         Password: pwChar
+    //     });
+    // }
 
-    localOnChange = (inputValue, name) => {
-        console.log('inputValue', inputValue, "changing metric text", name);
-        this.setState({
-            [name]: inputValue
-        })
-    }
+    // localOnChange = (inputValue, name) => {
+    //     console.log('inputValue', inputValue, "changing metric text", name);
+    //     this.setState({
+    //         [name]: inputValue
+    //     })
+    // }
 
     render() {
-
-
 
         return (
 
@@ -81,60 +79,21 @@ export default class SupplyChainSideChoice extends Component {
 
                 />
                 <View style={styles.bodyContainer}>
-
-                    {/* <AddAssetbutton />
-
-
-                    {testerAssets.map(x => {
-                        {AssetCard(x)}
-                    })} */}
-
-                    <Text>Hello</Text>
-
-
-
-                    {/* Modal 1 */}
-
-                    <Modal
-                        backdropColor={'rgba(0,0,0,0.5)'}
-                        isVisible={this.state.showModal1}
-                        onRequestClose={() => { console.log("modal closed") }}
-                    >
-                        <View style={modalStyles.modalLower}>
-                            <View style={modalStyles.imageSourceContainer}>
-                                <Text style={modalStyles.menuTitle}>Choose Image Source</Text>
-
-                                <View style={modalStyles.lowerModalContainer}>
-                                    <View style={modalStyles.sourceIconContainer}>
-
-                                        <View style={modalStyles.camSourceIcon}>
-                                            <Icon
-                                                containerStyle={modalStyles.iconButton}
-                                                name="camera"
-                                                size={20}
-                                                color="black"
-                                                onPress={() => this.changeModal1()}>
-                                            </Icon>
-                                        </View>
-                                        <Text style={modalStyles.labelTitle}>Camera</Text>
-                                    </View>
-
-                                    <View style={modalStyles.sourceIconContainer}>
-                                        <View style={modalStyles.camSourceIcon}>
-                                            <Icon
-                                                name="folder-open"
-                                                size={20}
-                                                containerStyle={modalStyles.iconButton}
-                                                color="black"
-                                                onPress={() => this.changeModal1()}>
-                                            </Icon>
-                                        </View>
-                                        <Text style={modalStyles.labelTitle}>Gallery</Text>
-                                    </View>
-                                </View>
-                            </View>
+                    <Text style={localStyles.labelTitle}>Where are you along the Supply Chain?</Text>
+                    <View style={localStyles.choiceContainer}>
+                        <View style={localStyles.choiceImageContainer}>
+                            <Image source={OrigImage} style={localStyles.choiceImage}  />
                         </View>
-                    </Modal>
+
+                        <View style={localStyles.choiceImageContainer}>
+                            <Image source={RecipImage} style={localStyles.choiceImage} />
+                        </View>
+
+                    </View>
+
+
+
+
 
                 </View>
             </View >
@@ -144,29 +103,32 @@ export default class SupplyChainSideChoice extends Component {
 
 const localStyles = StyleSheet.create({
 
-    imageSourceContainer: {
+    choiceContainer: {
         flexDirection: 'row',
-        backgroundColor: ColorConstants.MainGray,
+        // backgroundColor: ColorConstants.MainGray,
+        backgroundColor: 'blue',
         padding: 10,
-        paddingTop: 30,
+        // paddingTop: 30,
         alignItems: 'center',
         justifyContent: 'space-between',
-        width: '50%',
-        height: '50%',
-        borderWidth: 0,
-
+        width: '100%',
+        height: heightPercentageToDP('30')
 
     },
 
-    sourceIconContainer: {
-        height: '100%',
+    choiceImageContainer: {
+
+        flex: 0,
         alignItems: 'center',
-        flexDirection: 'column',
-        justifyContent: 'space-between',
-        backgroundColor: ColorConstants.MainGray
+        width: 100,
+        height: 100,
+        borderRadius: 50,
+        backgroundColor: ColorConstants.MainGold,
+        alignItems: 'center',
+        justifyContent: 'center'
     },
 
-    iconButton: {
+    checkBoxContainer: {
         alignSelf: 'center',
         marginLeft: 10,
         backgroundColor: ColorConstants.MainGray
@@ -175,15 +137,18 @@ const localStyles = StyleSheet.create({
 
     },
 
-    camSourceIcon: {
-        backgroundColor: ColorConstants.MainGray,
-        justifyContent: 'center',
-        alignSelf: 'center',
-        // height: widthPercentageToDP('10'),
-        // width: heightPercentageToDP('10'),
-
+    choiceImage: {
+        resizeMode: 'contain',
+        height: 50,
+        width: 50,
+        alignSelf: 'center'
     },
-
+    labelTitle: {
+        fontSize: 18,
+        color: ColorConstants.MainBlue,
+        margin: 5,
+        fontWeight: 'bold'
+    },
 
 
     activityIndicatorWrapper: {
@@ -227,11 +192,7 @@ const localStyles = StyleSheet.create({
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20
     },
-    labelTitle: {
-        fontSize: 18,
-        color: ColorConstants.MainBlue,
-        margin: 5
-    },
+
     menuTitle: {
         color: ColorConstants.MainBlue,
         fontSize: 26,

@@ -4,6 +4,7 @@ import {
     View,
     StatusBar,
     Image,
+    TouchableHighlight
 } from 'react-native';
 import styles from "../../assets/styles";
 import React, { Component } from 'react';
@@ -34,23 +35,24 @@ export default class SupplyChainSplash extends Component {
 
     renderAssets = () => {
 
-        let assetList =
-            TesterAssets.map((x) => {
-                // let name = x
-
-
-                <AssetCard key={x} asset={x} />
-
-            })
+        let assetList = []
+        TesterAssets.map((x, i) => {
+            console.log(x, i)
+            assetList.push(
+                <TouchableHighlight onPress={this.onPressTest(x.Name)}>
+                    <AssetCard key={i} asset={x} />
+                </TouchableHighlight>
+            )
+        })
 
         console.log(assetList.length, "in renderAssets func");
         return assetList;
     }
 
-    onPressTest = () => {
+    onPressTest = (assetName) => {
 
         console.log("I got Pressed!")
-        this.props.navigation.navigate('RegAsset2');
+        this.props.navigation.navigate('SupplyChainSideChoice',{ headerName: assetName });
     }
 
     showCamModal = () => {
@@ -87,7 +89,7 @@ export default class SupplyChainSplash extends Component {
     render() {
 
         console.log(TesterAssets, "testerAssets")
-// let AssList = this.renderAssets();
+        // let AssList = this.renderAssets();
         return (
 
             <View style={styles.baseContainer}>
@@ -101,7 +103,8 @@ export default class SupplyChainSplash extends Component {
 
 
                     <AddAssetButton onPress={this.onPressTest} />
-                    {TesterAssets.map(x => <AssetCard key={x} asset={x}/> )}
+
+                    {this.renderAssets()}
 
                     <Text>Hello</Text>
 
