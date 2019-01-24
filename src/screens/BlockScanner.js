@@ -9,50 +9,17 @@ import {
   ScrollView,
   Dimensions,
   TextInput,
-  Linking
+  Linking,
+  Clipboard,
+  Alert,
 } from "react-native";
 import styles from "../assets/styles";
 import { connect } from "react-redux";
 import round from "../assets/round.png";
-import CustomModal from "../components/CustomModal";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
-
-const BigNumber = require('bignumber.js');
-
+const BigNumber = require("bignumber.js");
 const axios = require("axios");
-
-class TransactionList extends Component {
-  state = {
-    transactions: null
-  };
-
-  componentDidMount() {
-    // this.fetchTransactions(this.props.id).then(this.refreshList);
-    this.refreshTransactionList();
-  }
-  componentWillReceiveProps(props) {
-    const { transactionList } = this.props;
-    // const { refresh, id } = this.props;
-    if (props.transactionList !== transactionList) {
-      console.log(this.props);
-      this.setState({ transactions: this.props.transactionList });
-    }
-  }
-  refreshTransactionList = res =>
-    this.setState({ transaction: this.props.transactionList });
-
-  render() {
-    return (
-      <View>
-        <Text>
-          {this.state.transactions
-            ? this.state.transactions.blockNumber
-            : "nothing"}
-        </Text>
-      </View>
-    );
-  }
-}
 
 class BlockScanner extends Component {
   constructor(props) {
@@ -72,35 +39,24 @@ class BlockScanner extends Component {
     await this._justDoIt();
     await this._getMarketCapTotalSupply();
     await this._getHoldersCount();
-    // this._getTxList_txQuantity()
-    // this._getTransactionData();
-    
-    
-    this.setState({ loaded: true }, console.log(this.state))
+    this.setState({ loaded: true });
   };
 
-  // _getTxQuantity = async () => {
-  //   return fetch (
-  //     "http://api.ethplorer.io/getAddressInfo/0x6251583e7d997df3604bc73b9779196e94a090ce?apiKey=freekey",
-  //     {
-  //       method: "GET"
-  //     }
-  //   ).then(response => response.json())
-  //   .then(responseJson => {
-  //     let responseObject = responseJson;
-  //     let txQuantity =
-  //     this.setState({ txQuantity: res })
-  //     return (responseObject.countTxs)
-  //   })
-  // }
+  _writeToClipboard = async data => {
+    await Clipboard.setString(data);
+    Alert.alert("Copied to Clipboard!", data);
+  };
 
   _getHoldersCount = async () => {
-    axios.get("http://api.ethplorer.io/getAddressInfo/0x6251583e7d997df3604bc73b9779196e94a090ce?apiKey=freekey")
-    .then( result => {
-      let holdersCount = result.data.tokenInfo.holdersCount;
-      this.setState({ holdersCount })
-    })
-  }
+    axios
+      .get(
+        "http://api.ethplorer.io/getAddressInfo/0x6251583e7d997df3604bc73b9779196e94a090ce?apiKey=freekey"
+      )
+      .then(result => {
+        let holdersCount = result.data.tokenInfo.holdersCount;
+        this.setState({ holdersCount });
+      });
+  };
 
   _getDynamicHercValue = async () => {
     axios
@@ -139,81 +95,46 @@ class BlockScanner extends Component {
   };
 
   _getTransactionData = async hashes => {
-    console.log("hashes", hashes);
-    return new Promise( resolve => {
+    return new Promise(resolve => {
       let txnArr = [];
 
       hashes.map((curHash, ind) => {
         axios
-         .get("http://api.ethplorer.io/getTxInfo/" + curHash + "?apiKey=freekey")
-         .then(res => {
-           let nice = res.data.operations[0];
-           let height = res.data.blockNumber;
-           let value = nice.value;
-           let to = nice.to;
-           let from = nice.from;
-           // this.setState({
-           //   ...this.state.txnArr,
-           //   txnArr: [{ height: height, value: value, to: to, from: from }]
-           // });
-           // console.log(this.state);
-          //  txnArr.push({to: to, from:from, value:value});
+          .get(
+            "http://api.ethplorer.io/getTxInfo/" + curHash + "?apiKey=freekey"
+          )
+          .then(res => {
+            let nice = res.data.operations[0];
+            let height = res.data.blockNumber;
+            let value = nice.value;
+            let to = nice.to;
+            let from = nice.from;
 
-          this.setState(prevState => ({
-            txnArr: [...prevState.txnArr, { to: to, from:from, value: value }]
-          }))
-         }).catch(err => console.error(err))
-     })
-
-    //  return txnArr;
-    })
-
-    // Promise.all(Mapping).then(res => console.log(res))
-
-  //   console.log(txnArr, "txarr")
-  //  this.setState({  txnArr: txnArr });
-  //  return "bullshit"
+            this.setState(prevState => ({
+              txnArr: [
+                ...prevState.txnArr,
+                { to: to, from: from, value: value }
+              ]
+            }));
+          })
+          .catch(err => console.error(err));
+      });
+    });
   };
 
   _justDoIt = async () => {
     await this._getTxList_txQuantity()
       .then(hashes => {
         this._getTransactionData(hashes);
-      }).then(res => console.log(res)).then(blah => this._getDynamicHercValue())
+      })
+      .then(res => console.log(res))
+      .then(blah => this._getDynamicHercValue());
   };
-  // .then(res => {
-  //   let lastTenTxnHashs = res;
-  //   console.log(lastTenTxnHashs)
-  //   let txnArr = [];
-  //   lastTenTxnHashs.map((curHash, ind) => {
-  //     fetch(
-  //       "http://api.ethplorer.io/getTxInfo/" + curHash + "?apiKey=freekey",
-  //       {
-  //         method: "GET"
-  //       }
-  //     )
-  //       .then(res => {
-  //         console.log(res)
-  //         // debugger;
-  //         let les = res;
-  //         txnArr.push(les);
-  //       });
-  //   });
-  //   this.setState({  txnArr: txnArr });
-  //   return txnArr;
-  //   // console.log(txnArr);
-  // });
-  // .then(res => {
-  //   let yes = res;
-  //   this.setState({ txnArr: yes })
-  //   console.log(this.state.txnArr)
-  // })
 
   _getMarketCapTotalSupply = async () => {
     axios
       .get("https://chart.anthemgold.com/bi-1.0-SNAPSHOT/Report")
       .then(response => {
-        console.log(response);
         let marketCap = response.data.marketCapitalization;
         let supply = response.data.aggregateSupplies;
         let totalSupply = parseFloat(supply).toFixed(3);
@@ -232,10 +153,24 @@ class BlockScanner extends Component {
         console.log("making it to line 206");
         let revalue = new BigNumber(curr.value).shiftedBy(-18);
         let fixedRevalue = revalue.toFixed(18);
-        console.log(fixedRevalue)
+        console.log(fixedRevalue);
+        let dynamicStyle = {};
+        if (ind % 2 == 0) {
+          dynamicStyle = {
+            backgroundColor: "white",
+            flexDirection: "row",
+            margin: 2.5
+          };
+        } else {
+          dynamicStyle = {
+            backgroundColor: "#f2f3fb",
+            flexDirection: "row",
+            margin: 2.5
+          };
+        }
 
         return (
-          <View key={ind} style={{ flexDirection: "row", borderColor: "red", borderWidth: 3 }}>
+          <View key={ind} style={dynamicStyle}>
             <Text style={[localStyles.transaction_Text]}>{curr.from}</Text>
             <Text style={localStyles.transaction_Text}>{curr.to}</Text>
             <Text style={localStyles.transaction_Text}>{fixedRevalue}</Text>
@@ -243,7 +178,7 @@ class BlockScanner extends Component {
         );
       });
     } else {
-      return <Text style={{textAlign: "center" }}>LOADING</Text>;
+      return <Text style={{ textAlign: "center" }}>LOADING</Text>;
     }
   };
 
@@ -317,6 +252,15 @@ class BlockScanner extends Component {
 
   render() {
     let screenHeight = Dimensions.get("window").height;
+    const contentCopyIcon = (
+      <TouchableHighlight
+        onPress={() => {
+          this._writeToClipboard('0x6251583e7d997df3604bc73b9779196e94a090ce');
+        }}
+      >
+        <Icon name="content-copy" size={10} color="blue" />
+      </TouchableHighlight>
+    );
     return (
       <View style={localStyles.container}>
         {/* <WebViewrr
@@ -328,9 +272,7 @@ class BlockScanner extends Component {
             domStorageEnabled={true}
           /> */}
         <ScrollView style={{ flex: 1 }}>
-          <View
-            style={[localStyles.contentContainerA, { height: 400 }]}
-          >
+          <View style={[localStyles.contentContainerA, { height: 400 }]}>
             <View style={localStyles.contentContainerA_MarketCapBox}>
               <View style={localStyles.contentContainerA_Box_TopRow}>
                 <Text style={{ color: "silver", margin: 10, fontSize: 12 }}>
@@ -344,9 +286,9 @@ class BlockScanner extends Component {
                 style={{
                   marginVertical: 10,
                   alignSelf: "center",
-                  flexDirection: "row",
-                  borderColor: "purple",
-                  borderWidth: 3
+                  flexDirection: "row"
+                  // borderColor: "purple",
+                  // borderWidth: 3
                 }}
               >
                 <Image
@@ -356,17 +298,11 @@ class BlockScanner extends Component {
                 <View>
                   <View
                     style={[
-                      localStyles.contentContainerA_Box_SecRow,
+                      localStyles.contentContainerA_Box_SecRow
                       // { width: 200 }
                     ]}
                   >
-                    <Text
-                      style={{
-                        color: "white",
-                        fontSize: 16,
-                        fontWeight: "bold"
-                      }}
-                    >
+                    <Text style={localStyles.hercValue_Text}>
                       {this.state.hercValue ? "$" + this.state.hercValue : null}
                     </Text>
                     {/* <Text
@@ -381,7 +317,7 @@ class BlockScanner extends Component {
                     </Text> */}
                   </View>
                   {/* <View style={localStyles.contentContainerA_Box_SecRow}> */}
-                    {/* <Text
+                  {/* <Text
                       style={{
                         color: "rgb(120,136,229)",
                         textAlign: "center",
@@ -393,14 +329,7 @@ class BlockScanner extends Component {
                   {/* </View> */}
                 </View>
               </View>
-              <View
-                style={{
-                  marginTop: 10,
-                  width: "100%",
-                  alignSelf: "center",
-                  flexDirection: "row"
-                }}
-              >
+              <View style={localStyles.LastBlockTransactionsContainingRow}>
                 <View style={{ width: "50%" }}>
                   <Text style={localStyles.contentContainerA_MarketCapBox_Text}>
                     Last Block
@@ -420,14 +349,7 @@ class BlockScanner extends Component {
                   </Text>
                 </View>
               </View>
-              <View
-                style={{
-                  marginTop: "8%",
-                  width: "100%",
-                  alignSelf: "center",
-                  flexDirection: "row"
-                }}
-              >
+              <View style={localStyles.LastBlockTransactionsContainingRow}>
                 <View style={{ width: "50%" }}>
                   <Text style={localStyles.contentContainerA_MarketCapBox_Text}>
                     Total Supply
@@ -441,13 +363,26 @@ class BlockScanner extends Component {
                     Holders Count
                   </Text>
                   <Text style={localStyles.contentContainerA_MarketCapBox_Text}>
-                    {this.state.holdersCount ? this.state.holdersCount : null }
+                    {this.state.holdersCount ? this.state.holdersCount : null}
                   </Text>
                 </View>
               </View>
+              <View
+                style={{
+                  width: "100%",
+                  justifyContent: "center",
+                  flexDirection: "row",
+                  marginTop: 12
+                }}
+              >
+                <Text style={{ fontSize: 12, marginRight: 5, color: "white" }}>
+                  0x6251583e7d997df3604bc73b9779196e94a090ce
+                </Text>
+                {contentCopyIcon}
+              </View>
             </View>
             {/* <View style={localStyles.contentContainerA_HercTransHistBox}> */}
-              {/* <View>
+            {/* <View>
                 <Text
                   style={{
                     color: "white",
@@ -460,12 +395,12 @@ class BlockScanner extends Component {
                   HERC Transaction History{" "}
                 </Text>
               </View> */}
-              {/* <View
+            {/* <View
                 style={
                   localStyles.contentContainerA_HercTransHistBox_dateRangeRow
                 }
               > */}
-                {/* <TouchableHighlight
+            {/* <TouchableHighlight
                   style={
                     localStyles.contentContainerA_HercTransHistBox_dateRangeRow_touchable
                   }
@@ -478,7 +413,7 @@ class BlockScanner extends Component {
                     Year
                   </Text>
                 </TouchableHighlight> */}
-                {/* <TouchableHighlight
+            {/* <TouchableHighlight
                   style={
                     localStyles.contentContainerA_HercTransHistBox_dateRangeRow_touchable
                   }
@@ -491,7 +426,7 @@ class BlockScanner extends Component {
                     Month
                   </Text>
                 </TouchableHighlight> */}
-                {/* <TouchableHighlight
+            {/* <TouchableHighlight
                   style={
                     localStyles.contentContainerA_HercTransHistBox_dateRangeRow_touchable
                   }
@@ -504,7 +439,7 @@ class BlockScanner extends Component {
                     Week
                   </Text>
                 </TouchableHighlight> */}
-                {/* <TouchableHighlight
+            {/* <TouchableHighlight
                   style={
                     localStyles.contentContainerA_HercTransHistBox_dateRangeRow_touchable
                   }
@@ -517,22 +452,18 @@ class BlockScanner extends Component {
                     Day
                   </Text>
                 </TouchableHighlight> */}
-              {/* </View> */}
+            {/* </View> */}
             {/* </View> */}
           </View>
 
-          <View
-            style={[localStyles.contentContainerB, { flex:1 }]}
-          >
+          <View style={[localStyles.contentContainerB, { flex: 1 }]}>
             <View style={localStyles.contentContainerB_TransactionsBox}>
               {/* <View style={localStyles.contentContainerA_MarketCapBox}> */}
-              <View
-                style={localStyles.rowContainingTransactionViewAll}
-              >
+              <View style={localStyles.rowContainingTransactionViewAll}>
                 <TouchableHighlight
                   style={{
                     backgroundColor: "white",
-                    borderRadius: 2,
+                    marginLeft: 10,
                     marginLeft: "5%",
                     justifyContent: "center"
                   }}
@@ -540,7 +471,6 @@ class BlockScanner extends Component {
                   <Text
                     style={{
                       textAlign: "center",
-                      marginHorizontal: 10,
                       fontWeight: "bold",
                       fontSize: 12,
                       color: "black"
@@ -555,11 +485,13 @@ class BlockScanner extends Component {
                     borderColor: "silver",
                     borderWidth: 1,
                     borderRadius: 20,
-                    marginLeft: "8%",
+                    marginRight: 10,
                     justifyContent: "center"
                   }}
                   onPress={() => {
-                    Linking.openURL("https://etherscan.io/token/0x6251583e7d997df3604bc73b9779196e94a090ce");
+                    Linking.openURL(
+                      "https://etherscan.io/token/0x6251583e7d997df3604bc73b9779196e94a090ce"
+                    );
                   }}
                 >
                   <Text
@@ -576,15 +508,7 @@ class BlockScanner extends Component {
                   </Text>
                 </TouchableHighlight>
               </View>
-              <View
-                style={{
-                  borderColor: "green",
-                  borderWidth: 3,
-                  flexDirection: "row",
-                  marginTop: 10,
-                  justifyContent: "space-around"
-                }}
-              >
+              <View style={localStyles.fromToValueRowContainer}>
                 <Text
                   style={{
                     textAlign: "center",
@@ -616,14 +540,10 @@ class BlockScanner extends Component {
                   Value
                 </Text>
               </View>
-              
-              <View style={{ flexDirection: "column", borderColor: "blue", borderWidth: 3, marginBottom: 2 }}>
-                {/* <TransactionList transactionList={ this.state.txnArr } /> */}
-               
+
+              <View style={{ flexDirection: "column" }}>
                 {this._renderTransactions()}
-                
               </View>
-              
             </View>
             <View style={localStyles.contentContainerB_FooterBox}>
               <View style={{ marginTop: 20 }}>
@@ -640,64 +560,28 @@ class BlockScanner extends Component {
                     Linking.openURL("https://herc.one/policy");
                   }}
                 >
-                  <Text
-                    style={{
-                      color: "silver",
-                      marginHorizontal: 5,
-                      fontWeight: "bold"
-                    }}
-                  >
-                    {" "}
-                    Privacy Policy
-                  </Text>
+                  <Text style={localStyles.footer_text}> Privacy Policy</Text>
                 </TouchableHighlight>
                 <TouchableHighlight
                   onPress={() => {
                     Linking.openURL("https://herc.one/terms");
                   }}
                 >
-                  <Text
-                    style={{
-                      color: "silver",
-                      marginHorizontal: 5,
-                      fontWeight: "bold"
-                    }}
-                  >
-                    {" "}
-                    Terms Of Use
-                  </Text>
+                  <Text style={localStyles.footer_text}> Terms Of Use</Text>
                 </TouchableHighlight>
                 <TouchableHighlight
                   onPress={() => {
                     Linking.openURL("https://herc.one/metamask");
                   }}
                 >
-                  <Text
-                    style={{
-                      color: "silver",
-                      marginHorizontal: 5,
-                      fontWeight: "bold"
-                    }}
-                  >
-                    {" "}
-                    Metamask
-                  </Text>
+                  <Text style={localStyles.footer_text}> Metamask</Text>
                 </TouchableHighlight>
                 <TouchableHighlight
                   onPress={() => {
                     Linking.openURL("https://herc.one/faq");
                   }}
                 >
-                  <Text
-                    style={{
-                      color: "silver",
-                      marginHorizontal: 5,
-                      fontWeight: "bold"
-                    }}
-                  >
-                    {" "}
-                    F.A.Q.
-                  </Text>
+                  <Text style={localStyles.footer_text}> F.A.Q.</Text>
                 </TouchableHighlight>
               </View>
               <View style={{ marginTop: 10 }}>
@@ -713,48 +597,21 @@ class BlockScanner extends Component {
                     Linking.openURL("https://purchase.herc.one");
                   }}
                 >
-                  <Text
-                    style={{
-                      color: "silver",
-                      marginHorizontal: 5,
-                      fontWeight: "bold"
-                    }}
-                  >
-                    {" "}
-                    Buy HERC
-                  </Text>
+                  <Text style={localStyles.footer_text}> Buy HERC</Text>
                 </TouchableHighlight>
                 <TouchableHighlight
                   onPress={() => {
                     Linking.openURL("https://herc.one/#team-section");
                   }}
                 >
-                  <Text
-                    style={{
-                      color: "silver",
-                      marginHorizontal: 5,
-                      fontWeight: "bold"
-                    }}
-                  >
-                    {" "}
-                    Team
-                  </Text>
+                  <Text style={localStyles.footer_text}> Team</Text>
                 </TouchableHighlight>
                 <TouchableHighlight
                   onPress={() => {
                     Linking.openURL("https://herc.one/#the-roadmap-section");
                   }}
                 >
-                  <Text
-                    style={{
-                      color: "silver",
-                      marginHorizontal: 5,
-                      fontWeight: "bold"
-                    }}
-                  >
-                    {" "}
-                    Roadmap
-                  </Text>
+                  <Text style={localStyles.footer_text}> Roadmap</Text>
                 </TouchableHighlight>
                 <TouchableHighlight
                   onPress={() => {
@@ -763,16 +620,7 @@ class BlockScanner extends Component {
                     );
                   }}
                 >
-                  <Text
-                    style={{
-                      color: "silver",
-                      marginHorizontal: 5,
-                      fontWeight: "bold"
-                    }}
-                  >
-                    {" "}
-                    Whitepaper
-                  </Text>
+                  <Text style={localStyles.footer_text}> Whitepaper</Text>
                 </TouchableHighlight>
               </View>
               <View style={{ marginTop: 10 }}>
@@ -782,7 +630,9 @@ class BlockScanner extends Component {
                   CONNECT
                 </Text>
               </View>
-              <View style={{ flexDirection: "row", marginTop: 5 }}>
+              <View
+                style={{ flexDirection: "row", marginTop: 5, marginBottom: 10 }}
+              >
                 <TouchableHighlight
                   onPress={() => {
                     Linking.openURL(
@@ -790,48 +640,21 @@ class BlockScanner extends Component {
                     );
                   }}
                 >
-                  <Text
-                    style={{
-                      color: "silver",
-                      marginHorizontal: 5,
-                      fontWeight: "bold"
-                    }}
-                  >
-                    {" "}
-                    Telegram
-                  </Text>
+                  <Text style={localStyles.footer_text}> Telegram</Text>
                 </TouchableHighlight>
                 <TouchableHighlight
                   onPress={() => {
                     Linking.openURL("https://discord.gg/ntWZ53W");
                   }}
                 >
-                  <Text
-                    style={{
-                      color: "silver",
-                      marginHorizontal: 5,
-                      fontWeight: "bold"
-                    }}
-                  >
-                    {" "}
-                    Discord
-                  </Text>
+                  <Text style={localStyles.footer_text}> Discord</Text>
                 </TouchableHighlight>
                 <TouchableHighlight
                   onPress={() => {
                     Linking.openURL("https://github.com/HERCone");
                   }}
                 >
-                  <Text
-                    style={{
-                      color: "silver",
-                      marginHorizontal: 5,
-                      fontWeight: "bold"
-                    }}
-                  >
-                    {" "}
-                    Github
-                  </Text>
+                  <Text style={localStyles.footer_text}> Github</Text>
                 </TouchableHighlight>
               </View>
               {/* <View style={{ marginTop: 10 }}>
@@ -842,7 +665,7 @@ class BlockScanner extends Component {
                 </Text>
               </View> */}
               {/* <View style={{ flexDirection: "row", marginTop: 5 }}> */}
-                {/* <TextInput
+              {/* <TextInput
                   style={{
                     borderColor: "gray",
                     width: "75%",
@@ -852,7 +675,7 @@ class BlockScanner extends Component {
                   placeholder="Your email"
                   underlineColorAndroid="transparent"
                 /> */}
-                {/* <TouchableHighlight
+              {/* <TouchableHighlight
                   style={{
                     backgroundColor: "#7888e5",
                     borderRadius: 5,
@@ -863,7 +686,7 @@ class BlockScanner extends Component {
                     alignSelf: "center"
                   }}
                 > */}
-                  {/* <Text
+              {/* <Text
                     style={{
                       alignSelf: "center",
                       color: "white",
@@ -874,7 +697,7 @@ class BlockScanner extends Component {
                   >
                     Subscribe
                   </Text> */}
-                {/* </TouchableHighlight> */}
+              {/* </TouchableHighlight> */}
               {/* </View> */}
             </View>
           </View>
@@ -883,9 +706,6 @@ class BlockScanner extends Component {
               COPYRIGHT 2018 Hercules SEZC - All Rights Reserved.
             </Text>
           </View>
-          {/* <View>
-            <CustomModal/>
-          </View> */}
         </ScrollView>
       </View>
     );
@@ -915,19 +735,24 @@ const localStyles = StyleSheet.create({
     alignItems: "center"
   },
   contentContainerA: {
-    // alignContent: "center",
-    // justifyContent: "center",
     alignSelf: "center",
     width: "100%",
     alignSelf: "center",
-    // height: {screenHeight},
     backgroundColor: "rgb(11,22,88)"
   },
+  hercValue_Text: {
+    // borderColor: "red",
+    // borderWidth: 3,
+    width: 100,
+    color: "white",
+    fontSize: 16,
+    fontWeight: "bold",
+    textAlign: "center"
+  },
   contentContainerA_MarketCapBox: {
-    borderColor: "yellow",
-    borderWidth: 3,
+    // borderColor: "yellow",
+    // borderWidth: 3,
     marginTop: "12%",
-    // flex: 2,
     alignSelf: "center",
     width: "95%",
     height: 300,
@@ -935,27 +760,33 @@ const localStyles = StyleSheet.create({
     borderRadius: 5
   },
   contentContainerA_Box_TopRow: {
-    borderColor: "orange",
-    borderWidth: 3,
+    // borderColor: "orange",
+    // borderWidth: 3,
     marginTop: 10,
     alignSelf: "center"
   },
   contentContainerA_Box_SecRow: {
-    borderColor: "red",
-    borderWidth: 3,
-    // justifyContent: "space-around",
-    // alignSelf: "center",
-    // flexDirection: "row"
+    // borderColor: "red",
+    // borderWidth: 3,
+    alignSelf: "center",
+    margin: 5
   },
   contentContainerA_MarketCapBox_Text: {
+    textAlign: "center",
     color: "white",
-    marginLeft: 20,
     marginVertical: 5,
     fontSize: 12
   },
+  LastBlockTransactionsContainingRow: {
+    marginTop: 20,
+    width: "100%",
+    alignSelf: "center",
+    flexDirection: "row"
+    // borderColor: "blue",
+    // borderWidth: 3
+  },
   contentContainerA_HercTransHistBox: {
     marginTop: "12%",
-    // flex: 2,
     alignSelf: "center",
     width: "95%",
     height: "40%",
@@ -981,20 +812,24 @@ const localStyles = StyleSheet.create({
     marginVertical: 1
   },
   contentContainerB: {
-    borderColor: "orange",
-    borderWidth: 3,
+    // borderColor: "orange",
+    // borderWidth: 3,
     backgroundColor: "#f2f3fb",
-    // alignContent: "center",
     width: "100%",
     alignSelf: "center"
-    // height: "100%"
+  },
+  fromToValueRowContainer: {
+    // borderColor: "green",
+    // borderWidth: 3,
+    flexDirection: "row",
+    marginTop: 10,
+    justifyContent: "space-around"
   },
   contentContainerB_TransactionsBox: {
     flexDirection: "column",
-    borderColor: "purple",
-    borderWidth: 3,
+    // borderColor: "purple",
+    // borderWidth: 3,
     marginTop: "12%",
-    // flex: 1,
     alignSelf: "center",
     width: "95%",
     backgroundColor: "white",
@@ -1003,18 +838,17 @@ const localStyles = StyleSheet.create({
   },
   contentContainerB_FooterBox: {
     flexDirection: "column",
-    borderColor: "purple",
-    borderWidth: 3,
+    // borderColor: "purple",
+    // borderWidth: 3,
     marginTop: "12%",
-    // flex: 1,
     alignSelf: "center",
     width: "95%",
     backgroundColor: "white",
     borderRadius: 5
   },
   rowContainingTransactionViewAll: {
-    borderColor: "yellow",
-    borderWidth: 3,
+    // borderColor: "yellow",
+    // borderWidth: 3,
     flexDirection: "row",
     justifyContent: "space-between",
     marginTop: 15
@@ -1055,14 +889,13 @@ const localStyles = StyleSheet.create({
     flex: 1
   },
   copyrightText: {
+    marginVertical: 20,
     fontSize: 12,
     alignSelf: "center",
     color: "black"
   },
   purpleHorizontalTransaction: {
     flexDirection: "row",
-    // marginVertical: 10,
-    // marginTop: "10%",
     justifyContent: "space-around",
     backgroundColor: "#f2f3fb"
   },
@@ -1073,5 +906,10 @@ const localStyles = StyleSheet.create({
     flex: 1,
     height: 14,
     textAlign: "center"
+  },
+  footer_text: {
+    color: "silver",
+    marginHorizontal: 5,
+    fontWeight: "bold"
   }
 });
