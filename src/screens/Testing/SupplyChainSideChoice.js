@@ -4,11 +4,13 @@ import {
     View,
     StatusBar,
     Image,
+    TouchableHighlight,
+    Dimensions
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import Modal from 'react-native-modal';
 import modalStyles from "../../assets/modals/ModalStyles";
-
+const { height, width } = Dimensions.get('window');
 import styles from "../../assets/styles";
 import ColorConstants from "../../assets/ColorConstants";
 import React, { Component } from 'react';
@@ -23,6 +25,10 @@ export default class SupplyChainSideChoice extends Component {
         // console.log(this.props.navigation, "navigation??")
         super(props);
         console.log("componentTest")
+        this.state = {
+            checkOrig: false,
+            checkRecip: false
+        }
 
         // this.localOnChange = this.localOnChange.bind(this);
         // this.pwChange = this.pwChange.bind(this);
@@ -68,7 +74,11 @@ export default class SupplyChainSideChoice extends Component {
     // }
 
     render() {
+        let { height, width } = Dimensions.get('window');
 
+        console.log(widthPercentageToDP("2"), "2%", heightPercentageToDP(2), '2%');
+        console.log(Dimensions.get('window'), "dimensions window", Dimensions.get('screen'), "dimensions screen");
+        console.log(height, width);
         return (
 
             <View style={styles.baseContainer}>
@@ -81,21 +91,24 @@ export default class SupplyChainSideChoice extends Component {
                 <View style={styles.bodyContainer}>
                     <Text style={localStyles.labelTitle}>Where are you along the Supply Chain?</Text>
                     <View style={localStyles.choiceContainer}>
-                        <View style={localStyles.choiceImageContainer}>
-                            <Image source={OrigImage} style={localStyles.choiceImage}  />
+                        <View style={localStyles.checkBoxContainer}>
+                            <Icon name={'check'} color={'white'} />
                         </View>
 
-                        <View style={localStyles.choiceImageContainer}>
-                            <Image source={RecipImage} style={localStyles.choiceImage} />
-                        </View>
-
+                        <TouchableHighlight onPress={this.onPressTest} style={localStyles.choiceImageContainer}>
+                            <Image source={OrigImage} style={localStyles.choiceImage} />
+                        </TouchableHighlight>
                     </View>
-
-
-
-
-
+                   <View>
+                    <View style={localStyles.checkBoxContainer}>
+                        <Icon name={'check'} color={'white'} />
+                    </View>
+                    <TouchableHighlight onPress={this.onPressTest} style={localStyles.choiceImageContainer}>
+                        <Image source={RecipImage} style={localStyles.choiceImage} />
+                    </TouchableHighlight>
                 </View>
+
+            </View>
             </View >
         )
     }
@@ -109,8 +122,8 @@ const localStyles = StyleSheet.create({
         backgroundColor: 'blue',
         padding: 10,
         // paddingTop: 30,
-        alignItems: 'center',
-        justifyContent: 'space-between',
+        alignItems: 'flex-start',
+        justifyContent: 'center',
         width: '100%',
         height: heightPercentageToDP('30')
 
@@ -119,23 +132,35 @@ const localStyles = StyleSheet.create({
     choiceImageContainer: {
 
         flex: 0,
+        flexDirection: 'row',
         alignItems: 'center',
-        width: 100,
-        height: 100,
+        width: widthPercentageToDP(((100 / width) * 100).toString()),
+        height: heightPercentageToDP(((100 / height) * 100).toString()),
         borderRadius: 50,
         backgroundColor: ColorConstants.MainGold,
-        alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        margin: 15
     },
 
     checkBoxContainer: {
-        alignSelf: 'center',
-        marginLeft: 10,
-        backgroundColor: ColorConstants.MainGray
+        alignSelf: 'flex-end',
+        justifyContent: 'center',
+        marginLeft: 0,
+        marginRight: 0,
+        marginTop: 0,
+        marginBottom: 0,
+        backgroundColor: 'black'
+
         // height: widthPercentageToDP('5'),
         // width: heightPercentageToDP('5'),
 
     },
+    // checkOrig: {
+    //     display: this.state.checkOrig
+    // },
+    // checkRecip: {
+    //     display: this.state.checkRecip
+    // },
 
     choiceImage: {
         resizeMode: 'contain',

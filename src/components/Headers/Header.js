@@ -6,6 +6,7 @@ import {
 } from "react-native";
 import React, { Component } from "react";
 import Icon from 'react-native-vector-icons/FontAwesome';
+import menuIcon from 'react-native-vector-icons/Entypo';
 import styles from "./HeaderStyles";
 import { createStackNavigator } from "react-navigation";
 import ColorConstants from "../../assets/ColorConstants";
@@ -47,7 +48,7 @@ const bgImage = require("../../assets/main-bg.png")
                         <View style={styles.sideHeaders}>
                             <Icon onPress={() => this.props.navigation.navigate("settings")}
                                 style={[styles.iconButton, { marginRight: 20 }]}
-                                name='heart'
+                                name='gear'
                                 color={ColorConstants.MainGold}
                             />
                         </View>

@@ -222,7 +222,7 @@ const localStyles = StyleSheet.create({
 
     eyeBallButton: {
         backgroundColor: ColorConstants.ElementBG,
-        borderRadius: 8,
+        borderRadius: 0,
     },
 
     registerButton: {
@@ -276,28 +276,14 @@ const localStyles = StyleSheet.create({
     RegisterAssetInputPasswordContainer: {
         justifyContent: 'space-between',
         flexDirection: 'row',
-        backgroundColor: ColorConstants.MainGray,
+        backgroundColor: ColorConstants.ElementBG,
         width: widthPercentageToDP('90'),
         height: heightPercentageToDP('4'),
         borderRadius: 8,
         margin: 5
 
     },
-    // textInput: {
-    //     borderRadius: 8,
-    //     // backgroundColor: ColorConstants.MainGray,
-    //     backgroundColor: ColorConstants.ElementBG,
-    //     marginTop: 0,
-    //     marginBottom: 0,
-    //     paddingLeft: 5,
-    //     textAlign: 'left',
-    //     marginLeft: 0,
-    //     marginRight: 0,
-    //     fontSize: 17,
-    //     height: 40,
-    //     width: '100%'
-    //     // alignSelf: 'center'
-    // },
+   
     textInputContainer: {
         flex: 0,
         width: widthPercentageToDP('90'),
@@ -311,6 +297,7 @@ const localStyles = StyleSheet.create({
     },
     textField: {
         color: ColorConstants.MainBlue,
+        backgroundColor: ColorConstants.ElementBG,
         width: '100%',
         marginLeft: 0,
         marginRight: 0,
